@@ -1,11 +1,11 @@
-const { express } = require("express");
-const { cors } = require("cors");
+const express  = require("express");
+const cors  = require("cors");
 
 /**
  * @description initial settings for cors, express, etc (Middleware)
  * @returns an express object with the initial settings
  */
-const appMiddleware = async () => {
+const appMiddleware = async() => {
   try {
     const app = express();
     //Set cors
