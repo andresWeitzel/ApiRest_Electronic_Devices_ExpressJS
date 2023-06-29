@@ -3,7 +3,8 @@
 ![Index app](./doc/assets/CRUD_Bucket_s3.drawio.png)
 
 # ApiRest_Dispositivos_Electronicos_ExpressJS
-Api Rest acerca de dispositivos electrónicos implementado con Express, NodeJS, Sequelize, PostgreSQL, otros..
+Api Rest acerca de dispositivos electrónicos implementado con Express, NodeJS, Sequelize, PostgreSQL, otros.
+
 * [Repositorio base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 
 
@@ -86,42 +87,6 @@ cd 'projectName'
 npm i
 ```
 
-#### 1.1.1) Docker para Windows 10/11 (64 bits).
-* Descargamos e instalamos el JDK de [Java > 8.x](https://www.java.com/es/download/ie_manual.jsp) para poder implementar docker.
-* Descargamos [Docker (para windows)](https://docs.docker.com/desktop/install/windows-install/).
-* Abrimos una PS como admin y habilitamos el subsistema de linux :
-   ```cmd
-   dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-   ```
-* Habilitamos las funciones de la máquina virtual :
-   ```cmd
-   dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-   ```
-* Descargamos el paquete de actualización del [kernel WSL2 Linux](https://learn.microsoft.com/it-it/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package).
-* Ejecutamos e instalamos dicho paquete..siguiente..siguiente.
-* Establecemos WSL 2 como la versión predeterminada para Docker :
-   ```cmd
-   wsl --set-default-version 2
-   ```
-* Por último instalamos docker:
-   * Ejecutamos el .exe "Docker Desktop Installer".
-   * Cuando se abra el .exe dejamos selecionado "Use WSL2 instead of Hyper-V".
-   * Seguidamente ok, sig., etc y esperamos que finalice la instalación.
-   * Abrir la app y comprobar el correcto funcionamiento.
-* ***IMPORTANTE*** : Es necesario reiniciar el sistema para que el mismo tome los cambios del Kernel WSL2 correctamente.
-
-#### 1.1.2) Configuración de contenedores de docker
-#### Contenedor RabbitMQ
-* Descargamos la imagen de rabbitmq desde los repositorios centrales de docker (La config de docker está como variable de entorno, podemos decargar imagenes en cualquier directorio)
-```git
-docker pull rabbitmq:3-management
-```
-* Creamos el contenedor con las configuraciones declaradas (La config de docker está como variable de entorno, podemos crear contenedores desde cualquier directorio)
-```git
-docker run --name rabbitmq --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
-```
-* Seguidamente deberíamos tener el container corriendo desde docker desktop
- 
  
 <br>
 
@@ -154,7 +119,7 @@ npm init
 node_modules
 ```
 * Creamos un direct source (src) para agregar toda la lógica de nuestra app
-* Instalamos los plugins para sequelize
+* Instalamos el plugin para sequelize
 ```git
 npm i sequelize
 ```
@@ -162,48 +127,20 @@ npm i sequelize
 ```git
 npm i pg pg-hstore
 ```
-* Instalamos los plugins para [express](https://www.npmjs.com/package/express)
+* Instalamos el plugin para [express](https://www.npmjs.com/package/express)
 ```git
 npm i express
 ```
-
-
-
-#### 1.2.1) Docker para Windows 10/11 (64 bits).
-* Descargamos e instalamos el JDK de [Java > 8.x](https://www.java.com/es/download/ie_manual.jsp) para poder implementar docker.
-* Descargamos [Docker (para windows)](https://docs.docker.com/desktop/install/windows-install/).
-* Abrimos una PS como admin y habilitamos el subsistema de linux :
-   ```cmd
-   dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-   ```
-* Habilitamos las funciones de la máquina virtual :
-   ```cmd
-   dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-   ```
-* Descargamos el paquete de actualización del [kernel WSL2 Linux](https://learn.microsoft.com/it-it/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package).
-* Ejecutamos e instalamos dicho paquete..siguiente..siguiente.
-* Establecemos WSL 2 como la versión predeterminada para Docker :
-   ```cmd
-   wsl --set-default-version 2
-   ```
-* Por último instalamos docker:
-   * Ejecutamos el .exe "Docker Desktop Installer".
-   * Cuando se abra el .exe dejamos selecionado "Use WSL2 instead of Hyper-V".
-   * Seguidamente ok, sig., etc y esperamos que finalice la instalación.
-   * Abrir la app y comprobar el correcto funcionamiento.
-* ***IMPORTANTE*** : Es necesario reiniciar el sistema para que el mismo tome los cambios del Kernel WSL2 correctamente.
-
-#### 1.2.2) Configuración de contenedores de docker
-#### Contenedor RabbitMQ
-* Descargamos la imagen de rabbitmq desde los repositorios centrales de docker (La config de docker está como variable de entorno, podemos decargar imagenes en cualquier directorio)
+* Instalamos el plugin para [cors](https://www.npmjs.com/package/cors)
 ```git
-docker pull rabbitmq:3-management
+npm i cors
 ```
-* Creamos el contenedor con las configuraciones declaradas (La config de docker está como variable de entorno, podemos crear contenedores desde cualquier directorio)
+* Instalamos el plugin para [dotenv](https://www.npmjs.com/package/dotenv)
 ```git
-docker run --name rabbitmq --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+npm i dotenv
 ```
-* Seguidamente deberíamos tener el container corriendo desde docker desktop
+
+
 
 <br>
 
@@ -284,8 +221,14 @@ docker run --name rabbitmq --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabb
   <summary>Ver</summary>
  <br>
 
-#### Sequelize soc
+#### Sequelize con PostgreSQL 
 * [PostgreSQL con Sequelize](https://www.makeuseof.com/use-postgresql-with-sequelize-in-nodejs/)
+
+#### Videotutoriales
+* [Ejemplificación Creación de Apoi Rest](https://www.youtube.com/watch?v=tpso18ghda4)
+
+#### Ejemplos de código
+* [Ejemplo de microservicio usando Sequelize, Mysql y NodeJS](https://github.com/andresWeitzel/Microservice_Mercadolibre_Users_AWS)
 
 <br>
 
