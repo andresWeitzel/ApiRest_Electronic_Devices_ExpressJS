@@ -3,7 +3,7 @@
 ![Index app](./doc/assets/CRUD_Bucket_s3.drawio.png)
 
 # ApiRest_Dispositivos_Electronicos_ExpressJS
-Api Rest acerca de dispositivos electrónicos implementado con Express, NodeJS, Sequelize, PostgreSQL, otros.
+Api Rest acerca de dispositivos electrónicos implementado con Express, NodeJS, Sequelize, dotenv, cors, PostgreSQL, otros.
 
 * [Repositorio base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 

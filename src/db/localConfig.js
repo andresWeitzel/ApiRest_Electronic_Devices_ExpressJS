@@ -1,4 +1,5 @@
-
+//External
+require("dotenv").config();
 const { Sequelize } = require('sequelize');
 
 
@@ -18,6 +19,14 @@ const dbConnection = new Sequelize(
 
   }
 );
+
+dbConnection.authenticate()
+.then(()=>{
+  console.log('Connected succesfully');
+})
+.catch(err=>{
+  console.log(err);
+})
 
 
 module.exports = {
