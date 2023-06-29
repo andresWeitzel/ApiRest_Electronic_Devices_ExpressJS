@@ -2,9 +2,9 @@
 
 ![Index app](./doc/assets/CRUD_Bucket_s3.drawio.png)
 
-# RabbitMQ_Nodejs_example
-Comunicación entre publisher y consumers implementado con Nodejs, RabbitMQ, Docker, Docker Dektop, amqplib, entre otros.
-* [Playlist prueba de funcionalidad](https://www.youtube.com/playlist?list=PLCl11UFjHurDPyOkEXOR6JO-vUnYqd1FW)
+# ApiRest_Dispositivos_Electronicos_ExpressJS
+Api Rest acerca de dispositivos electrónicos implementado con Express, NodeJS, Sequelize, PostgreSQL, otros..
+* [Repositorio base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 
 
 <br>
@@ -74,7 +74,7 @@ Comunicación entre publisher y consumers implementado con Nodejs, RabbitMQ, Doc
 #### 1.1.0) Configuraciones iniciales
 * Una vez creado un entorno de trabajo a través de algún ide, clonamos el proyecto
 ```git
-git clone https://github.com/andresWeitzel/RabbitMQ_Nodejs_example
+git clone https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS
 ```
 * Nos posicionamos sobre el proyecto
 ```git
@@ -137,7 +137,7 @@ docker run --name rabbitmq --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabb
 #### 1.2.0) Configuraciones iniciales
 * Una vez creado un entorno de trabajo a través de algún ide, clonamos el proyecto
 ```git
-git clone https://github.com/andresWeitzel/RabbitMQ_Nodejs_example
+git clone https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS
 ```
 * Nos posicionamos sobre el proyecto
 ```git
@@ -147,17 +147,26 @@ cd 'projectName'
 * Abrimos una terminal desde vsc
 * Inicializamos un proyecto nodejs
 ```git
-git init
-```
-* Instalamos la dependencia [amqplib](https://www.npmjs.com/package/amqplib) para crear clientes AMQP de RabbitMQ.
-```git
-npm install --save amqplib
+npm init
 ```
 * Creamos un archivo .gitignore y agregamos los files necesarios (por el momento node_modules)
 ```git
 node_modules
 ```
-* Creamos un direct source (src) para agregar los publishers and consumers
+* Creamos un direct source (src) para agregar toda la lógica de nuestra app
+* Instalamos los plugins para sequelize
+```git
+npm i sequelize
+```
+* Instalamos los plugins para postgreSQL
+```git
+npm i pg pg-hstore
+```
+* Instalamos los plugins para [express](https://www.npmjs.com/package/express)
+```git
+npm i express
+```
+
 
 
 #### 1.2.1) Docker para Windows 10/11 (64 bits).
@@ -275,14 +284,8 @@ docker run --name rabbitmq --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabb
   <summary>Ver</summary>
  <br>
 
-#### Documentación
- * [Introducción a RabbitMQ](https://levelup.gitconnected.com/introduction-to-rabbitmq-with-nodejs-61e2aec0c52c)
-
-#### Docker rabbitmq
-* [Crear un contenedor de RabbitMQ](https://cloudinfrastructureservices.co.uk/create-rabbitmq-docker-container-image/)
-
-#### Códigos de ejemplos
-* [Demo rabbitmq nodejs](https://github.com/bervProject/rabbitmq-demo/tree/main)
+#### Sequelize soc
+* [PostgreSQL con Sequelize](https://www.makeuseof.com/use-postgresql-with-sequelize-in-nodejs/)
 
 <br>
 
