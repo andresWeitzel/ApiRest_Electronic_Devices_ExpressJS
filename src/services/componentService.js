@@ -1,5 +1,7 @@
 //Models
 const { Component } = require("../models/sequelize/component");
+//Enums
+const { statusName } = require("../enums/connection/statusName");
 //Const-vars
 let newComponent;
 let component;
@@ -16,7 +18,7 @@ let msg;
 const addComponentService = async (req, res) => {
   try {
     newComponent = null;
-    msg=null;
+    msg = null;
 
     component = {
       codigo: req.body.codigo,
@@ -29,26 +31,27 @@ const addComponentService = async (req, res) => {
       precio: req.body.precio,
     };
 
-    await Component.create({ component }).then(
-      (componentItem) => {
-        newComponent = componentItem;
-      }
-    ).catch(error=>{
-        msg=`Error in addComponentService() function when trying to create a component. Caused by ${error}`;
-        console.log(error);
-        
-    });
-
-    return newComponent;
-
+    if (Component != null) {
+      await Component.create({ component })
+        .then((componentItem) => {
+          newComponent = componentItem;
+        })
+        .catch((error) => {
+          msg = `Error in addComponentService() function when trying to create a component. Caused by ${error}`;
+          console.log(error);
+          newComponent = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      newComponent = statusName.CONNECTION_REFUSED;
+    }
   } catch (error) {
-    msg =`Error in addComponentService() function. Caused by ${error}`;
+    msg = `Error in addComponentService() function. Caused by ${error}`;
     console.log(msg);
+    newComponent = statusName.CONNECTION_ERROR;
   }
-  
+  return newComponent;
 };
 
-
 module.exports = {
-    addComponentService
-}
+  addComponentService,
+};

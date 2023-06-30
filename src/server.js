@@ -4,6 +4,7 @@ require("dotenv").config();
 const PORT = process.env.APP_PORT || 8082;
 //Config
 const { appMiddleware } = require("./config/middleware/index");
+const componentRouter = require("./config/routes/componentRoutes");
 //Const-vars
 let app;
 
@@ -12,12 +13,14 @@ let app;
  * @returns active instance of the server for handling requests and responses
  */
 const run = async () => {
+
+  //Middleware
   app = await appMiddleware();
 
-  app.get("/", (req, res) => {
-    res.json({ mesagge: "Hello" });
-  });
+  //Routes
+  app.use('/v1/components',componentRouter);
 
+  //Server
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
