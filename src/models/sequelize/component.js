@@ -7,7 +7,7 @@ const { dbConnection } = require('../../db/localConfig');
 /**
  * @description database component model with their respective fields and constraints
  */
-const Componente = dbConnection.define("componente", {
+const Component = dbConnection.define("componentes", {
     id: {
         type: DataTypes.INTEGER
         , allowNull: true
@@ -52,4 +52,4 @@ const Componente = dbConnection.define("componente", {
 
 
 
-module.exports = { Componente }
+module.exports = { Component }
