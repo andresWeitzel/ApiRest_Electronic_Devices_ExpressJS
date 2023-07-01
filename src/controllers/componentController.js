@@ -22,6 +22,7 @@ const addComponentController = async (req, res) => {
   try {
     msg = null;
     code = null;
+    console.log({'req':req});
     newUser = await addComponentService(req);
 
     switch (newUser) {

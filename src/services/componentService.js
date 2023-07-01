@@ -20,21 +20,19 @@ const addComponentService = async (req, res) => {
     newComponent = null;
     msg = null;
 
-    component = {
-      codigo: req.body.codigo,
-      imagen: req.body.imagen,
-      nro_pieza: req.body.nro_pieza,
-      categoria: req.body.categoria,
-      descripcion: req.body.descripcion,
-      fabricante: req.body.fabricante,
-      stock: req.body.stock,
-      precio: req.body.precio,
-    };
-
     console.log({'COMPONENTE SERVICE':component});
 
     if (Component != null) {
-      await Component.create({ component })
+      await Component.create({ 
+        codigo: req.body.codigo,
+        imagen: req.body.imagen,
+        nro_pieza: req.body.nro_pieza,
+        categoria: req.body.categoria,
+        descripcion: req.body.descripcion,
+        fabricante: req.body.fabricante,
+        stock: req.body.stock,
+        precio: req.body.precio,
+       })
         .then((componentItem) => {
           newComponent = componentItem;
         })

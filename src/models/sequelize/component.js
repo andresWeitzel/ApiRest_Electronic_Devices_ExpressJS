@@ -12,7 +12,7 @@ const Component = dbConnection.define("componentes", {
         type: DataTypes.INTEGER
         , allowNull: true
         , primaryKey: true
-    },
+    },//check restriction
     codigo: {
         type: DataTypes.STRING(100)
         , allowNull: false
