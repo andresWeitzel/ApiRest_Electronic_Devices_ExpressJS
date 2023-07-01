@@ -2,9 +2,15 @@
 const { Component } = require("../models/sequelize/component");
 //Enums
 const { statusName } = require("../enums/connection/statusName");
+const { value } = require("../enums/general/value");
 //Const-vars
 let newComponent;
+let componentList;
 let component;
+let queryStrParams;
+let pageSizeNro = 30;
+let pageNro = 0;
+const orderBy = [["id", "ASC"]];
 let msg;
 
 /**
@@ -13,17 +19,16 @@ let msg;
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
- * {"id":null,"nickname":"JUANROMAN","first_name":"Juan","last_name":"Roman","email":"juan_roman@gmail.com","identification_type":"DNI","identification_number":"2221233",.....}
  */
 const addComponentService = async (req, res) => {
   try {
     newComponent = null;
     msg = null;
 
-    console.log({'COMPONENTE SERVICE':component});
+    //console.log({'COMPONENTE SERVICE':component});
 
     if (Component != null) {
-      await Component.create({ 
+      await Component.create({
         codigo: req.body.codigo,
         imagen: req.body.imagen,
         nro_pieza: req.body.nro_pieza,
@@ -52,6 +57,60 @@ const addComponentService = async (req, res) => {
   return newComponent;
 };
 
+
+
+/**
+ * @description get all paginated components to database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+
+      //-- start with pagination  ---
+      queryStrParams = req.query;
+
+      if (queryStrParams != value.IS_NULL) {
+        pageSizeNro = (queryStrParams.limit) ? parseInt(queryStrParams.limit) : pageSizeNro;
+        pageNro = (queryStrParams.page) ? parseInt(queryStrParams.page) : pageNro;
+      }
+      //-- end with pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        atrributes:{},
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getAllComponentService() function when trying to get all paginated components. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
+
+
+
+
 module.exports = {
   addComponentService,
+  getAllComponentService
 };

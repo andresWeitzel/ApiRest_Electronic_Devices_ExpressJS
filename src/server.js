@@ -18,7 +18,7 @@ const run = async () => {
   app = await appMiddleware();
 
   //Routes
-  app.use('/v1/components',componentRouter);
+  app.use('/v1/componentes',componentRouter);
 
   //Server
   app.listen(PORT, () => {

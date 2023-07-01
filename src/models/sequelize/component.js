@@ -11,6 +11,7 @@ const Component = dbConnection.define("componentes", {
     id: {
         type: DataTypes.INTEGER
         , allowNull: true
+        ,defaultValue: null
         , primaryKey: true
     },//check restriction
     codigo: {
