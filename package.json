@@ -1,12 +1,15 @@
 {
   "dependencies": {
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "pg": "^8.11.1",
     "pg-hstore": "^2.3.4",
     "prettier": "^2.8.8",
-    "sequelize": "^6.32.1"
+    "sequelize": "^6.32.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3"
   },
   "name": "apirest_dispositivos_electronicos_expressjs",
   "description": "![Index app](./doc/assets/CRUD_Bucket_s3.drawio.png)",

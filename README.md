@@ -139,6 +139,10 @@ npm i cors
 ```git
 npm i dotenv
 ```
+* Instalamos los plugins para el uso de [swagger](https://www.google.com.ar/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjKhYbuxO7_AhWcqpUCHZX1DGIQFnoECBAQAQ&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fswagger-ui-express&usg=AOvVaw298jcT8gyPCXrfFgV1z8o6&opi=89978449)
+```git
+npm i swagger-ui-express swagger-jsdoc
+```
 
 
 
@@ -224,8 +228,12 @@ npm i dotenv
 #### Sequelize con PostgreSQL 
 * [PostgreSQL con Sequelize](https://www.makeuseof.com/use-postgresql-with-sequelize-in-nodejs/)
 
+#### Swagger y Nodejs
+* [Automatically Generate Swagger Docs With ExpressJS & NodeJS](https://www.youtube.com/watch?v=5aryMKiBEKY)
+* [Repositorio de ejemplo](https://github.com/TomDoesTech/REST-API-Tutorial-Updated/tree/main)
+
 #### Videotutoriales
-* [Ejemplificación Creación de Apoi Rest](https://www.youtube.com/watch?v=tpso18ghda4)
+* [Ejemplificación Creación de Api Rest](https://www.youtube.com/watch?v=tpso18ghda4)
 
 #### Ejemplos de código
 * [Ejemplo de microservicio usando Sequelize, Mysql y NodeJS](https://github.com/andresWeitzel/Microservice_Mercadolibre_Users_AWS)
