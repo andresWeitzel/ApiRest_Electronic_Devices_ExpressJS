@@ -8,7 +8,7 @@ const express = require("express"),
     definition:{
         openapi: "3.0.0",
         info:{
-            title: "Rest Api Docs",
+            title: "ApiRest_Dispositivos_Electronicos_ExpressJS            ",
             version: 'v1'
         },
         components:{
@@ -34,10 +34,10 @@ const express = require("express"),
 
 const swaggerDocs = async(app, port) =>{
   // Swagger page
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use("/swagger/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   // Docs in JSON format
-  app.get("/docs.json", (req, res) => {
+  app.get("/swagger/docs.json", (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.send(swaggerSpec);
   });

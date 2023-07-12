@@ -12,6 +12,7 @@ let pageSizeNro = 30;
 let pageNro = 0;
 const orderBy = [["id", "ASC"]];
 let msg;
+let params;
 
 /**
  * @description add a componente to database
@@ -60,7 +61,7 @@ const addComponentService = async (req, res) => {
 
 
 /**
- * @description get all paginated components to database
+ * @description get all paginated components from the database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
@@ -82,7 +83,7 @@ const getAllComponentService = async (req, res) => {
 
     if (Component != null) {
       await Component.findAll({
-        atrributes:{},
+        attributes:{},
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy
@@ -107,10 +108,59 @@ const getAllComponentService = async (req, res) => {
 };
 
 
+/**
+ * @description get a component according to its identifier from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getComponentByIdService = async (req, res) => {
+  try {
+    component = null;
+    msg = null;
+
+
+        //-- start with params ---
+        params = req.params;
+        //check https://stackoverflow.com/questions/20089582/how-to-get-a-url-parameter-in-express
+
+        // if (params != value.IS_NULL) {
+        //   pageSizeNro = (params.limit) ? parseInt(queryStrParams.limit) : pageSizeNro;
+        //   pageNro = (queryStrParams.page) ? parseInt(queryStrParams.page) : pageNro;
+        // }
+        //-- end with params  ---
+
+
+    if (Component != null) {
+      await Component.findByPk(id,{
+        attributes:{}
+      })
+        .then((componentItem) => {
+          component = componentItem;
+        })
+        .catch((error) => {
+          msg = `Error in getComponentByIdService() function when trying to get a component by id. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      component = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getComponentByIdService() function. Caused by ${error}`;
+    console.log(msg);
+    component = statusName.CONNECTION_ERROR;
+  }
+  return component;
+};
+
+
 
 
 
 module.exports = {
   addComponentService,
-  getAllComponentService
+  getAllComponentService,
+  getComponentByIdService
 };
