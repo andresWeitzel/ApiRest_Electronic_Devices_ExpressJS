@@ -1,3 +1,5 @@
+//Externals
+const { Sequelize, Op } = require("sequelize");
 //Models
 const { Component } = require("../models/sequelize/component");
 //Enums
@@ -10,6 +12,7 @@ let component;
 let queryStrParams;
 let pageSizeNro = 30;
 let idParam;
+let codigoParam;
 let pageNro = 0;
 const orderBy = [["id", "ASC"]];
 let msg;
@@ -151,8 +154,71 @@ const getComponentByIdService = async (req, res) => {
   return component;
 };
 
+/**
+ * @description get all paginated components list according to its code from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeCodigoService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      codigoParam = params.codigo ? params.codigo : null;
+    }
+    //-- end with params  ---
+
+    //-- start with pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          codigo: {
+            [Op.like]: `%${codigoParam}%`, //containing what is entered, less strictmatch
+          },
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getComponentLikeCodigoService() function when trying to get a component by codigo. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getComponentLikeCodigoService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
 module.exports = {
   addComponentService,
   getAllComponentService,
   getComponentByIdService,
+  getAllComponentLikeCodigoService,
 };

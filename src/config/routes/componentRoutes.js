@@ -9,4 +9,6 @@ componentRouter.get('/list', componentController.getAllComponentController)
 
 componentRouter.get('/id/:id', componentController.getComponentByIdController)
 
+componentRouter.get('/codigo/:codigo', componentController.getAllComponentLikeCodigoController)
+
 module.exports=componentRouter

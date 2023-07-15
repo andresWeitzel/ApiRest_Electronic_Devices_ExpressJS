@@ -5,6 +5,7 @@ const {
   addComponentService,
   getAllComponentService,
   getComponentByIdService,
+  getAllComponentLikeCodigoService,
 } = require("../services/componentService");
 //Enums
 const { statusName } = require("../enums/connection/statusName");
@@ -26,7 +27,6 @@ const addComponentController = async (req, res) => {
   try {
     msg = null;
     code = null;
-    console.log({ req: req });
     newComponent = await addComponentService(req);
 
     switch (newComponent) {
@@ -70,7 +70,6 @@ const getAllComponentController = async (req, res) => {
   try {
     msg = null;
     code = null;
-    console.log({ req: req });
 
     componentList = await getAllComponentService(req);
 
@@ -118,8 +117,6 @@ const getComponentByIdController = async (req, res) => {
 
     componentList = await getComponentByIdService(req);
 
-    console.log({ "COMPONENT LIST": componentList });
-
     switch (componentList) {
       case statusName.CONNECTION_ERROR:
         code = statusCode.INTERNAL_SERVER_ERROR;
@@ -151,8 +148,53 @@ const getComponentByIdController = async (req, res) => {
   }
 };
 
+/**
+ * @description get all paginated components according to code from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeCodigoController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikeCodigoService(req);
+
+    switch (componentList) {
+      case statusName.CONNECTION_ERROR:
+        code = statusCode.INTERNAL_SERVER_ERROR;
+        msg =
+          "ERROR. An error has occurred with the connection or query to the database.";
+        res.status(code).send(msg);
+        break;
+      case statusName.CONNECTION_REFUSED:
+        code = statusCode.INTERNAL_SERVER_ERROR;
+        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
+        res.status(code).send(msg);
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        code = statusCode.BAD_REQUEST;
+        msg = "Bad request, could not get all paginated list components according the code.";
+        res.status(code).send(msg);
+        break;
+      default:
+        code = statusCode.OK;
+        res.status(code).send(componentList);
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikeCodigoController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
 module.exports = {
   addComponentController,
   getAllComponentController,
   getComponentByIdController,
+  getAllComponentLikeCodigoController
 };
