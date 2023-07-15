@@ -9,6 +9,7 @@ let componentList;
 let component;
 let queryStrParams;
 let pageSizeNro = 30;
+let idParam;
 let pageNro = 0;
 const orderBy = [["id", "ASC"]];
 let msg;
@@ -38,7 +39,7 @@ const addComponentService = async (req, res) => {
         fabricante: req.body.fabricante,
         stock: req.body.stock,
         precio: req.body.precio,
-       })
+      })
         .then((componentItem) => {
           newComponent = componentItem;
         })
@@ -58,8 +59,6 @@ const addComponentService = async (req, res) => {
   return newComponent;
 };
 
-
-
 /**
  * @description get all paginated components from the database
  * @param {any} req any type
@@ -72,21 +71,23 @@ const getAllComponentService = async (req, res) => {
     componentList = null;
     msg = null;
 
-      //-- start with pagination  ---
-      queryStrParams = req.query;
+    //-- start with pagination  ---
+    queryStrParams = req.query;
 
-      if (queryStrParams != value.IS_NULL) {
-        pageSizeNro = (queryStrParams.limit) ? parseInt(queryStrParams.limit) : pageSizeNro;
-        pageNro = (queryStrParams.page) ? parseInt(queryStrParams.page) : pageNro;
-      }
-      //-- end with pagination  ---
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with pagination  ---
 
     if (Component != null) {
       await Component.findAll({
-        attributes:{},
+        attributes: {},
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy
+        order: orderBy,
       })
         .then((componentItems) => {
           componentList = componentItems;
@@ -107,7 +108,6 @@ const getAllComponentService = async (req, res) => {
   return componentList;
 };
 
-
 /**
  * @description get a component according to its identifier from the database
  * @param {any} req any type
@@ -120,21 +120,17 @@ const getComponentByIdService = async (req, res) => {
     component = null;
     msg = null;
 
+    //-- start with params ---
+    params = req.params;
 
-        //-- start with params ---
-        params = req.params;
-        //check https://stackoverflow.com/questions/20089582/how-to-get-a-url-parameter-in-express
-
-        // if (params != value.IS_NULL) {
-        //   pageSizeNro = (params.limit) ? parseInt(queryStrParams.limit) : pageSizeNro;
-        //   pageNro = (queryStrParams.page) ? parseInt(queryStrParams.page) : pageNro;
-        // }
-        //-- end with params  ---
-
+    if (params != value.IS_NULL) {
+      idParam = params.id ? parseInt(params.id) : null;
+    }
+    //-- end with params  ---
 
     if (Component != null) {
-      await Component.findByPk(id,{
-        attributes:{}
+      await Component.findByPk(idParam, {
+        attributes: {},
       })
         .then((componentItem) => {
           component = componentItem;
@@ -155,12 +151,8 @@ const getComponentByIdService = async (req, res) => {
   return component;
 };
 
-
-
-
-
 module.exports = {
   addComponentService,
   getAllComponentService,
-  getComponentByIdService
+  getComponentByIdService,
 };

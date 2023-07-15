@@ -110,8 +110,6 @@ const getComponentByIdController = async (req, res) => {
   try {
     msg = null;
     code = null;
-    console.log({'req':req});
-
 
     componentList = await getComponentByIdService(req);
 
