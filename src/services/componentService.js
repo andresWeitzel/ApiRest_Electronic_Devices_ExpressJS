@@ -138,7 +138,7 @@ const getComponentByIdService = async (req, res) => {
         .catch((error) => {
           msg = `Error in getComponentByIdService() function when trying to get a component by id. Caused by ${error}`;
           console.log(error);
-          componentList = statusName.CONNECTION_REFUSED;
+          component = statusName.CONNECTION_REFUSED;
         });
     } else {
       component = statusName.CONNECTION_REFUSED;
