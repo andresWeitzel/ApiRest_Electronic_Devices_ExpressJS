@@ -57,6 +57,66 @@
 							"response": []
 						},
 						{
+							"name": "getAllWithAttributes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=JD76FG6-DOIT-WEMOS-Mini&imagen=&stock=100&precio=12.0&page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list-with-attributes"
+									],
+									"query": [
+										{
+											"key": "codigo",
+											"value": "JD76FG6-DOIT-WEMOS-Mini"
+										},
+										{
+											"key": "imagen",
+											"value": ""
+										},
+										{
+											"key": "stock",
+											"value": "100"
+										},
+										{
+											"key": "precio",
+											"value": "12.0"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "getById",
 							"request": {
 								"method": "GET",

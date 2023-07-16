@@ -17,7 +17,6 @@ let pageNro = 0;
 const orderBy = [["id", "ASC"]];
 let msg;
 let params;
-let codigoParam;
 let imagenParam;
 let nroPiezaParam;
 let categoriaParam;
@@ -158,7 +157,7 @@ const getAllWithAttributesComponentService = async (req, res) => {
       fabricanteParam = queryStrParams.fabricante
         ? queryStrParams.fabricante
         : fabricanteParam;
-      stockParam = queryStrParams.stock ? queryStrParams.stock : stockParam;
+      stockParam = queryStrParams.stock ? parseInt(queryStrParams.stock) : stockParam;
       precioParam = queryStrParams.precio ? queryStrParams.precio : precioParam;
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
@@ -171,8 +170,31 @@ const getAllWithAttributesComponentService = async (req, res) => {
       await Component.findAll({
         attributes: {},
         where: {
-          codigo: {
-            [Op.like]: `%${codigoParam}%`, //containing what is entered, less strictmatch
+          [Op.or]: {
+            codigo: {
+              [Op.like]: `%${codigoParam}%`,
+            },
+            imagen: {
+              [Op.like]: `%${imagenParam}%`,
+            },
+            nro_pieza: {
+              [Op.like]: `%${nroPiezaParam}%`,
+            },
+            categoria: {
+              [Op.like]: `%${categoriaParam}%`,
+            },
+            descripcion: {
+              [Op.like]: `%${descripcionParam}%`,
+            },
+            fabricante: {
+              [Op.like]: `%${fabricanteParam}%`,
+            },
+            stock: {
+              [Op.eq]: stockParam,
+            },
+            precio: {
+              [Op.eq]: precioParam,
+            },
           },
         },
         limit: pageSizeNro,
@@ -183,7 +205,7 @@ const getAllWithAttributesComponentService = async (req, res) => {
           componentList = componentItems;
         })
         .catch((error) => {
-          msg = `Error in getComponentLikeCodigoService() function when trying to get a component by codigo. Caused by ${error}`;
+          msg = `Error in getAllWithAttributesComponentService() function when trying to get all paginated component by all attributes. Caused by ${error}`;
           console.log(error);
           componentList = statusName.CONNECTION_REFUSED;
         });
@@ -191,7 +213,7 @@ const getAllWithAttributesComponentService = async (req, res) => {
       componentList = statusName.CONNECTION_REFUSED;
     }
   } catch (error) {
-    msg = `Error in getComponentLikeCodigoService() function. Caused by ${error}`;
+    msg = `Error in getAllWithAttributesComponentService() function. Caused by ${error}`;
     console.log(msg);
     componentList = statusName.CONNECTION_ERROR;
   }
