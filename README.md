@@ -86,6 +86,23 @@ cd 'projectName'
 ```git
 npm i
 ```
+* Las variables de entorno utilizadas en el proyecto se mantienen para simplificar el proceso de configuración de las mismas. Es recomendado agregar el archivo correspondiente (.env) al .gitignore.
+* El siguiente script configurado en el package.json del proyecto es el encargado de
+   * Levantar el servidor con express
+ ```git
+ "scripts": {
+    "start": "node src/server.js"
+  },
+```
+* Ejecutamos la app desde terminal.
+```git
+npm start
+```
+* Si se presenta algún mensaje indicando qué el puerto 8080 ya está en uso, podemos terminar todos los procesos dependientes y volver a ejecutar la app
+```git
+npx kill-port 8080
+npm start
+```
 
  
 <br>
@@ -142,6 +159,23 @@ npm i dotenv
 * Instalamos los plugins para el uso de [swagger](https://www.google.com.ar/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjKhYbuxO7_AhWcqpUCHZX1DGIQFnoECBAQAQ&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fswagger-ui-express&usg=AOvVaw298jcT8gyPCXrfFgV1z8o6&opi=89978449)
 ```git
 npm i swagger-ui-express swagger-jsdoc
+```
+* Las variables de entorno utilizadas en el proyecto se mantienen para simplificar el proceso de configuración de las mismas. Es recomendado agregar el archivo correspondiente (.env) al .gitignore.
+* El siguiente script configurado en el package.json del proyecto es el encargado de
+   * Levantar el servidor con express
+ ```git
+ "scripts": {
+    "start": "node src/server.js"
+  },
+```
+* Ejecutamos la app desde terminal.
+```git
+npm start
+```
+* Si se presenta algún mensaje indicando qué el puerto 8080 ya está en uso, podemos terminar todos los procesos dependientes y volver a ejecutar la app
+```git
+npx kill-port 8080
+npm start
 ```
 
 
@@ -233,7 +267,7 @@ npm i swagger-ui-express swagger-jsdoc
 * [Repositorio de ejemplo](https://github.com/TomDoesTech/REST-API-Tutorial-Updated/tree/main)
 
 #### Videotutoriales
-* [Ejemplificación Creación de Api Rest](https://www.youtube.com/watch?v=tpso18ghda4)
+* [Playlist Ejemplificación Creación de Api Rest](https://www.youtube.com/watch?v=tpso18ghda4)
 
 #### Ejemplos de código
 * [Ejemplo de microservicio usando Sequelize, Mysql y NodeJS](https://github.com/andresWeitzel/Microservice_Mercadolibre_Users_AWS)

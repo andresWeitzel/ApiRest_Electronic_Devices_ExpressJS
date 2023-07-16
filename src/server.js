@@ -12,7 +12,7 @@ const { swaggerDocs } = require("./utils/swagger");
 let app;
 
 /**
- * @description función encargada de levantar el servidor, añadir la configuración inicial y setear las rutas http
+ * @description function in charge of starting the server, adding the initial configuration and setting the http routes
  * @returns active instance of the server for handling requests and responses
  */
 const run = async () => {

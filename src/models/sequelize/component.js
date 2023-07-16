@@ -8,12 +8,6 @@ const { dbConnection } = require('../../db/localConfig');
  * @description database component model with their respective fields and constraints
  */
 const Component = dbConnection.define("componentes", {
-    id: {
-        type: DataTypes.INTEGER
-        , allowNull: true
-        , autoincrement: true
-        , primaryKey: true
-    },//check restriction
     codigo: {
         type: DataTypes.STRING(100)
         , allowNull: false

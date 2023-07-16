@@ -17,6 +17,14 @@ let pageNro = 0;
 const orderBy = [["id", "ASC"]];
 let msg;
 let params;
+let codigoParam;
+let imagenParam;
+let nroPiezaParam;
+let categoriaParam;
+let descripcionParam;
+let fabricanteParam;
+let stockParam;
+let precioParam;
 
 /**
  * @description add a componente to database
@@ -105,6 +113,85 @@ const getAllComponentService = async (req, res) => {
     }
   } catch (error) {
     msg = `Error in getAllComponentService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
+/**
+ * @description get all paginated components list according to all attributes from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllWithAttributesComponentService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    codigoParam = null;
+    imagenParam = null;
+    nroPiezaParam = null;
+    categoriaParam = null;
+    descripcionParam = null;
+    fabricanteParam = null;
+    stockParam = null;
+    precioParam = null;
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      codigoParam = queryStrParams.codigo ? queryStrParams.codigo : codigoParam;
+      imagenParam = queryStrParams.imagen ? queryStrParams.imagen : imagenParam;
+      nroPiezaParam = queryStrParams.nroPieza
+        ? queryStrParams.nroPieza
+        : nroPiezaParam;
+      categoriaParam = queryStrParams.categoria
+        ? queryStrParams.categoria
+        : categoriaParam;
+      descripcionParam = queryStrParams.descripcion
+        ? queryStrParams.descripcion
+        : descripcionParam;
+      fabricanteParam = queryStrParams.fabricante
+        ? queryStrParams.fabricante
+        : fabricanteParam;
+      stockParam = queryStrParams.stock ? queryStrParams.stock : stockParam;
+      precioParam = queryStrParams.precio ? queryStrParams.precio : precioParam;
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          codigo: {
+            [Op.like]: `%${codigoParam}%`, //containing what is entered, less strictmatch
+          },
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getComponentLikeCodigoService() function when trying to get a component by codigo. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getComponentLikeCodigoService() function. Caused by ${error}`;
     console.log(msg);
     componentList = statusName.CONNECTION_ERROR;
   }
@@ -219,6 +306,7 @@ const getAllComponentLikeCodigoService = async (req, res) => {
 module.exports = {
   addComponentService,
   getAllComponentService,
+  getAllWithAttributesComponentService,
   getComponentByIdService,
   getAllComponentLikeCodigoService,
 };
