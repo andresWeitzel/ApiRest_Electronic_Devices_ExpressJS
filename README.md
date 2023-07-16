@@ -3,7 +3,7 @@
 ![Index app](./doc/assets/CRUD_Bucket_s3.drawio.png)
 
 # ApiRest_Dispositivos_Electronicos_ExpressJS
-Api Rest acerca de dispositivos electrónicos implementado con Express, NodeJS, Sequelize, dotenv, cors, swagger, swagger-ui, PostgreSQL, otros.
+Api Rest acerca de dispositivos electrónicos implementado con Express, Morgan-middleware, NodeJS, Sequelize, dotenv, cors, swagger, swagger-ui, PostgreSQL, otros.
 
 * [Repositorio base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 
@@ -88,20 +88,26 @@ npm i
 ```
 * Las variables de entorno utilizadas en el proyecto se mantienen para simplificar el proceso de configuración de las mismas. Es recomendado agregar el archivo correspondiente (.env) al .gitignore.
 * El siguiente script configurado en el package.json del proyecto es el encargado de
-   * Levantar el servidor con express
+   * Levantar el servidor con express (entorno productivo)
+   * Levantar el servidor con express y nodemon (entorno local dev)
  ```git
  "scripts": {
+    "dev": "nodemon src/server.js",
     "start": "node src/server.js"
   },
 ```
-* Ejecutamos la app desde terminal.
+* Ejecutamos la app desde terminal para entorno local.
+```git
+npm run dev
+```
+* Ejecutamos la app desde terminal para entorno productivo.
 ```git
 npm start
 ```
 * Si se presenta algún mensaje indicando qué el puerto 8080 ya está en uso, podemos terminar todos los procesos dependientes y volver a ejecutar la app
 ```git
 npx kill-port 8080
-npm start
+npm run dev o npm start
 ```
 
  
@@ -144,17 +150,29 @@ npm i sequelize
 ```git
 npm i pg pg-hstore
 ```
-* Instalamos el plugin para [express](https://www.npmjs.com/package/express)
+* Instalamos el plugin para [express (framework)](https://www.npmjs.com/package/express)
 ```git
 npm i express
 ```
-* Instalamos el plugin para [cors](https://www.npmjs.com/package/cors)
+* Instalamos el plugin para [cors (gestión de recursos)](https://www.npmjs.com/package/cors)
 ```git
 npm i cors
 ```
-* Instalamos el plugin para [dotenv](https://www.npmjs.com/package/dotenv)
+* Instalamos el plugin para [dotenv (variables de entorno)](https://www.npmjs.com/package/dotenv)
 ```git
 npm i dotenv
+```
+* Instalamos el plugin para [morgan-middleware (errores, formatos, etc)](https://expressjs.com/en/resources/middleware/morgan.html)
+```git
+npm i morgan
+```
+* Instalamos el plugin para [nodemon (autoreload server)](https://www.npmjs.com/package/nodemon) de forma global
+```git
+npm i -g nodemon
+```
+* Instalamos el plugin para [nodemon (autoreload server)](https://www.npmjs.com/package/nodemon) para desarrollo
+```git
+npm i nodemon --save-dev
 ```
 * Instalamos los plugins para el uso de [swagger](https://www.google.com.ar/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjKhYbuxO7_AhWcqpUCHZX1DGIQFnoECBAQAQ&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fswagger-ui-express&usg=AOvVaw298jcT8gyPCXrfFgV1z8o6&opi=89978449)
 ```git
@@ -162,20 +180,26 @@ npm i swagger-ui-express swagger-jsdoc
 ```
 * Las variables de entorno utilizadas en el proyecto se mantienen para simplificar el proceso de configuración de las mismas. Es recomendado agregar el archivo correspondiente (.env) al .gitignore.
 * El siguiente script configurado en el package.json del proyecto es el encargado de
-   * Levantar el servidor con express
+   * Levantar el servidor con express (entorno productivo)
+   * Levantar el servidor con express y nodemon (entorno local dev)
  ```git
  "scripts": {
+    "dev": "nodemon src/server.js",
     "start": "node src/server.js"
   },
 ```
-* Ejecutamos la app desde terminal.
+* Ejecutamos la app desde terminal para entorno local.
+```git
+npm run dev
+```
+* Ejecutamos la app desde terminal para entorno productivo.
 ```git
 npm start
 ```
 * Si se presenta algún mensaje indicando qué el puerto 8080 ya está en uso, podemos terminar todos los procesos dependientes y volver a ejecutar la app
 ```git
 npx kill-port 8080
-npm start
+npm run dev o npm start
 ```
 
 
@@ -268,6 +292,7 @@ npm start
 
 #### Videotutoriales
 * [Playlist Ejemplificación Creación de Api Rest](https://www.youtube.com/watch?v=tpso18ghda4)
+* [Creación y config Api rest desde cero](https://www.youtube.com/watch?v=bK3AJfs7qNY&t=1019s)
 
 #### Ejemplos de código
 * [Ejemplo de microservicio usando Sequelize, Mysql y NodeJS](https://github.com/andresWeitzel/Microservice_Mercadolibre_Users_AWS)

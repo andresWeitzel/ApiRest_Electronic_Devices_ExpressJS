@@ -27,7 +27,7 @@ const express = require("express"),
         ],
     },
 
-    apis: ['./src/config/routes/componentRoute']
+    apis: ['./src/config/routes/componentRoutes']
   };
 
   const swaggerSpec = swaggerJsdoc(options);

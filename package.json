@@ -4,6 +4,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "morgan": "^1.10.0",
     "pg": "^8.11.1",
     "pg-hstore": "^2.3.4",
     "prettier": "^2.8.8",
@@ -16,6 +17,7 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
+    "dev": "nodemon src/server.js",
     "start": "node src/server.js"
   },
   "repository": {
@@ -27,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/issues"
   },
-  "homepage": "https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS#readme"
+  "homepage": "https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
 }
