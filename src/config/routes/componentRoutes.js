@@ -13,4 +13,10 @@ componentRouter.get('/id/:id', componentController.getComponentByIdController)
 
 componentRouter.get('/codigo/:codigo', componentController.getAllComponentLikeCodigoController)
 
+componentRouter.get('/imagen/:imagen', componentController.getAllComponentLikeImagenController)
+
+componentRouter.get('/nro-pieza/:nroPieza', componentController.getAllComponentLikeNroPiezaController)
+
+componentRouter.get('/categoria-fabricante', componentController.getAllComponentLikeCategoriaFabricanteController)
+
 module.exports=componentRouter

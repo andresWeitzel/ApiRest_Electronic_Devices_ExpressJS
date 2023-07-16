@@ -79,6 +79,7 @@ const addComponentService = async (req, res) => {
 const getAllComponentService = async (req, res) => {
   try {
     componentList = null;
+    queryStrParams = null;
     msg = null;
 
     //-- start with pagination  ---
@@ -157,7 +158,9 @@ const getAllWithAttributesComponentService = async (req, res) => {
       fabricanteParam = queryStrParams.fabricante
         ? queryStrParams.fabricante
         : fabricanteParam;
-      stockParam = queryStrParams.stock ? parseInt(queryStrParams.stock) : stockParam;
+      stockParam = queryStrParams.stock
+        ? parseInt(queryStrParams.stock)
+        : stockParam;
       precioParam = queryStrParams.precio ? queryStrParams.precio : precioParam;
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
@@ -230,6 +233,8 @@ const getAllWithAttributesComponentService = async (req, res) => {
 const getComponentByIdService = async (req, res) => {
   try {
     component = null;
+    params = null;
+    idParam = null;
     msg = null;
 
     //-- start with params ---
@@ -273,6 +278,8 @@ const getComponentByIdService = async (req, res) => {
 const getAllComponentLikeCodigoService = async (req, res) => {
   try {
     componentList = null;
+    codigoParam = null;
+    queryStrParams = null;
     msg = null;
 
     //-- start with params ---
@@ -325,10 +332,210 @@ const getAllComponentLikeCodigoService = async (req, res) => {
   return componentList;
 };
 
+/**
+ * @description get all paginated components list according to its imagen from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeImagenService = async (req, res) => {
+  try {
+    componentList = null;
+    imagenParam = null;
+    queryStrParams = null;
+    msg = null;
+
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      imagenParam = params.imagen ? params.imagen : null;
+    }
+    //-- end with params  ---
+
+    //-- start with pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          imagen: {
+            [Op.like]: `%${imagenParam}%`,
+          },
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getAllComponentLikeImagenService() function when trying to get a component by imagen. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikeImagenService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
+/**
+ * @description get all paginated components list according to its nro de pieza from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeNroPiezaService = async (req, res) => {
+  try {
+    componentList = null;
+    nroPiezaParam = null;
+    queryStrParams = null;
+    msg = null;
+
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      nroPiezaParam = params.nroPieza ? params.nroPieza : null;
+    }
+    //-- end with params  ---
+
+    //-- start with pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          nro_pieza: {
+            [Op.like]: `%${nroPiezaParam}%`,
+          },
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getAllComponentLikeNroPiezaService() function when trying to get a component by nro de pieza. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikeNroPiezaService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
+
+/**
+ * @description get all paginated components list according to its categoria and fabricante from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeCategoriaFabricanteService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    categoriaParam = null;
+    fabricanteParam = null;
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      categoriaParam = queryStrParams.categoria
+        ? queryStrParams.categoria
+        : categoriaParam;
+      fabricanteParam = queryStrParams.fabricante
+        ? queryStrParams.fabricante
+        : fabricanteParam;
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          [Op.or]: {
+            categoria: {
+              [Op.like]: `%${categoriaParam}%`,
+            },
+            fabricante: {
+              [Op.like]: `%${fabricanteParam}%`,
+            },
+          },
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getAllComponentLikeCategoriaFabricanteService() function when trying to get all paginated component by categoria and fabricante. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikeCategoriaFabricanteService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
 module.exports = {
   addComponentService,
   getAllComponentService,
   getAllWithAttributesComponentService,
   getComponentByIdService,
   getAllComponentLikeCodigoService,
+  getAllComponentLikeImagenService,
+  getAllComponentLikeNroPiezaService,
+  getAllComponentLikeCategoriaFabricanteService
 };
