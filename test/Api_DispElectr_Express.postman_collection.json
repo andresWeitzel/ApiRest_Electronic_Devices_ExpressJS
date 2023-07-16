@@ -78,7 +78,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=JD76FG6-DOIT-WEMOS-Mini&imagen=&stock=100&precio=12.0&page=0&limit=10",
+									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=HD&imagen=http&nroPieza=a&categoria=Transistores&descripcion=a&fabricante=a&stock=1&precio=9.0&page=0&limit=10",
 									"host": [
 										"{{base_url}}"
 									],
@@ -89,19 +89,87 @@
 									"query": [
 										{
 											"key": "codigo",
-											"value": "JD76FG6-DOIT-WEMOS-Mini"
+											"value": "HD"
 										},
 										{
 											"key": "imagen",
-											"value": ""
+											"value": "http"
+										},
+										{
+											"key": "nroPieza",
+											"value": "a"
+										},
+										{
+											"key": "categoria",
+											"value": "Transistores"
+										},
+										{
+											"key": "descripcion",
+											"value": "a"
+										},
+										{
+											"key": "fabricante",
+											"value": "a"
 										},
 										{
 											"key": "stock",
-											"value": "100"
+											"value": "1"
 										},
 										{
 											"key": "precio",
-											"value": "12.0"
+											"value": "9.0"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeCategoriaFabricante",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/categoria-fabricante?categoria=Transistores BJT&fabricante=&page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"categoria-fabricante"
+									],
+									"query": [
+										{
+											"key": "categoria",
+											"value": "Transistores BJT"
+										},
+										{
+											"key": "fabricante",
+											"value": ""
 										},
 										{
 											"key": "page",
@@ -181,6 +249,96 @@
 										"componentes",
 										"codigo",
 										"DFHSDK-3CD010G"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeImagen",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/imagen/http?page=0&limit=2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"imagen",
+										"http"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeNroPieza",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/nro-pieza/3CD010G?page=0&limit=2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"nro-pieza",
+										"3CD010G"
 									],
 									"query": [
 										{
