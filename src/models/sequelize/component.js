@@ -1,13 +1,15 @@
 //External
 const { DataTypes } = require('sequelize');
-//Config
+//Database
 const { dbConnection } = require('../../db/local-config');
+//Models
+const { ComponentDetail } = require('./component-detail');
 
 
 /**
  * @description database component model with their respective fields and constraints
  */
-const Component = dbConnection.define("componentes", {
+let Component = dbConnection.define("componentes", {
     codigo: {
         type: DataTypes.STRING(100)
         , allowNull: false
@@ -44,7 +46,7 @@ const Component = dbConnection.define("componentes", {
     {
         timestamps: false
     });
-
+    Component.hasMany(ComponentDetail, {foreignKey:'id_componente', foreignKeyConstraint: true}); 
 
 
 module.exports = { Component }

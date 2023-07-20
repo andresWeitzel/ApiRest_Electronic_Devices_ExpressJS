@@ -285,6 +285,7 @@ npm run dev o npm start
 
 #### Sequelize con PostgreSQL 
 * [PostgreSQL con Sequelize](https://www.makeuseof.com/use-postgresql-with-sequelize-in-nodejs/)
+* [Asociaciones entre tablas](https://sequelize.org/docs/v6/core-concepts/assocs/)
 
 #### Swagger y Nodejs
 * [Automatically Generate Swagger Docs With ExpressJS & NodeJS](https://www.youtube.com/watch?v=5aryMKiBEKY)
