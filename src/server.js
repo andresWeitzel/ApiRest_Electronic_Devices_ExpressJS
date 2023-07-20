@@ -1,11 +1,10 @@
 //External
 require("dotenv").config();
 //Environment vars
+//Env vars
 const PORT = process.env.APP_PORT || 8082;
 //Config middleware
 const { appMiddleware } = require("./config/middleware/index");
-//Config router
-const componentRouter = require("./config/routes/component-routes");
 //Utils swagger
 const { swaggerDocs } = require("./utils/swagger");
 //Const-vars
@@ -19,9 +18,6 @@ const run = async () => {
   try {
     //Middleware
     app = await appMiddleware();
-
-    //Routes
-    app.use("/v1/componentes", componentRouter);
 
     //Server
     app.listen(PORT, async () => {

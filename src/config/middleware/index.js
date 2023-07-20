@@ -1,6 +1,12 @@
+//External
 const express  = require("express");
 let morgan = require("morgan");
 let cors  = require("cors");
+//Env vars
+const API_LOCAL_BASE_URL = process.env.API_LOCAL_BASE_URL;
+const COMPONENT_ENPOINT = process.env.API_COMPONENT_NAME_URL;
+//Config router
+const componentRouter = require("../routes/component-routes");
 
 /**
  * @description initial settings for cors, express, etc (Middleware)
@@ -16,7 +22,7 @@ const appMiddleware = async() => {
      //-- start cors --
     //Set cors
     var corsOptions = {
-      origin: "http://localhost:9090",
+      origin: API_LOCAL_BASE_URL,
     };
     //Use cors options
     app.use(cors(corsOptions));
@@ -28,7 +34,12 @@ const appMiddleware = async() => {
 
     //Only fort strict format configured
     app.use(express.urlencoded({ extended: true }));
-//-- end config for data api --
+    //-- end config for data api --
+
+
+    //-- start with routes --
+    app.use(COMPONENT_ENPOINT, componentRouter);
+    //-- end with routes --
    
     return app;
 
