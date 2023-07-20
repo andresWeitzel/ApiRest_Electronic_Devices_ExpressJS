@@ -1,7 +1,7 @@
 //External
 const { DataTypes } = require('sequelize');
 //Config
-const { dbConnection } = require('../../db/localConfig');
+const { dbConnection } = require('../../db/local-config');
 
 
 /**

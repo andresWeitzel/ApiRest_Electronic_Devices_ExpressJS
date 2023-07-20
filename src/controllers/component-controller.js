@@ -10,10 +10,10 @@ const {
   getAllComponentLikeImagenService,
   getAllComponentLikeNroPiezaService,
   getAllComponentLikeCategoriaFabricanteService,
-} = require("../services/componentService");
+} = require("../services/component-service");
 //Enums
-const { statusName } = require("../enums/connection/statusName");
-const { statusCode } = require("../enums/http/statusCode");
+const { statusName } = require("../enums/connection/status-name");
+const { statusCode } = require("../enums/http/status-code");
 const { value } = require("../enums/general/value");
 //Const-vars
 let newComponent;

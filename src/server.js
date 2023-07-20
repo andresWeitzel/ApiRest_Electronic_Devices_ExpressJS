@@ -5,7 +5,7 @@ const PORT = process.env.APP_PORT || 8082;
 //Config middleware
 const { appMiddleware } = require("./config/middleware/index");
 //Config router
-const componentRouter = require("./config/routes/componentRoutes");
+const componentRouter = require("./config/routes/component-routes");
 //Utils swagger
 const { swaggerDocs } = require("./utils/swagger");
 //Const-vars

@@ -3,7 +3,7 @@ const { Sequelize, Op } = require("sequelize");
 //Models
 const { Component } = require("../models/sequelize/component");
 //Enums
-const { statusName } = require("../enums/connection/statusName");
+const { statusName } = require("../enums/connection/status-name");
 const { value } = require("../enums/general/value");
 //Const-vars
 let newComponent;
@@ -36,8 +36,6 @@ const addComponentService = async (req, res) => {
   try {
     newComponent = null;
     msg = null;
-
-    //console.log({'COMPONENTE SERVICE':component});
 
     if (Component != null) {
       await Component.create({
