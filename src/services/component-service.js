@@ -2,6 +2,7 @@
 const { Sequelize, Op } = require("sequelize");
 //Models
 const { Component } = require("../models/sequelize/component");
+const { ComponentDetail } = require("../models/sequelize/component-detail");
 //Enums
 const { statusName } = require("../enums/connection/status-name");
 const { value } = require("../enums/general/value");
@@ -220,6 +221,60 @@ const getAllWithAttributesComponentService = async (req, res) => {
   }
   return componentList;
 };
+
+
+/**
+ * @description get all paginated components with component_details from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentWithDetailsService = async (req, res) => {
+  try {
+    componentList = null;
+    queryStrParams = null;
+    msg = null;
+
+    //-- start with pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        include:ComponentDetail,
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getAllComponentWithDetailsService() function when trying to get all paginated components. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentWithDetailsService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
+
 
 /**
  * @description get a component according to its identifier from the database
@@ -531,6 +586,7 @@ module.exports = {
   addComponentService,
   getAllComponentService,
   getAllWithAttributesComponentService,
+  getAllComponentWithDetailsService,
   getComponentByIdService,
   getAllComponentLikeCodigoService,
   getAllComponentLikeImagenService,
