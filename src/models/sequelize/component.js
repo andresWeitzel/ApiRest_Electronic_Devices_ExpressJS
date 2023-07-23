@@ -15,7 +15,7 @@ let Component = dbConnection.define("componentes", {
         , allowNull: false
     },
     imagen: {
-        type: DataTypes.STRING(100)
+        type: DataTypes.STRING(1000)
         , allowNull: false
     },
     nro_pieza: {
@@ -27,7 +27,7 @@ let Component = dbConnection.define("componentes", {
         , allowNull: false
     },
     descripcion: {
-        type: DataTypes.STRING(100)
+        type: DataTypes.STRING(400)
         , allowNull: false
     },
     fabricante: {
