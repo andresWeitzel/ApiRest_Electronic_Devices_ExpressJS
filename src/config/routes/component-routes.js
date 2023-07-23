@@ -19,9 +19,10 @@ componentRouter.get('/nro-pieza/:nroPieza', componentController.getAllComponentL
 
 componentRouter.get('/categoria-fabricante', componentController.getAllComponentLikeCategoriaFabricanteController);
 
-
 //component and component_detail tables
 componentRouter.get('/list-with-details', componentController.getAllWithDetailComponentController);
 
+//component and bipolar-transistor
+componentRouter.get('/bipolar-transistor-list', componentController.getAllWithBipolarTransistorComponentController);
 
 module.exports=componentRouter

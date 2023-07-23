@@ -1,8 +1,9 @@
 //Externals
-const { Sequelize, Op } = require("sequelize");
+const { Op } = require("sequelize");
 //Models
 const { Component } = require("../models/sequelize/component");
 const { ComponentDetail } = require("../models/sequelize/component-detail");
+const { BipolarTransistor } = require("../models/sequelize/bipolar-transistor");
 //Enums
 const { statusName } = require("../enums/connection/status-name");
 const { value } = require("../enums/general/value");
@@ -268,6 +269,58 @@ const getAllComponentWithDetailsService = async (req, res) => {
     }
   } catch (error) {
     msg = `Error in getAllComponentWithDetailsService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
+
+/**
+ * @description get all paginated components with bipolar-transistor from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentWithBipolarTransistorService = async (req, res) => {
+  try {
+    componentList = null;
+    queryStrParams = null;
+    msg = null;
+
+    //-- start with pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        include: BipolarTransistor,
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getAllComponentWithBipolarTransistorService() function when trying to get all paginated components. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentWithBipolarTransistorService() function. Caused by ${error}`;
     console.log(msg);
     componentList = statusName.CONNECTION_ERROR;
   }
@@ -587,6 +640,7 @@ module.exports = {
   getAllComponentService,
   getAllWithAttributesComponentService,
   getAllComponentWithDetailsService,
+  getAllComponentWithBipolarTransistorService,
   getComponentByIdService,
   getAllComponentLikeCodigoService,
   getAllComponentLikeImagenService,

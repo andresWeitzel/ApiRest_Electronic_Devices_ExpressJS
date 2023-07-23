@@ -11,6 +11,7 @@ const {
   getAllComponentLikeNroPiezaService,
   getAllComponentLikeCategoriaFabricanteService,
   getAllComponentWithDetailsService,
+  getAllComponentWithBipolarTransistorService,
 } = require("../services/component-service");
 //Enums
 const { statusName } = require("../enums/connection/status-name");
@@ -193,6 +194,50 @@ const getAllWithDetailComponentController = async (req, res) => {
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
     msg = `Error in getAllWithDetailComponentController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+/**
+ * @description get all paginated components list with details for bipolar_transistor table from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllWithBipolarTransistorComponentController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentWithBipolarTransistorService(req);
+
+    switch (componentList) {
+      case statusName.CONNECTION_ERROR:
+        code = statusCode.INTERNAL_SERVER_ERROR;
+        msg =
+          "ERROR. An error has occurred with the connection or query to the database.";
+        res.status(code).send(msg);
+        break;
+      case statusName.CONNECTION_REFUSED:
+        code = statusCode.INTERNAL_SERVER_ERROR;
+        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
+        res.status(code).send(msg);
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        code = statusCode.BAD_REQUEST;
+        msg = "Bad request for get all paginated components list and bipolar_transistor according to all attributes.";
+        res.status(code).send(msg);
+        break;
+      default:
+        code = statusCode.OK;
+        res.status(code).send(componentList);
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllWithBipolarTransistorComponentController() function. Caused by ${error}`;
     console.log(msg);
     res.status(code).send(msg);
   }
@@ -427,6 +472,7 @@ module.exports = {
   getAllComponentController,
   getAllWithAttributesComponentController,
   getAllWithDetailComponentController,
+  getAllWithBipolarTransistorComponentController,
   getComponentByIdController,
   getAllComponentLikeCodigoController,
   getAllComponentLikeImagenController,
