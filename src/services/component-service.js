@@ -7,6 +7,7 @@ const { BipolarTransistor } = require("../models/sequelize/bipolar-transistor");
 //Enums
 const { statusName } = require("../enums/connection/status-name");
 const { value } = require("../enums/general/value");
+const { MosfetTransistor } = require("../models/sequelize/mosfet-transistor");
 //Const-vars
 let newComponent;
 let componentList;
@@ -251,7 +252,7 @@ const getAllComponentWithDetailsService = async (req, res) => {
     if (Component != null) {
       await Component.findAll({
         attributes: {},
-        include:ComponentDetail,
+        include:[ComponentDetail],
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
@@ -303,6 +304,11 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
     if (Component != null) {
       await Component.findAll({
         attributes: {},
+        where: {
+          categoria: {
+            [Op.like]: `%Transistores BJT%`, //containing what is entered, less strictmatch
+          },
+        },
         include: BipolarTransistor,
         limit: pageSizeNro,
         offset: pageNro,

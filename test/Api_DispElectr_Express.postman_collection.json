@@ -57,6 +57,94 @@
 							"response": []
 						},
 						{
+							"name": "getAllWithDetails",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list-with-details?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list-with-details"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithBipolarTransistor",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/bipolar-transistor-list?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"bipolar-transistor-list"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "getAllWithAttributes",
 							"request": {
 								"method": "GET",
@@ -433,7 +521,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:8080/v1"
+			"value": "http://localhost:8080/api/v1"
 		},
 		{
 			"key": "x-api-key",

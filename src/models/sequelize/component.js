@@ -5,6 +5,7 @@ const { dbConnection } = require('../../db/local-config');
 //Models
 const { ComponentDetail } = require('./component-detail');
 const { BipolarTransistor } = require('./bipolar-transistor');
+const { MosfetTransistor } = require('./mosfet-transistor');
 
 
 /**
@@ -48,7 +49,8 @@ let Component = dbConnection.define("componentes", {
         timestamps: false
     });
     Component.hasMany(ComponentDetail, {foreignKey:'id_componente', foreignKeyConstraint: true});
-    Component.hasMany(BipolarTransistor, {foreignKey:'id_componente', foreignKeyConstraint: true});  
+    Component.hasMany(BipolarTransistor, {foreignKey:'id_componente', foreignKeyConstraint: true});
+    Component.hasMany(MosfetTransistor, {foreignKey:'id_componente', foreignKeyConstraint: true});  
 
 
 module.exports = { Component }
