@@ -25,4 +25,7 @@ componentRouter.get('/list-with-details', componentController.getAllWithDetailCo
 //component and bipolar-transistor
 componentRouter.get('/bipolar-transistor-list', componentController.getAllWithBipolarTransistorComponentController);
 
+//component wih all models 
+componentRouter.get('/list-all-models', componentController.getAllWithAllModelsComponentController);
+
 module.exports=componentRouter

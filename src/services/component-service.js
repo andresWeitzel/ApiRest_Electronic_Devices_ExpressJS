@@ -4,10 +4,10 @@ const { Op } = require("sequelize");
 const { Component } = require("../models/sequelize/component");
 const { ComponentDetail } = require("../models/sequelize/component-detail");
 const { BipolarTransistor } = require("../models/sequelize/bipolar-transistor");
+const { MosfetTransistor } = require("../models/sequelize/mosfet-transistor");
 //Enums
 const { statusName } = require("../enums/connection/status-name");
 const { value } = require("../enums/general/value");
-const { MosfetTransistor } = require("../models/sequelize/mosfet-transistor");
 //Const-vars
 let newComponent;
 let componentList;
@@ -252,7 +252,7 @@ const getAllComponentWithDetailsService = async (req, res) => {
     if (Component != null) {
       await Component.findAll({
         attributes: {},
-        include:[ComponentDetail],
+        include:[{model:ComponentDetail, required:true}],
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
@@ -309,7 +309,7 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
             [Op.like]: `%Transistores BJT%`, //containing what is entered, less strictmatch
           },
         },
-        include: BipolarTransistor,
+        include:[{model:BipolarTransistor, required:true}],
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
@@ -327,6 +327,63 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
     }
   } catch (error) {
     msg = `Error in getAllComponentWithBipolarTransistorService() function. Caused by ${error}`;
+    console.log(msg);
+    componentList = statusName.CONNECTION_ERROR;
+  }
+  return componentList;
+};
+
+
+/**
+ * @description get all paginated components with all models from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentWithAllModelsService = async (req, res) => {
+  try {
+    componentList = null;
+    queryStrParams = null;
+    msg = null;
+
+    //-- start with pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+        },
+        include:
+          [{model:ComponentDetail, required:false},
+          {model:BipolarTransistor, required:false},
+          {model:MosfetTransistor, required:false}],
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+      })
+        .then((componentItems) => {
+          componentList = componentItems;
+        })
+        .catch((error) => {
+          msg = `Error in getAllComponentWithAllModelsService() function when trying to get all paginated components. Caused by ${error}`;
+          console.log(error);
+          componentList = statusName.CONNECTION_REFUSED;
+        });
+    } else {
+      componentList = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentWithAllModelsService() function. Caused by ${error}`;
     console.log(msg);
     componentList = statusName.CONNECTION_ERROR;
   }
@@ -647,6 +704,7 @@ module.exports = {
   getAllWithAttributesComponentService,
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
+  getAllComponentWithAllModelsService,
   getComponentByIdService,
   getAllComponentLikeCodigoService,
   getAllComponentLikeImagenService,
