@@ -42,8 +42,8 @@ const swaggerDocs = async(app, port) =>{
     res.send(swaggerSpec);
   });
 
-}
+};
 
 module.exports={
     swaggerDocs
-}
+};

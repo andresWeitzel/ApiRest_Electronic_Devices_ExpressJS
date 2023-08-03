@@ -5,8 +5,10 @@ let cors  = require("cors");
 //Env vars
 const API_LOCAL_BASE_URL = process.env.API_LOCAL_BASE_URL;
 const COMPONENT_ENPOINT = process.env.API_COMPONENT_NAME_URL;
+const COMPONENT_DETAIL_ENPOINT = process.env.API_COMPONENT_DETAIL_NAME_URL;
 //Config router
 const componentRouter = require("../routes/component-routes");
+const componentDetailRouter = require("../routes/component-detail-routes");
 
 /**
  * @description initial settings for cors, express, etc (Middleware)
@@ -39,6 +41,7 @@ const appMiddleware = async() => {
 
     //-- start with routes --
     app.use(COMPONENT_ENPOINT, componentRouter);
+    app.use(COMPONENT_DETAIL_ENPOINT, componentDetailRouter);
     //-- end with routes --
    
     return app;

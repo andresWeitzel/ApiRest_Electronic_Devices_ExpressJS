@@ -8,6 +8,9 @@ const { MosfetTransistor } = require("../models/sequelize/mosfet-transistor");
 //Enums
 const { statusName } = require("../enums/connection/status-name");
 const { value } = require("../enums/general/value");
+const {
+  ElectrolycticCapacitor,
+} = require("../models/sequelize/electrolytic_capacitor");
 //Const-vars
 let newComponent;
 let componentList;
@@ -224,7 +227,6 @@ const getAllWithAttributesComponentService = async (req, res) => {
   return componentList;
 };
 
-
 /**
  * @description get all paginated components with component_details from the database
  * @param {any} req any type
@@ -252,7 +254,7 @@ const getAllComponentWithDetailsService = async (req, res) => {
     if (Component != null) {
       await Component.findAll({
         attributes: {},
-        include:[{model:ComponentDetail, required:true}],
+        include: [{ model: ComponentDetail, required: true }],
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
@@ -275,7 +277,6 @@ const getAllComponentWithDetailsService = async (req, res) => {
   }
   return componentList;
 };
-
 
 /**
  * @description get all paginated components with bipolar-transistor from the database
@@ -309,7 +310,7 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
             [Op.like]: `%Transistores BJT%`, //containing what is entered, less strictmatch
           },
         },
-        include:[{model:BipolarTransistor, required:true}],
+        include: [{ model: BipolarTransistor, required: true }],
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
@@ -332,7 +333,6 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
   }
   return componentList;
 };
-
 
 /**
  * @description get all paginated components with all models from the database
@@ -361,12 +361,13 @@ const getAllComponentWithAllModelsService = async (req, res) => {
     if (Component != null) {
       await Component.findAll({
         attributes: {},
-        where: {
-        },
-        include:
-          [{model:ComponentDetail, required:false},
-          {model:BipolarTransistor, required:false},
-          {model:MosfetTransistor, required:false}],
+        where: {},
+        include: [
+          { model: ComponentDetail, required: false },
+          { model: BipolarTransistor, required: false },
+          { model: MosfetTransistor, required: false },
+          { model: ElectrolycticCapacitor, required: false },
+        ],
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
@@ -389,8 +390,6 @@ const getAllComponentWithAllModelsService = async (req, res) => {
   }
   return componentList;
 };
-
-
 
 /**
  * @description get a component according to its identifier from the database
@@ -629,7 +628,6 @@ const getAllComponentLikeNroPiezaService = async (req, res) => {
   return componentList;
 };
 
-
 /**
  * @description get all paginated components list according to its categoria and fabricante from the database
  * @param {any} req any type
@@ -709,5 +707,5 @@ module.exports = {
   getAllComponentLikeCodigoService,
   getAllComponentLikeImagenService,
   getAllComponentLikeNroPiezaService,
-  getAllComponentLikeCategoriaFabricanteService
+  getAllComponentLikeCategoriaFabricanteService,
 };
