@@ -5,12 +5,14 @@ const { Component } = require("../models/sequelize/component");
 const { ComponentDetail } = require("../models/sequelize/component-detail");
 const { BipolarTransistor } = require("../models/sequelize/bipolar-transistor");
 const { MosfetTransistor } = require("../models/sequelize/mosfet-transistor");
-//Enums
-const { statusName } = require("../enums/connection/status-name");
-const { value } = require("../enums/general/value");
 const {
   ElectrolycticCapacitor,
 } = require("../models/sequelize/electrolytic_capacitor");
+//Enums
+const { statusName } = require("../enums/connection/status-name");
+const { value } = require("../enums/general/value");
+const { sequelizeContraint } = require("../enums/sequelize/constraint");
+
 //Const-vars
 let newComponent;
 let componentList;
@@ -59,8 +61,11 @@ const addComponentService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in addComponentService() function when trying to create a component. Caused by ${error}`;
-          console.log(error);
-          newComponent = statusName.CONNECTION_REFUSED;
+          console.log(msg);
+          newComponent =
+            error.name == sequelizeContraint.UNIQUE_CONSTRAINT_ERROR
+              ? `${error.name} : ${error.parent.detail}`
+              : error;
         });
     } else {
       newComponent = statusName.CONNECTION_REFUSED;
@@ -71,6 +76,67 @@ const addComponentService = async (req, res) => {
     newComponent = statusName.CONNECTION_ERROR;
   }
   return newComponent;
+};
+
+/**
+ * @description update a componente from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const updateComponentService = async (req, res) => {
+  try {
+    updatedComponent = null;
+    msg = null;
+    params = null;
+
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      idParam = params.id ? parseInt(params.id) : null;
+    }
+    //-- end with params  ---
+
+    if (Component != null) {
+      await Component.update(
+        {
+          codigo: req.body.codigo,
+          imagen: req.body.imagen,
+          nro_pieza: req.body.nro_pieza,
+          categoria: req.body.categoria,
+          descripcion: req.body.descripcion,
+          fabricante: req.body.fabricante,
+          stock: req.body.stock,
+          precio: req.body.precio,
+        },
+        {
+          where: {
+            id: idParam,
+          },
+        }
+      )
+        .then((componentItem) => {
+          updatedComponent = componentItem;
+        })
+        .catch((error) => {
+          msg = `Error in updateComponentService() function when trying to update a component. Caused by ${error}`;
+          console.log(msg);
+          updatedComponent =
+            error.name == sequelizeContraint.UNIQUE_CONSTRAINT_ERROR
+              ? `${error.name} : ${error.parent.detail}`
+              : error;
+        });
+    } else {
+      updatedComponent = statusName.CONNECTION_REFUSED;
+    }
+  } catch (error) {
+    msg = `Error in updateComponentService() function. Caused by ${error}`;
+    console.log(msg);
+    updatedComponent = statusName.CONNECTION_ERROR;
+  }
+  return updatedComponent;
 };
 
 /**
@@ -109,7 +175,7 @@ const getAllComponentService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getAllComponentService() function when trying to get all paginated components. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -213,7 +279,7 @@ const getAllWithAttributesComponentService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getAllWithAttributesComponentService() function when trying to get all paginated component by all attributes. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -264,7 +330,7 @@ const getAllComponentWithDetailsService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getAllComponentWithDetailsService() function when trying to get all paginated components. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -320,7 +386,7 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getAllComponentWithBipolarTransistorService() function when trying to get all paginated components. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -377,7 +443,7 @@ const getAllComponentWithAllModelsService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getAllComponentWithAllModelsService() function when trying to get all paginated components. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -422,7 +488,7 @@ const getComponentByIdService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getComponentByIdService() function when trying to get a component by id. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           component = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -486,7 +552,7 @@ const getAllComponentLikeCodigoService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getComponentLikeCodigoService() function when trying to get a component by codigo. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -550,7 +616,7 @@ const getAllComponentLikeImagenService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getAllComponentLikeImagenService() function when trying to get a component by imagen. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -614,7 +680,7 @@ const getAllComponentLikeNroPiezaService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getAllComponentLikeNroPiezaService() function when trying to get a component by nro de pieza. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -682,7 +748,7 @@ const getAllComponentLikeCategoriaFabricanteService = async (req, res) => {
         })
         .catch((error) => {
           msg = `Error in getAllComponentLikeCategoriaFabricanteService() function when trying to get all paginated component by categoria and fabricante. Caused by ${error}`;
-          console.log(error);
+          console.log(msg);
           componentList = statusName.CONNECTION_REFUSED;
         });
     } else {
@@ -698,6 +764,7 @@ const getAllComponentLikeCategoriaFabricanteService = async (req, res) => {
 
 module.exports = {
   addComponentService,
+  updateComponentService,
   getAllComponentService,
   getAllWithAttributesComponentService,
   getAllComponentWithDetailsService,

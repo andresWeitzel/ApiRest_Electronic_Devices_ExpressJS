@@ -5,6 +5,8 @@ const componentController = require("../../controllers/component-controller");
 
 componentRouter.post('/', componentController.addComponentController);
 
+componentRouter.put('/id/:id', componentController.updateComponentController);
+
 componentRouter.get('/list', componentController.getAllComponentController);
 
 componentRouter.get('/list-with-attributes', componentController.getAllWithAttributesComponentController);

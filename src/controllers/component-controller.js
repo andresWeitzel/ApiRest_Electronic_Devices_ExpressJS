@@ -13,6 +13,7 @@ const {
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
+  updateComponentService,
 } = require("../services/component-service");
 //Enums
 const { statusName } = require("../enums/connection/status-name");
@@ -54,6 +55,11 @@ const addComponentController = async (req, res) => {
         res.status(code).send(msg);
         break;
       default:
+        if (newComponent.includes("SequelizeUniqueConstraintError")) {
+          code = statusCode.BAD_REQUEST;
+          res.status(code).send(newComponent);
+          break;
+        }
         code = statusCode.OK;
         res.status(code).send(newComponent);
         break;
@@ -61,6 +67,53 @@ const addComponentController = async (req, res) => {
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
     msg = `Error in addComponentController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+/**
+ * @description update a componente from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const updateComponentController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+    updatedComponent = await updateComponentService(req);
+    switch (updatedComponent) {
+      case statusName.CONNECTION_ERROR:
+        code = statusCode.INTERNAL_SERVER_ERROR;
+        msg =
+          "ERROR. An error has occurred with the connection or query to the database.";
+        res.status(code).send(msg);
+        break;
+      case statusName.CONNECTION_REFUSED:
+        code = statusCode.INTERNAL_SERVER_ERROR;
+        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
+        res.status(code).send(msg);
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        code = statusCode.BAD_REQUEST;
+        msg = "Bad request, could not updated a component.";
+        res.status(code).send(msg);
+        break;
+      default:
+        if (updatedComponent.includes("SequelizeUniqueConstraintError")) {
+          code = statusCode.BAD_REQUEST;
+          res.status(code).send(updatedComponent);
+          break;
+        }
+        code = statusCode.OK;
+        res.status(code).send(updatedComponent);
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in updateComponentController() function. Caused by ${error}`;
     console.log(msg);
     res.status(code).send(msg);
   }
@@ -110,8 +163,6 @@ const getAllComponentController = async (req, res) => {
   }
 };
 
-
-
 /**
  * @description get all paginated components list according to all attributes from the database
  * @param {any} req any type
@@ -140,7 +191,8 @@ const getAllWithAttributesComponentController = async (req, res) => {
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request, get all paginated components list according to all attributes.";
+        msg =
+          "Bad request, get all paginated components list according to all attributes.";
         res.status(code).send(msg);
         break;
       default:
@@ -184,7 +236,8 @@ const getAllWithDetailComponentController = async (req, res) => {
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request for get all paginated components list and components_details according to all attributes.";
+        msg =
+          "Bad request for get all paginated components list and components_details according to all attributes.";
         res.status(code).send(msg);
         break;
       default:
@@ -228,7 +281,8 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request for get all paginated components list and bipolar_transistor according to all attributes.";
+        msg =
+          "Bad request for get all paginated components list and bipolar_transistor according to all attributes.";
         res.status(code).send(msg);
         break;
       default:
@@ -272,7 +326,8 @@ const getAllWithAllModelsComponentController = async (req, res) => {
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request for get all paginated components list and all models according to all attributes.";
+        msg =
+          "Bad request for get all paginated components list and all models according to all attributes.";
         res.status(code).send(msg);
         break;
       default:
@@ -311,7 +366,7 @@ const getComponentByIdController = async (req, res) => {
         break;
       case statusName.CONNECTION_REFUSED:
         code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
+        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}. Check that the entered code is unique`;
         res.status(code).send(msg);
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
@@ -361,7 +416,8 @@ const getAllComponentLikeCodigoController = async (req, res) => {
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request, could not get all paginated list components according the code.";
+        msg =
+          "Bad request, could not get all paginated list components according the code.";
         res.status(code).send(msg);
         break;
       default:
@@ -405,7 +461,8 @@ const getAllComponentLikeImagenController = async (req, res) => {
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request, could not get all paginated list components according the imagen.";
+        msg =
+          "Bad request, could not get all paginated list components according the imagen.";
         res.status(code).send(msg);
         break;
       default:
@@ -420,7 +477,6 @@ const getAllComponentLikeImagenController = async (req, res) => {
     res.status(code).send(msg);
   }
 };
-
 
 /**
  * @description get all paginated components according to nro de pieza from database
@@ -450,7 +506,8 @@ const getAllComponentLikeNroPiezaController = async (req, res) => {
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request, could not get all paginated list components according the nro de pieza.";
+        msg =
+          "Bad request, could not get all paginated list components according the nro de pieza.";
         res.status(code).send(msg);
         break;
       default:
@@ -465,7 +522,6 @@ const getAllComponentLikeNroPiezaController = async (req, res) => {
     res.status(code).send(msg);
   }
 };
-
 
 /**
  * @description get all paginated components according to categoria and fabricante from database
@@ -495,7 +551,8 @@ const getAllComponentLikeCategoriaFabricanteController = async (req, res) => {
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request, could not get all paginated list components according the categoria and fabricante.";
+        msg =
+          "Bad request, could not get all paginated list components according the categoria and fabricante.";
         res.status(code).send(msg);
         break;
       default:
@@ -511,9 +568,9 @@ const getAllComponentLikeCategoriaFabricanteController = async (req, res) => {
   }
 };
 
-
 module.exports = {
   addComponentController,
+  updateComponentController,
   getAllComponentController,
   getAllWithAttributesComponentController,
   getAllWithDetailComponentController,
@@ -523,6 +580,5 @@ module.exports = {
   getAllComponentLikeCodigoController,
   getAllComponentLikeImagenController,
   getAllComponentLikeNroPiezaController,
-  getAllComponentLikeCategoriaFabricanteController
-  
+  getAllComponentLikeCategoriaFabricanteController,
 };
