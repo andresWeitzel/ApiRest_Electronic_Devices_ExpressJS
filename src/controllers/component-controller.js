@@ -54,12 +54,11 @@ const addComponentController = async (req, res) => {
         msg = "Bad request, could not add a component.";
         res.status(code).send(msg);
         break;
+      case !newComponent.componentes?.dataValues:
+        code = statusCode.BAD_REQUEST;
+        res.status(code).send(newComponent);
+        break;
       default:
-        if (newComponent.includes("SequelizeUniqueConstraintError")) {
-          code = statusCode.BAD_REQUEST;
-          res.status(code).send(newComponent);
-          break;
-        }
         code = statusCode.OK;
         res.status(code).send(newComponent);
         break;
@@ -84,6 +83,7 @@ const updateComponentController = async (req, res) => {
     msg = null;
     code = null;
     updatedComponent = await updateComponentService(req);
+    console.log({'UPDATE COMPONENT':updatedComponent});
     switch (updatedComponent) {
       case statusName.CONNECTION_ERROR:
         code = statusCode.INTERNAL_SERVER_ERROR;
@@ -101,12 +101,11 @@ const updateComponentController = async (req, res) => {
         msg = "Bad request, could not updated a component.";
         res.status(code).send(msg);
         break;
+      case !updatedComponent.componentes?.dataValues:
+        code = statusCode.BAD_REQUEST;
+        res.status(code).send(updatedComponent);
+        break;
       default:
-        if (updatedComponent.includes("SequelizeUniqueConstraintError")) {
-          code = statusCode.BAD_REQUEST;
-          res.status(code).send(updatedComponent);
-          break;
-        }
         code = statusCode.OK;
         res.status(code).send(updatedComponent);
         break;

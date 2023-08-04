@@ -11,7 +11,7 @@ const {
 //Enums
 const { statusName } = require("../enums/connection/status-name");
 const { value } = require("../enums/general/value");
-const { sequelizeContraint } = require("../enums/sequelize/constraint");
+const { checkErrors } = require("../helpers/sequelize/errors");
 
 //Const-vars
 let newComponent;
@@ -56,24 +56,21 @@ const addComponentService = async (req, res) => {
         stock: req.body.stock,
         precio: req.body.precio,
       })
-        .then((componentItem) => {
+        .then(async (componentItem) => {
           newComponent = componentItem;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in addComponentService() function when trying to create a component. Caused by ${error}`;
           console.log(msg);
-          newComponent =
-            error.name == sequelizeContraint.UNIQUE_CONSTRAINT_ERROR
-              ? `${error.name} : ${error.parent.detail}`
-              : error;
+          newComponent = await checkErrors(error, error.name);
         });
     } else {
-      newComponent = statusName.CONNECTION_REFUSED;
+      newComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in addComponentService() function. Caused by ${error}`;
     console.log(msg);
-    newComponent = statusName.CONNECTION_ERROR;
+    newComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return newComponent;
 };
@@ -90,6 +87,7 @@ const updateComponentService = async (req, res) => {
     updatedComponent = null;
     msg = null;
     params = null;
+    idParam = 0;
 
     //-- start with params ---
     params = req.params;
@@ -117,25 +115,25 @@ const updateComponentService = async (req, res) => {
           },
         }
       )
-        .then((componentItem) => {
+        .then(async (componentItem) => {
           updatedComponent = componentItem;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in updateComponentService() function when trying to update a component. Caused by ${error}`;
           console.log(msg);
-          updatedComponent =
-            error.name == sequelizeContraint.UNIQUE_CONSTRAINT_ERROR
-              ? `${error.name} : ${error.parent.detail}`
-              : error;
+          
+          console.log({ "UPDATE COMPONENT SERVICE THEN": error });
+          updateComponent = await checkErrors(error, error.name);
         });
     } else {
-      updatedComponent = statusName.CONNECTION_REFUSED;
+      updatedComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in updateComponentService() function. Caused by ${error}`;
     console.log(msg);
-    updatedComponent = statusName.CONNECTION_ERROR;
+    updatedComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
+  console.log({ "UPDATE COMPONENT SERVICE": updatedComponent });
   return updatedComponent;
 };
 
