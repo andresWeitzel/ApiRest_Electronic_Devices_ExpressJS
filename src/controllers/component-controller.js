@@ -62,7 +62,7 @@ const addComponentController = async (req, res) => {
         code = statusCode.OK;
         res.status(code).send(newComponent);
         break;
-    }
+    };
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
     msg = `Error in addComponentController() function. Caused by ${error}`;
