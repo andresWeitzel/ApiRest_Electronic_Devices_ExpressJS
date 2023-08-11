@@ -116,14 +116,12 @@ const updateComponentService = async (req, res) => {
         }
       )
         .then(async (componentItem) => {
-          updatedComponent =
-            componentItem[0] == 1
-              ? {
-                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
-                }
-              : {
-                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}`,
-                };
+          console.log({componentItem}); 
+          if(componentItem[0] == 1){
+            objectUpdated= `Se ha actualizado correctamente el componente según el id ${idParam}`;
+          }else{
+            throw new Error();
+          }
         })
         .catch(async (error) => {
           msg = `Error in updateComponentService() function when trying to update a component. Caused by ${error}`;

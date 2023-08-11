@@ -14,16 +14,20 @@ const {
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
   updateComponentService,
-} = require("../services/component-service");
+} = require("../services/component.service");
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
 const { value } = require("../enums/general/value");
+const {
+  componentValidation,
+} = require("../helpers/validations/component.validation");
 //Const-vars
 let newComponent;
 let updatedComponent;
 let msg;
 let code;
+let validations;
 const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
 const statusCodeBadRequest = statusCode.BAD_REQUEST;
 const statusCodeOk = statusCode.OK;
@@ -42,7 +46,17 @@ const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
 const addComponentController = async (req, res) => {
   try {
     msg = null;
-    code = null;
+    // validations = await componentValidation(req);
+
+    // console.log({ validations });
+
+    // if (!validations.isEmpty()) {
+    //   return res.status(statusCodeBadRequest).json({
+    //     success: false,
+    //     errors: validations,
+    //   });
+    // }
+
     newComponent = await addComponentService(req);
 
     switch (newComponent) {
@@ -91,51 +105,41 @@ const addComponentController = async (req, res) => {
 const updateComponentController = async (req, res) => {
   try {
     msg = null;
-    code = null;
     updatedComponent = await updateComponentService(req);
 
     switch (updatedComponent) {
-      case statusName.CONNECTION_ERROR:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = {
-          error:
-            "Error. An error has occurred with the connection or query to the database.",
-        };
-        res.status(code).send(msg);
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
         break;
-      case statusName.CONNECTION_REFUSED:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = {
-          econnrefused: `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`,
-        };
-        res.status(code).send(msg);
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        code = statusCode.BAD_REQUEST;
-        msg = { error: "Bad request, could not update a component." };
-        res.status(code).send(msg);
+        res
+          .status(statusCodeBadRequest)
+          .send({ error: "Bad request, could not update a component." });
         break;
       default:
         if (
           typeof updatedComponent === "object" &&
           updatedComponent.hasOwnProperty("objectUpdated")
         ) {
-          code = statusCode.OK;
-          res.status(code).send(updatedComponent);
+          res.status(statusCodeOk).send(updatedComponent);
           break;
         }
-        code = statusCode.BAD_REQUEST;
-        msg = { error: updatedComponent };
-        res.status(code).send(msg);
+        res.status(statusCodeBadRequest).send({ error: updatedComponent });
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
     msg = {
       error: `Error in updateComponentController() function. Caused by ${error}`,
     };
     console.log(msg);
-    res.status(code).send(msg);
+    res.status(statusCodeInternalServerError).send(msg);
   }
 };
 
@@ -152,13 +156,14 @@ const getAllComponentController = async (req, res) => {
     code = null;
 
     componentList = await getAllComponentService(req);
+    componentList = null;
 
     switch (componentList) {
-      case statusName.CONNECTION_ERROR:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg =
-          "ERROR. An error has occurred with the connection or query to the database.";
-        res.status(code).send(msg);
+      //case statusConnectionError:
+      case null:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
         break;
       case statusName.CONNECTION_REFUSED:
         code = statusCode.INTERNAL_SERVER_ERROR;
