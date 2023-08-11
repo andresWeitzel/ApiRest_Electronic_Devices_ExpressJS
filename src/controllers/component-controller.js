@@ -16,13 +16,21 @@ const {
   updateComponentService,
 } = require("../services/component-service");
 //Enums
-const { statusName } = require("../enums/connection/status-name");
+const { statusName, statusDetails } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
 const { value } = require("../enums/general/value");
 //Const-vars
 let newComponent;
+let updatedComponent;
 let msg;
 let code;
+const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
+const statusCodeBadRequest = statusCode.BAD_REQUEST;
+const statusCodeOk = statusCode.OK;
+const statusConnectionError = statusName.CONNECTION_ERROR;
+const statusConnectionErrorDetail = statusDetails.CONNECTION_ERROR_DETAIL;
+const statusConnectionRefused = statusName.CONNECTION_REFUSED;
+const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
 
 /**
  * @description add a componente to database
@@ -38,36 +46,38 @@ const addComponentController = async (req, res) => {
     newComponent = await addComponentService(req);
 
     switch (newComponent) {
-      case statusName.CONNECTION_ERROR:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg =
-          "ERROR. An error has occurred with the connection or query to the database.";
-        res.status(code).send(msg);
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
         break;
-      case statusName.CONNECTION_REFUSED:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
-        res.status(code).send(msg);
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        code = statusCode.BAD_REQUEST;
-        msg = "Bad request, could not add a component.";
-        res.status(code).send(msg);
-        break;
-      case !newComponent.componentes?.dataValues:
-        code = statusCode.BAD_REQUEST;
-        res.status(code).send(newComponent);
+        res
+          .status(statusCodeBadRequest)
+          .send({ error: "Bad request, could not add a component." });
         break;
       default:
-        code = statusCode.OK;
-        res.status(code).send(newComponent);
+        if (
+          typeof newComponent === "object" &&
+          newComponent.hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(newComponent);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: newComponent });
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in addComponentController() function. Caused by ${error}`;
+    msg = {
+      error: `Error in addComponentController() function. Caused by ${error}`,
+    };
     console.log(msg);
-    res.status(code).send(msg);
+    res.status(statusCodeInternalServerError).send(msg);
   }
 };
 
@@ -83,36 +93,47 @@ const updateComponentController = async (req, res) => {
     msg = null;
     code = null;
     updatedComponent = await updateComponentService(req);
-    console.log({'UPDATE COMPONENT':updatedComponent});
+
     switch (updatedComponent) {
       case statusName.CONNECTION_ERROR:
         code = statusCode.INTERNAL_SERVER_ERROR;
-        msg =
-          "ERROR. An error has occurred with the connection or query to the database.";
+        msg = {
+          error:
+            "Error. An error has occurred with the connection or query to the database.",
+        };
         res.status(code).send(msg);
         break;
       case statusName.CONNECTION_REFUSED:
         code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
+        msg = {
+          econnrefused: `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`,
+        };
         res.status(code).send(msg);
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         code = statusCode.BAD_REQUEST;
-        msg = "Bad request, could not updated a component.";
+        msg = { error: "Bad request, could not update a component." };
         res.status(code).send(msg);
         break;
-      case !updatedComponent.componentes?.dataValues:
-        code = statusCode.BAD_REQUEST;
-        res.status(code).send(updatedComponent);
-        break;
       default:
-        code = statusCode.OK;
-        res.status(code).send(updatedComponent);
+        if (
+          typeof updatedComponent === "object" &&
+          updatedComponent.hasOwnProperty("objectUpdated")
+        ) {
+          code = statusCode.OK;
+          res.status(code).send(updatedComponent);
+          break;
+        }
+        code = statusCode.BAD_REQUEST;
+        msg = { error: updatedComponent };
+        res.status(code).send(msg);
         break;
     }
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in updateComponentController() function. Caused by ${error}`;
+    msg = {
+      error: `Error in updateComponentController() function. Caused by ${error}`,
+    };
     console.log(msg);
     res.status(code).send(msg);
   }
@@ -150,8 +171,17 @@ const getAllComponentController = async (req, res) => {
         res.status(code).send(msg);
         break;
       default:
-        code = statusCode.OK;
-        res.status(code).send(componentList);
+        if (
+          typeof componentList === "object" &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          code = statusCode.OK;
+          res.status(code).send(componentList);
+          break;
+        }
+        code = statusCode.BAD_REQUEST;
+        msg = { error: componentList };
+        res.status(code).send(msg);
         break;
     }
   } catch (error) {

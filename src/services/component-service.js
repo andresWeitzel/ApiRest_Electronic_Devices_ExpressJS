@@ -9,7 +9,7 @@ const {
   ElectrolycticCapacitor,
 } = require("../models/sequelize/electrolytic_capacitor");
 //Enums
-const { statusName } = require("../enums/connection/status-name");
+const { statusName } = require("../enums/database/status");
 const { value } = require("../enums/general/value");
 const { checkErrors } = require("../helpers/sequelize/errors");
 
@@ -54,10 +54,10 @@ const addComponentService = async (req, res) => {
         descripcion: req.body.descripcion,
         fabricante: req.body.fabricante,
         stock: req.body.stock,
-        precio: req.body.precio,
+        precio: req.body.precio
       })
         .then(async (componentItem) => {
-          newComponent = componentItem;
+          newComponent = componentItem.dataValues;
         })
         .catch(async (error) => {
           msg = `Error in addComponentService() function when trying to create a component. Caused by ${error}`;
@@ -97,7 +97,7 @@ const updateComponentService = async (req, res) => {
     }
     //-- end with params  ---
 
-    if (Component != null) {
+    if (Component != null && idParam != null) {
       await Component.update(
         {
           codigo: req.body.codigo,
@@ -116,14 +116,20 @@ const updateComponentService = async (req, res) => {
         }
       )
         .then(async (componentItem) => {
-          updatedComponent = componentItem;
+          updatedComponent =
+            componentItem[0] == 1
+              ? {
+                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
+                }
+              : {
+                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}`,
+                };
         })
         .catch(async (error) => {
           msg = `Error in updateComponentService() function when trying to update a component. Caused by ${error}`;
           console.log(msg);
-          
-          console.log({ "UPDATE COMPONENT SERVICE THEN": error });
-          updateComponent = await checkErrors(error, error.name);
+
+          updatedComponent = await checkErrors(error, error.name);
         });
     } else {
       updatedComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
@@ -133,7 +139,6 @@ const updateComponentService = async (req, res) => {
     console.log(msg);
     updatedComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
-  console.log({ "UPDATE COMPONENT SERVICE": updatedComponent });
   return updatedComponent;
 };
 
@@ -167,22 +172,23 @@ const getAllComponentService = async (req, res) => {
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
+        raw: true
       })
-        .then((componentItems) => {
+        .then(async(componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async(error) => {
           msg = `Error in getAllComponentService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in getAllComponentService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };

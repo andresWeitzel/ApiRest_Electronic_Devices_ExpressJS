@@ -4,7 +4,7 @@ const { Op } = require("sequelize");
 const { Component } = require("../models/sequelize/component");
 const { ComponentDetail } = require("../models/sequelize/component-detail");
 //Enums
-const { statusName } = require("../enums/connection/status-name");
+const { statusName } = require("../enums/database/status");
 const { value } = require("../enums/general/value");
 //Const-vars
 let componentDetailList;
