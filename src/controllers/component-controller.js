@@ -42,7 +42,6 @@ const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
 const addComponentController = async (req, res) => {
   try {
     msg = null;
-    code = null;
     newComponent = await addComponentService(req);
 
     switch (newComponent) {
@@ -91,51 +90,41 @@ const addComponentController = async (req, res) => {
 const updateComponentController = async (req, res) => {
   try {
     msg = null;
-    code = null;
     updatedComponent = await updateComponentService(req);
 
     switch (updatedComponent) {
-      case statusName.CONNECTION_ERROR:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = {
-          error:
-            "Error. An error has occurred with the connection or query to the database.",
-        };
-        res.status(code).send(msg);
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
         break;
-      case statusName.CONNECTION_REFUSED:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = {
-          econnrefused: `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`,
-        };
-        res.status(code).send(msg);
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        code = statusCode.BAD_REQUEST;
-        msg = { error: "Bad request, could not update a component." };
-        res.status(code).send(msg);
+        res
+          .status(statusCodeBadRequest)
+          .send({ error: "Bad request, could not update a component." });
         break;
       default:
         if (
           typeof updatedComponent === "object" &&
           updatedComponent.hasOwnProperty("objectUpdated")
         ) {
-          code = statusCode.OK;
-          res.status(code).send(updatedComponent);
+          res.status(statusCodeOk).send(updatedComponent);
           break;
         }
-        code = statusCode.BAD_REQUEST;
-        msg = { error: updatedComponent };
-        res.status(code).send(msg);
+        res.status(statusCodeBadRequest).send({ error: updatedComponent });
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
     msg = {
       error: `Error in updateComponentController() function. Caused by ${error}`,
     };
     console.log(msg);
-    res.status(code).send(msg);
+    res.status(statusCodeInternalServerError).send(msg);
   }
 };
 
@@ -154,41 +143,36 @@ const getAllComponentController = async (req, res) => {
     componentList = await getAllComponentService(req);
 
     switch (componentList) {
-      case statusName.CONNECTION_ERROR:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg =
-          "ERROR. An error has occurred with the connection or query to the database.";
-        res.status(code).send(msg);
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
         break;
-      case statusName.CONNECTION_REFUSED:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
-        res.status(code).send(msg);
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        code = statusCode.BAD_REQUEST;
-        msg = "Bad request, could not get all paginated list components.";
-        res.status(code).send(msg);
+        res
+          .status(statusCodeBadRequest)
+          .send({ error: "Bad request, could not update a component." });
         break;
       default:
         if (
           typeof componentList === "object" &&
           componentList[0].hasOwnProperty("id")
         ) {
-          code = statusCode.OK;
-          res.status(code).send(componentList);
+          res.status(statusCodeOk).send(componentList);
           break;
         }
-        code = statusCode.BAD_REQUEST;
-        msg = { error: componentList };
-        res.status(code).send(msg);
+        res.status(statusCodeBadRequest).send({ error: componentList });
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
     msg = `Error in getAllComponentController() function. Caused by ${error}`;
     console.log(msg);
-    res.status(code).send(msg);
+    res.status(statusCodeInternalServerError).send(msg);
   }
 };
 
