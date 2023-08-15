@@ -54,7 +54,7 @@ const addComponentService = async (req, res) => {
         descripcion: req.body.descripcion,
         fabricante: req.body.fabricante,
         stock: req.body.stock,
-        precio: req.body.precio
+        precio: req.body.precio,
       })
         .then(async (componentItem) => {
           newComponent = componentItem.dataValues;
@@ -172,12 +172,12 @@ const getAllComponentService = async (req, res) => {
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
-        raw: true
+        raw: true,
       })
-        .then(async(componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch(async(error) => {
+        .catch(async (error) => {
           msg = `Error in getAllComponentService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(msg);
           componentList = await checkErrors(error, error.name);
@@ -277,22 +277,23 @@ const getAllWithAttributesComponentService = async (req, res) => {
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
+        raw: true,
       })
-        .then((componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in getAllWithAttributesComponentService() function when trying to get all paginated component by all attributes. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in getAllWithAttributesComponentService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
@@ -328,22 +329,24 @@ const getAllComponentWithDetailsService = async (req, res) => {
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
+        raw: true,
       })
-        .then((componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in getAllComponentWithDetailsService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in getAllComponentWithDetailsService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
