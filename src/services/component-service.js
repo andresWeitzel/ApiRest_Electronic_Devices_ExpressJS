@@ -330,6 +330,7 @@ const getAllComponentWithDetailsService = async (req, res) => {
         offset: pageNro,
         order: orderBy,
         raw: true,
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -387,22 +388,25 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
+        raw: true,
+        nest: true,
       })
-        .then((componentItems) => {
+        .then(async(componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async(error) => {
           msg = `Error in getAllComponentWithBipolarTransistorService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
-    }
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+     }
   } catch (error) {
     msg = `Error in getAllComponentWithBipolarTransistorService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
