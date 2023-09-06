@@ -13,7 +13,7 @@ const {
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
-  updateComponentService,
+  updateComponentService
 } = require("../services/component-service");
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
@@ -73,7 +73,7 @@ const addComponentController = async (req, res) => {
     }
   } catch (error) {
     msg = {
-      error: `Error in addComponentController() function. Caused by ${error}`,
+      error: `Error in addComponentController() function. Caused by ${error}`
     };
     console.log(msg);
     res.status(statusCodeInternalServerError).send(msg);
@@ -121,7 +121,7 @@ const updateComponentController = async (req, res) => {
     }
   } catch (error) {
     msg = {
-      error: `Error in updateComponentController() function. Caused by ${error}`,
+      error: `Error in updateComponentController() function. Caused by ${error}`
     };
     console.log(msg);
     res.status(statusCodeInternalServerError).send(msg);
@@ -205,7 +205,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, get all paginated components list according to all attributes.",
+            "Bad request, get all paginated components list according to all attributes."
         });
         break;
       default:
@@ -255,7 +255,7 @@ const getAllWithDetailComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request for get all paginated components list and components_details according to all attributes.",
+            "Bad request for get all paginated components list and components_details according to all attributes."
         });
         break;
       default:
@@ -305,7 +305,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request for get all paginated components list and bipolar_transistor according to all attributes.",
+            "Bad request for get all paginated components list and bipolar_transistor according to all attributes."
         });
         break;
       default:
@@ -342,26 +342,31 @@ const getAllWithAllModelsComponentController = async (req, res) => {
     componentList = await getAllComponentWithAllModelsService(req);
 
     switch (componentList) {
-      case statusName.CONNECTION_ERROR:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg =
-          "ERROR. An error has occurred with the connection or query to the database.";
-        res.status(code).send(msg);
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
         break;
-      case statusName.CONNECTION_REFUSED:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
-        res.status(code).send(msg);
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        code = statusCode.BAD_REQUEST;
-        msg =
-          "Bad request for get all paginated components list and all models according to all attributes.";
-        res.status(code).send(msg);
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request for get all paginated components list and bipolar_transistor according to all attributes."
+        });
         break;
       default:
-        code = statusCode.OK;
-        res.status(code).send(componentList);
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -387,26 +392,31 @@ const getComponentByIdController = async (req, res) => {
     componentList = await getComponentByIdService(req);
 
     switch (componentList) {
-      case statusName.CONNECTION_ERROR:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg =
-          "ERROR. An error has occurred with the connection or query to the database.";
-        res.status(code).send(msg);
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
         break;
-      case statusName.CONNECTION_REFUSED:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}. Check that the entered code is unique`;
-        res.status(code).send(msg);
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        code = statusCode.BAD_REQUEST;
-        msg =
-          "Bad request, could not get a component with the requested id. Check if the component exist into the database";
-        res.status(code).send(msg);
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get a component with the requested id. Check if the component exist into the database"
+        });
         break;
       default:
-        code = statusCode.OK;
-        res.status(code).send(componentList);
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList.hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -430,6 +440,7 @@ const getAllComponentLikeCodigoController = async (req, res) => {
     code = null;
 
     componentList = await getAllComponentLikeCodigoService(req);
+    console.log({'JABSKDBASD':componentList});
 
     switch (componentList) {
       case statusName.CONNECTION_ERROR:
@@ -609,5 +620,5 @@ module.exports = {
   getAllComponentLikeCodigoController,
   getAllComponentLikeImagenController,
   getAllComponentLikeNroPiezaController,
-  getAllComponentLikeCategoriaFabricanteController,
+  getAllComponentLikeCategoriaFabricanteController
 };

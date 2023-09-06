@@ -448,22 +448,27 @@ const getAllComponentWithAllModelsService = async (req, res) => {
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
+        raw: true,
+        nest: true,
       })
-        .then((componentItems) => {
+        .then(async(componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async(error) => {
           msg = `Error in getAllComponentWithAllModelsService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    
     }
   } catch (error) {
     msg = `Error in getAllComponentWithAllModelsService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
@@ -493,22 +498,26 @@ const getComponentByIdService = async (req, res) => {
     if (Component != null) {
       await Component.findByPk(idParam, {
         attributes: {},
+        raw: true,
+        nest: true,
       })
-        .then((componentItem) => {
+        .then(async(componentItem) => {
           component = componentItem;
         })
-        .catch((error) => {
+        .catch(async(error) => {
           msg = `Error in getComponentByIdService() function when trying to get a component by id. Caused by ${error}`;
           console.log(msg);
-          component = statusName.CONNECTION_REFUSED;
+
+          component = await checkErrors(error, error.name);
         });
     } else {
-      component = statusName.CONNECTION_REFUSED;
+      component = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in getComponentByIdService() function. Caused by ${error}`;
     console.log(msg);
-    component = statusName.CONNECTION_ERROR;
+
+    component = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return component;
 };

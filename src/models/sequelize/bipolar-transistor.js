@@ -58,7 +58,7 @@ let BipolarTransistor = dbConnection.define(
   },
   {
     timestamps: false,
-    tableName: "transistores_bipolares",
+    tableName: 'transistores_bipolares',
   }
 );
 
