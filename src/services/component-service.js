@@ -6,7 +6,7 @@ const { ComponentDetail } = require("../models/sequelize/component-detail");
 const { BipolarTransistor } = require("../models/sequelize/bipolar-transistor");
 const { MosfetTransistor } = require("../models/sequelize/mosfet-transistor");
 const {
-  ElectrolycticCapacitor,
+  ElectrolycticCapacitor
 } = require("../models/sequelize/electrolytic_capacitor");
 //Enums
 const { statusName } = require("../enums/database/status");
@@ -54,7 +54,7 @@ const addComponentService = async (req, res) => {
         descripcion: req.body.descripcion,
         fabricante: req.body.fabricante,
         stock: req.body.stock,
-        precio: req.body.precio,
+        precio: req.body.precio
       })
         .then(async (componentItem) => {
           newComponent = componentItem.dataValues;
@@ -107,22 +107,22 @@ const updateComponentService = async (req, res) => {
           descripcion: req.body.descripcion,
           fabricante: req.body.fabricante,
           stock: req.body.stock,
-          precio: req.body.precio,
+          precio: req.body.precio
         },
         {
           where: {
-            id: idParam,
-          },
+            id: idParam
+          }
         }
       )
         .then(async (componentItem) => {
           updatedComponent =
             componentItem[0] == 1
               ? {
-                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
+                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`
                 }
               : {
-                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}`,
+                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}`
                 };
         })
         .catch(async (error) => {
@@ -172,7 +172,7 @@ const getAllComponentService = async (req, res) => {
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
-        raw: true,
+        raw: true
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -249,35 +249,35 @@ const getAllWithAttributesComponentService = async (req, res) => {
         where: {
           [Op.or]: {
             codigo: {
-              [Op.like]: `%${codigoParam}%`,
+              [Op.like]: `%${codigoParam}%`
             },
             imagen: {
-              [Op.like]: `%${imagenParam}%`,
+              [Op.like]: `%${imagenParam}%`
             },
             nro_pieza: {
-              [Op.like]: `%${nroPiezaParam}%`,
+              [Op.like]: `%${nroPiezaParam}%`
             },
             categoria: {
-              [Op.like]: `%${categoriaParam}%`,
+              [Op.like]: `%${categoriaParam}%`
             },
             descripcion: {
-              [Op.like]: `%${descripcionParam}%`,
+              [Op.like]: `%${descripcionParam}%`
             },
             fabricante: {
-              [Op.like]: `%${fabricanteParam}%`,
+              [Op.like]: `%${fabricanteParam}%`
             },
             stock: {
-              [Op.eq]: stockParam,
+              [Op.eq]: stockParam
             },
             precio: {
-              [Op.eq]: precioParam,
-            },
-          },
+              [Op.eq]: precioParam
+            }
+          }
         },
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
-        raw: true,
+        raw: true
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -330,7 +330,7 @@ const getAllComponentWithDetailsService = async (req, res) => {
         offset: pageNro,
         order: orderBy,
         raw: true,
-        nest: true,
+        nest: true
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -381,20 +381,20 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
         attributes: {},
         where: {
           categoria: {
-            [Op.like]: `%Transistores BJT%`, //containing what is entered, less strictmatch
-          },
+            [Op.like]: `%Transistores BJT%` //containing what is entered, less strictmatch
+          }
         },
         include: [{ model: BipolarTransistor, required: true }],
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
         raw: true,
-        nest: true,
+        nest: true
       })
-        .then(async(componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch(async(error) => {
+        .catch(async (error) => {
           msg = `Error in getAllComponentWithBipolarTransistorService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(msg);
 
@@ -402,7 +402,7 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
         });
     } else {
       componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
-     }
+    }
   } catch (error) {
     msg = `Error in getAllComponentWithBipolarTransistorService() function. Caused by ${error}`;
     console.log(msg);
@@ -443,18 +443,18 @@ const getAllComponentWithAllModelsService = async (req, res) => {
           { model: ComponentDetail, required: false },
           { model: BipolarTransistor, required: false },
           { model: MosfetTransistor, required: false },
-          { model: ElectrolycticCapacitor, required: false },
+          { model: ElectrolycticCapacitor, required: false }
         ],
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
         raw: true,
-        nest: true,
+        nest: true
       })
-        .then(async(componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch(async(error) => {
+        .catch(async (error) => {
           msg = `Error in getAllComponentWithAllModelsService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(msg);
 
@@ -462,7 +462,6 @@ const getAllComponentWithAllModelsService = async (req, res) => {
         });
     } else {
       componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
-    
     }
   } catch (error) {
     msg = `Error in getAllComponentWithAllModelsService() function. Caused by ${error}`;
@@ -499,12 +498,12 @@ const getComponentByIdService = async (req, res) => {
       await Component.findByPk(idParam, {
         attributes: {},
         raw: true,
-        nest: true,
+        nest: true
       })
-        .then(async(componentItem) => {
+        .then(async (componentItem) => {
           component = componentItem;
         })
-        .catch(async(error) => {
+        .catch(async (error) => {
           msg = `Error in getComponentByIdService() function when trying to get a component by id. Caused by ${error}`;
           console.log(msg);
 
@@ -560,28 +559,32 @@ const getAllComponentLikeCodigoService = async (req, res) => {
         attributes: {},
         where: {
           codigo: {
-            [Op.like]: `%${codigoParam}%`, //containing what is entered, less strictmatch
-          },
+            [Op.like]: `%${codigoParam}%`,
+            raw: true,
+            nest: true
+          }
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: orderBy
       })
-        .then((componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in getComponentLikeCodigoService() function when trying to get a component by codigo. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in getComponentLikeCodigoService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
@@ -624,12 +627,12 @@ const getAllComponentLikeImagenService = async (req, res) => {
         attributes: {},
         where: {
           imagen: {
-            [Op.like]: `%${imagenParam}%`,
-          },
+            [Op.like]: `%${imagenParam}%`
+          }
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: orderBy
       })
         .then((componentItems) => {
           componentList = componentItems;
@@ -688,12 +691,12 @@ const getAllComponentLikeNroPiezaService = async (req, res) => {
         attributes: {},
         where: {
           nro_pieza: {
-            [Op.like]: `%${nroPiezaParam}%`,
-          },
+            [Op.like]: `%${nroPiezaParam}%`
+          }
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: orderBy
       })
         .then((componentItems) => {
           componentList = componentItems;
@@ -752,16 +755,16 @@ const getAllComponentLikeCategoriaFabricanteService = async (req, res) => {
         where: {
           [Op.or]: {
             categoria: {
-              [Op.like]: `%${categoriaParam}%`,
+              [Op.like]: `%${categoriaParam}%`
             },
             fabricante: {
-              [Op.like]: `%${fabricanteParam}%`,
-            },
-          },
+              [Op.like]: `%${fabricanteParam}%`
+            }
+          }
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: orderBy
       })
         .then((componentItems) => {
           componentList = componentItems;
@@ -794,5 +797,5 @@ module.exports = {
   getAllComponentLikeCodigoService,
   getAllComponentLikeImagenService,
   getAllComponentLikeNroPiezaService,
-  getAllComponentLikeCategoriaFabricanteService,
+  getAllComponentLikeCategoriaFabricanteService
 };
