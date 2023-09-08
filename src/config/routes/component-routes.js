@@ -26,7 +26,7 @@ componentRouter.get('/list', componentController.getAllComponentController);
 
 componentRouter.get('/list-with-attributes', componentController.getAllWithAttributesComponentController);
 
-componentRouter.get('/id/:id', componentController.getComponentByIdController)
+componentRouter.get('/id/:id', componentController.getComponentByIdController);
 
 componentRouter.get('/codigo/:codigo', componentController.getAllComponentLikeCodigoController);
 
@@ -45,4 +45,4 @@ componentRouter.get('/bipolar-transistor-list', componentController.getAllWithBi
 //component wih all models 
 componentRouter.get('/list-all-models', componentController.getAllWithAllModelsComponentController);
 
-module.exports=componentRouter
+module.exports=componentRouter;

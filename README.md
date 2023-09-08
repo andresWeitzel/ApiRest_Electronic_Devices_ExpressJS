@@ -1,9 +1,13 @@
 
 
-![Index app](./doc/assets/CRUD_Bucket_s3.drawio.png)
+![Index app](./doc/assets/componentes-example.png)
 
 # ApiRest_Dispositivos_Electronicos_ExpressJS
+<<<<<<< HEAD
 Api Rest acerca de dispositivos electrónicos implementado con Express, Morgan-middleware, NodeJS, Sequelize, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, otros.
+=======
+Api Rest acerca de dispositivos electrónicos implementado con Express, Morgan-middleware, nodemon, NodeJS, Sequelize, dotenv, cors, swagger, swagger-ui, PostgreSQL, otros.
+>>>>>>> 116d57cef20b2ae4f96344310eddbb1b604f79db
 
 * [Repositorio base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 
