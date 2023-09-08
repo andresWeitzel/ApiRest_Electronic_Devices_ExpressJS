@@ -14,7 +14,7 @@ let pageNro = 0;
 const orderBy = [["id", "ASC"]];
 let msg;
 
-
+//Completed
 /**
  * @description get all paginated components details from the database
  * @param {any} req any type
