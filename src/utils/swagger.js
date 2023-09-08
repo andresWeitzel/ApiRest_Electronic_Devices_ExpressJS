@@ -3,36 +3,39 @@ const express = require("express"),
   swaggerJsdoc = require("swagger-jsdoc"),
   swaggerUi = require("swagger-ui-express");
 
-
-  const options = {
-    definition:{
-        openapi: "3.0.0",
-        info:{
-            title: "ApiRest_Dispositivos_Electronicos_ExpressJS            ",
-            version: 'v1'
-        },
-        components:{
-            securitySchemas: {
-                bearerAuth:{
-                    type:'http',
-                    schema:'bearer',
-                    bearerFormat: 'JWT'
-                },
-            },
-        },
-        security: [
-            {
-                bearerAuth: [],
-            },
-        ],
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "ApiRest_Dispositivos_Electronicos_ExpressJS            ",
+      version: "v1",
     },
+    components: {
+      securitySchemas: {
+        bearerAuth: {
+          type: "http",
+          schema: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  },
 
-    apis: ['./src/config/routes/componentRoutes']
-  };
+  apis: ["./src/config/routes/componentRoutes"],
+};
 
-  const swaggerSpec = swaggerJsdoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
-const swaggerDocs = async(app, port) =>{
+
+/**
+ * @description function to implement all the respective configuration of swagger
+ */
+const swaggerDocs = async (app, port) => {
   // Swagger page
   app.use("/swagger/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
@@ -41,9 +44,8 @@ const swaggerDocs = async(app, port) =>{
     res.setHeader("Content-Type", "application/json");
     res.send(swaggerSpec);
   });
-
 };
 
-module.exports={
-    swaggerDocs
+module.exports = {
+  swaggerDocs,
 };

@@ -8,13 +8,14 @@
     "morgan": "^1.10.0",
     "pg": "^8.11.1",
     "pg-hstore": "^2.3.4",
-    "prettier": "^2.8.8",
     "sequelize": "^6.32.1",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.3"
+    "swagger-ui-express": "^4.6.3",
+    "winston": "^3.10.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3"
   },
   "name": "apirest_dispositivos_electronicos_expressjs",
   "description": "![Index app](./doc/assets/CRUD_Bucket_s3.drawio.png)",

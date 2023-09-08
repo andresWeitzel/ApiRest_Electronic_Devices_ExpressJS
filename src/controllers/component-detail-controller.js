@@ -3,7 +3,7 @@ require("dotenv").config();
 //Services
 const { getAllComponentDetailService } = require("../services/component-detail-service");
 //Enums
-const { statusName } = require("../enums/connection/status-name");
+const { statusName } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
 const { value } = require("../enums/general/value");
 //Const-vars

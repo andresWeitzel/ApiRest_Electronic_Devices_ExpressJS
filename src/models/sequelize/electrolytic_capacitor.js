@@ -9,7 +9,7 @@ const { Component } = require("./component");
  * @description database electrolyctic-capacitor model with their respective fields and constraints
  */
 let ElectrolycticCapacitor = dbConnection.define(
-  "electrolyctic-capacitor",
+  'capacitores_electroliticos',
   {
     id_componente: {
       type: DataTypes.INTEGER,
@@ -42,7 +42,7 @@ let ElectrolycticCapacitor = dbConnection.define(
   },
   {
     timestamps: false,
-    tableName: "electrolyctic-capacitor",
+    tableName: 'capacitores_electroliticos',
   }
 );
 

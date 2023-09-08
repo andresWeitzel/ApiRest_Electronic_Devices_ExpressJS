@@ -6,6 +6,7 @@ const { dbConnection } = require("../../db/local-config");
 const { ComponentDetail } = require("./component-detail");
 const { BipolarTransistor } = require("./bipolar-transistor");
 const { MosfetTransistor } = require("./mosfet-transistor");
+const { ElectrolycticCapacitor } = require("./electrolytic_capacitor");
 
 /**
  * @description database component model with their respective fields and constraints
@@ -55,11 +56,15 @@ Component.hasMany(ComponentDetail, {
   foreignKey: "id_componente",
   foreignKeyConstraint: true,
 });
-Component.hasMany(BipolarTransistor, {
+Component.hasOne(BipolarTransistor, {
   foreignKey: "id_componente",
   foreignKeyConstraint: true,
 });
-Component.hasMany(MosfetTransistor, {
+Component.hasOne(MosfetTransistor, {
+  foreignKey: "id_componente",
+  foreignKeyConstraint: true,
+});
+Component.hasOne(ElectrolycticCapacitor, {
   foreignKey: "id_componente",
   foreignKeyConstraint: true,
 });
