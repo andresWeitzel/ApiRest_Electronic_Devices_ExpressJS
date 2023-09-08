@@ -1,5 +1,5 @@
 /**
- * @description We define the status code according to its technical definition
+ * @description Define the status code according to its technical definition
  * @returns the status code 
  * @example OK --> 200
  */
@@ -14,6 +14,5 @@ const statusCode = {
     BAD_GATEWAY: 502,
     SERVICE_UNAVAILABLE: 503
 
-}
-
-module.exports = { statusCode }
+};
+module.exports = { statusCode };

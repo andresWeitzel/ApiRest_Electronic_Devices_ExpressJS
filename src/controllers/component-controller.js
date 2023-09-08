@@ -70,7 +70,7 @@ const addComponentController = async (req, res) => {
         }
         res.status(statusCodeBadRequest).send({ error: newComponent });
         break;
-    }
+    };
   } catch (error) {
     msg = {
       error: `Error in addComponentController() function. Caused by ${error}`

@@ -31,9 +31,8 @@ const checkErrors = async (error, msg) => {
       check = msg;
     }
   } catch (error) {
-    console.error(
-      `Error in checkErrors() function. Caused by ${error}. Specific stack is ${error.stack}`
-    );
+    msg = `Error in checkErrors() function. Caused by ${error}.`;
+    console.log(msg);
     check = error;
   }
 
