@@ -300,6 +300,7 @@ npm run dev o npm start
 
 #### Librerías
 * [Manejo de validaciones con express-validator](https://medium.com/dataseries/introduction-to-request-body-validation-in-express-apps-with-express-validator-7b9725ca780d)
+* [Doc oficial express-validator](https://express-validator.github.io/docs/guides/getting-started)
 
 <br>
 

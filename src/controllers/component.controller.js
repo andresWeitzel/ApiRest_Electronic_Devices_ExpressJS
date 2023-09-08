@@ -13,21 +13,12 @@ const {
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
- //Fix here 
-<<<<<<< HEAD:src/controllers/component.controller.js
   updateComponentService,
 } = require("../services/component.service");
-=======
-  updateComponentService
-} = require("../services/component-service");
->>>>>>> 116d57cef20b2ae4f96344310eddbb1b604f79db:src/controllers/component-controller.js
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
 const { value } = require("../enums/general/value");
-const {
-  componentValidation,
-} = require("../helpers/validations/component.validation");
 //Const-vars
 let newComponent;
 let updatedComponent;
@@ -52,20 +43,6 @@ const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
 const addComponentController = async (req, res) => {
   try {
     msg = null;
-<<<<<<< HEAD:src/controllers/component.controller.js
-    // validations = await componentValidation(req);
-
-    // console.log({ validations });
-
-    // if (!validations.isEmpty()) {
-    //   return res.status(statusCodeBadRequest).json({
-    //     success: false,
-    //     errors: validations,
-    //   });
-    // }
-
-=======
->>>>>>> 116d57cef20b2ae4f96344310eddbb1b604f79db:src/controllers/component-controller.js
     newComponent = await addComponentService(req);
 
     switch (newComponent) {
@@ -168,12 +145,7 @@ const getAllComponentController = async (req, res) => {
     componentList = null;
 
     switch (componentList) {
-<<<<<<< HEAD:src/controllers/component.controller.js
-      //case statusConnectionError:
-      case null:
-=======
       case statusConnectionError:
->>>>>>> 116d57cef20b2ae4f96344310eddbb1b604f79db:src/controllers/component-controller.js
         res
           .status(statusCodeInternalServerError)
           .send({ error: statusConnectionErrorDetail });
