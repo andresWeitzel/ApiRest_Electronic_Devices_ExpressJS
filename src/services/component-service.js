@@ -560,7 +560,7 @@ const getAllComponentLikeCodigoService = async (req, res) => {
         where: {
           codigo: {
             [Op.like]: `%${codigoParam}%`
-          },
+          }
         },
         limit: pageSizeNro,
         offset: pageNro,
@@ -632,23 +632,27 @@ const getAllComponentLikeImagenService = async (req, res) => {
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy
+        order: orderBy,
+        raw: true,
+        nest: true
       })
-        .then((componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in getAllComponentLikeImagenService() function when trying to get a component by imagen. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in getAllComponentLikeImagenService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
@@ -696,23 +700,27 @@ const getAllComponentLikeNroPiezaService = async (req, res) => {
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy
+        order: orderBy,
+        raw: true,
+        nest: true
       })
-        .then((componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in getAllComponentLikeNroPiezaService() function when trying to get a component by nro de pieza. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in getAllComponentLikeNroPiezaService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
@@ -764,23 +772,27 @@ const getAllComponentLikeCategoriaFabricanteService = async (req, res) => {
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy
+        order: orderBy,
+        raw: true,
+        nest: true
       })
-        .then((componentItems) => {
+        .then(async (componentItems) => {
           componentList = componentItems;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in getAllComponentLikeCategoriaFabricanteService() function when trying to get all paginated component by categoria and fabricante. Caused by ${error}`;
           console.log(msg);
-          componentList = statusName.CONNECTION_REFUSED;
+
+          componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = statusName.CONNECTION_REFUSED;
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
     msg = `Error in getAllComponentLikeCategoriaFabricanteService() function. Caused by ${error}`;
     console.log(msg);
-    componentList = statusName.CONNECTION_ERROR;
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
