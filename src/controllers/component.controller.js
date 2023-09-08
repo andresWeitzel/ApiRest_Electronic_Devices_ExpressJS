@@ -13,6 +13,7 @@ const {
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
+ //Fix here 
 <<<<<<< HEAD:src/controllers/component.controller.js
   updateComponentService,
 } = require("../services/component.service");
