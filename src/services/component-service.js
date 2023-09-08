@@ -559,14 +559,14 @@ const getAllComponentLikeCodigoService = async (req, res) => {
         attributes: {},
         where: {
           codigo: {
-            [Op.like]: `%${codigoParam}%`,
-            raw: true,
-            nest: true
-          }
+            [Op.like]: `%${codigoParam}%`
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy
+        order: orderBy,
+        raw: true,
+        nest: true
       })
         .then(async (componentItems) => {
           componentList = componentItems;

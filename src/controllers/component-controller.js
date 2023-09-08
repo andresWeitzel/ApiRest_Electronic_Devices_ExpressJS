@@ -440,7 +440,6 @@ const getAllComponentLikeCodigoController = async (req, res) => {
     code = null;
 
     componentList = await getAllComponentLikeCodigoService(req);
-    console.log({ JABSKDBASD: componentList });
 
     switch (componentList) {
       case statusConnectionError:
