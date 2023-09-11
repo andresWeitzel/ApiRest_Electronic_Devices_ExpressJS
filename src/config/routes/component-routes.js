@@ -3,13 +3,13 @@ const componentRouter = require("express").Router();
 const { validationResult } = require("express-validator");
 //Controllers
 const componentController = require("../../controllers/component.controller");
-const { checkBodyFieldsAddComponent } = require("../../helpers/validations/express-validator");
+const { checkBodyFieldsAddUpdateComponent } = require("../../helpers/validations/express-validator");
 //Const-vars
 
 
 componentRouter.post(
   "/",
-  checkBodyFieldsAddComponent(),
+  checkBodyFieldsAddUpdateComponent(),
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -19,7 +19,15 @@ componentRouter.post(
   componentController.addComponentController
 );
 
-componentRouter.put("/id/:id", componentController.updateComponentController);
+componentRouter.put("/id/:id",
+checkBodyFieldsAddUpdateComponent(),
+(req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+},
+componentController.updateComponentController);
 
 componentRouter.get("/list", componentController.getAllComponentController);
 

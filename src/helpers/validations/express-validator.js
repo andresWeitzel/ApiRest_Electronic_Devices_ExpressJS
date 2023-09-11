@@ -26,11 +26,13 @@ const MIN_VALUE_STOCK = 0;
 const MAX_VALUE_STOCK = 100000;
 const MIN_VALUE_PRECIO = 0.05;
 const MAX_VALUE_PRECIO = 100.0;
+
+
 /**
- * @description check all validations for the body fields to add a component
+ * @description check all validations for the body fields to add or update a component
  * @returns an array with all the validations that do not comply with what was tested
  */
-const checkBodyFieldsAddComponent = () => {
+const checkBodyFieldsAddUpdateComponent = () => {
   try {
     return [
       //Check codigo
@@ -137,11 +139,11 @@ const checkBodyFieldsAddComponent = () => {
         )
     ];
   } catch (error) {
-    msg = `Error in checkBodyFieldsAddComponent() function. Caused by ${error}.`;
+    msg = `Error in checkBodyFieldsAddUpdateComponent() function. Caused by ${error}.`;
     console.log(msg);
   }
 };
 
 module.exports = {
-  checkBodyFieldsAddComponent
+  checkBodyFieldsAddUpdateComponent
 };
