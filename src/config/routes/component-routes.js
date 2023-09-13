@@ -14,9 +14,9 @@ componentRouter.post(
   componentController.addComponentController
 );
 
-componentRouter.put(
+componentRouter.patch(  
   "/id/:id",
-  //checkBodyFieldsUpdateComponent(),
+  checkBodyFieldsUpdateComponent(),
   componentController.updateComponentController
 );
 
