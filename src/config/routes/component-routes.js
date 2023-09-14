@@ -2,11 +2,7 @@
 const componentRouter = require("express").Router();
 //Controllers
 const componentController = require("../../controllers/component.controller");
-const {
-  checkBodyFieldsAddComponent,
-  checkBodyFieldsUpdateComponent
-} = require("../../helpers/validations/express-validator");
-//Const-vars
+const { checkBodyFieldsAddComponent, checkBodyFieldsUpdateComponent } = require("../../helpers/validations/express-validator");
 
 componentRouter.post(
   "/",
@@ -14,7 +10,7 @@ componentRouter.post(
   componentController.addComponentController
 );
 
-componentRouter.patch(  
+componentRouter.patch(
   "/id/:id",
   checkBodyFieldsUpdateComponent(),
   componentController.updateComponentController
