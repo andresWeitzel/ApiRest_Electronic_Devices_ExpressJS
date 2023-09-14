@@ -1,7 +1,7 @@
 //External
 const componentDetailRouter = require("express").Router();
 //Controllers
-const componentDetailController = require("../../controllers/component-detail.controller");
+const componentDetailController = require("../../controllers/component-detail-controller");
 
 componentDetailRouter.get(
   "/list",

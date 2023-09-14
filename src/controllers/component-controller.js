@@ -13,8 +13,8 @@ const {
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
-  updateComponentService,
-} = require("../services/component.service");
+  updateComponentService
+} = require("../services/component-service");
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
@@ -24,7 +24,6 @@ let newComponent;
 let updatedComponent;
 let msg;
 let code;
-let validations;
 const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
 const statusCodeBadRequest = statusCode.BAD_REQUEST;
 const statusCodeOk = statusCode.OK;
@@ -157,7 +156,7 @@ const getAllComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res
           .status(statusCodeBadRequest)
-          .send({ error: "Bad request, failed to obtain paginated component list." });
+          .send({ error: "Bad request, could not update a component." });
         break;
       default:
         if (
@@ -206,7 +205,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, failed to get all paginated components list according to all attributes."
+            "Bad request, get all paginated components list according to all attributes."
         });
         break;
       default:
@@ -256,7 +255,7 @@ const getAllWithDetailComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, failed to get all paginated components list and components_details according to all attributes."
+            "Bad request for get all paginated components list and components_details according to all attributes."
         });
         break;
       default:
@@ -306,7 +305,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes."
+            "Bad request for get all paginated components list and bipolar_transistor according to all attributes."
         });
         break;
       default:
@@ -356,7 +355,7 @@ const getAllWithAllModelsComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes."
+            "Bad request for get all paginated components list and bipolar_transistor according to all attributes."
         });
         break;
       default:
