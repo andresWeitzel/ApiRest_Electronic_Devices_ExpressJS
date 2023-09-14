@@ -1,33 +1,66 @@
 //External
-const componentRouter = require('express').Router();
+const componentRouter = require("express").Router();
 //Controllers
-const componentController = require("../../controllers/component-controller");
+const componentController = require("../../controllers/component.controller");
+const { checkBodyFieldsAddComponent, checkBodyFieldsUpdateComponent } = require("../../helpers/validations/express-validator");
 
-componentRouter.post('/', componentController.addComponentController);
+componentRouter.post(
+  "/",
+  checkBodyFieldsAddComponent(),
+  componentController.addComponentController
+);
 
-componentRouter.put('/id/:id', componentController.updateComponentController);
+componentRouter.patch(
+  "/id/:id",
+  checkBodyFieldsUpdateComponent(),
+  componentController.updateComponentController
+);
 
-componentRouter.get('/list', componentController.getAllComponentController);
+componentRouter.get("/list", componentController.getAllComponentController);
 
-componentRouter.get('/list-with-attributes', componentController.getAllWithAttributesComponentController);
+componentRouter.get(
+  "/list-with-attributes",
+  componentController.getAllWithAttributesComponentController
+);
 
-componentRouter.get('/id/:id', componentController.getComponentByIdController);
+componentRouter.get("/id/:id", componentController.getComponentByIdController);
 
-componentRouter.get('/codigo/:codigo', componentController.getAllComponentLikeCodigoController);
+componentRouter.get(
+  "/codigo/:codigo",
+  componentController.getAllComponentLikeCodigoController
+);
 
-componentRouter.get('/imagen/:imagen', componentController.getAllComponentLikeImagenController);
+componentRouter.get(
+  "/imagen/:imagen",
+  componentController.getAllComponentLikeImagenController
+);
 
-componentRouter.get('/nro-pieza/:nroPieza', componentController.getAllComponentLikeNroPiezaController);
+componentRouter.get(
+  "/nro-pieza/:nroPieza",
+  componentController.getAllComponentLikeNroPiezaController
+);
 
-componentRouter.get('/categoria-fabricante', componentController.getAllComponentLikeCategoriaFabricanteController);
+componentRouter.get(
+  "/categoria-fabricante",
+  componentController.getAllComponentLikeCategoriaFabricanteController
+);
 
 //component and component_detail tables
-componentRouter.get('/list-with-details', componentController.getAllWithDetailComponentController);
+componentRouter.get(
+  "/list-with-details",
+  componentController.getAllWithDetailComponentController
+);
 
 //component and bipolar-transistor
-componentRouter.get('/bipolar-transistor-list', componentController.getAllWithBipolarTransistorComponentController);
+componentRouter.get(
+  "/bipolar-transistor-list",
+  componentController.getAllWithBipolarTransistorComponentController
+);
 
-//component wih all models 
-componentRouter.get('/list-all-models', componentController.getAllWithAllModelsComponentController);
+//component wih all models
+componentRouter.get(
+  "/list-all-models",
+  componentController.getAllWithAllModelsComponentController
+);
 
-module.exports=componentRouter;
+module.exports = componentRouter;
