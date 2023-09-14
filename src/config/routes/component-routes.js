@@ -13,7 +13,7 @@ componentRouter.post(
   componentController.addComponentController
 );
 
-componentRouter.patch(  
+componentRouter.patch(
   "/id/:id",
   checkBodyFieldsUpdateComponent(),
   componentController.updateComponentController
