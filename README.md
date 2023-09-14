@@ -3,7 +3,7 @@
 ![Index app](./doc/assets/componentes-example.png)
 
 # ApiRest_Dispositivos_Electronicos_ExpressJS
-Api Rest acerca de dispositivos electrónicos implementado con express, morgan-middleware, NodeJS, Sequelize, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, postgreSQL, otros.
+Api Rest acerca de dispositivos electrónicos implementado con Express, Morgan-middleware, nodemon, NodeJS, Sequelize, dotenv, cors, swagger, swagger-ui, PostgreSQL, otros.
 
 * [Repositorio base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 
@@ -297,10 +297,6 @@ npm run dev o npm start
 
 #### Ejemplos de código
 * [Ejemplo de microservicio usando Sequelize, Mysql y NodeJS](https://github.com/andresWeitzel/Microservice_Mercadolibre_Users_AWS)
-
-#### Librerías
-* [Manejo de validaciones con express-validator](https://medium.com/dataseries/introduction-to-request-body-validation-in-express-apps-with-express-validator-7b9725ca780d)
-* [Doc oficial express-validator](https://express-validator.github.io/docs/guides/getting-started)
 
 <br>
 
