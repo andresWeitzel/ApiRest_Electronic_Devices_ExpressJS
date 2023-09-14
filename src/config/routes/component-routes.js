@@ -6,7 +6,6 @@ const {
   checkBodyFieldsAddComponent,
   checkBodyFieldsUpdateComponent
 } = require("../../helpers/validations/express-validator");
-//Const-vars
 
 componentRouter.post(
   "/",
@@ -27,28 +26,6 @@ componentRouter.get(
   componentController.getAllWithAttributesComponentController
 );
 
-componentRouter.get("/id/:id", componentController.getComponentByIdController);
-
-componentRouter.get(
-  "/codigo/:codigo",
-  componentController.getAllComponentLikeCodigoController
-);
-
-componentRouter.get(
-  "/imagen/:imagen",
-  componentController.getAllComponentLikeImagenController
-);
-
-componentRouter.get(
-  "/nro-pieza/:nroPieza",
-  componentController.getAllComponentLikeNroPiezaController
-);
-
-componentRouter.get(
-  "/categoria-fabricante",
-  componentController.getAllComponentLikeCategoriaFabricanteController
-);
-
 //component and component_detail tables
 componentRouter.get(
   "/list-with-details",
@@ -66,5 +43,28 @@ componentRouter.get(
   "/list-all-models",
   componentController.getAllWithAllModelsComponentController
 );
+
+componentRouter.get("/id/:id", componentController.getComponentByIdController);
+
+componentRouter.get(
+  "/codigo/:codigo",
+  componentController.getAllComponentLikeCodeController
+);
+
+componentRouter.get(
+  "/imagen/:imagen",
+  componentController.getAllComponentLikeImageController
+);
+
+componentRouter.get(
+  "/nro-pieza/:nroPieza",
+  componentController.getAllComponentLikePartNumberController
+);
+
+componentRouter.get(
+  "/categoria-fabricante",
+  componentController.getAllComponentLikeCategoryAndMakerController
+);
+
 
 module.exports = componentRouter;

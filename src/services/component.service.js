@@ -528,7 +528,7 @@ const getComponentByIdService = async (req, res) => {
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentLikeCodigoService = async (req, res) => {
+const getAllComponentLikeCodeService = async (req, res) => {
   try {
     componentList = null;
     codigoParam = null;
@@ -596,7 +596,7 @@ const getAllComponentLikeCodigoService = async (req, res) => {
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentLikeImagenService = async (req, res) => {
+const getAllComponentLikeImageService = async (req, res) => {
   try {
     componentList = null;
     imagenParam = null;
@@ -640,7 +640,7 @@ const getAllComponentLikeImagenService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikeImagenService() function when trying to get a component by imagen. Caused by ${error}`;
+          msg = `Error in getAllComponentLikeImageService() function when trying to get a component by imagen. Caused by ${error}`;
           console.log(msg);
 
           componentList = await checkErrors(error, error.name);
@@ -649,7 +649,7 @@ const getAllComponentLikeImagenService = async (req, res) => {
       componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
-    msg = `Error in getAllComponentLikeImagenService() function. Caused by ${error}`;
+    msg = `Error in getAllComponentLikeImageService() function. Caused by ${error}`;
     console.log(msg);
 
     componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
@@ -658,13 +658,13 @@ const getAllComponentLikeImagenService = async (req, res) => {
 };
 
 /**
- * @description get all paginated components list according to its nro de pieza from the database
+ * @description get all paginated components list according to its part number from the database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentLikeNroPiezaService = async (req, res) => {
+const getAllComponentLikePartNumberService = async (req, res) => {
   try {
     componentList = null;
     nroPiezaParam = null;
@@ -708,7 +708,7 @@ const getAllComponentLikeNroPiezaService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikeNroPiezaService() function when trying to get a component by nro de pieza. Caused by ${error}`;
+          msg = `Error in getAllComponentLikePartNumberService() function when trying to get a component by nro de pieza. Caused by ${error}`;
           console.log(msg);
 
           componentList = await checkErrors(error, error.name);
@@ -717,7 +717,7 @@ const getAllComponentLikeNroPiezaService = async (req, res) => {
       componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
-    msg = `Error in getAllComponentLikeNroPiezaService() function. Caused by ${error}`;
+    msg = `Error in getAllComponentLikePartNumberService() function. Caused by ${error}`;
     console.log(msg);
 
     componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
@@ -726,13 +726,13 @@ const getAllComponentLikeNroPiezaService = async (req, res) => {
 };
 
 /**
- * @description get all paginated components list according to its categoria and fabricante from the database
+ * @description get all paginated components list according to its category and maker from the database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentLikeCategoriaFabricanteService = async (req, res) => {
+const getAllComponentLikeCategoryAndMakerService = async (req, res) => {
   try {
     componentList = null;
     msg = null;
@@ -780,7 +780,7 @@ const getAllComponentLikeCategoriaFabricanteService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikeCategoriaFabricanteService() function when trying to get all paginated component by categoria and fabricante. Caused by ${error}`;
+          msg = `Error in getAllComponentLikeCategoryAndMakerService() function when trying to get all paginated component by categoria and fabricante. Caused by ${error}`;
           console.log(msg);
 
           componentList = await checkErrors(error, error.name);
@@ -789,13 +789,87 @@ const getAllComponentLikeCategoriaFabricanteService = async (req, res) => {
       componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
-    msg = `Error in getAllComponentLikeCategoriaFabricanteService() function. Caused by ${error}`;
+    msg = `Error in getAllComponentLikeCategoryAndMakerService() function. Caused by ${error}`;
     console.log(msg);
 
     componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentList;
 };
+
+/**
+ * @description get all paginated components list according to its description from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeDescriptionService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    categoriaParam = null;
+    fabricanteParam = null;
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      categoriaParam = queryStrParams.categoria
+        ? queryStrParams.categoria
+        : categoriaParam;
+      fabricanteParam = queryStrParams.fabricante
+        ? queryStrParams.fabricante
+        : fabricanteParam;
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          [Op.or]: {
+            categoria: {
+              [Op.like]: `%${categoriaParam}%`
+            },
+            fabricante: {
+              [Op.like]: `%${fabricanteParam}%`
+            }
+          }
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+        raw: true,
+        nest: true
+      })
+        .then(async (componentItems) => {
+          componentList = componentItems;
+        })
+        .catch(async (error) => {
+          msg = `Error in getAllComponentLikeDescriptionService() function when trying to get all paginated component by description. Caused by ${error}`;
+          console.log(msg);
+
+          componentList = await checkErrors(error, error.name);
+        });
+    } else {
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikeDescriptionService() function. Caused by ${error}`;
+    console.log(msg);
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+  }
+  return componentList;
+};
+
+
 
 module.exports = {
   addComponentService,
@@ -806,8 +880,9 @@ module.exports = {
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
   getComponentByIdService,
-  getAllComponentLikeCodigoService,
-  getAllComponentLikeImagenService,
-  getAllComponentLikeNroPiezaService,
-  getAllComponentLikeCategoriaFabricanteService
+  getAllComponentLikeCodeService,
+  getAllComponentLikeImageService,
+  getAllComponentLikePartNumberService,
+  getAllComponentLikeCategoryAndMakerService,
+  getAllComponentLikeDescriptionService
 };
