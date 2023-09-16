@@ -31,6 +31,8 @@ let categoriaParam;
 let descripcionParam;
 let fabricanteParam;
 let stockParam;
+let stockMin;
+let stockMax;
 let precioParam;
 
 /**
@@ -809,19 +811,20 @@ const getAllComponentLikeDescriptionService = async (req, res) => {
     componentList = null;
     msg = null;
     queryStrParams = null;
-    categoriaParam = null;
-    fabricanteParam = null;
+    descripcionParam = null;
+
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      descripcionParam = params.descripcion ? params.descripcion : null;
+    }
+    //-- end with params  ---
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
     if (queryStrParams != value.IS_NULL) {
-      categoriaParam = queryStrParams.categoria
-        ? queryStrParams.categoria
-        : categoriaParam;
-      fabricanteParam = queryStrParams.fabricante
-        ? queryStrParams.fabricante
-        : fabricanteParam;
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
@@ -833,13 +836,8 @@ const getAllComponentLikeDescriptionService = async (req, res) => {
       await Component.findAll({
         attributes: {},
         where: {
-          [Op.or]: {
-            categoria: {
-              [Op.like]: `%${categoriaParam}%`
-            },
-            fabricante: {
-              [Op.like]: `%${fabricanteParam}%`
-            }
+          descripcion: {
+            [Op.like]: `%${descripcionParam}%`
           }
         },
         limit: pageSizeNro,
@@ -869,7 +867,210 @@ const getAllComponentLikeDescriptionService = async (req, res) => {
   return componentList;
 };
 
+/**
+ * @description get all paginated components list according to its stock from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    stockParam = null;
 
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      stockParam = params.stock ? parseInt(params.stock) : null;
+    }
+    //-- end with params  ---
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          stock: {
+            [Op.eq]: stockParam
+          }
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+        raw: true,
+        nest: true
+      })
+        .then(async (componentItems) => {
+          componentList = componentItems;
+        })
+        .catch(async (error) => {
+          msg = `Error in getAllComponentLikeStockService() function when trying to get all paginated component by description. Caused by ${error}`;
+          console.log(msg);
+
+          componentList = await checkErrors(error, error.name);
+        });
+    } else {
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikeStockService() function. Caused by ${error}`;
+    console.log(msg);
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+  }
+  return componentList;
+};
+
+/**
+ * @description get all paginated components list according to its stock max from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockMaxService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    stockMax = 100;
+
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      stockMax = params.stock ? parseInt(params.stock) : null;
+    }
+    //-- end with params  ---
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          stock: {
+            [Op.gt]: 0,
+            [Op.lte]: stockMax
+          }
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+        raw: true,
+        nest: true
+      })
+        .then(async (componentItems) => {
+          componentList = componentItems;
+        })
+        .catch(async (error) => {
+          msg = `Error in getAllComponentLikeStockMaxService() function when trying to get all paginated component by description. Caused by ${error}`;
+          console.log(msg);
+
+          componentList = await checkErrors(error, error.name);
+        });
+    } else {
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikeStockMaxService() function. Caused by ${error}`;
+    console.log(msg);
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+  }
+  return componentList;
+};
+
+/**
+ * @description get all paginated components list according to its stock min and max from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockMinMaxService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    stockMin = 0;
+    stockMax = 100;
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      stockMin = queryStrParams.stockMin
+        ? parseInt(queryStrParams.stockMin)
+        : stockMin;
+      stockMax = queryStrParams.stockMax
+        ? parseInt(queryStrParams.stockMax)
+        : stockMax;
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          stock: {
+            [Op.gte]: stockMin,
+            [Op.lte]: stockMax
+          }
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+        raw: true,
+        nest: true
+      })
+        .then(async (componentItems) => {
+          componentList = componentItems;
+        })
+        .catch(async (error) => {
+          msg = `Error in getAllComponentLikeStockMinMaxService() function when trying to get all paginated component by description. Caused by ${error}`;
+          console.log(msg);
+
+          componentList = await checkErrors(error, error.name);
+        });
+    } else {
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikeStockMinMaxService() function. Caused by ${error}`;
+    console.log(msg);
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+  }
+  return componentList;
+};
 
 module.exports = {
   addComponentService,
@@ -884,5 +1085,8 @@ module.exports = {
   getAllComponentLikeImageService,
   getAllComponentLikePartNumberService,
   getAllComponentLikeCategoryAndMakerService,
-  getAllComponentLikeDescriptionService
+  getAllComponentLikeDescriptionService,
+  getAllComponentLikeStockService,
+  getAllComponentLikeStockMaxService,
+  getAllComponentLikeStockMinMaxService
 };

@@ -66,5 +66,24 @@ componentRouter.get(
   componentController.getAllComponentLikeCategoryAndMakerController
 );
 
+componentRouter.get(
+  "/descripcion/:descripcion",
+  componentController.getAllComponentLikeDescriptionController
+);
+
+componentRouter.get(
+  "/stock/:stock",
+  componentController.getAllComponentLikeStockController
+);
+
+componentRouter.get(
+  "/stock-maximo/:stock",
+  componentController.getAllComponentLikeStockMaxController
+);
+
+componentRouter.get(
+  "/stock-minimo-maximo",
+  componentController.getAllComponentLikeStockMinMaxController
+);
 
 module.exports = componentRouter;

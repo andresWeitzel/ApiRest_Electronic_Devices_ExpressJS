@@ -14,6 +14,10 @@ const {
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
   updateComponentService,
+  getAllComponentLikeDescriptionService,
+  getAllComponentLikeStockMaxService,
+  getAllComponentLikeStockService,
+  getAllComponentLikeStockMinMaxService,
 } = require("../services/component.service");
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
@@ -656,7 +660,7 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according the description."
+            "Bad request, could not get all paginated list components according to the description."
         });
         break;
       default:
@@ -678,6 +682,158 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
   }
 };
 
+/**
+ * @description get all paginated components according to stock from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikeStockService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the stock."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikeStockController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+
+/**
+ * @description get all paginated components according to stock max from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockMaxController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikeStockMaxService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the stock max."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikeStockMaxController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+
+/**
+ * @description get all paginated components according to stock min and max from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockMinMaxController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikeStockMinMaxService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the stock min and max."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikeStockMinMaxController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
 module.exports = {
   addComponentController,
   updateComponentController,
@@ -691,5 +847,8 @@ module.exports = {
   getAllComponentLikeImageController,
   getAllComponentLikePartNumberController,
   getAllComponentLikeCategoryAndMakerController,
-  getAllComponentLikeDescriptionController
+  getAllComponentLikeDescriptionController,
+  getAllComponentLikeStockController,
+  getAllComponentLikeStockMaxController,
+  getAllComponentLikeStockMinMaxController
 };
