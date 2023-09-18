@@ -3,7 +3,7 @@
 ![Index app](./doc/assets/componentes-example.png)
 
 # ApiRest_Dispositivos_Electronicos_ExpressJS
-Api Rest acerca de dispositivos electrónicos implementado con express, morgan-middleware, NodeJS, Sequelize, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, postgreSQL, otros.
+Api Rest acerca de dispositivos electrónicos implementado con express, morgan-middleware, nodeJS, sequelize, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, postgreSQL, otros.
 
 * [Repositorio base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 
