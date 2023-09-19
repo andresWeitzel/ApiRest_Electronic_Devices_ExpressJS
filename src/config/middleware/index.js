@@ -2,6 +2,7 @@
 const express  = require("express");
 let morgan = require("morgan");
 let cors  = require("cors");
+let listEndpoints = require('express-list-endpoints');
 //Env vars
 const API_LOCAL_BASE_URL = process.env.API_LOCAL_BASE_URL;
 const COMPONENT_ENPOINT = process.env.API_COMPONENT_NAME_URL;
@@ -43,6 +44,10 @@ const appMiddleware = async() => {
     app.use(COMPONENT_ENPOINT, componentRouter);
     app.use(COMPONENT_DETAIL_ENPOINT, componentDetailRouter);
     //-- end with routes --
+
+    
+    //-- See all endpoints    
+    console.log(listEndpoints(app));
    
     return app;
 

@@ -14,6 +14,7 @@ const { value } = require("../enums/general/value");
 const { checkErrors } = require("../helpers/sequelize/errors");
 
 //Const-vars
+const orderBy = [["id", "ASC"]];
 let newComponent;
 let componentList;
 let component;
@@ -22,7 +23,6 @@ let pageSizeNro = 30;
 let idParam;
 let codigoParam;
 let pageNro = 0;
-const orderBy = [["id", "ASC"]];
 let msg;
 let params;
 let imagenParam;
@@ -33,7 +33,9 @@ let fabricanteParam;
 let stockParam;
 let stockMin;
 let stockMax;
-let precioParam;
+let priceParam;
+let priceMinParam;
+let priceMaxParam;
 
 /**
  * @description add a componente to database
@@ -918,7 +920,7 @@ const getAllComponentLikeStockService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikeStockService() function when trying to get all paginated component by description. Caused by ${error}`;
+          msg = `Error in getAllComponentLikeStockService() function when trying to get all paginated component by stock. Caused by ${error}`;
           console.log(msg);
 
           componentList = await checkErrors(error, error.name);
@@ -987,7 +989,7 @@ const getAllComponentLikeStockMaxService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikeStockMaxService() function when trying to get all paginated component by description. Caused by ${error}`;
+          msg = `Error in getAllComponentLikeStockMaxService() function when trying to get all paginated component by stock max. Caused by ${error}`;
           console.log(msg);
 
           componentList = await checkErrors(error, error.name);
@@ -1055,7 +1057,7 @@ const getAllComponentLikeStockMinMaxService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikeStockMinMaxService() function when trying to get all paginated component by description. Caused by ${error}`;
+          msg = `Error in getAllComponentLikeStockMinMaxService() function when trying to get all paginated component by stock min and stock max. Caused by ${error}`;
           console.log(msg);
 
           componentList = await checkErrors(error, error.name);
@@ -1065,6 +1067,212 @@ const getAllComponentLikeStockMinMaxService = async (req, res) => {
     }
   } catch (error) {
     msg = `Error in getAllComponentLikeStockMinMaxService() function. Caused by ${error}`;
+    console.log(msg);
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+  }
+  return componentList;
+};
+
+/**
+ * @description get all paginated components list according to its price from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikePriceService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    priceParam = null;
+
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      priceParam = params.precio ? parseFloat(params.precio) : null;
+    }
+    //-- end with params  ---
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          precio: {
+            [Op.eq]: priceParam
+          }
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+        raw: true,
+        nest: true
+      })
+        .then(async (componentItems) => {
+          componentList = componentItems;
+        })
+        .catch(async (error) => {
+          msg = `Error in getAllComponentLikePriceService() function when trying to get all paginated component by price. Caused by ${error}`;
+          console.log(msg);
+
+          componentList = await checkErrors(error, error.name);
+        });
+    } else {
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikePriceService() function. Caused by ${error}`;
+    console.log(msg);
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+  }
+  return componentList;
+};
+
+/**
+ * @description get all paginated components list according to its max price from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikePriceMaxService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    priceMaxParam = null;
+
+    //-- start with params ---
+    params = req.params;
+
+    if (params != value.IS_NULL) {
+      priceMaxParam = params.precioMax ? parseFloat(params.precioMax) : null;
+    }
+    //-- end with params  ---
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          precio: {
+            [Op.gt]: 0,
+            [Op.lte]: priceMaxParam
+          }
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+        raw: true,
+        nest: true
+      })
+        .then(async (componentItems) => {
+          componentList = componentItems;
+        })
+        .catch(async (error) => {
+          msg = `Error in getAllComponentLikePriceMaxService() function when trying to get all paginated component by price. Caused by ${error}`;
+          console.log(msg);
+
+          componentList = await checkErrors(error, error.name);
+        });
+    } else {
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikePriceMaxService() function. Caused by ${error}`;
+    console.log(msg);
+
+    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+  }
+  return componentList;
+};
+
+/**
+ * @description get all paginated components list according to its min and max price from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikePriceMinMaxService = async (req, res) => {
+  try {
+    componentList = null;
+    msg = null;
+    queryStrParams = null;
+    priceMinParam = null;
+    priceMaxParam = null;
+
+    //-- start with querys params and pagination  ---
+    queryStrParams = req.query;
+
+    if (queryStrParams != value.IS_NULL) {
+      priceMinParam = queryStrParams.precioMin
+        ? parseFloat(queryStrParams.precioMin)
+        : null;
+      priceMaxParam = queryStrParams.precioMax
+        ? parseFloat(queryStrParams.precioMax)
+        : null;
+
+      pageSizeNro = queryStrParams.limit
+        ? parseInt(queryStrParams.limit)
+        : pageSizeNro;
+      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+    }
+    //-- end with querys params and pagination  ---
+
+    if (Component != null) {
+      await Component.findAll({
+        attributes: {},
+        where: {
+          precio: {
+            [Op.gte]: priceMinParam,
+            [Op.lte]: priceMaxParam
+          }
+        },
+        limit: pageSizeNro,
+        offset: pageNro,
+        order: orderBy,
+        raw: true,
+        nest: true
+      })
+        .then(async (componentItems) => {
+          componentList = componentItems;
+        })
+        .catch(async (error) => {
+          msg = `Error in getAllComponentLikePriceMinMaxService() function when trying to get all paginated component by price. Caused by ${error}`;
+          console.log(msg);
+
+          componentList = await checkErrors(error, error.name);
+        });
+    } else {
+      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    }
+  } catch (error) {
+    msg = `Error in getAllComponentLikePriceMinMaxService() function. Caused by ${error}`;
     console.log(msg);
 
     componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
@@ -1088,5 +1296,8 @@ module.exports = {
   getAllComponentLikeDescriptionService,
   getAllComponentLikeStockService,
   getAllComponentLikeStockMaxService,
-  getAllComponentLikeStockMinMaxService
+  getAllComponentLikeStockMinMaxService,
+  getAllComponentLikePriceService,
+  getAllComponentLikePriceMaxService,
+  getAllComponentLikePriceMinMaxService
 };

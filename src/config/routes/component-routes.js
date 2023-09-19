@@ -86,4 +86,19 @@ componentRouter.get(
   componentController.getAllComponentLikeStockMinMaxController
 );
 
+componentRouter.get(
+  "/precio/:precio",
+  componentController.getAllComponentLikePriceController
+);
+
+componentRouter.get(
+  "/precio-maximo/:precioMax",
+  componentController.getAllComponentLikePriceMaxController
+);
+
+componentRouter.get(
+  "/precio-minimo-maximo",
+  componentController.getAllComponentLikePriceMinMaxController
+);
+
 module.exports = componentRouter;
