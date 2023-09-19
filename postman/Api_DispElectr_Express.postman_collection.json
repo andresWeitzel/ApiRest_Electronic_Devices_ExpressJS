@@ -1,0 +1,1483 @@
+{
+	"info": {
+		"_postman_id": "35cfef66-2a59-43b7-8792-f1fbf87c2096",
+		"name": "Api_DispElectr_Express",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18757319"
+	},
+	"item": [
+		{
+			"name": "Componentes",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list?page=0&limit=100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithAttributes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=HD&imagen=http&nroPieza=a&categoria=Transistores&descripcion=a&fabricante=a&stock=1&precio=9.0&page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list-with-attributes"
+									],
+									"query": [
+										{
+											"key": "codigo",
+											"value": "HD"
+										},
+										{
+											"key": "imagen",
+											"value": "http"
+										},
+										{
+											"key": "nroPieza",
+											"value": "a"
+										},
+										{
+											"key": "categoria",
+											"value": "Transistores"
+										},
+										{
+											"key": "descripcion",
+											"value": "a"
+										},
+										{
+											"key": "fabricante",
+											"value": "a"
+										},
+										{
+											"key": "stock",
+											"value": "1"
+										},
+										{
+											"key": "precio",
+											"value": "9.0"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithDetails",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list-with-details?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list-with-details"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithBipolarTransistor",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/bipolar-transistor-list?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"bipolar-transistor-list"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithAllModels",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list-all-models?page=0&limit=100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list-all-models"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/id/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"id",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeCodigo",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/codigo/DFHSDK-3CD010G?page=0&limit=2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"codigo",
+										"DFHSDK-3CD010G"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeImagen",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/imagen/panasonic?page=0&limit=200",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"imagen",
+										"panasonic"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "200"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeNroPieza",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/nro-pieza/nroPieza=A?page=0&limit=200",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"nro-pieza",
+										"nroPieza=A"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "200"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeCategoriaFabricante",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/categoria-fabricante?categoria=Transistores BJT&fabricante=&page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"categoria-fabricante"
+									],
+									"query": [
+										{
+											"key": "categoria",
+											"value": "Transistores BJT"
+										},
+										{
+											"key": "fabricante",
+											"value": ""
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeDescription",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/descripcion/Resistores?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"descripcion",
+										"Resistores"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeStock",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/stock/10?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"stock",
+										"10"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeStockMax",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/stock-maximo/10?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"stock-maximo",
+										"10"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeStockMinMax",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/stock-minimo-maximo?stockMin=10&stockMax=100&page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"stock-minimo-maximo"
+									],
+									"query": [
+										{
+											"key": "stockMin",
+											"value": "10"
+										},
+										{
+											"key": "stockMax",
+											"value": "100"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikePrecio",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/precio/10?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"precio",
+										"10"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikePrecioMax",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/precio-maximo/10?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"precio-maximo",
+										"10"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikePrecioMinMax",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/precio-minimo-maximo?precioMin=6&precioMax=20&page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"precio-minimo-maximo"
+									],
+									"query": [
+										{
+											"key": "precioMin",
+											"value": "6"
+										},
+										{
+											"key": "precioMax",
+											"value": "20"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "insert",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"codigo\":\"DFHSDK-3CD010P3\",\r\n    \"imagen\":\"https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg\",\r\n    \"nro_pieza\":\"3CD010k\",\r\n    \"categoria\":\"Transistores BJT\",\r\n    \"descripcion\":\"Transistor BJT PNP\",\r\n    \"fabricante\":\"INCHANGE SEMICONDUCTOR\",\r\n    \"stock\":400,\r\n    \"precio\":5.0\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/componentes/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": []
+				},
+				{
+					"name": "PATCH",
+					"item": [
+						{
+							"name": "update",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"codigo\":\"HHHSA7-332\",\r\n    \"imagen\":\"https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg\",\r\n    \"nro_pieza\":\"3CD010k\",\r\n    \"categoria\":\"Transistores BJT\",\r\n    \"descripcion\":\"Transistor BJT PNP\",\r\n    \"fabricante\":\"INCHANGE SEMICONDUCTOR\",  \r\n    \"stock\":400,\r\n    \"precio\":5.0\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/componentes/id/33",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"id",
+										"33"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Componentes Detalles",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes-detalles/list?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes-detalles",
+										"list"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithDetails",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list-with-details?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list-with-details"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithAllModels",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list-all-models?page=0&limit=100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list-all-models"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithBipolarTransistor",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/bipolar-transistor-list?page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"bipolar-transistor-list"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithAttributes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=HD&imagen=http&nroPieza=a&categoria=Transistores&descripcion=a&fabricante=a&stock=1&precio=9.0&page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"list-with-attributes"
+									],
+									"query": [
+										{
+											"key": "codigo",
+											"value": "HD"
+										},
+										{
+											"key": "imagen",
+											"value": "http"
+										},
+										{
+											"key": "nroPieza",
+											"value": "a"
+										},
+										{
+											"key": "categoria",
+											"value": "Transistores"
+										},
+										{
+											"key": "descripcion",
+											"value": "a"
+										},
+										{
+											"key": "fabricante",
+											"value": "a"
+										},
+										{
+											"key": "stock",
+											"value": "1"
+										},
+										{
+											"key": "precio",
+											"value": "9.0"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeCategoriaFabricante",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/categoria-fabricante?categoria=Transistores BJT&fabricante=&page=0&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"categoria-fabricante"
+									],
+									"query": [
+										{
+											"key": "categoria",
+											"value": "Transistores BJT"
+										},
+										{
+											"key": "fabricante",
+											"value": ""
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/id/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"id",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeCodigo",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/codigo/DFHSDK-3CD010G?page=0&limit=2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"codigo",
+										"DFHSDK-3CD010G"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeImagen",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/imagen/http?page=0&limit=2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"imagen",
+										"http"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLikeNroPieza",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes/nro-pieza/3CD010G?page=0&limit=2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"nro-pieza",
+										"3CD010G"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "insert",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"codigo\":\"DFHSDK-3CD010P\",\r\n    \"imagen\":\"https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg\",\r\n    \"nro_pieza\":\"3CD010k\",\r\n    \"categoria\":\"Transistores BJT\",\r\n    \"descripcion\":\"Transistor BJT PNP\",\r\n    \"fabricante\":\"INCHANGE SEMICONDUCTOR\",\r\n    \"stock\":400,\r\n    \"precio\":5.0\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/componentes/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": []
+				},
+				{
+					"name": "PUT",
+					"item": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/api/v1"
+		},
+		{
+			"key": "x-api-key",
+			"value": "f98d8cd98h73s204e3456998ecl9427j"
+		},
+		{
+			"key": "bearer-token",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+		}
+	]
+}

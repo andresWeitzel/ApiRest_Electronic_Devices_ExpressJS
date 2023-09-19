@@ -5,16 +5,23 @@ const {
   addComponentService,
   getAllComponentService,
   getComponentByIdService,
-  getAllComponentLikeCodigoService,
+  getAllComponentLikeCodeService,
   getAllWithAttributesComponentService,
-  getAllComponentLikeImagenService,
-  getAllComponentLikeNroPiezaService,
-  getAllComponentLikeCategoriaFabricanteService,
+  getAllComponentLikeImageService,
+  getAllComponentLikePartNumberService,
+  getAllComponentLikeCategoryAndMakerService,
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
-  updateComponentService
-} = require("../services/component-service");
+  updateComponentService,
+  getAllComponentLikeDescriptionService,
+  getAllComponentLikeStockMaxService,
+  getAllComponentLikeStockService,
+  getAllComponentLikeStockMinMaxService,
+  getAllComponentLikePriceService,
+  getAllComponentLikePriceMaxService,
+  getAllComponentLikePriceMinMaxService,
+} = require("../services/component.service");
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
@@ -24,6 +31,7 @@ let newComponent;
 let updatedComponent;
 let msg;
 let code;
+let validations;
 const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
 const statusCodeBadRequest = statusCode.BAD_REQUEST;
 const statusCodeOk = statusCode.OK;
@@ -156,7 +164,7 @@ const getAllComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res
           .status(statusCodeBadRequest)
-          .send({ error: "Bad request, could not update a component." });
+          .send({ error: "Bad request, failed to obtain paginated component list." });
         break;
       default:
         if (
@@ -205,7 +213,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, get all paginated components list according to all attributes."
+            "Bad request, failed to get all paginated components list according to all attributes."
         });
         break;
       default:
@@ -255,7 +263,7 @@ const getAllWithDetailComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request for get all paginated components list and components_details according to all attributes."
+            "Bad request, failed to get all paginated components list and components_details according to all attributes."
         });
         break;
       default:
@@ -305,7 +313,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request for get all paginated components list and bipolar_transistor according to all attributes."
+            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes."
         });
         break;
       default:
@@ -355,7 +363,7 @@ const getAllWithAllModelsComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request for get all paginated components list and bipolar_transistor according to all attributes."
+            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes."
         });
         break;
       default:
@@ -434,12 +442,12 @@ const getComponentByIdController = async (req, res) => {
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentLikeCodigoController = async (req, res) => {
+const getAllComponentLikeCodeController = async (req, res) => {
   try {
     msg = null;
     code = null;
 
-    componentList = await getAllComponentLikeCodigoService(req);
+    componentList = await getAllComponentLikeCodeService(req);
 
     switch (componentList) {
       case statusConnectionError:
@@ -471,25 +479,25 @@ const getAllComponentLikeCodigoController = async (req, res) => {
     }
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in getAllComponentLikeCodigoController() function. Caused by ${error}`;
+    msg = `Error in getAllComponentLikeCodeController() function. Caused by ${error}`;
     console.log(msg);
     res.status(code).send(msg);
   }
 };
 
 /**
- * @description get all paginated components according to imagen from database
+ * @description get all paginated components according to image from database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentLikeImagenController = async (req, res) => {
+const getAllComponentLikeImageController = async (req, res) => {
   try {
     msg = null;
     code = null;
 
-    componentList = await getAllComponentLikeImagenService(req);
+    componentList = await getAllComponentLikeImageService(req);
 
     switch (componentList) {
       case statusConnectionError:
@@ -521,25 +529,25 @@ const getAllComponentLikeImagenController = async (req, res) => {
     }
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in getAllComponentLikeImagenController() function. Caused by ${error}`;
+    msg = `Error in getAllComponentLikeImageController() function. Caused by ${error}`;
     console.log(msg);
     res.status(code).send(msg);
   }
 };
 
 /**
- * @description get all paginated components according to nro de pieza from database
+ * @description get all paginated components according to part number from database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentLikeNroPiezaController = async (req, res) => {
+const getAllComponentLikePartNumberController = async (req, res) => {
   try {
     msg = null;
     code = null;
 
-    componentList = await getAllComponentLikeNroPiezaService(req);
+    componentList = await getAllComponentLikePartNumberService(req);
 
     switch (componentList) {
       case statusConnectionError:
@@ -571,7 +579,7 @@ const getAllComponentLikeNroPiezaController = async (req, res) => {
     }
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in getAllComponentLikeNroPiezaController() function. Caused by ${error}`;
+    msg = `Error in getAllComponentLikePartNumberController() function. Caused by ${error}`;
     console.log(msg);
     res.status(code).send(msg);
   }
@@ -584,12 +592,12 @@ const getAllComponentLikeNroPiezaController = async (req, res) => {
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentLikeCategoriaFabricanteController = async (req, res) => {
+const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
   try {
     msg = null;
     code = null;
 
-    componentList = await getAllComponentLikeCategoriaFabricanteService(req);
+    componentList = await getAllComponentLikeCategoryAndMakerService(req);
 
     switch (componentList) {
       case statusConnectionError:
@@ -621,11 +629,365 @@ const getAllComponentLikeCategoriaFabricanteController = async (req, res) => {
     }
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in getAllComponentLikeCategoriaFabricanteController() function. Caused by ${error}`;
+    msg = `Error in getAllComponentLikeCategoryAndMakerController() function. Caused by ${error}`;
     console.log(msg);
     res.status(code).send(msg);
   }
 };
+
+/**
+ * @description get all paginated components according to description from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeDescriptionController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikeDescriptionService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the description."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikeDescriptionController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+/**
+ * @description get all paginated components according to stock from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikeStockService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the stock."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikeStockController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+
+/**
+ * @description get all paginated components according to stock max from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockMaxController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikeStockMaxService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the stock max."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikeStockMaxController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+
+/**
+ * @description get all paginated components according to stock min and max from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikeStockMinMaxController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikeStockMinMaxService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the stock min and max."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikeStockMinMaxController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+
+/**
+ * @description get all paginated components according to the price from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikePriceController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikePriceService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the price."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikePriceController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+/**
+ * @description get all paginated components according to the max price from database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikePriceMaxController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikePriceMaxService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the max price."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikePriceMaxController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+/**
+ * @description get all paginated components according to the min and max price from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentLikePriceMinMaxController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+
+    componentList = await getAllComponentLikePriceMinMaxService(req);
+
+    switch (componentList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, could not get all paginated list components according to the min and max price."
+        });
+        break;
+      default:
+        if (
+          (typeof componentList === "object" || Array.isArray(componentList)) &&
+          componentList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllComponentLikePriceMinMaxController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
 
 module.exports = {
   addComponentController,
@@ -636,8 +998,15 @@ module.exports = {
   getAllWithBipolarTransistorComponentController,
   getAllWithAllModelsComponentController,
   getComponentByIdController,
-  getAllComponentLikeCodigoController,
-  getAllComponentLikeImagenController,
-  getAllComponentLikeNroPiezaController,
-  getAllComponentLikeCategoriaFabricanteController
+  getAllComponentLikeCodeController,
+  getAllComponentLikeImageController,
+  getAllComponentLikePartNumberController,
+  getAllComponentLikeCategoryAndMakerController,
+  getAllComponentLikeDescriptionController,
+  getAllComponentLikeStockController,
+  getAllComponentLikeStockMaxController,
+  getAllComponentLikeStockMinMaxController,
+  getAllComponentLikePriceController,
+  getAllComponentLikePriceMaxController,
+  getAllComponentLikePriceMinMaxController
 };

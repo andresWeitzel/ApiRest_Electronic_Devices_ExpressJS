@@ -14,6 +14,8 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
+    "express-list-endpoints": "^6.0.0",
+    "express-validator": "^7.0.1",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3"
   },
