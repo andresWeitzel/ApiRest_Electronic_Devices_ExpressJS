@@ -1,26 +1,84 @@
 //External
 require("dotenv").config();
 //Services
-const { getAllComponentDetailService } = require("../services/component-detail.service");
+const {
+  getAllComponentDetailService, addComponentDetailService
+} = require("../services/component-detail.service");
 //Enums
-const { statusName } = require("../enums/database/status");
+const { statusName, statusDetails } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
 const { value } = require("../enums/general/value");
 //Const-vars
-let newComponent;
+const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
+const statusCodeBadRequest = statusCode.BAD_REQUEST;
+const statusCodeOk = statusCode.OK;
+const statusConnectionError = statusName.CONNECTION_ERROR;
+const statusConnectionErrorDetail = statusDetails.CONNECTION_ERROR_DETAIL;
+const statusConnectionRefused = statusName.CONNECTION_REFUSED;
+const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
+let newComponentDetail;
+let componentDetailList;
 let msg;
 let code;
 
-
-
 /**
- * @description get all paginated components to database
+ * @description add a component detail to database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentDetailController = async (req, res) => {
+const addComponentDetailController = async (req, res) => {
+  try {
+    msg = null;
+    newComponentDetail = await addComponentDetailService(req);
+
+    switch (newComponentDetail) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res
+          .status(statusCodeBadRequest)
+          .send({
+            error: "Bad request, could not add a component detail to database."
+          });
+        break;
+      default:
+        if (
+          typeof newComponentDetail === "object" &&
+          newComponentDetail.hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(newComponentDetail);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: newComponentDetail });
+        break;
+    }
+  } catch (error) {
+    msg = {
+      error: `Error in addComponentDetailController() function. Caused by ${error}`
+    };
+    console.log(msg);
+    res.status(statusCodeInternalServerError).send(msg);
+  }
+};
+
+/**
+ * @description get all paginated components details to database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllComponentDetailsController = async (req, res) => {
   try {
     msg = null;
     code = null;
@@ -28,39 +86,44 @@ const getAllComponentDetailController = async (req, res) => {
     componentDetailList = await getAllComponentDetailService(req);
 
     switch (componentDetailList) {
-      case statusName.CONNECTION_ERROR:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg =
-          "ERROR. An error has occurred with the connection or query to the database.";
-        res.status(code).send(msg);
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
         break;
-      case statusName.CONNECTION_REFUSED:
-        code = statusCode.INTERNAL_SERVER_ERROR;
-        msg = `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`;
-        res.status(code).send(msg);
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
         break;
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        code = statusCode.BAD_REQUEST;
-        msg = "Bad request, could not get all paginated list component details.";
-        res.status(code).send(msg);
+        res
+          .status(statusCodeBadRequest)
+          .send({
+            error:
+              "Bad request, could not get all paginated list component details."
+          });
         break;
       default:
-        code = statusCode.OK;
-        res.status(code).send(componentDetailList);
+        if (
+          typeof componentDetailList === "object" &&
+          componentDetailList[0].hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentDetailList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentDetailList });
         break;
     }
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in getAllComponentDetailController() function. Caused by ${error}`;
+    msg = `Error in getAllComponentDetailsController() function. Caused by ${error}`;
     console.log(msg);
     res.status(code).send(msg);
   }
 };
 
-
-
-
 module.exports = {
-    getAllComponentDetailController,
-  
+  addComponentDetailController,
+  getAllComponentDetailsController
 };

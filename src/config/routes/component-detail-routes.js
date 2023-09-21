@@ -5,7 +5,13 @@ const componentDetailController = require("../../controllers/component-detail.co
 
 componentDetailRouter.get(
   "/list",
-  componentDetailController.getAllComponentDetailController
+  componentDetailController.getAllComponentDetailsController
+);
+
+
+componentDetailRouter.post(
+  "/",
+  componentDetailController.addComponentDetailController
 );
 
 module.exports = componentDetailRouter;

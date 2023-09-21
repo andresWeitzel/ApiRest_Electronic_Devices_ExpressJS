@@ -31,7 +31,6 @@ let newComponent;
 let updatedComponent;
 let msg;
 let code;
-let validations;
 const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
 const statusCodeBadRequest = statusCode.BAD_REQUEST;
 const statusCodeOk = statusCode.OK;

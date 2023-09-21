@@ -1,20 +1,63 @@
 //Externals
 const { Op } = require("sequelize");
 //Models
-const { Component } = require("../models/sequelize/component");
 const { ComponentDetail } = require("../models/sequelize/component-detail");
 //Enums
 const { statusName } = require("../enums/database/status");
 const { value } = require("../enums/general/value");
+const { checkErrors } = require("../helpers/sequelize/errors");
 //Const-vars
+const orderBy = [["id", "ASC"]];
 let componentDetailList;
 let queryStrParams;
 let pageSizeNro = 30;
 let pageNro = 0;
-const orderBy = [["id", "ASC"]];
 let msg;
+let newComponentDetail;
 
-//Completed
+
+/**
+ * @description add a component-detail to database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const addComponentDetailService = async (req, res) => {
+  try {
+    newComponentDetail = null;
+    msg = null;
+
+    if (ComponentDetail != null) {
+      await ComponentDetail.create({
+        hoja_de_datos: req.body.hoja_de_datos,
+        longitud: req.body.longitud,
+        ancho: req.body.ancho,
+        peso: req.body.peso,
+        material: req.body.material,
+        voltaje_recomendado: req.body.voltaje_recomendado,
+        voltaje_min_entrada: req.body.voltaje_min_entrada,
+        voltaje_max_entrada: req.body.voltaje_max_entrada
+      })
+        .then(async (componentDetailItem) => {
+          newComponentDetail = componentDetailItem.dataValues;
+        })
+        .catch(async (error) => {
+          msg = `Error in addComponentDetailService() function when trying to create a component. Caused by ${error}`;
+          console.log(msg);
+          newComponentDetail = await checkErrors(error, error.name);
+        });
+    } else {
+      newComponentDetail = await checkErrors(null, statusName.CONNECTION_REFUSED);
+    }
+  } catch (error) {
+    msg = `Error in addComponentDetailService() function. Caused by ${error}`;
+    console.log(msg);
+    newComponentDetail = await checkErrors(error, statusName.CONNECTION_ERROR);
+  }
+  return newComponentDetail;
+};
+
 /**
  * @description get all paginated components details from the database
  * @param {any} req any type
@@ -39,32 +82,39 @@ const getAllComponentDetailService = async (req, res) => {
     }
     //-- end with pagination  ---
 
-    if (Component != null) {
+    if (ComponentDetail != null) {
       await ComponentDetail.findAll({
         attributes: {},
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
+        raw: true
       })
-        .then((componentItems) => {
-          componentDetailList = componentItems;
+        .then(async (componentDetailsItems) => {
+          componentDetailList = componentDetailsItems;
         })
-        .catch((error) => {
+        .catch(async (error) => {
           msg = `Error in getAllComponentDetailService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(error);
-          componentDetailList = statusName.CONNECTION_REFUSED;
+
+          componentDetailList = await checkErrors(error, error.name);
         });
     } else {
-      componentDetailList = statusName.CONNECTION_REFUSED;
+      componentDetailList = await checkErrors(
+        null,
+        statusName.CONNECTION_REFUSED
+      );
     }
   } catch (error) {
     msg = `Error in getAllComponentDetailService() function. Caused by ${error}`;
     console.log(msg);
-    componentDetailList = statusName.CONNECTION_ERROR;
+
+    componentDetailList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return componentDetailList;
 };
 
 module.exports = {
-    getAllComponentDetailService,
+  getAllComponentDetailService,
+  addComponentDetailService
 };
