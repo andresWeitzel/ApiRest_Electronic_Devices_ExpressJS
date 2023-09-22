@@ -30,6 +30,7 @@ const addComponentDetailService = async (req, res) => {
 
     if (ComponentDetail != null) {
       await ComponentDetail.create({
+        id_componente: req.body.id_componente,
         hoja_de_datos: req.body.hoja_de_datos,
         longitud: req.body.longitud,
         ancho: req.body.ancho,

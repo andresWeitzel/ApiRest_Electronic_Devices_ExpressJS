@@ -3,6 +3,8 @@ require("dotenv").config();
 //Services
 const {
   addComponentService,
+  updateComponentService,
+  deleteComponentService,
   getAllComponentService,
   getComponentByIdService,
   getAllComponentLikeCodeService,
@@ -13,7 +15,6 @@ const {
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
-  updateComponentService,
   getAllComponentLikeDescriptionService,
   getAllComponentLikeStockMaxService,
   getAllComponentLikeStockService,
@@ -129,6 +130,54 @@ const updateComponentController = async (req, res) => {
   } catch (error) {
     msg = {
       error: `Error in updateComponentController() function. Caused by ${error}`
+    };
+    console.log(msg);
+    res.status(statusCodeInternalServerError).send(msg);
+  }
+};
+
+/**
+ * @description delete a componente from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const deleteComponentController = async (req, res) => {
+  try {
+    msg = null;
+    deletedComponent = await deleteComponentService(req);
+
+    switch (deletedComponent) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res
+          .status(statusCodeBadRequest)
+          .send({ error: "Bad request, could not delete a component." });
+        break;
+      default:
+        if (
+          typeof deletedComponent === "object" &&
+          deletedComponent.hasOwnProperty("objectDeleted")
+        ) {
+          res.status(statusCodeOk).send(deletedComponent);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: deletedComponent });
+        break;
+    }
+  } catch (error) {
+    msg = {
+      error: `Error in deleteComponentController() function. Caused by ${error}`
     };
     console.log(msg);
     res.status(statusCodeInternalServerError).send(msg);
@@ -991,6 +1040,7 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
 module.exports = {
   addComponentController,
   updateComponentController,
+  deleteComponentController,
   getAllComponentController,
   getAllWithAttributesComponentController,
   getAllWithDetailComponentController,

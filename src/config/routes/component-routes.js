@@ -5,7 +5,7 @@ const componentController = require("../../controllers/component.controller");
 const {
   checkBodyFieldsAddComponent,
   checkBodyFieldsUpdateComponent
-} = require("../../helpers/validations/express-validator");
+} = require("../../helpers/validations/component/express-validator");
 
 componentRouter.post(
   "/",
@@ -18,6 +18,12 @@ componentRouter.patch(
   checkBodyFieldsUpdateComponent(),
   componentController.updateComponentController
 );
+
+componentRouter.delete(
+  "/:id",
+  componentController.deleteComponentController
+);
+
 
 componentRouter.get("/list", componentController.getAllComponentController);
 

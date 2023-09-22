@@ -71,6 +71,8 @@ const addComponentDetailController = async (req, res) => {
   }
 };
 
+
+
 /**
  * @description get all paginated components details to database
  * @param {any} req any type
