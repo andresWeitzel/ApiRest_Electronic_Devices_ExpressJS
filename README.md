@@ -135,7 +135,7 @@ cd 'projectName'
 * Abrimos una terminal desde vsc
 * Inicializamos un proyecto nodejs
 ```git
-npm init
+npm init -y
 ```
 * Creamos un archivo .gitignore y agregamos los files necesarios (por el momento node_modules)
 ```git
