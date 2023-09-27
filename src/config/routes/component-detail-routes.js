@@ -1,20 +1,26 @@
 //External
 const componentDetailRouter = require("express").Router();
 //Controllers
-const componentDetailController = require("../../controllers/component-detail.controller");
+const { addComponentDetailController, getAllComponentDetailsController } = require("../../controllers/component-detail.controller");
 //Helpers
-const { checkBodyFieldsAddComponentDetails } = require("../../helpers/validations/component-detail/express-validator");
+const { checkBodyFieldsAddComponentDetails, checkBodyFieldsUpdateComponentDetail } = require("../../helpers/validations/component-detail/express-validator");
 
 
 componentDetailRouter.post(
   "/",
   checkBodyFieldsAddComponentDetails(),
-  componentDetailController.addComponentDetailController
+  addComponentDetailController
 );
+
+// componentDetailRouter.patch(
+//   "/:id",
+//   checkBodyFieldsUpdateComponentDetail(),
+//   updateComponentDetailController
+// );
 
 componentDetailRouter.get(
   "/list",
-  componentDetailController.getAllComponentDetailsController
+  getAllComponentDetailsController
 );
 
 

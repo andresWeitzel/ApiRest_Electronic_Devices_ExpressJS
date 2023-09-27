@@ -217,7 +217,7 @@ const getAllComponentController = async (req, res) => {
       default:
         if (
           typeof componentList === "object" &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -267,7 +267,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -317,7 +317,7 @@ const getAllWithDetailComponentController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -367,7 +367,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -417,7 +417,7 @@ const getAllWithAllModelsComponentController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -517,7 +517,7 @@ const getAllComponentLikeCodeController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -567,7 +567,7 @@ const getAllComponentLikeImageController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -617,7 +617,7 @@ const getAllComponentLikePartNumberController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -667,7 +667,7 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -717,7 +717,7 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -767,7 +767,7 @@ const getAllComponentLikeStockController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -818,7 +818,7 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -869,7 +869,7 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -920,7 +920,7 @@ const getAllComponentLikePriceController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -970,7 +970,7 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -1020,7 +1020,7 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;

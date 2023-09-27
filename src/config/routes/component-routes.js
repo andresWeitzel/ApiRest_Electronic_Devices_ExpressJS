@@ -1,7 +1,29 @@
 //External
 const componentRouter = require("express").Router();
+const {
+  addComponentController,
+  getAllComponentController,
+  deleteComponentController,
+  updateComponentController,
+  getAllWithAttributesComponentController,
+  getAllWithDetailComponentController,
+  getAllWithBipolarTransistorComponentController,
+  getAllWithAllModelsComponentController,
+  getComponentByIdController,
+  getAllComponentLikeCodeController,
+  getAllComponentLikeDescriptionController,
+  getAllComponentLikePartNumberController,
+  getAllComponentLikeCategoryAndMakerController,
+  getAllComponentLikeStockMinMaxController,
+  getAllComponentLikeStockMaxController,
+  getAllComponentLikeStockController,
+  getAllComponentLikePriceController,
+  getAllComponentLikePriceMaxController,
+  getAllComponentLikePriceMinMaxController,
+  getAllComponentLikeImageController
+} = require("../../controllers/component.controller");
 //Controllers
-const componentController = require("../../controllers/component.controller");
+
 const {
   checkBodyFieldsAddComponent,
   checkBodyFieldsUpdateComponent
@@ -10,101 +32,79 @@ const {
 componentRouter.post(
   "/",
   checkBodyFieldsAddComponent(),
-  componentController.addComponentController
+  addComponentController
 );
 
 componentRouter.patch(
   "/id/:id",
   checkBodyFieldsUpdateComponent(),
-  componentController.updateComponentController
+  updateComponentController
 );
 
-componentRouter.delete(
-  "/:id",
-  componentController.deleteComponentController
-);
+componentRouter.delete("/:id", deleteComponentController);
 
-
-componentRouter.get("/list", componentController.getAllComponentController);
+componentRouter.get("/list", getAllComponentController);
 
 componentRouter.get(
   "/list-with-attributes",
-  componentController.getAllWithAttributesComponentController
+  getAllWithAttributesComponentController
 );
 
 //component and component_detail tables
-componentRouter.get(
-  "/list-with-details",
-  componentController.getAllWithDetailComponentController
-);
+componentRouter.get("/list-with-details", getAllWithDetailComponentController);
 
 //component and bipolar-transistor
 componentRouter.get(
   "/bipolar-transistor-list",
-  componentController.getAllWithBipolarTransistorComponentController
+  getAllWithBipolarTransistorComponentController
 );
 
 //component wih all models
-componentRouter.get(
-  "/list-all-models",
-  componentController.getAllWithAllModelsComponentController
-);
+componentRouter.get("/list-all-models", getAllWithAllModelsComponentController);
 
-componentRouter.get("/id/:id", componentController.getComponentByIdController);
+componentRouter.get("/id/:id", getComponentByIdController);
 
-componentRouter.get(
-  "/codigo/:codigo",
-  componentController.getAllComponentLikeCodeController
-);
+componentRouter.get("/codigo/:codigo", getAllComponentLikeCodeController);
 
-componentRouter.get(
-  "/imagen/:imagen",
-  componentController.getAllComponentLikeImageController
-);
+componentRouter.get("/imagen/:imagen", getAllComponentLikeImageController);
 
 componentRouter.get(
   "/nro-pieza/:nroPieza",
-  componentController.getAllComponentLikePartNumberController
+  getAllComponentLikePartNumberController
 );
 
 componentRouter.get(
   "/categoria-fabricante",
-  componentController.getAllComponentLikeCategoryAndMakerController
+  getAllComponentLikeCategoryAndMakerController
 );
 
 componentRouter.get(
   "/descripcion/:descripcion",
-  componentController.getAllComponentLikeDescriptionController
+  getAllComponentLikeDescriptionController
 );
 
-componentRouter.get(
-  "/stock/:stock",
-  componentController.getAllComponentLikeStockController
-);
+componentRouter.get("/stock/:stock", getAllComponentLikeStockController);
 
 componentRouter.get(
   "/stock-maximo/:stock",
-  componentController.getAllComponentLikeStockMaxController
+  getAllComponentLikeStockMaxController
 );
 
 componentRouter.get(
   "/stock-minimo-maximo",
-  componentController.getAllComponentLikeStockMinMaxController
+  getAllComponentLikeStockMinMaxController
 );
 
-componentRouter.get(
-  "/precio/:precio",
-  componentController.getAllComponentLikePriceController
-);
+componentRouter.get("/precio/:precio", getAllComponentLikePriceController);
 
 componentRouter.get(
   "/precio-maximo/:precioMax",
-  componentController.getAllComponentLikePriceMaxController
+  getAllComponentLikePriceMaxController
 );
 
 componentRouter.get(
   "/precio-minimo-maximo",
-  componentController.getAllComponentLikePriceMinMaxController
+  getAllComponentLikePriceMinMaxController
 );
 
 module.exports = componentRouter;

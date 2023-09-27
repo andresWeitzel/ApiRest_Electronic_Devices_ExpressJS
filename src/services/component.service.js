@@ -767,6 +767,7 @@ const getAllComponentLikePartNumberService = async (req, res) => {
       })
         .then(async (componentItems) => {
           componentList = componentItems;
+          console.log(componentList)
         })
         .catch(async (error) => {
           msg = `Error in getAllComponentLikePartNumberService() function when trying to get a component by nro de pieza. Caused by ${error}`;

@@ -109,7 +109,7 @@ const getAllComponentDetailsController = async (req, res) => {
       default:
         if (
           typeof componentDetailList === "object" &&
-          componentDetailList[0].hasOwnProperty("id")
+          componentDetailList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentDetailList);
           break;

@@ -221,125 +221,148 @@ const checkBodyFieldsAddComponentDetails = () => {
   }
 };
 
-// /**
-//  * @description check all validations for the body fields to update a component
-//  * @returns an array with all the validations that do not comply with what was tested
-//  */
-// const checkBodyFieldsUpdateComponent = () => {
-//   try {
-//     return [
-//       //Check codigo
-//       check(`${NAME_VALUE_HOJA_DE_DATOS}`)
-//         .optional()
-//         .isString()
-//         .withMessage("The code of component should be string")
-//         .isLength({
-//           min: MIN_VALUE_LENGHT_HOJA_DE_DATOS,
-//           max: MAX_VALUE_LENGHT_HOJA_DE_DATOS
-//         })
-//         .withMessage(
-//           `The value of the codigo must be between ${MIN_VALUE_LENGHT_HOJA_DE_DATOS} and ${MAX_VALUE_LENGHT_HOJA_DE_DATOS} characters`
-//         ),
-//       //Check imagen
-//       check(`${NAME_VALUE_LONGITUD}`)
-//         .optional()
-//         .isString()
-//         .withMessage(`The ${NAME_VALUE_LONGITUD} of component should be string`)
-//         .isLength({
-//           min: MIN_VALUE_LENGHT_LONGITUD,
-//           max: MAX_VALUE_LENGHT_LONGITUD
-//         })
-//         .withMessage(
-//           `The value of the image must be between ${MIN_VALUE_LENGHT_LONGITUD} and ${MAX_VALUE_LENGHT_LONGITUD} characters`
-//         ),
-//       //Check nro_pieza
-//       check(`${NAME_VALUE_ANCHO}`)
-//         .optional()
-//         .isString()
-//         .withMessage(
-//           `The ${NAME_VALUE_ANCHO} of component should be string`
-//         )
-//         .isLength({
-//           min: MIN_VALUE_LENGHT_ANCHO,
-//           max: MAX_VALUE_LENGHT_ANCHO
-//         })
-//         .withMessage(
-//           `The value of the ${NAME_VALUE_ANCHO} must be between ${MIN_VALUE_LENGHT_ANCHO} and ${MAX_VALUE_LENGHT_ANCHO} characters`
-//         ),
-//       //Check categoria
-//       check(`${NAME_VALUE_PESO}`)
-//         .optional()
-//         .isString()
-//         .withMessage(
-//           `The ${NAME_VALUE_PESO} of component should be string`
-//         )
-//         .isLength({
-//           min: MIN_VALUE_LENGHT_PESO,
-//           max: MAX_VALUE_LENGHT_PESO
-//         })
-//         .withMessage(
-//           `The value of the ${NAME_VALUE_PESO} must be between ${MIN_VALUE_LENGHT_PESO} and ${MAX_VALUE_LENGHT_PESO} characters`
-//         ),
-//       //Check descripcion
-//       check(`${NAME_VALUE_MATERIAL}`)
-//         .optional()
-//         .isString()
-//         .withMessage(
-//           `The ${NAME_VALUE_MATERIAL} of component should be string`
-//         )
-//         .isLength({
-//           min: MIN_VALUE_LENGHT_MATERIAL,
-//           max: MAX_VALUE_LENGHT_MATERIAL
-//         })
-//         .withMessage(
-//           `The value of the ${NAME_VALUE_MATERIAL} must be between ${MIN_VALUE_LENGHT_MATERIAL} and ${MAX_VALUE_LENGHT_MATERIAL} characters`
-//         ),
-//       //Check fabricante
-//       check(`${NAME_VALUE_VOLTAJE_RECOMENDADO}`)
-//         .optional()
-//         .isString()
-//         .withMessage(
-//           `The ${NAME_VALUE_VOLTAJE_RECOMENDADO} of component should be string`
-//         )
-//         .isLength({
-//           min: MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO,
-//           max: MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO
-//         })
-//         .withMessage(
-//           `The value of the ${NAME_VALUE_VOLTAJE_RECOMENDADO} must be between ${MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO} and ${MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO} characters`
-//         ),
-//       //Check stock
-//       check(`${NAME_VALUE_STOCK}`)
-//         .optional()
-//         .isInt({ min: MIN_VALUE_STOCK, max: MAX_VALUE_STOCK })
-//         .withMessage(
-//           `The ${NAME_VALUE_STOCK} of component should be number (integer) and must be betwenn ${MIN_VALUE_STOCK} to ${MAX_VALUE_STOCK}`
-//         ),
-//       //Check precio
-//       check(`${NAME_VALUE_PRECIO}`)
-//         .optional()
-//         .isFloat({
-//           min: MIN_VALUE_PRECIO,
-//           max: MAX_VALUE_PRECIO
-//         })
-//         .withMessage(
-//           `The ${NAME_VALUE_PRECIO} of component should be number (float) and must be between ${MIN_VALUE_PRECIO} to ${MAX_VALUE_PRECIO}`
-//         ),
-//       (req, res, next) => {
-//         const errors = validationResult(req);
-//         if (!errors.isEmpty()) {
-//           return res.status(400).json({ errors: errors.array() });
-//         }
-//         next();
-//       }
-//     ];
-//   } catch (error) {
-//     msg = `Error in checkBodyFieldsUpdateComponent() function. Caused by ${error}.`;
-//     console.log(msg);
-//   }
-// };
+/**
+ * @description check all validations for the body fields to update a component details
+ * @returns an array with all the validations that do not comply with what was tested
+ */
+const checkBodyFieldsUpdateComponentDetail = () => {
+  try {
+    return [
+      //Check id_component
+      check(`${NAME_VALUE_ID_COMPONENT}`)
+        .isOptional()
+        .isInt({ min: MIN_VALUE_ID_COMPONENT, max: MAX_VALUE_ID_COMPONENT })
+        .withMessage(
+          `The ${NAME_VALUE_ID_COMPONENT} of component details should be number (integer) and must be betwenn ${MIN_VALUE_ID_COMPONENT} to ${MAX_VALUE_ID_COMPONENT}.`
+        ),
+      //Check hoja_de_datos
+      check(`${NAME_VALUE_HOJA_DE_DATOS}`)
+        .isOptional()
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_HOJA_DE_DATOS} of component details should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_HOJA_DE_DATOS,
+          max: MAX_VALUE_LENGHT_HOJA_DE_DATOS
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_HOJA_DE_DATOS} must be between ${MIN_VALUE_LENGHT_HOJA_DE_DATOS} and ${MAX_VALUE_LENGHT_HOJA_DE_DATOS} characters`
+        ),
+      //Check longitud
+      check(`${NAME_VALUE_LONGITUD}`)
+        .isOptional()
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_LONGITUD} of component details should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_LONGITUD,
+          max: MAX_VALUE_LENGHT_LONGITUD
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_LONGITUD} must be between ${MIN_VALUE_LENGHT_LONGITUD} and ${MAX_VALUE_LENGHT_LONGITUD} characters`
+        ),
+      //Check ancho
+      check(`${NAME_VALUE_ANCHO}`)
+        .isOptional()
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_ANCHO} of component details should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_ANCHO,
+          max: MAX_VALUE_LENGHT_ANCHO
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_ANCHO} must be between ${MIN_VALUE_LENGHT_ANCHO} and ${MAX_VALUE_LENGHT_ANCHO} characters`
+        ),
+      //Check peso
+      check(`${NAME_VALUE_PESO}`)
+        .isOptional()
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_PESO} of component details should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_PESO,
+          max: MAX_VALUE_LENGHT_PESO
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_PESO} must be between ${MIN_VALUE_LENGHT_PESO} and ${MAX_VALUE_LENGHT_PESO} characters`
+        ),
+      //Check material
+      check(`${NAME_VALUE_MATERIAL}`)
+        .isOptional()
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_MATERIAL} of component details should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_MATERIAL,
+          max: MAX_VALUE_LENGHT_MATERIAL
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_MATERIAL} must be between ${MIN_VALUE_LENGHT_MATERIAL} and ${MAX_VALUE_LENGHT_MATERIAL} characters`
+        ),
+      //Check voltaje_recomendado
+      check(`${NAME_VALUE_VOLTAJE_RECOMENDADO}`)
+        .isOptional()
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_RECOMENDADO} of component details should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO,
+          max: MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_VOLTAJE_RECOMENDADO} must be between ${MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO} and ${MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO} characters`
+        ),
+      //Check voltaje_min_entrada
+      check(`${NAME_VALUE_VOLTAJE_MIN_ENTRADA}`)
+        .isOptional()
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} of component details should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA,
+          max: MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} must be between ${MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} and ${MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} characters`
+        ),
+      //Check voltaje_max_entrada
+      check(`${NAME_VALUE_VOLTAJE_MAX_ENTRADA}`)
+        .isOptional()
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_MAX_ENTRADA} of component details should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_VOLTAJE_MAX_ENTRADA,
+          max: MAX_VALUE_LENGHT_VOLTAJE_MAX_ENTRADA
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} must be between ${MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} and ${MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} characters`
+        ),
+
+      (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+      }
+    ];
+  } catch (error) {
+    msg = `Error in checkBodyFieldsUpdateComponentDetail() function. Caused by ${error}.`;
+    console.log(msg);
+  }
+};
 
 module.exports = {
-  checkBodyFieldsAddComponentDetails
-  // checkBodyFieldsUpdateComponent
+  checkBodyFieldsAddComponentDetails,
+  checkBodyFieldsUpdateComponentDetail
 };
