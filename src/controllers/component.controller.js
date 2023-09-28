@@ -40,6 +40,9 @@ const statusConnectionErrorDetail = statusDetails.CONNECTION_ERROR_DETAIL;
 const statusConnectionRefused = statusName.CONNECTION_REFUSED;
 const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
 
+//Add testing
+
+
 /**
  * @description add a componente to database
  * @param {any} req any type
