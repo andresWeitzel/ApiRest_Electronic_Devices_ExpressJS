@@ -14,7 +14,7 @@ const { ElectrolycticCapacitor } = require("./electrolytic_capacitor");
 let Component = dbConnection.define(
   "componentes",
   {
-    codigo: {
+    codigo: { 
       type: DataTypes.STRING(100),
       allowNull: false,
     },

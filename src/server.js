@@ -14,7 +14,7 @@ let app;
  * @description function in charge of starting the server, adding the initial configuration and setting the http routes
  * @returns active instance of the server for handling requests and responses
  */
-const run = async () => {
+const runServer = async () => {
   try {
     //Middleware
     app = await appMiddleware();
@@ -26,9 +26,13 @@ const run = async () => {
       await swaggerDocs(app, PORT);
     });
   } catch (error) {
-    msg = `Error in run() function, server.js file. Caused by ${error}`;
+    msg = `Error in runServer() function, server.js file. Caused by ${error}`;
     console.log(msg);
   }
 };
 
-run();
+runServer();
+
+module.exports={
+  runServer
+}

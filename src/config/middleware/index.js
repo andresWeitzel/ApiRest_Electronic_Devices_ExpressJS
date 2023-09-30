@@ -17,7 +17,7 @@ const componentDetailRouter = require("../routes/component-detail-routes");
  */
 const appMiddleware = async() => {
   try {
-    const app = express();
+    const app = await express();
 
      //Using morgan-middleware
      app.use(morgan('dev'));
