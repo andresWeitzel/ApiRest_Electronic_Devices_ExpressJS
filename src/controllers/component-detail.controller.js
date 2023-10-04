@@ -2,7 +2,7 @@
 require("dotenv").config();
 //Services
 const {
-  getAllComponentDetailService, addComponentDetailService
+  getAllComponentDetailService, addComponentDetailService, updateComponentDetailService, deleteComponentDetailService
 } = require("../services/component-detail.service");
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
@@ -17,6 +17,8 @@ const statusConnectionErrorDetail = statusDetails.CONNECTION_ERROR_DETAIL;
 const statusConnectionRefused = statusName.CONNECTION_REFUSED;
 const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
 let newComponentDetail;
+let updateComponentDetail;
+let deletedComponentDetail;
 let componentDetailList;
 let msg;
 let code;
@@ -74,6 +76,105 @@ const addComponentDetailController = async (req, res) => {
 
 
 /**
+ * @description update a component detail to database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const updateComponentDetailController = async (req, res) => {
+  try {
+    msg = null;
+    updateComponentDetail = await updateComponentDetailService(req);
+
+    switch (updateComponentDetail) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res
+          .status(statusCodeBadRequest)
+          .send({
+            error: "Bad request, could not update a component detail to database."
+          });
+        break;
+      default:
+        if (
+          typeof updateComponentDetail === "object" &&
+          updateComponentDetail.hasOwnProperty("objectUpdated")
+        ) {
+          res.status(statusCodeOk).send(updateComponentDetail);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: updateComponentDetail });
+        break;
+    }
+  } catch (error) {
+    msg = {
+      error: `Error in updateComponentDetailController() function. Caused by ${error}`
+    };
+    console.log(msg);
+    res.status(statusCodeInternalServerError).send(msg);
+  }
+};
+
+
+/**
+ * @description delete a component detail from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const deleteComponentDetailController = async (req, res) => {
+  try {
+    msg = null;
+    deletedComponentDetail = await deleteComponentDetailService(req);
+
+    switch (deletedComponentDetail) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res
+          .status(statusCodeBadRequest)
+          .send({ error: "Bad request, could not delete a component detail." });
+        break;
+      default:
+        if (
+          typeof deletedComponentDetail === "object" &&
+          deletedComponentDetail.hasOwnProperty("objectDeleted")
+        ) {
+          res.status(statusCodeOk).send(deletedComponentDetail);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: deletedComponentDetail });
+        break;
+    }
+  } catch (error) {
+    msg = {
+      error: `Error in deleteComponentDetailController() function. Caused by ${error}`
+    };
+    console.log(msg);
+    res.status(statusCodeInternalServerError).send(msg);
+  }
+};
+
+/**
  * @description get all paginated components details to database
  * @param {any} req any type
  * @param {any} res any type
@@ -127,5 +228,7 @@ const getAllComponentDetailsController = async (req, res) => {
 
 module.exports = {
   addComponentDetailController,
-  getAllComponentDetailsController
+  updateComponentDetailController,
+  deleteComponentDetailController,
+  getAllComponentDetailsController,
 };

@@ -230,14 +230,14 @@ const checkBodyFieldsUpdateComponentDetail = () => {
     return [
       //Check id_component
       check(`${NAME_VALUE_ID_COMPONENT}`)
-        .isOptional()
+        .optional()
         .isInt({ min: MIN_VALUE_ID_COMPONENT, max: MAX_VALUE_ID_COMPONENT })
         .withMessage(
           `The ${NAME_VALUE_ID_COMPONENT} of component details should be number (integer) and must be betwenn ${MIN_VALUE_ID_COMPONENT} to ${MAX_VALUE_ID_COMPONENT}.`
         ),
       //Check hoja_de_datos
       check(`${NAME_VALUE_HOJA_DE_DATOS}`)
-        .isOptional()
+        .optional()
         .isString()
         .withMessage(
           `The ${NAME_VALUE_HOJA_DE_DATOS} of component details should be string`
@@ -251,7 +251,7 @@ const checkBodyFieldsUpdateComponentDetail = () => {
         ),
       //Check longitud
       check(`${NAME_VALUE_LONGITUD}`)
-        .isOptional()
+        .optional()
         .isString()
         .withMessage(
           `The ${NAME_VALUE_LONGITUD} of component details should be string`
@@ -265,7 +265,7 @@ const checkBodyFieldsUpdateComponentDetail = () => {
         ),
       //Check ancho
       check(`${NAME_VALUE_ANCHO}`)
-        .isOptional()
+        .optional()
         .isString()
         .withMessage(
           `The ${NAME_VALUE_ANCHO} of component details should be string`
@@ -279,7 +279,7 @@ const checkBodyFieldsUpdateComponentDetail = () => {
         ),
       //Check peso
       check(`${NAME_VALUE_PESO}`)
-        .isOptional()
+        .optional()
         .isString()
         .withMessage(
           `The ${NAME_VALUE_PESO} of component details should be string`
@@ -293,7 +293,7 @@ const checkBodyFieldsUpdateComponentDetail = () => {
         ),
       //Check material
       check(`${NAME_VALUE_MATERIAL}`)
-        .isOptional()
+        .optional()
         .isString()
         .withMessage(
           `The ${NAME_VALUE_MATERIAL} of component details should be string`
@@ -307,7 +307,7 @@ const checkBodyFieldsUpdateComponentDetail = () => {
         ),
       //Check voltaje_recomendado
       check(`${NAME_VALUE_VOLTAJE_RECOMENDADO}`)
-        .isOptional()
+        .optional()
         .isString()
         .withMessage(
           `The ${NAME_VALUE_VOLTAJE_RECOMENDADO} of component details should be string`
@@ -321,7 +321,7 @@ const checkBodyFieldsUpdateComponentDetail = () => {
         ),
       //Check voltaje_min_entrada
       check(`${NAME_VALUE_VOLTAJE_MIN_ENTRADA}`)
-        .isOptional()
+        .optional()
         .isString()
         .withMessage(
           `The ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} of component details should be string`
@@ -335,7 +335,7 @@ const checkBodyFieldsUpdateComponentDetail = () => {
         ),
       //Check voltaje_max_entrada
       check(`${NAME_VALUE_VOLTAJE_MAX_ENTRADA}`)
-        .isOptional()
+        .optional()
         .isString()
         .withMessage(
           `The ${NAME_VALUE_VOLTAJE_MAX_ENTRADA} of component details should be string`

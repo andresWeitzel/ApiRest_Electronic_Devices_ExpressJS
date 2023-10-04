@@ -30,6 +30,7 @@ const { value } = require("../enums/general/value");
 //Const-vars
 let newComponent;
 let updatedComponent;
+let deletedComponent;
 let msg;
 let code;
 const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
@@ -137,7 +138,7 @@ const updateComponentController = async (req, res) => {
 };
 
 /**
- * @description delete a componente from the database
+ * @description delete a component from the database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed

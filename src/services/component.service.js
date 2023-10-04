@@ -104,14 +104,14 @@ const updateComponentService = async (req, res) => {
     if (Component != null && idParam != null) {
       await Component.update(
         {
-          codigo: req.body.codigo,
-          imagen: req.body.imagen,
-          nro_pieza: req.body.nro_pieza,
-          categoria: req.body.categoria,
-          descripcion: req.body.descripcion,
-          fabricante: req.body.fabricante,
-          stock: req.body.stock,
-          precio: req.body.precio
+          codigo: req.body?.codigo,
+          imagen: req.body?.imagen,
+          nro_pieza: req.body?.nro_pieza,
+          categoria: req.body?.categoria,
+          descripcion: req.body?.descripcion,
+          fabricante: req.body?.fabricante,
+          stock: req.body?.stock,
+          precio: req.body?.precio
         },
         {
           where: {
@@ -147,7 +147,7 @@ const updateComponentService = async (req, res) => {
 };
 
 /**
- * @description delete a componente from the database
+ * @description delete a component from the database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
