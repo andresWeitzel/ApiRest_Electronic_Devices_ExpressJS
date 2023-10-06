@@ -2,7 +2,7 @@
 require("dotenv").config();
 //Services
 const {
-  getAllComponentDetailService, addComponentDetailService, updateComponentDetailService, deleteComponentDetailService
+  getAllComponentDetailService, addComponentDetailService, updateComponentDetailService, deleteComponentDetailService, getAllWithAttributesComponentDetailService
 } = require("../services/component-detail.service");
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
@@ -181,7 +181,7 @@ const deleteComponentDetailController = async (req, res) => {
  * @returns a json object with the transaction performed
  * @example
  */
-const getAllComponentDetailsController = async (req, res) => {
+const getAllComponentDetailController = async (req, res) => {
   try {
     msg = null;
     code = null;
@@ -220,7 +220,58 @@ const getAllComponentDetailsController = async (req, res) => {
     }
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in getAllComponentDetailsController() function. Caused by ${error}`;
+    msg = `Error in getAllComponentDetailController() function. Caused by ${error}`;
+    console.log(msg);
+    res.status(code).send(msg);
+  }
+};
+
+/**
+ * @description get all paginated components deatails list according to all attributes from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const getAllWithAttributesComponentDetailController = async (req, res) => {
+  try {
+    msg = null;
+    code = null;
+    componentDetailList = null;
+
+    componentDetailList = await getAllWithAttributesComponentDetailService(req);
+
+    switch (componentDetailList) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res.status(statusCodeBadRequest).send({
+          error:
+            "Bad request, failed to get all paginated components details list according to all attributes."
+        });
+        break;
+      default:
+        if (
+          (typeof componentDetailList === "object" || Array.isArray(componentDetailList)) &&
+          componentDetailList[0]?.hasOwnProperty("id")
+        ) {
+          res.status(statusCodeOk).send(componentDetailList);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: componentDetailList });
+        break;
+    }
+  } catch (error) {
+    code = statusCode.INTERNAL_SERVER_ERROR;
+    msg = `Error in getAllWithAttributesComponentDetailController() function. Caused by ${error}`;
     console.log(msg);
     res.status(code).send(msg);
   }
@@ -230,5 +281,6 @@ module.exports = {
   addComponentDetailController,
   updateComponentDetailController,
   deleteComponentDetailController,
-  getAllComponentDetailsController,
+  getAllComponentDetailController,
+  getAllWithAttributesComponentDetailController
 };

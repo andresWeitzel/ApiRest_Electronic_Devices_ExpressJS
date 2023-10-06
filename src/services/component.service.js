@@ -31,11 +31,13 @@ let categoriaParam;
 let descripcionParam;
 let fabricanteParam;
 let stockParam;
+let precioParam;
 let stockMin;
 let stockMax;
 let priceParam;
 let priceMinParam;
 let priceMaxParam;
+
 
 /**
  * @description add a componente to database
@@ -272,8 +274,8 @@ const getAllWithAttributesComponentService = async (req, res) => {
     categoriaParam = null;
     descripcionParam = null;
     fabricanteParam = null;
-    stockParam = null;
-    precioParam = null;
+    stockParam = 0;
+    precioParam = 0;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;

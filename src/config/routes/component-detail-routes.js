@@ -3,9 +3,10 @@ const componentDetailRouter = require("express").Router();
 //Controllers
 const {
   addComponentDetailController,
-  getAllComponentDetailsController,
   updateComponentDetailController,
-  deleteComponentDetailController
+  deleteComponentDetailController,
+  getAllComponentDetailController,
+  getAllWithAttributesComponentDetailController
 } = require("../../controllers/component-detail.controller");
 //Helpers
 const {
@@ -27,6 +28,11 @@ componentDetailRouter.patch(
 
 componentDetailRouter.delete("/:id", deleteComponentDetailController);
 
-componentDetailRouter.get("/list", getAllComponentDetailsController);
+componentDetailRouter.get("/list", getAllComponentDetailController);
+
+componentDetailRouter.get(
+  "/list-with-attributes",
+  getAllWithAttributesComponentDetailController
+);
 
 module.exports = componentDetailRouter;
