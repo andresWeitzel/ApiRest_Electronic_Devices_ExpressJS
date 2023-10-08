@@ -1,11 +1,11 @@
-![Index app](./doc/assets/components-example.png)
+![Index app](https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/doc/assets/componentes-example.png)
 
 <div align="right">
-     <a href="https://github.com/andresWeitzel/ApiRest_Dispósitos_Electronicos_ExpressJS/blob/master/translations/README.es.md" target="_blank">
-       <img src="https://github.com/andresWeitzel/ApiRest_Dispósitos_Electronicos_ExpressJS/blob/master/doc/assets/translation/arg-flag.jpg" width="10%" height="10%" />
+     <a href="https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/translations/README.es.md" target="_blank">
+       <img src="https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/doc/assets/translation/arg-flag.jpg" width="10%" height="10%" />
    </a>
-    <a href="https://github.com/andresWeitzel/ApiRest_Dispósitos_Electronicos_ExpressJS/blob/master/README.md" target="_blank">
-       <img src="https://github.com/andresWeitzel/ApiRest_Dispósitos_Electronicos_ExpressJS/blob/master/doc/assets/translation/eeuu-flag.jpg" width="10%" height="10%" />
+    <a href="https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/README.md" target="_blank">
+       <img src="https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/doc/assets/translation/eeuu-flag.jpg" width="10%" height="10%" />
    </a>
 </div>
 
@@ -21,7 +21,7 @@ Rest Api about electronic devices implemented with express, morgan-middleware, n
 
 * [Database repository](https://github.com/andresWeitzel/db_dispositives_electronicos_postgreSQL)
 * [Functionality Test Playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" >
-     <img src="https://github.com/andresWeitzel/ApiRest_Dispósitos_Electronicos_ExpressJS/blob/master/doc/assets/social-networks/yt.png" width="5%" height="5%" />
+     <img src="https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/doc/assets/social-networks/yt.png" width="5%" height="5%" />
 </a>
 
 
@@ -92,7 +92,7 @@ Rest Api about electronic devices implemented with express, morgan-middleware, n
 #### 1.1.0) Initial settings
 * Once a work environment has been created through some IDE, we clone the project
 ```git
-git clone https://github.com/andresWeitzel/ApiRest_Dispósitos_Electronicos_ExpressJS
+git clone https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS
 ```
 * We position ourselves on the project
 ```git
@@ -142,7 +142,7 @@ npm run dev or npm start
 #### 1.2.0) Initial settings
 * Once a work environment has been created through some IDE, we clone the project
 ```git
-git clone https://github.com/andresWeitzel/ApiRest_Dispósitos_Electronicos_ExpressJS
+git clone https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS
 ```
 * We position ourselves on the project
 ```git
@@ -313,7 +313,7 @@ npm run dev or npm start
 * [Creation and config Api rest from scratch](https://www.youtube.com/watch?v=bK3AJfs7qNY&t=1019s)
 
 #### Code Examples
-* [Example of microservice using Sequelize, Mysql and NodeJS](https://github.com/andresWeitzel/ApiRest_Dispósitos_Electronicos_ExpressJS)
+* [Example of microservice using Sequelize, Mysql and NodeJS](https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS)
 
 #### Bookstores
 * [Handling validations with express-validator](https://medium.com/dataseries/introduction-to-request-body-validation-in-express-apps-with-express-validator-7b9725ca780d)
