@@ -1,6 +1,6 @@
 
 
-![Index app](./doc/assets/componentes-example.png)
+![Index app](https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/doc/assets/componentes-example.png)
 
 <div align="right">
     <a href="https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/translations/README.es.md" target="_blank">
