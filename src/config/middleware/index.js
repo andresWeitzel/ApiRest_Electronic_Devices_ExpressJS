@@ -49,11 +49,13 @@ const appMiddleware = async() => {
     //-- See all endpoints    
     console.log(listEndpoints(app));
 
+    
+     
+  return app;
+
   } catch (error) {
     console.log(`Error in appMiddleware() function. Caused by ${error}`);
   }
-     
-  return app;
 };
 
 module.exports = {

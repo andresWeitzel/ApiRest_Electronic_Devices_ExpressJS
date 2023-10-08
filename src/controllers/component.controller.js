@@ -100,6 +100,7 @@ const addComponentController = async (req, res) => {
 const updateComponentController = async (req, res) => {
   try {
     msgResponse = null;
+    msgLog = null;
     updatedComponent = await updateComponentService(req);
 
     switch (updatedComponent) {
@@ -147,6 +148,7 @@ const updateComponentController = async (req, res) => {
 const deleteComponentController = async (req, res) => {
   try {
     msg = null;
+    msgLog = null;
     deletedComponent = await deleteComponentService(req);
 
     switch (deletedComponent) {
@@ -177,11 +179,10 @@ const deleteComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msg = {
-      error: `Error in deleteComponentController() function. Caused by ${error}`
-    };
-    console.log(msg);
-    res.status(statusCodeInternalServerError).send(msg);
+    msgResponse = 'ERROR in deleteComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -246,6 +247,7 @@ const getAllComponentController = async (req, res) => {
 const getAllWithAttributesComponentController = async (req, res) => {
   try {
     msgResponse = null;
+    msgLog=null;
     code = null;
     componentList = null;
 
@@ -280,10 +282,10 @@ const getAllWithAttributesComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllWithAttributesComponentController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllWithAttributesComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -297,6 +299,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
 const getAllWithDetailComponentController = async (req, res) => {
   try {
     msgResponse = null;
+    msgLog=null;
     code = null;
 
     componentList = await getAllComponentWithDetailsService(req);
@@ -330,10 +333,10 @@ const getAllWithDetailComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllWithDetailComponentController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllWithDetailComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -347,6 +350,7 @@ const getAllWithDetailComponentController = async (req, res) => {
 const getAllWithBipolarTransistorComponentController = async (req, res) => {
   try {
     msgResponse = null;
+    msgLog=null;
     code = null;
 
     componentList = await getAllComponentWithBipolarTransistorService(req);
@@ -380,10 +384,10 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllWithBipolarTransistorComponentController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllWithBipolarTransistorComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -397,6 +401,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
 const getAllWithAllModelsComponentController = async (req, res) => {
   try {
     msgResponse = null;
+    msgLog=null;
     code = null;
 
     componentList = await getAllComponentWithAllModelsService(req);
@@ -430,10 +435,10 @@ const getAllWithAllModelsComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllWithAllModelsComponentController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllWithAllModelsComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
