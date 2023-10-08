@@ -34,7 +34,6 @@ const checkErrors = async (error, msg) => {
   } catch (error) {
     msg = `Error in checkErrors() function. Caused by ${error}.`;
     console.log(msg);
-    check = error;
   }
 
   return check;

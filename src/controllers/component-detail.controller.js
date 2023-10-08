@@ -21,6 +21,9 @@ let updateComponentDetail;
 let deletedComponentDetail;
 let componentDetailList;
 let msg;
+let newComponent;
+let msgResponse;
+let msgLog;
 let code;
 
 /**
@@ -183,7 +186,7 @@ const deleteComponentDetailController = async (req, res) => {
  */
 const getAllComponentDetailController = async (req, res) => {
   try {
-    msg = null;
+    msgResponse = null;
     code = null;
 
     componentDetailList = await getAllComponentDetailService(req);
@@ -220,9 +223,10 @@ const getAllComponentDetailController = async (req, res) => {
     }
   } catch (error) {
     code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in getAllComponentDetailController() function. Caused by ${error}`;
-    console.log(msg);
-    res.status(code).send(msg);
+    msgResponse = 'ERROR in getAllComponentDetailController() function.';
+    msgLog = msgResponse + `Caused by ${error}`; 
+    console.log(msgLog);
+    res.status(code).send(msgResponse);
   }
 };
 
