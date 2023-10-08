@@ -30,6 +30,7 @@ const { value } = require("../enums/general/value");
 //Const-vars
 let newComponent;
 let updatedComponent;
+let deletedComponent;
 let msgResponse;
 let msgLog;
 let code;
@@ -82,7 +83,7 @@ const addComponentController = async (req, res) => {
         break;
     };
   } catch (error) {
-    msgResponse = 'Error in addComponentController() function.';
+    msgResponse = 'ERROR in addComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(statusCodeInternalServerError).send({error : msgResponse});
@@ -129,11 +130,10 @@ const updateComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = {
-      error: `Error in updateComponentController() function. Caused by ${error}`
-    };
-    console.log(msgResponse);
-    res.status(statusCodeInternalServerError).send(msgResponse);
+    msgResponse = 'ERROR in updateComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
