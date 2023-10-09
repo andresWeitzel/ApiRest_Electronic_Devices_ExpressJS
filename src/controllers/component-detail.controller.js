@@ -20,11 +20,8 @@ let newComponentDetail;
 let updateComponentDetail;
 let deletedComponentDetail;
 let componentDetailList;
-let msg;
-let newComponent;
 let msgResponse;
 let msgLog;
-let code;
 
 /**
  * @description add a component detail to database
@@ -35,7 +32,8 @@ let code;
  */
 const addComponentDetailController = async (req, res) => {
   try {
-    msg = null;
+    msgResponse = null;
+    msgLog = null;
     newComponentDetail = await addComponentDetailService(req);
 
     switch (newComponentDetail) {
@@ -68,11 +66,10 @@ const addComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msg = {
-      error: `Error in addComponentDetailController() function. Caused by ${error}`
-    };
-    console.log(msg);
-    res.status(statusCodeInternalServerError).send(msg);
+    msgResponse = 'ERROR in addComponentDetailController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -87,7 +84,8 @@ const addComponentDetailController = async (req, res) => {
  */
 const updateComponentDetailController = async (req, res) => {
   try {
-    msg = null;
+    msgResponse = null;
+    msgLog = null;
     updateComponentDetail = await updateComponentDetailService(req);
 
     switch (updateComponentDetail) {
@@ -120,11 +118,10 @@ const updateComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msg = {
-      error: `Error in updateComponentDetailController() function. Caused by ${error}`
-    };
-    console.log(msg);
-    res.status(statusCodeInternalServerError).send(msg);
+    msgResponse = 'ERROR in updateComponentDetailController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -138,7 +135,8 @@ const updateComponentDetailController = async (req, res) => {
  */
 const deleteComponentDetailController = async (req, res) => {
   try {
-    msg = null;
+    msgResponse = null;
+    msgLog = null;
     deletedComponentDetail = await deleteComponentDetailService(req);
 
     switch (deletedComponentDetail) {
@@ -169,11 +167,10 @@ const deleteComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msg = {
-      error: `Error in deleteComponentDetailController() function. Caused by ${error}`
-    };
-    console.log(msg);
-    res.status(statusCodeInternalServerError).send(msg);
+    msgResponse = 'ERROR in deleteComponentDetailController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -187,7 +184,7 @@ const deleteComponentDetailController = async (req, res) => {
 const getAllComponentDetailController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog = null;
 
     componentDetailList = await getAllComponentDetailService(req);
 
@@ -222,11 +219,10 @@ const getAllComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
     msgResponse = 'ERROR in getAllComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`; 
     console.log(msgLog);
-    res.status(code).send(msgResponse);
+    res.status(statusCodeInternalServerError).send(msgResponse);
   }
 };
 
@@ -239,8 +235,8 @@ const getAllComponentDetailController = async (req, res) => {
  */
 const getAllWithAttributesComponentDetailController = async (req, res) => {
   try {
-    msg = null;
-    code = null;
+    msgResponse = null;
+    msgLog = null;
     componentDetailList = null;
 
     componentDetailList = await getAllWithAttributesComponentDetailService(req);
@@ -274,10 +270,10 @@ const getAllWithAttributesComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msg = `Error in getAllWithAttributesComponentDetailController() function. Caused by ${error}`;
-    console.log(msg);
-    res.status(code).send(msg);
+    msgResponse = 'ERROR in getAllWithAttributesComponentDetailController() function.';
+    msgLog = msgResponse + `Caused by ${error}`; 
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send(msgResponse);
   }
 };
 
