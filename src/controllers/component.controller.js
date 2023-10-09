@@ -3,6 +3,8 @@ require("dotenv").config();
 //Services
 const {
   addComponentService,
+  updateComponentService,
+  deleteComponentService,
   getAllComponentService,
   getComponentByIdService,
   getAllComponentLikeCodeService,
@@ -13,7 +15,6 @@ const {
   getAllComponentWithDetailsService,
   getAllComponentWithBipolarTransistorService,
   getAllComponentWithAllModelsService,
-  updateComponentService,
   getAllComponentLikeDescriptionService,
   getAllComponentLikeStockMaxService,
   getAllComponentLikeStockService,
@@ -29,10 +30,10 @@ const { value } = require("../enums/general/value");
 //Const-vars
 let newComponent;
 let updatedComponent;
+let deletedComponent;
 let msgResponse;
 let msgLog;
 let code;
-let validations;
 const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
 const statusCodeBadRequest = statusCode.BAD_REQUEST;
 const statusCodeOk = statusCode.OK;
@@ -82,7 +83,7 @@ const addComponentController = async (req, res) => {
         break;
     };
   } catch (error) {
-    msgResponse = 'Error in addComponentController() function.';
+    msgResponse = 'ERROR in addComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(statusCodeInternalServerError).send({error : msgResponse});
@@ -99,6 +100,7 @@ const addComponentController = async (req, res) => {
 const updateComponentController = async (req, res) => {
   try {
     msgResponse = null;
+    msgLog = null;
     updatedComponent = await updateComponentService(req);
 
     switch (updatedComponent) {
@@ -129,11 +131,58 @@ const updateComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = {
-      error: `Error in updateComponentController() function. Caused by ${error}`
-    };
-    console.log(msgResponse);
-    res.status(statusCodeInternalServerError).send(msgResponse);
+    msgResponse = 'ERROR in updateComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
+  }
+};
+
+/**
+ * @description delete a component from the database
+ * @param {any} req any type
+ * @param {any} res any type
+ * @returns a json object with the transaction performed
+ * @example
+ */
+const deleteComponentController = async (req, res) => {
+  try {
+    msgResponse = null;
+    msgLog = null;
+    deletedComponent = await deleteComponentService(req);
+
+    switch (deletedComponent) {
+      case statusConnectionError:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionErrorDetail });
+        break;
+      case statusConnectionRefused:
+        res
+          .status(statusCodeInternalServerError)
+          .send({ error: statusConnectionRefusedDetail });
+        break;
+      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+        res
+          .status(statusCodeBadRequest)
+          .send({ error: "Bad request, could not delete a component." });
+        break;
+      default:
+        if (
+          typeof deletedComponent === "object" &&
+          deletedComponent.hasOwnProperty("objectDeleted")
+        ) {
+          res.status(statusCodeOk).send(deletedComponent);
+          break;
+        }
+        res.status(statusCodeBadRequest).send({ error: deletedComponent });
+        break;
+    }
+  } catch (error) {
+    msgResponse = 'ERROR in deleteComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -148,7 +197,6 @@ const getAllComponentController = async (req, res) => {
   try {
     msgResponse = null;
     msgLog = null;
-    code = null;
 
     componentList = await getAllComponentService(req);
 
@@ -171,7 +219,7 @@ const getAllComponentController = async (req, res) => {
       default:
         if (
           typeof componentList === "object" &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -198,7 +246,7 @@ const getAllComponentController = async (req, res) => {
 const getAllWithAttributesComponentController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
     componentList = null;
 
     componentList = await getAllWithAttributesComponentService(req);
@@ -223,7 +271,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -232,10 +280,10 @@ const getAllWithAttributesComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllWithAttributesComponentController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllWithAttributesComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -249,7 +297,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
 const getAllWithDetailComponentController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentWithDetailsService(req);
 
@@ -273,7 +321,7 @@ const getAllWithDetailComponentController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -282,10 +330,10 @@ const getAllWithDetailComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllWithDetailComponentController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllWithDetailComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -299,7 +347,7 @@ const getAllWithDetailComponentController = async (req, res) => {
 const getAllWithBipolarTransistorComponentController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentWithBipolarTransistorService(req);
 
@@ -323,7 +371,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -332,10 +380,10 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllWithBipolarTransistorComponentController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllWithBipolarTransistorComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -349,7 +397,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
 const getAllWithAllModelsComponentController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentWithAllModelsService(req);
 
@@ -373,7 +421,7 @@ const getAllWithAllModelsComponentController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -382,10 +430,10 @@ const getAllWithAllModelsComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllWithAllModelsComponentController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllWithAllModelsComponentController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -399,7 +447,7 @@ const getAllWithAllModelsComponentController = async (req, res) => {
 const getComponentByIdController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getComponentByIdService(req);
 
@@ -432,10 +480,11 @@ const getComponentByIdController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getComponentByIdController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getComponentByIdController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -449,7 +498,7 @@ const getComponentByIdController = async (req, res) => {
 const getAllComponentLikeCodeController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikeCodeService(req);
 
@@ -473,7 +522,7 @@ const getAllComponentLikeCodeController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -482,10 +531,11 @@ const getAllComponentLikeCodeController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikeCodeController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikeCodeController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -499,7 +549,7 @@ const getAllComponentLikeCodeController = async (req, res) => {
 const getAllComponentLikeImageController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikeImageService(req);
 
@@ -523,7 +573,7 @@ const getAllComponentLikeImageController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -532,10 +582,11 @@ const getAllComponentLikeImageController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikeImageController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikeImageController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -549,7 +600,7 @@ const getAllComponentLikeImageController = async (req, res) => {
 const getAllComponentLikePartNumberController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikePartNumberService(req);
 
@@ -573,7 +624,7 @@ const getAllComponentLikePartNumberController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -582,10 +633,11 @@ const getAllComponentLikePartNumberController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikePartNumberController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikePartNumberController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -599,7 +651,7 @@ const getAllComponentLikePartNumberController = async (req, res) => {
 const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikeCategoryAndMakerService(req);
 
@@ -623,7 +675,7 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -632,10 +684,10 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikeCategoryAndMakerController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    msgResponse = 'ERROR in getAllComponentLikeCategoryAndMakerController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -649,7 +701,7 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
 const getAllComponentLikeDescriptionController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikeDescriptionService(req);
 
@@ -673,7 +725,7 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -682,10 +734,11 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikeDescriptionController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikeDescriptionController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -699,7 +752,7 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
 const getAllComponentLikeStockController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikeStockService(req);
 
@@ -723,7 +776,7 @@ const getAllComponentLikeStockController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -732,10 +785,11 @@ const getAllComponentLikeStockController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikeStockController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikeStockController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -750,7 +804,7 @@ const getAllComponentLikeStockController = async (req, res) => {
 const getAllComponentLikeStockMaxController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikeStockMaxService(req);
 
@@ -774,7 +828,7 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -783,10 +837,11 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikeStockMaxController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikeStockMaxController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -801,7 +856,7 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
 const getAllComponentLikeStockMinMaxController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikeStockMinMaxService(req);
 
@@ -825,7 +880,7 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -834,10 +889,11 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikeStockMinMaxController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikeStockMinMaxController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -852,7 +908,7 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
 const getAllComponentLikePriceController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikePriceService(req);
 
@@ -876,7 +932,7 @@ const getAllComponentLikePriceController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -885,10 +941,11 @@ const getAllComponentLikePriceController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikePriceController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+    
+    msgResponse = 'ERROR in getAllComponentLikePriceController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -902,7 +959,7 @@ const getAllComponentLikePriceController = async (req, res) => {
 const getAllComponentLikePriceMaxController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikePriceMaxService(req);
 
@@ -926,7 +983,7 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -935,10 +992,11 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikePriceMaxController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikePriceMaxController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -952,7 +1010,7 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
 const getAllComponentLikePriceMinMaxController = async (req, res) => {
   try {
     msgResponse = null;
-    code = null;
+    msgLog=null;
 
     componentList = await getAllComponentLikePriceMinMaxService(req);
 
@@ -976,7 +1034,7 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
       default:
         if (
           (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0].hasOwnProperty("id")
+          componentList[0]?.hasOwnProperty("id")
         ) {
           res.status(statusCodeOk).send(componentList);
           break;
@@ -985,10 +1043,11 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
         break;
     }
   } catch (error) {
-    code = statusCode.INTERNAL_SERVER_ERROR;
-    msgResponse = `Error in getAllComponentLikePriceMinMaxController() function. Caused by ${error}`;
-    console.log(msgResponse);
-    res.status(code).send(msgResponse);
+
+    msgResponse = 'ERROR in getAllComponentLikePriceMinMaxController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+    res.status(statusCodeInternalServerError).send({error : msgResponse});
   }
 };
 
@@ -996,6 +1055,7 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
 module.exports = {
   addComponentController,
   updateComponentController,
+  deleteComponentController,
   getAllComponentController,
   getAllWithAttributesComponentController,
   getAllWithDetailComponentController,

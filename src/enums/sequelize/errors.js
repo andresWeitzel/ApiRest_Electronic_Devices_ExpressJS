@@ -3,7 +3,7 @@
  * @returns the name value of the constrainst or validation
  * @example UNIQUE_CONSTRAINT_ERROR --> "SequelizeUniqueConstraintError"
  */
-const sequelizeContraint = {
+const sequelizeConstraint = {
   /**
    * @description Unique constraint violation error
    */
@@ -11,7 +11,7 @@ const sequelizeContraint = {
   /**
    * @description Foreign key constraint violation error
    */
-  FOREIGN_KEY_CONSTRAINT_ERROR: "SequelizeForeignKeyContraintError",
+  FOREIGN_KEY_CONSTRAINT_ERROR: "SequelizeForeignKeyConstraintError",
   /**
    * @description Exclusion constraint violation error
    */
@@ -42,4 +42,4 @@ const sequelizeConnection = {
   CONNECTION_TIMEOUT_ERROR: "SequelizeConnectionTimedOutError",
 };
 
-module.exports = { sequelizeContraint, sequelizeConnection };
+module.exports = { sequelizeConstraint, sequelizeConnection };
