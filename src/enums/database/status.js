@@ -11,7 +11,7 @@ const statusName = {
     CONNECTION_REFUSED: "ECCONNREFUSED",
     CONNECTION_RESET: "ECCONNRESET",
     CONNECTION_ERROR: "ERROR",
-}
+};
 
 /**
  * @description Provides a description for each type of connection state.
@@ -22,6 +22,6 @@ const statusDetails = {
     CONNECTION_ERROR_DETAIL: "Error. An error has occurred with the connection or query to the database.",
     CONNECTION_REFUSED_DETAIL: `ECONNREFUSED. An error has occurred in the process operations and queries with the database Caused by SequelizeConnectionRefusedError: connect ECONNREFUSED ${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}.`,
     
-}
+};
 
-module.exports = { statusName, statusDetails }
+module.exports = { statusName, statusDetails };

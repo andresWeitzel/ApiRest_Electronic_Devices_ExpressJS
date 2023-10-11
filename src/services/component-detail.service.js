@@ -40,24 +40,32 @@ const addComponentDetailService = async (req, res) => {
   try {
     newComponentDetail = null;
     msg = null;
+    idComponenteParam = null;
+    hojaDatosParam = null;
+    longitudParam = null;
+    anchoParam = null;
+    materialParam = null;
+    voltajeRecParam = null;
+    voltajeMinEntrParam = null;
+    voltajeMaxEntrParam = null;
 
     if (ComponentDetail != null) {
       await ComponentDetail.create({
-        id_componente: req.body.id_componente,
-        hoja_de_datos: req.body.hoja_de_datos,
-        longitud: req.body.longitud,
-        ancho: req.body.ancho,
-        peso: req.body.peso,
-        material: req.body.material,
-        voltaje_recomendado: req.body.voltaje_recomendado,
-        voltaje_min_entrada: req.body.voltaje_min_entrada,
-        voltaje_max_entrada: req.body.voltaje_max_entrada
+        id_componente: (req.body?.id_componente) ? req.body.id_componente : idComponenteParam,
+        hoja_de_datos: (req.body?.hoja_de_datos) ? req.body.hoja_de_datos : hojaDatosParam,
+        longitud: (req.body?.longitud) ? req.body.longitud : longitudParam,
+        ancho: (req.body?.ancho) ? req.body.ancho : anchoParam,
+        peso: (req.body?.peso) ? req.body.peso : pesoParam,
+        material: (req.body?.material) ? req.body.material : materialParam,
+        voltaje_recomendado: (req.body?.voltaje_recomendado) ? req.body.voltaje_recomendado : voltajeRecomendadoParam,
+        voltaje_min_entrada: (req.body?.voltaje_min_entrada) ? req.body.voltaje_min_entrada : voltajeMinEntrParam,
+        voltaje_max_entrada: (req.body?.voltaje_max_entrada) ? req.body.voltaje_max_entrada : voltajeMaxEntrParam
       })
         .then(async (componentDetailItem) => {
           newComponentDetail = componentDetailItem.dataValues;
         })
         .catch(async (error) => {
-          msg = `Error in addComponentDetailService() function when trying to create a component. Caused by ${error}`;
+          msg = `Error in addComponentDetailService() function when trying to create a component detail. Caused by ${error}`;
           console.log(msg);
           newComponentDetail = await checkErrors(error, error.name);
         });
@@ -83,6 +91,14 @@ const updateComponentDetailService = async (req, res) => {
   try {
     updateComponentDetail = null;
     msg = null;
+    idComponenteParam = null;
+    hojaDatosParam = null;
+    longitudParam = null;
+    anchoParam = null;
+    materialParam = null;
+    voltajeRecParam = null;
+    voltajeMinEntrParam = null;
+    voltajeMaxEntrParam = null;
 
         //-- start with params ---
         params = req.params;
@@ -94,15 +110,15 @@ const updateComponentDetailService = async (req, res) => {
 
     if (ComponentDetail != null && idParam != null) {
       await ComponentDetail.update({
-        id_componente: req.body?.id_componente,
-        hoja_de_datos: req.body?.hoja_de_datos,
-        longitud: req.body?.longitud,
-        ancho: req.body?.ancho,
-        peso: req.body?.peso,
-        material: req.body?.material,
-        voltaje_recomendado: req.body?.voltaje_recomendado,
-        voltaje_min_entrada: req.body?.voltaje_min_entrada,
-        voltaje_max_entrada: req.body?.voltaje_max_entrada
+        id_componente: (req.body?.id_componente) ? req.body.id_componente : idComponenteParam,
+        hoja_de_datos: (req.body?.hoja_de_datos) ? req.body.hoja_de_datos : hojaDatosParam,
+        longitud: (req.body?.longitud) ? req.body.longitud : longitudParam,
+        ancho: (req.body?.ancho) ? req.body.ancho : anchoParam,
+        peso: (req.body?.peso) ? req.body.peso : pesoParam,
+        material: (req.body?.material) ? req.body.material : materialParam,
+        voltaje_recomendado: (req.body?.voltaje_recomendado) ? req.body.voltaje_recomendado : voltajeRecomendadoParam,
+        voltaje_min_entrada: (req.body?.voltaje_min_entrada) ? req.body.voltaje_min_entrada : voltajeMinEntrParam,
+        voltaje_max_entrada: (req.body?.voltaje_max_entrada) ? req.body.voltaje_max_entrada : voltajeMaxEntrParam
       },
       {
         where: {
