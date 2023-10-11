@@ -50,17 +50,25 @@ const addComponentService = async (req, res) => {
   try {
     newComponent = null;
     msg = null;
+    codigoParam = null;
+    imagenParam = null;
+    nroPiezaParam = null;
+    categoriaParam = null;
+    descripcionParam = null;
+    fabricanteParam = null;
+    stockParam = null;
+    priceParam = null;
 
     if (Component != null) {
       await Component.create({
-        codigo: req.body.codigo,
-        imagen: req.body.imagen,
-        nro_pieza: req.body.nro_pieza,
-        categoria: req.body.categoria,
-        descripcion: req.body.descripcion,
-        fabricante: req.body.fabricante,
-        stock: req.body.stock,
-        precio: req.body.precio
+        codigo: (req.body?.codigo) ? req.body.codigo : codigoParam,
+        imagen: (req.body?.imagen) ? req.body.imagen : imagenParam,
+        nro_pieza: (req.body?.nro_pieza) ? req.body.nro_pieza : nroPiezaParam,
+        categoria: (req.body?.categoria) ? req.body.categoria : categoriaParam,
+        descripcion: (req.body?.descripcion) ? req.body.descripcion : descripcionParam,
+        fabricante: (req.body?.fabricante) ? req.body.fabricante : fabricanteParam,
+        stock: (req.body?.stock) ? req.body.stock : stockParam,
+        precio: (req.body?.precio) ? req.body.precio : priceParam
       })
         .then(async (componentItem) => {
           newComponent = componentItem.dataValues;
@@ -94,6 +102,14 @@ const updateComponentService = async (req, res) => {
     msg = null;
     params = null;
     idParam = 0;
+    codigoParam = null;
+    imagenParam = null;
+    nroPiezaParam = null;
+    categoriaParam = null;
+    descripcionParam = null;
+    fabricanteParam = null;
+    stockParam = null;
+    priceParam = null;
 
     //-- start with params ---
     params = req.params;
@@ -106,14 +122,14 @@ const updateComponentService = async (req, res) => {
     if (Component != null && idParam != null) {
       await Component.update(
         {
-          codigo: req.body?.codigo,
-          imagen: req.body?.imagen,
-          nro_pieza: req.body?.nro_pieza,
-          categoria: req.body?.categoria,
-          descripcion: req.body?.descripcion,
-          fabricante: req.body?.fabricante,
-          stock: req.body?.stock,
-          precio: req.body?.precio
+          codigo: (req.body?.codigo) ? req.body.codigo : codigoParam,
+          imagen: (req.body?.imagen) ? req.body.imagen : imagenParam,
+          nro_pieza: (req.body?.nro_pieza) ? req.body.nro_pieza : nroPiezaParam,
+          categoria: (req.body?.categoria) ? req.body.categoria : categoriaParam,
+          descripcion: (req.body?.descripcion) ? req.body.descripcion : descripcionParam,
+          fabricante: (req.body?.fabricante) ? req.body.fabricante : fabricanteParam,
+          stock: (req.body?.stock) ? req.body.stock : stockParam,
+          precio: (req.body?.precio) ? req.body.precio : priceParam
         },
         {
           where: {
