@@ -27,13 +27,12 @@ const {
 const { statusName, statusDetails } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
 const { value } = require("../enums/general/value");
+const {
+  paginationNameValueError,
+  paginationDescriptionValueError,
+} = require("../enums/pagination/errors");
 //Const-vars
-let newComponent;
-let updatedComponent;
-let deletedComponent;
-let msgResponse;
-let msgLog;
-let code;
+//status-code
 const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
 const statusCodeBadRequest = statusCode.BAD_REQUEST;
 const statusCodeOk = statusCode.OK;
@@ -41,6 +40,21 @@ const statusConnectionError = statusName.CONNECTION_ERROR;
 const statusConnectionErrorDetail = statusDetails.CONNECTION_ERROR_DETAIL;
 const statusConnectionRefused = statusName.CONNECTION_REFUSED;
 const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
+// Pagination
+const ORDER_BY_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
+const ORDER_AT_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const ORDER_BY_DESCRIPTION_VALUE_ERROR =
+  paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
+const ORDER_AT_DESCRIPTION_VALUE_ERROR =
+  paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
+let newComponent;
+let updatedComponent;
+let deletedComponent;
+let msgResponse;
+let msgLog;
+let code;
 
 /**
  * @description add a componente to database
@@ -66,7 +80,9 @@ const addComponentController = async (req, res) => {
           .status(statusCodeInternalServerError)
           .send({ error: statusConnectionRefusedDetail });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+      case 0:
+      case undefined:
+      case null:
         res
           .status(statusCodeBadRequest)
           .send({ error: "Bad request, could not add a component." });
@@ -81,12 +97,12 @@ const addComponentController = async (req, res) => {
         }
         res.status(statusCodeBadRequest).send({ error: newComponent });
         break;
-    };
+    }
   } catch (error) {
-    msgResponse = 'ERROR in addComponentController() function.';
+    msgResponse = "ERROR in addComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -114,7 +130,9 @@ const updateComponentController = async (req, res) => {
           .status(statusCodeInternalServerError)
           .send({ error: statusConnectionRefusedDetail });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+      case 0:
+      case undefined:
+      case null:
         res
           .status(statusCodeBadRequest)
           .send({ error: "Bad request, could not update a component." });
@@ -131,10 +149,10 @@ const updateComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in updateComponentController() function.';
+    msgResponse = "ERROR in updateComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -162,7 +180,9 @@ const deleteComponentController = async (req, res) => {
           .status(statusCodeInternalServerError)
           .send({ error: statusConnectionRefusedDetail });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+      case 0:
+      case undefined:
+      case null:
         res
           .status(statusCodeBadRequest)
           .send({ error: "Bad request, could not delete a component." });
@@ -179,10 +199,10 @@ const deleteComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in deleteComponentController() function.';
+    msgResponse = "ERROR in deleteComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -211,10 +231,22 @@ const getAllComponentController = async (req, res) => {
           .status(statusCodeInternalServerError)
           .send({ error: statusConnectionRefusedDetail });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res
-          .status(statusCodeBadRequest)
-          .send({ error: "Bad request, failed to obtain paginated component list." });
+      case 0:
+      case undefined:
+      case null:
+        res.status(statusCodeBadRequest).send({
+          error: "Bad request, failed to obtain paginated component list.",
+        });
+        break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(statusCodeBadRequest).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(statusCodeBadRequest).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
         break;
       default:
         if (
@@ -231,8 +263,7 @@ const getAllComponentController = async (req, res) => {
     msgResponse = `Error in getAllComponentController() function. Caused by ${error}`;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
-    
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -246,7 +277,7 @@ const getAllComponentController = async (req, res) => {
 const getAllWithAttributesComponentController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
     componentList = null;
 
     componentList = await getAllWithAttributesComponentService(req);
@@ -265,7 +296,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, failed to get all paginated components list according to all attributes."
+            "Bad request, failed to get all paginated components list according to all attributes.",
         });
         break;
       default:
@@ -280,10 +311,11 @@ const getAllWithAttributesComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in getAllWithAttributesComponentController() function.';
+    msgResponse =
+      "ERROR in getAllWithAttributesComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -297,7 +329,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
 const getAllWithDetailComponentController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentWithDetailsService(req);
 
@@ -315,7 +347,7 @@ const getAllWithDetailComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, failed to get all paginated components list and components_details according to all attributes."
+            "Bad request, failed to get all paginated components list and components_details according to all attributes.",
         });
         break;
       default:
@@ -330,10 +362,10 @@ const getAllWithDetailComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in getAllWithDetailComponentController() function.';
+    msgResponse = "ERROR in getAllWithDetailComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -347,7 +379,7 @@ const getAllWithDetailComponentController = async (req, res) => {
 const getAllWithBipolarTransistorComponentController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentWithBipolarTransistorService(req);
 
@@ -365,7 +397,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes."
+            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.",
         });
         break;
       default:
@@ -380,10 +412,11 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in getAllWithBipolarTransistorComponentController() function.';
+    msgResponse =
+      "ERROR in getAllWithBipolarTransistorComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -397,7 +430,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
 const getAllWithAllModelsComponentController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentWithAllModelsService(req);
 
@@ -415,7 +448,7 @@ const getAllWithAllModelsComponentController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes."
+            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.",
         });
         break;
       default:
@@ -430,10 +463,10 @@ const getAllWithAllModelsComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in getAllWithAllModelsComponentController() function.';
+    msgResponse = "ERROR in getAllWithAllModelsComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -447,7 +480,7 @@ const getAllWithAllModelsComponentController = async (req, res) => {
 const getComponentByIdController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getComponentByIdService(req);
 
@@ -465,7 +498,7 @@ const getComponentByIdController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get a component with the requested id. Check if the component exist into the database"
+            "Bad request, could not get a component with the requested id. Check if the component exist into the database",
         });
         break;
       default:
@@ -480,11 +513,10 @@ const getComponentByIdController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getComponentByIdController() function.';
+    msgResponse = "ERROR in getComponentByIdController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -498,7 +530,7 @@ const getComponentByIdController = async (req, res) => {
 const getAllComponentLikeCodeController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikeCodeService(req);
 
@@ -516,7 +548,7 @@ const getAllComponentLikeCodeController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according the code."
+            "Bad request, could not get all paginated list components according the code.",
         });
         break;
       default:
@@ -531,11 +563,10 @@ const getAllComponentLikeCodeController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikeCodeController() function.';
+    msgResponse = "ERROR in getAllComponentLikeCodeController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -549,7 +580,7 @@ const getAllComponentLikeCodeController = async (req, res) => {
 const getAllComponentLikeImageController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikeImageService(req);
 
@@ -567,7 +598,7 @@ const getAllComponentLikeImageController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according the imagen."
+            "Bad request, could not get all paginated list components according the imagen.",
         });
         break;
       default:
@@ -582,11 +613,10 @@ const getAllComponentLikeImageController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikeImageController() function.';
+    msgResponse = "ERROR in getAllComponentLikeImageController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -600,7 +630,7 @@ const getAllComponentLikeImageController = async (req, res) => {
 const getAllComponentLikePartNumberController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikePartNumberService(req);
 
@@ -618,7 +648,7 @@ const getAllComponentLikePartNumberController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according the nro de pieza."
+            "Bad request, could not get all paginated list components according the nro de pieza.",
         });
         break;
       default:
@@ -633,11 +663,11 @@ const getAllComponentLikePartNumberController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikePartNumberController() function.';
+    msgResponse =
+      "ERROR in getAllComponentLikePartNumberController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -651,7 +681,7 @@ const getAllComponentLikePartNumberController = async (req, res) => {
 const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikeCategoryAndMakerService(req);
 
@@ -669,7 +699,7 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according the categoria and fabricante."
+            "Bad request, could not get all paginated list components according the categoria and fabricante.",
         });
         break;
       default:
@@ -684,10 +714,11 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in getAllComponentLikeCategoryAndMakerController() function.';
+    msgResponse =
+      "ERROR in getAllComponentLikeCategoryAndMakerController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -701,7 +732,7 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
 const getAllComponentLikeDescriptionController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikeDescriptionService(req);
 
@@ -719,7 +750,7 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according to the description."
+            "Bad request, could not get all paginated list components according to the description.",
         });
         break;
       default:
@@ -734,11 +765,11 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikeDescriptionController() function.';
+    msgResponse =
+      "ERROR in getAllComponentLikeDescriptionController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -752,7 +783,7 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
 const getAllComponentLikeStockController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikeStockService(req);
 
@@ -770,7 +801,7 @@ const getAllComponentLikeStockController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according to the stock."
+            "Bad request, could not get all paginated list components according to the stock.",
         });
         break;
       default:
@@ -785,14 +816,12 @@ const getAllComponentLikeStockController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikeStockController() function.';
+    msgResponse = "ERROR in getAllComponentLikeStockController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
-
 
 /**
  * @description get all paginated components according to stock max from database
@@ -804,7 +833,7 @@ const getAllComponentLikeStockController = async (req, res) => {
 const getAllComponentLikeStockMaxController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikeStockMaxService(req);
 
@@ -822,7 +851,7 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according to the stock max."
+            "Bad request, could not get all paginated list components according to the stock max.",
         });
         break;
       default:
@@ -837,14 +866,12 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikeStockMaxController() function.';
+    msgResponse = "ERROR in getAllComponentLikeStockMaxController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
-
 
 /**
  * @description get all paginated components according to stock min and max from database
@@ -856,7 +883,7 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
 const getAllComponentLikeStockMinMaxController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikeStockMinMaxService(req);
 
@@ -874,7 +901,7 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according to the stock min and max."
+            "Bad request, could not get all paginated list components according to the stock min and max.",
         });
         break;
       default:
@@ -889,14 +916,13 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikeStockMinMaxController() function.';
+    msgResponse =
+      "ERROR in getAllComponentLikeStockMinMaxController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
-
 
 /**
  * @description get all paginated components according to the price from database
@@ -908,7 +934,7 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
 const getAllComponentLikePriceController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikePriceService(req);
 
@@ -926,7 +952,7 @@ const getAllComponentLikePriceController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according to the price."
+            "Bad request, could not get all paginated list components according to the price.",
         });
         break;
       default:
@@ -941,11 +967,10 @@ const getAllComponentLikePriceController = async (req, res) => {
         break;
     }
   } catch (error) {
-    
-    msgResponse = 'ERROR in getAllComponentLikePriceController() function.';
+    msgResponse = "ERROR in getAllComponentLikePriceController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -959,7 +984,7 @@ const getAllComponentLikePriceController = async (req, res) => {
 const getAllComponentLikePriceMaxController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikePriceMaxService(req);
 
@@ -977,7 +1002,7 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according to the max price."
+            "Bad request, could not get all paginated list components according to the max price.",
         });
         break;
       default:
@@ -992,11 +1017,10 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikePriceMaxController() function.';
+    msgResponse = "ERROR in getAllComponentLikePriceMaxController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
 
@@ -1010,7 +1034,7 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
 const getAllComponentLikePriceMinMaxController = async (req, res) => {
   try {
     msgResponse = null;
-    msgLog=null;
+    msgLog = null;
 
     componentList = await getAllComponentLikePriceMinMaxService(req);
 
@@ -1028,7 +1052,7 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
       case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
         res.status(statusCodeBadRequest).send({
           error:
-            "Bad request, could not get all paginated list components according to the min and max price."
+            "Bad request, could not get all paginated list components according to the min and max price.",
         });
         break;
       default:
@@ -1043,14 +1067,13 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
         break;
     }
   } catch (error) {
-
-    msgResponse = 'ERROR in getAllComponentLikePriceMinMaxController() function.';
+    msgResponse =
+      "ERROR in getAllComponentLikePriceMinMaxController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(statusCodeInternalServerError).send({ error: msgResponse });
   }
 };
-
 
 module.exports = {
   addComponentController,
@@ -1072,5 +1095,5 @@ module.exports = {
   getAllComponentLikeStockMinMaxController,
   getAllComponentLikePriceController,
   getAllComponentLikePriceMaxController,
-  getAllComponentLikePriceMinMaxController
+  getAllComponentLikePriceMinMaxController,
 };
