@@ -26,20 +26,20 @@ const {
 //Enums
 const { statusName, statusDetails } = require("../enums/database/status");
 const { statusCode } = require("../enums/http/status-code");
-const { value } = require("../enums/general/value");
 const {
   paginationNameValueError,
   paginationDescriptionValueError,
 } = require("../enums/pagination/errors");
 //Const-vars
 //status-code
-const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
-const statusCodeBadRequest = statusCode.BAD_REQUEST;
-const statusCodeOk = statusCode.OK;
-const statusConnectionError = statusName.CONNECTION_ERROR;
-const statusConnectionErrorDetail = statusDetails.CONNECTION_ERROR_DETAIL;
-const statusConnectionRefused = statusName.CONNECTION_REFUSED;
-const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
+const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
+const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
+const OK_CODE = statusCode.OK;
+const CONNECTION_ERROR_STATUS = statusName.CONNECTION_ERROR;
+const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
+const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
+const CONNECTION_REFUSED_STATUS_DETAIL =
+  statusDetails.CONNECTION_REFUSED_DETAIL;
 // Pagination
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
@@ -54,7 +54,6 @@ let updatedComponent;
 let deletedComponent;
 let msgResponse;
 let msgLog;
-let code;
 
 /**
  * @description add a componente to database
@@ -70,21 +69,21 @@ const addComponentController = async (req, res) => {
     newComponent = await addComponentService(req);
 
     switch (newComponent) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
       case 0:
       case undefined:
       case null:
         res
-          .status(statusCodeBadRequest)
+          .status(BAD_REQUEST_CODE)
           .send({ error: "Bad request, could not add a component." });
         break;
       default:
@@ -92,17 +91,17 @@ const addComponentController = async (req, res) => {
           typeof newComponent === "object" &&
           newComponent.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(newComponent);
+          res.status(OK_CODE).send(newComponent);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: newComponent });
+        res.status(BAD_REQUEST_CODE).send({ error: newComponent });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in addComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -120,21 +119,21 @@ const updateComponentController = async (req, res) => {
     updatedComponent = await updateComponentService(req);
 
     switch (updatedComponent) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
       case 0:
       case undefined:
       case null:
         res
-          .status(statusCodeBadRequest)
+          .status(BAD_REQUEST_CODE)
           .send({ error: "Bad request, could not update a component." });
         break;
       default:
@@ -142,17 +141,17 @@ const updateComponentController = async (req, res) => {
           typeof updatedComponent === "object" &&
           updatedComponent.hasOwnProperty("objectUpdated")
         ) {
-          res.status(statusCodeOk).send(updatedComponent);
+          res.status(OK_CODE).send(updatedComponent);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: updatedComponent });
+        res.status(BAD_REQUEST_CODE).send({ error: updatedComponent });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in updateComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -170,21 +169,21 @@ const deleteComponentController = async (req, res) => {
     deletedComponent = await deleteComponentService(req);
 
     switch (deletedComponent) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
       case 0:
       case undefined:
       case null:
         res
-          .status(statusCodeBadRequest)
+          .status(BAD_REQUEST_CODE)
           .send({ error: "Bad request, could not delete a component." });
         break;
       default:
@@ -192,17 +191,17 @@ const deleteComponentController = async (req, res) => {
           typeof deletedComponent === "object" &&
           deletedComponent.hasOwnProperty("objectDeleted")
         ) {
-          res.status(statusCodeOk).send(deletedComponent);
+          res.status(OK_CODE).send(deletedComponent);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: deletedComponent });
+        res.status(BAD_REQUEST_CODE).send({ error: deletedComponent });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in deleteComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -221,30 +220,30 @@ const getAllComponentController = async (req, res) => {
     componentList = await getAllComponentService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
       case 0:
       case undefined:
       case null:
-        res.status(statusCodeBadRequest).send({
+        res.status(BAD_REQUEST_CODE).send({
           error: "Bad request, failed to obtain paginated component list.",
         });
         break;
       case ORDER_BY_NAME_VALUE_ERROR:
-        res.status(statusCodeBadRequest).send({
+        res.status(BAD_REQUEST_CODE).send({
           error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
         });
         break;
       case ORDER_AT_NAME_VALUE_ERROR:
-        res.status(statusCodeBadRequest).send({
+        res.status(BAD_REQUEST_CODE).send({
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
@@ -253,17 +252,17 @@ const getAllComponentController = async (req, res) => {
           typeof componentList === "object" &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = `Error in getAllComponentController() function. Caused by ${error}`;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -283,18 +282,20 @@ const getAllWithAttributesComponentController = async (req, res) => {
     componentList = await getAllWithAttributesComponentService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, failed to get all paginated components list according to all attributes.",
         });
@@ -304,10 +305,10 @@ const getAllWithAttributesComponentController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -315,7 +316,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
       "ERROR in getAllWithAttributesComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -334,18 +335,20 @@ const getAllWithDetailComponentController = async (req, res) => {
     componentList = await getAllComponentWithDetailsService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, failed to get all paginated components list and components_details according to all attributes.",
         });
@@ -355,17 +358,17 @@ const getAllWithDetailComponentController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllWithDetailComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -384,18 +387,20 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
     componentList = await getAllComponentWithBipolarTransistorService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.",
         });
@@ -405,10 +410,10 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -416,7 +421,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       "ERROR in getAllWithBipolarTransistorComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -435,18 +440,20 @@ const getAllWithAllModelsComponentController = async (req, res) => {
     componentList = await getAllComponentWithAllModelsService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.",
         });
@@ -456,17 +463,17 @@ const getAllWithAllModelsComponentController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllWithAllModelsComponentController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -485,18 +492,20 @@ const getComponentByIdController = async (req, res) => {
     componentList = await getComponentByIdService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get a component with the requested id. Check if the component exist into the database",
         });
@@ -506,17 +515,17 @@ const getComponentByIdController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getComponentByIdController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -535,18 +544,20 @@ const getAllComponentLikeCodeController = async (req, res) => {
     componentList = await getAllComponentLikeCodeService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according the code.",
         });
@@ -556,17 +567,17 @@ const getAllComponentLikeCodeController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllComponentLikeCodeController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -585,18 +596,20 @@ const getAllComponentLikeImageController = async (req, res) => {
     componentList = await getAllComponentLikeImageService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according the imagen.",
         });
@@ -606,17 +619,17 @@ const getAllComponentLikeImageController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllComponentLikeImageController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -635,18 +648,20 @@ const getAllComponentLikePartNumberController = async (req, res) => {
     componentList = await getAllComponentLikePartNumberService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according the nro de pieza.",
         });
@@ -656,10 +671,10 @@ const getAllComponentLikePartNumberController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -667,7 +682,7 @@ const getAllComponentLikePartNumberController = async (req, res) => {
       "ERROR in getAllComponentLikePartNumberController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -686,18 +701,20 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
     componentList = await getAllComponentLikeCategoryAndMakerService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according the categoria and fabricante.",
         });
@@ -707,10 +724,10 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -718,7 +735,7 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
       "ERROR in getAllComponentLikeCategoryAndMakerController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -737,18 +754,20 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
     componentList = await getAllComponentLikeDescriptionService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according to the description.",
         });
@@ -758,10 +777,10 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -769,7 +788,7 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
       "ERROR in getAllComponentLikeDescriptionController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -788,18 +807,20 @@ const getAllComponentLikeStockController = async (req, res) => {
     componentList = await getAllComponentLikeStockService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according to the stock.",
         });
@@ -809,17 +830,17 @@ const getAllComponentLikeStockController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllComponentLikeStockController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -838,18 +859,20 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
     componentList = await getAllComponentLikeStockMaxService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according to the stock max.",
         });
@@ -859,17 +882,17 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllComponentLikeStockMaxController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -888,18 +911,20 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
     componentList = await getAllComponentLikeStockMinMaxService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according to the stock min and max.",
         });
@@ -909,10 +934,10 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -920,7 +945,7 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
       "ERROR in getAllComponentLikeStockMinMaxController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -939,18 +964,20 @@ const getAllComponentLikePriceController = async (req, res) => {
     componentList = await getAllComponentLikePriceService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according to the price.",
         });
@@ -960,17 +987,17 @@ const getAllComponentLikePriceController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllComponentLikePriceController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -989,18 +1016,20 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
     componentList = await getAllComponentLikePriceMaxService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according to the max price.",
         });
@@ -1010,17 +1039,17 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllComponentLikePriceMaxController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -1039,18 +1068,20 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
     componentList = await getAllComponentLikePriceMinMaxService(req);
 
     switch (componentList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
             "Bad request, could not get all paginated list components according to the min and max price.",
         });
@@ -1060,10 +1091,10 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
           (typeof componentList === "object" || Array.isArray(componentList)) &&
           componentList[0]?.hasOwnProperty("id")
         ) {
-          res.status(statusCodeOk).send(componentList);
+          res.status(OK_CODE).send(componentList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentList });
         break;
     }
   } catch (error) {
@@ -1071,7 +1102,7 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
       "ERROR in getAllComponentLikePriceMinMaxController() function.";
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({ error: msgResponse });
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
