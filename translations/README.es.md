@@ -349,7 +349,6 @@ npm run dev o npm start
 
 *   [remark-lint-emphasis-marker](https://www.npmjs.com/package/remark-lint-emphasis-marker)
 *   [remark-preset-lint-recommended](https://www.npmjs.com/package/remark-preset-lint-recommended)
-*   [remark-reference-links](https://www.npmjs.com/package/remark-reference-links)
-    <br>
+*   [remark-reference-links](https://www.npmjs.com/package/remark-reference-links) <br>
 
 </details>

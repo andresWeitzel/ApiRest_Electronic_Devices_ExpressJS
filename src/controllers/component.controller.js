@@ -230,13 +230,6 @@ const getAllComponentController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case 0:
-      case undefined:
-      case null:
-        res.status(BAD_REQUEST_CODE).send({
-          error: "Bad request, failed to obtain paginated component list.",
-        });
-        break;
       case ORDER_BY_NAME_VALUE_ERROR:
         res.status(BAD_REQUEST_CODE).send({
           error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
@@ -245,6 +238,13 @@ const getAllComponentController = async (req, res) => {
       case ORDER_AT_NAME_VALUE_ERROR:
         res.status(BAD_REQUEST_CODE).send({
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
+          error: "Bad request, failed to obtain paginated component list.",
         });
         break;
       default:
@@ -291,6 +291,16 @@ const getAllWithAttributesComponentController = async (req, res) => {
         res
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
+        break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
         break;
       case 0:
       case undefined:
@@ -345,6 +355,16 @@ const getAllWithDetailComponentController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
@@ -396,6 +416,16 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
         res
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
+        break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
         break;
       case 0:
       case undefined:
@@ -449,6 +479,16 @@ const getAllWithAllModelsComponentController = async (req, res) => {
         res
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
+        break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
         break;
       case 0:
       case undefined:
@@ -554,6 +594,16 @@ const getAllComponentLikeCodeController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
@@ -605,6 +655,16 @@ const getAllComponentLikeImageController = async (req, res) => {
         res
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
+        break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
         break;
       case 0:
       case undefined:
@@ -658,6 +718,16 @@ const getAllComponentLikePartNumberController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
@@ -710,6 +780,16 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
         res
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
+        break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
         break;
       case 0:
       case undefined:

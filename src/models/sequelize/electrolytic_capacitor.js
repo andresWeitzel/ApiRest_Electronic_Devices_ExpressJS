@@ -1,9 +1,9 @@
 //External
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize');
 //Database
-const { dbConnection } = require("../../db/local-config");
+const { dbConnection } = require('../../db/local-config');
 //Models
-const { Component } = require("./component");
+const { Component } = require('./component');
 
 /**
  * @description database electrolyctic-capacitor model with their respective fields and constraints
@@ -16,7 +16,7 @@ let ElectrolycticCapacitor = dbConnection.define(
       allowNull: false,
       references: {
         model: Component,
-        key: "id",
+        key: 'id',
       },
     },
     tipo: {
@@ -43,7 +43,7 @@ let ElectrolycticCapacitor = dbConnection.define(
   {
     timestamps: false,
     tableName: 'capacitores_electroliticos',
-  }
+  },
 );
 
 module.exports = { ElectrolycticCapacitor };

@@ -7,15 +7,15 @@ const sequelizeConstraint = {
   /**
    * @description Unique constraint violation error
    */
-  UNIQUE_CONSTRAINT_ERROR: "SequelizeUniqueConstraintError",
+  UNIQUE_CONSTRAINT_ERROR: 'SequelizeUniqueConstraintError',
   /**
    * @description Foreign key constraint violation error
    */
-  FOREIGN_KEY_CONSTRAINT_ERROR: "SequelizeForeignKeyConstraintError",
+  FOREIGN_KEY_CONSTRAINT_ERROR: 'SequelizeForeignKeyConstraintError',
   /**
    * @description Exclusion constraint violation error
    */
-  EXCLUSION_CONSTRAINT_ERROR: "SequelizeExclusionConstraintError",
+  EXCLUSION_CONSTRAINT_ERROR: 'SequelizeExclusionConstraintError',
 };
 
 /**
@@ -27,19 +27,19 @@ const sequelizeConnection = {
   /**
    * @description Generic database connection error
    */
-  CONNECTION_ERROR: "SequelizeConnectionError",
+  CONNECTION_ERROR: 'SequelizeConnectionError',
   /**
    * @description Database connection refused error
    */
-  CONNECTION_REFUSED_ERROR: "SequelizeConnectionRefusedError",
+  CONNECTION_REFUSED_ERROR: 'SequelizeConnectionRefusedError',
   /**
    * @description Database invalid connection error
    */
-  INVALID_CONNECTION_ERROR: "SequelizeInvalidConnectionError",
+  INVALID_CONNECTION_ERROR: 'SequelizeInvalidConnectionError',
   /**
    * @description Database connection timed out error
    */
-  CONNECTION_TIMEOUT_ERROR: "SequelizeConnectionTimedOutError",
+  CONNECTION_TIMEOUT_ERROR: 'SequelizeConnectionTimedOutError',
 };
 
 module.exports = { sequelizeConstraint, sequelizeConnection };

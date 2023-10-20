@@ -1,13 +1,13 @@
 //Externals
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 //Models
-const { ComponentDetail } = require("../models/sequelize/component-detail");
+const { ComponentDetail } = require('../models/sequelize/component-detail');
 //Enums
-const { statusName } = require("../enums/database/status");
-const { value } = require("../enums/general/value");
-const { checkErrors } = require("../helpers/sequelize/errors");
+const { statusName } = require('../enums/database/status');
+const { value } = require('../enums/general/value');
+const { checkErrors } = require('../helpers/sequelize/errors');
 //Const-vars
-const orderBy = [["id", "ASC"]];
+const orderBy = [['id', 'ASC']];
 let componentDetailList;
 let queryStrParams;
 let pageSizeNro = 30;
@@ -26,8 +26,6 @@ let materialParam;
 let voltajeRecParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
-
-
 
 /**
  * @description add a component-detail to database
@@ -51,15 +49,25 @@ const addComponentDetailService = async (req, res) => {
 
     if (ComponentDetail != null) {
       await ComponentDetail.create({
-        id_componente: (req.body?.id_componente) ? req.body.id_componente : idComponenteParam,
-        hoja_de_datos: (req.body?.hoja_de_datos) ? req.body.hoja_de_datos : hojaDatosParam,
-        longitud: (req.body?.longitud) ? req.body.longitud : longitudParam,
-        ancho: (req.body?.ancho) ? req.body.ancho : anchoParam,
-        peso: (req.body?.peso) ? req.body.peso : pesoParam,
-        material: (req.body?.material) ? req.body.material : materialParam,
-        voltaje_recomendado: (req.body?.voltaje_recomendado) ? req.body.voltaje_recomendado : voltajeRecomendadoParam,
-        voltaje_min_entrada: (req.body?.voltaje_min_entrada) ? req.body.voltaje_min_entrada : voltajeMinEntrParam,
-        voltaje_max_entrada: (req.body?.voltaje_max_entrada) ? req.body.voltaje_max_entrada : voltajeMaxEntrParam
+        id_componente: req.body?.id_componente
+          ? req.body.id_componente
+          : idComponenteParam,
+        hoja_de_datos: req.body?.hoja_de_datos
+          ? req.body.hoja_de_datos
+          : hojaDatosParam,
+        longitud: req.body?.longitud ? req.body.longitud : longitudParam,
+        ancho: req.body?.ancho ? req.body.ancho : anchoParam,
+        peso: req.body?.peso ? req.body.peso : pesoParam,
+        material: req.body?.material ? req.body.material : materialParam,
+        voltaje_recomendado: req.body?.voltaje_recomendado
+          ? req.body.voltaje_recomendado
+          : voltajeRecomendadoParam,
+        voltaje_min_entrada: req.body?.voltaje_min_entrada
+          ? req.body.voltaje_min_entrada
+          : voltajeMinEntrParam,
+        voltaje_max_entrada: req.body?.voltaje_max_entrada
+          ? req.body.voltaje_max_entrada
+          : voltajeMaxEntrParam,
       })
         .then(async (componentDetailItem) => {
           newComponentDetail = componentDetailItem.dataValues;
@@ -70,7 +78,10 @@ const addComponentDetailService = async (req, res) => {
           newComponentDetail = await checkErrors(error, error.name);
         });
     } else {
-      newComponentDetail = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      newComponentDetail = await checkErrors(
+        null,
+        statusName.CONNECTION_REFUSED,
+      );
     }
   } catch (error) {
     msg = `Error in addComponentDetailService() function. Caused by ${error}`;
@@ -100,41 +111,52 @@ const updateComponentDetailService = async (req, res) => {
     voltajeMinEntrParam = null;
     voltajeMaxEntrParam = null;
 
-        //-- start with params ---
-        params = req.params;
+    //-- start with params ---
+    params = req.params;
 
-        if (params != value.IS_NULL) {
-          idParam = params.id ? params.id : null;
-        }
-        //-- end with params  ---
+    if (params != value.IS_NULL) {
+      idParam = params.id ? params.id : null;
+    }
+    //-- end with params  ---
 
     if (ComponentDetail != null && idParam != null) {
-      await ComponentDetail.update({
-        id_componente: (req.body?.id_componente) ? req.body.id_componente : idComponenteParam,
-        hoja_de_datos: (req.body?.hoja_de_datos) ? req.body.hoja_de_datos : hojaDatosParam,
-        longitud: (req.body?.longitud) ? req.body.longitud : longitudParam,
-        ancho: (req.body?.ancho) ? req.body.ancho : anchoParam,
-        peso: (req.body?.peso) ? req.body.peso : pesoParam,
-        material: (req.body?.material) ? req.body.material : materialParam,
-        voltaje_recomendado: (req.body?.voltaje_recomendado) ? req.body.voltaje_recomendado : voltajeRecomendadoParam,
-        voltaje_min_entrada: (req.body?.voltaje_min_entrada) ? req.body.voltaje_min_entrada : voltajeMinEntrParam,
-        voltaje_max_entrada: (req.body?.voltaje_max_entrada) ? req.body.voltaje_max_entrada : voltajeMaxEntrParam
-      },
-      {
-        where: {
-          id: idParam
-        }
-      }
+      await ComponentDetail.update(
+        {
+          id_componente: req.body?.id_componente
+            ? req.body.id_componente
+            : idComponenteParam,
+          hoja_de_datos: req.body?.hoja_de_datos
+            ? req.body.hoja_de_datos
+            : hojaDatosParam,
+          longitud: req.body?.longitud ? req.body.longitud : longitudParam,
+          ancho: req.body?.ancho ? req.body.ancho : anchoParam,
+          peso: req.body?.peso ? req.body.peso : pesoParam,
+          material: req.body?.material ? req.body.material : materialParam,
+          voltaje_recomendado: req.body?.voltaje_recomendado
+            ? req.body.voltaje_recomendado
+            : voltajeRecomendadoParam,
+          voltaje_min_entrada: req.body?.voltaje_min_entrada
+            ? req.body.voltaje_min_entrada
+            : voltajeMinEntrParam,
+          voltaje_max_entrada: req.body?.voltaje_max_entrada
+            ? req.body.voltaje_max_entrada
+            : voltajeMaxEntrParam,
+        },
+        {
+          where: {
+            id: idParam,
+          },
+        },
       )
         .then(async (componentDetailItem) => {
           updateComponentDetail =
-          componentDetailItem[0] == 1
-            ? {
-                objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`
-              }
-            : {
-                objectUpdated: `No se ha actualizado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`
-              };
+            componentDetailItem[0] == 1
+              ? {
+                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
+                }
+              : {
+                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`,
+                };
         })
         .catch(async (error) => {
           msg = `Error in updateComponentDetailService() function when trying to create a component. Caused by ${error}`;
@@ -142,17 +164,21 @@ const updateComponentDetailService = async (req, res) => {
           updateComponentDetail = await checkErrors(error, error.name);
         });
     } else {
-      updateComponentDetail = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      updateComponentDetail = await checkErrors(
+        null,
+        statusName.CONNECTION_REFUSED,
+      );
     }
   } catch (error) {
     msg = `Error in updateComponentDetailService() function. Caused by ${error}`;
     console.log(msg);
-    updateComponentDetail = await checkErrors(error, statusName.CONNECTION_ERROR);
+    updateComponentDetail = await checkErrors(
+      error,
+      statusName.CONNECTION_ERROR,
+    );
   }
   return updateComponentDetail;
 };
-
-
 
 /**
  * @description delete a component detail from the database
@@ -177,21 +203,19 @@ const deleteComponentDetailService = async (req, res) => {
     //-- end with params  ---
 
     if (ComponentDetail != null && idParam != null) {
-      await ComponentDetail.destroy(
-        {
-          where: {
-            id: idParam
-          }
-        }
-      )
+      await ComponentDetail.destroy({
+        where: {
+          id: idParam,
+        },
+      })
         .then(async (componentDetailItem) => {
           deleteComponentDetail =
-          componentDetailItem == 1
+            componentDetailItem == 1
               ? {
-                objectDeleted: `Se ha eliminado correctamente el detalle de componente según el id ${idParam}`
+                  objectDeleted: `Se ha eliminado correctamente el detalle de componente según el id ${idParam}`,
                 }
               : {
-                  objectDeleted: `No se ha eliminado el detalle del componente según el id ${idParam}. Comprobar si el mismo existe en la db.`
+                  objectDeleted: `No se ha eliminado el detalle del componente según el id ${idParam}. Comprobar si el mismo existe en la db.`,
                 };
         })
         .catch(async (error) => {
@@ -201,16 +225,21 @@ const deleteComponentDetailService = async (req, res) => {
           deleteComponentDetail = await checkErrors(error, error.name);
         });
     } else {
-      deleteComponentDetail = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      deleteComponentDetail = await checkErrors(
+        null,
+        statusName.CONNECTION_REFUSED,
+      );
     }
   } catch (error) {
     msg = `Error in deleteComponentDetailService() function. Caused by ${error}`;
     console.log(msg);
-    deleteComponentDetail = await checkErrors(error, statusName.CONNECTION_ERROR);
+    deleteComponentDetail = await checkErrors(
+      error,
+      statusName.CONNECTION_ERROR,
+    );
   }
   return deleteComponentDetail;
 };
-
 
 /**
  * @description get all paginated components details from the database
@@ -242,7 +271,7 @@ const getAllComponentDetailService = async (req, res) => {
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
-        raw: true
+        raw: true,
       })
         .then(async (componentDetailsItems) => {
           componentDetailList = componentDetailsItems;
@@ -256,7 +285,7 @@ const getAllComponentDetailService = async (req, res) => {
     } else {
       componentDetailList = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED
+        statusName.CONNECTION_REFUSED,
       );
     }
   } catch (error) {
@@ -267,7 +296,6 @@ const getAllComponentDetailService = async (req, res) => {
   }
   return componentDetailList;
 };
-
 
 /**
  * @description get all paginated components details list according to all attributes from the database
@@ -291,22 +319,33 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
     voltajeMinEntrParam = null;
     voltajeMaxEntrParam = null;
 
-
-
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
     if (queryStrParams != value.IS_NULL) {
-      
-      idComponenteParam = queryStrParams.idComponente ? queryStrParams.idComponente : idComponenteParam;
-      hojaDatosParam = queryStrParams.hojaDatos ? queryStrParams.hojaDatos : hojaDatosParam;
-      longitudParam = queryStrParams.longitud ? queryStrParams.longitud : longitudParam;
+      idComponenteParam = queryStrParams.idComponente
+        ? queryStrParams.idComponente
+        : idComponenteParam;
+      hojaDatosParam = queryStrParams.hojaDatos
+        ? queryStrParams.hojaDatos
+        : hojaDatosParam;
+      longitudParam = queryStrParams.longitud
+        ? queryStrParams.longitud
+        : longitudParam;
       anchoParam = queryStrParams.ancho ? queryStrParams.ancho : anchoParam;
       pesoParam = queryStrParams.peso ? queryStrParams.peso : pesoParam;
-      materialParam = queryStrParams.material ? queryStrParams.material : materialParam;
-      voltajeRecParam = queryStrParams.voltajeRecom ? queryStrParams.voltajeRecom : voltajeRecParam;
-      voltajeMinEntrParam = queryStrParams.voltajeMinEntr ? queryStrParams.voltajeMinEntr : voltajeMinEntrParam;
-      voltajeMaxEntrParam = queryStrParams.voltajeMaxEntr ? queryStrParams.voltajeMaxEntr : voltajeMaxEntrParam;
+      materialParam = queryStrParams.material
+        ? queryStrParams.material
+        : materialParam;
+      voltajeRecParam = queryStrParams.voltajeRecom
+        ? queryStrParams.voltajeRecom
+        : voltajeRecParam;
+      voltajeMinEntrParam = queryStrParams.voltajeMinEntr
+        ? queryStrParams.voltajeMinEntr
+        : voltajeMinEntrParam;
+      voltajeMaxEntrParam = queryStrParams.voltajeMaxEntr
+        ? queryStrParams.voltajeMaxEntr
+        : voltajeMaxEntrParam;
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
@@ -320,38 +359,38 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
         where: {
           [Op.or]: {
             id_componente: {
-              [Op.eq]: `${idComponenteParam}`
+              [Op.eq]: `${idComponenteParam}`,
             },
             hoja_de_datos: {
-              [Op.like]: `%${hojaDatosParam}%`
+              [Op.like]: `%${hojaDatosParam}%`,
             },
             longitud: {
-              [Op.like]: `%${longitudParam}%`
+              [Op.like]: `%${longitudParam}%`,
             },
             ancho: {
-              [Op.like]: `%${anchoParam}%`
+              [Op.like]: `%${anchoParam}%`,
             },
             peso: {
-              [Op.like]: `%${pesoParam}%`
+              [Op.like]: `%${pesoParam}%`,
             },
             material: {
-              [Op.like]: `%${materialParam}%`
+              [Op.like]: `%${materialParam}%`,
             },
             voltaje_recomendado: {
-              [Op.like]: `%${voltajeRecParam}%`
+              [Op.like]: `%${voltajeRecParam}%`,
             },
             voltaje_min_entrada: {
-              [Op.like]: `%${voltajeMinEntrParam}%`
+              [Op.like]: `%${voltajeMinEntrParam}%`,
             },
             voltaje_max_entrada: {
-              [Op.like]: `%${voltajeMaxEntrParam}%`
-            }
-          }
+              [Op.like]: `%${voltajeMaxEntrParam}%`,
+            },
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
-        raw: true
+        raw: true,
       })
         .then(async (componentDetailsItems) => {
           componentDetailList = componentDetailsItems;
@@ -362,7 +401,10 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
           componentDetailList = await checkErrors(error, error.name);
         });
     } else {
-      componentDetailList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      componentDetailList = await checkErrors(
+        null,
+        statusName.CONNECTION_REFUSED,
+      );
     }
   } catch (error) {
     msg = `Error in getAllWithAttributesComponentDetailService() function. Caused by ${error}`;
@@ -372,12 +414,10 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
   return componentDetailList;
 };
 
-
-
 module.exports = {
   addComponentDetailService,
   updateComponentDetailService,
   deleteComponentDetailService,
   getAllComponentDetailService,
-  getAllWithAttributesComponentDetailService
+  getAllWithAttributesComponentDetailService,
 };

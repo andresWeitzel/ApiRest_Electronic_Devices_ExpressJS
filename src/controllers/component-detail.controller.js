@@ -1,5 +1,5 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Services
 const {
   getAllComponentDetailService,
@@ -7,10 +7,10 @@ const {
   updateComponentDetailService,
   deleteComponentDetailService,
   getAllWithAttributesComponentDetailService,
-} = require("../services/component-detail.service");
+} = require('../services/component-detail.service');
 //Enums
-const { statusName, statusDetails } = require("../enums/database/status");
-const { statusCode } = require("../enums/http/status-code");
+const { statusName, statusDetails } = require('../enums/database/status');
+const { statusCode } = require('../enums/http/status-code');
 //Const-vars
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -55,13 +55,13 @@ const addComponentDetailController = async (req, res) => {
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
-          error: "Bad request, could not add a component detail to database.",
+          error: 'Bad request, could not add a component detail to database.',
         });
         break;
       default:
         if (
-          typeof newComponentDetail === "object" &&
-          newComponentDetail.hasOwnProperty("id")
+          typeof newComponentDetail === 'object' &&
+          newComponentDetail.hasOwnProperty('id')
         ) {
           res.status(OK_CODE).send(newComponentDetail);
           break;
@@ -70,7 +70,7 @@ const addComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = "ERROR in addComponentDetailController() function.";
+    msgResponse = 'ERROR in addComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -106,13 +106,13 @@ const updateComponentDetailController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not update a component detail to database.",
+            'Bad request, could not update a component detail to database.',
         });
         break;
       default:
         if (
-          typeof updateComponentDetail === "object" &&
-          updateComponentDetail.hasOwnProperty("objectUpdated")
+          typeof updateComponentDetail === 'object' &&
+          updateComponentDetail.hasOwnProperty('objectUpdated')
         ) {
           res.status(OK_CODE).send(updateComponentDetail);
           break;
@@ -121,7 +121,7 @@ const updateComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = "ERROR in updateComponentDetailController() function.";
+    msgResponse = 'ERROR in updateComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -157,12 +157,12 @@ const deleteComponentDetailController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: "Bad request, could not delete a component detail." });
+          .send({ error: 'Bad request, could not delete a component detail.' });
         break;
       default:
         if (
-          typeof deletedComponentDetail === "object" &&
-          deletedComponentDetail.hasOwnProperty("objectDeleted")
+          typeof deletedComponentDetail === 'object' &&
+          deletedComponentDetail.hasOwnProperty('objectDeleted')
         ) {
           res.status(OK_CODE).send(deletedComponentDetail);
           break;
@@ -171,7 +171,7 @@ const deleteComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = "ERROR in deleteComponentDetailController() function.";
+    msgResponse = 'ERROR in deleteComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -208,13 +208,13 @@ const getAllComponentDetailController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list component details.",
+            'Bad request, could not get all paginated list component details.',
         });
         break;
       default:
         if (
-          typeof componentDetailList === "object" &&
-          componentDetailList[0]?.hasOwnProperty("id")
+          typeof componentDetailList === 'object' &&
+          componentDetailList[0]?.hasOwnProperty('id')
         ) {
           res.status(OK_CODE).send(componentDetailList);
           break;
@@ -223,7 +223,7 @@ const getAllComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllComponentDetailController() function.";
+    msgResponse = 'ERROR in getAllComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send(msgResponse);
@@ -261,14 +261,14 @@ const getAllWithAttributesComponentDetailController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, failed to get all paginated components details list according to all attributes.",
+            'Bad request, failed to get all paginated components details list according to all attributes.',
         });
         break;
       default:
         if (
-          (typeof componentDetailList === "object" ||
+          (typeof componentDetailList === 'object' ||
             Array.isArray(componentDetailList)) &&
-          componentDetailList[0]?.hasOwnProperty("id")
+          componentDetailList[0]?.hasOwnProperty('id')
         ) {
           res.status(OK_CODE).send(componentDetailList);
           break;
@@ -278,7 +278,7 @@ const getAllWithAttributesComponentDetailController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllWithAttributesComponentDetailController() function.";
+      'ERROR in getAllWithAttributesComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send(msgResponse);

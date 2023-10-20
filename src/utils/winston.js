@@ -3,10 +3,8 @@
  * https://betterstack.com/community/guides/logging/how-to-install-setup-and-use-winston-and-morgan-to-log-node-js-applications/
  */
 
-
 // //External
 // const winston = require("winston");
-
 
 // /**
 //  * @description function to implement all the respective configuration of winston for logging
@@ -29,7 +27,7 @@
 //         ],
 //       });
 //   };
-  
+
 //   module.exports={
 //     logger
 //   };
