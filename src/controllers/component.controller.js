@@ -240,7 +240,6 @@ const getAllComponentController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -249,14 +248,24 @@ const getAllComponentController = async (req, res) => {
         break;
       default:
         if (
-          typeof componentList === "object" &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to all atributes." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse = `Error in getAllComponentController() function. Caused by ${error}`;
@@ -302,7 +311,6 @@ const getAllWithAttributesComponentController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -312,14 +320,24 @@ const getAllWithAttributesComponentController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to all atributes." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse =
@@ -365,7 +383,6 @@ const getAllWithDetailComponentController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -375,14 +392,24 @@ const getAllWithDetailComponentController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res.status(OK_CODE).send({
+            ok: "No items found according to the component details model.",
+          });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllWithDetailComponentController() function.";
@@ -427,7 +454,6 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -437,14 +463,24 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res.status(OK_CODE).send({
+            ok: "No items found according to the bipolar transistor model.",
+          });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse =
@@ -490,7 +526,6 @@ const getAllWithAllModelsComponentController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -500,14 +535,24 @@ const getAllWithAllModelsComponentController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to the all models." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllWithAllModelsComponentController() function.";
@@ -542,7 +587,6 @@ const getComponentByIdController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -552,14 +596,24 @@ const getComponentByIdController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to the id." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse = "ERROR in getComponentByIdController() function.";
@@ -604,7 +658,6 @@ const getAllComponentLikeCodeController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -614,14 +667,24 @@ const getAllComponentLikeCodeController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to the code." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllComponentLikeCodeController() function.";
@@ -666,7 +729,6 @@ const getAllComponentLikeImageController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -676,14 +738,24 @@ const getAllComponentLikeImageController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to the image." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse = "ERROR in getAllComponentLikeImageController() function.";
@@ -728,7 +800,6 @@ const getAllComponentLikePartNumberController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -738,14 +809,24 @@ const getAllComponentLikePartNumberController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to the part number." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse =
@@ -791,7 +872,6 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
           error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
         });
         break;
-      case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -801,14 +881,24 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to the maker or category." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse =
@@ -844,7 +934,16 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case 0:
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
@@ -854,14 +953,24 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === "object" &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: "No items found according to the description." });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse =
