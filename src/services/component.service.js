@@ -1,29 +1,36 @@
 //Externals
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 //Models
-const { Component } = require("../models/sequelize/component");
-const { ComponentDetail } = require("../models/sequelize/component-detail");
-const { BipolarTransistor } = require("../models/sequelize/bipolar-transistor");
-const { MosfetTransistor } = require("../models/sequelize/mosfet-transistor");
+const { Component } = require('../models/sequelize/component');
+const { ComponentDetail } = require('../models/sequelize/component-detail');
+const { BipolarTransistor } = require('../models/sequelize/bipolar-transistor');
+const { MosfetTransistor } = require('../models/sequelize/mosfet-transistor');
 const {
-  ElectrolycticCapacitor
-} = require("../models/sequelize/electrolytic_capacitor");
+  ElectrolycticCapacitor,
+} = require('../models/sequelize/electrolytic_capacitor');
 //Enums
-const { statusName } = require("../enums/database/status");
-const { value } = require("../enums/general/value");
-const { checkErrors } = require("../helpers/sequelize/errors");
+const { statusName } = require('../enums/database/status');
+const { value } = require('../enums/general/value');
+const { checkErrors } = require('../helpers/sequelize/errors');
+const {
+  checkOrderBy,
+  checkOrderAt,
+} = require('../helpers/pagination/components/component');
+const { paginationNameValueError } = require('../enums/pagination/errors');
 
-//Const-vars
-const orderBy = [["id", "ASC"]];
+//const
+const ORDER_BY_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
+const ORDER_AT_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+//components
 let newComponent;
 let componentList;
 let component;
+//params
 let queryStrParams;
-let pageSizeNro = 30;
 let idParam;
 let codigoParam;
-let pageNro = 0;
-let msg;
 let params;
 let imagenParam;
 let nroPiezaParam;
@@ -37,7 +44,13 @@ let stockMax;
 let priceParam;
 let priceMinParam;
 let priceMaxParam;
-
+//pagination
+let pageSizeNro = 30;
+let pageNro = 0;
+let orderBy;
+let orderAt;
+let order;
+let msg;
 
 /**
  * @description add a componente to database
@@ -59,16 +72,20 @@ const addComponentService = async (req, res) => {
     stockParam = null;
     priceParam = null;
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.create({
-        codigo: (req.body?.codigo) ? req.body.codigo : codigoParam,
-        imagen: (req.body?.imagen) ? req.body.imagen : imagenParam,
-        nro_pieza: (req.body?.nro_pieza) ? req.body.nro_pieza : nroPiezaParam,
-        categoria: (req.body?.categoria) ? req.body.categoria : categoriaParam,
-        descripcion: (req.body?.descripcion) ? req.body.descripcion : descripcionParam,
-        fabricante: (req.body?.fabricante) ? req.body.fabricante : fabricanteParam,
-        stock: (req.body?.stock) ? req.body.stock : stockParam,
-        precio: (req.body?.precio) ? req.body.precio : priceParam
+        codigo: req.body?.codigo ? req.body.codigo : codigoParam,
+        imagen: req.body?.imagen ? req.body.imagen : imagenParam,
+        nro_pieza: req.body?.nro_pieza ? req.body.nro_pieza : nroPiezaParam,
+        categoria: req.body?.categoria ? req.body.categoria : categoriaParam,
+        descripcion: req.body?.descripcion
+          ? req.body.descripcion
+          : descripcionParam,
+        fabricante: req.body?.fabricante
+          ? req.body.fabricante
+          : fabricanteParam,
+        stock: req.body?.stock ? req.body.stock : stockParam,
+        precio: req.body?.precio ? req.body.precio : priceParam,
       })
         .then(async (componentItem) => {
           newComponent = componentItem.dataValues;
@@ -114,37 +131,41 @@ const updateComponentService = async (req, res) => {
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
-      idParam = params.id ? parseInt(params.id) : null;
+    if (params != (null && undefined)) {
+      idParam = params.id ? parseInt(params.id) : idParam;
     }
     //-- end with params  ---
 
-    if (Component != null && idParam != null) {
+    if (Component != (null && undefined) && idParam != null) {
       await Component.update(
         {
-          codigo: (req.body?.codigo) ? req.body.codigo : codigoParam,
-          imagen: (req.body?.imagen) ? req.body.imagen : imagenParam,
-          nro_pieza: (req.body?.nro_pieza) ? req.body.nro_pieza : nroPiezaParam,
-          categoria: (req.body?.categoria) ? req.body.categoria : categoriaParam,
-          descripcion: (req.body?.descripcion) ? req.body.descripcion : descripcionParam,
-          fabricante: (req.body?.fabricante) ? req.body.fabricante : fabricanteParam,
-          stock: (req.body?.stock) ? req.body.stock : stockParam,
-          precio: (req.body?.precio) ? req.body.precio : priceParam
+          codigo: req.body?.codigo ? req.body.codigo : codigoParam,
+          imagen: req.body?.imagen ? req.body.imagen : imagenParam,
+          nro_pieza: req.body?.nro_pieza ? req.body.nro_pieza : nroPiezaParam,
+          categoria: req.body?.categoria ? req.body.categoria : categoriaParam,
+          descripcion: req.body?.descripcion
+            ? req.body.descripcion
+            : descripcionParam,
+          fabricante: req.body?.fabricante
+            ? req.body.fabricante
+            : fabricanteParam,
+          stock: req.body?.stock ? req.body.stock : stockParam,
+          precio: req.body?.precio ? req.body.precio : priceParam,
         },
         {
           where: {
-            id: idParam
-          }
-        }
+            id: idParam,
+          },
+        },
       )
         .then(async (componentItem) => {
           updatedComponent =
             componentItem[0] == 1
               ? {
-                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`
+                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
                 }
               : {
-                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`
+                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`,
                 };
         })
         .catch(async (error) => {
@@ -173,6 +194,7 @@ const updateComponentService = async (req, res) => {
  */
 const deleteComponentService = async (req, res) => {
   try {
+    //Params
     deleteComponent = null;
     msg = null;
     params = null;
@@ -181,27 +203,25 @@ const deleteComponentService = async (req, res) => {
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
+    if (params != (null && undefined)) {
       idParam = params.id ? parseInt(params.id) : null;
     }
     //-- end with params  ---
 
-    if (Component != null && idParam != null) {
-      await Component.destroy(
-        {
-          where: {
-            id: idParam
-          }
-        }
-      )
+    if (Component != (null && undefined) && idParam != null) {
+      await Component.destroy({
+        where: {
+          id: idParam,
+        },
+      })
         .then(async (componentItem) => {
           deleteComponent =
             componentItem == 1
               ? {
-                objectDeleted: `Se ha eliminado correctamente el componente según el id ${idParam}`
+                  objectDeleted: `Se ha eliminado correctamente el componente según el id ${idParam}`,
                 }
               : {
-                  objectDeleted: `No se ha eliminado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`
+                  objectDeleted: `No se ha eliminado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`,
                 };
         })
         .catch(async (error) => {
@@ -230,28 +250,53 @@ const deleteComponentService = async (req, res) => {
  */
 const getAllComponentService = async (req, res) => {
   try {
+    //Params
     componentList = null;
     queryStrParams = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
     msg = null;
 
     //-- start with pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
       pageSizeNro = queryStrParams.limit
-        ? parseInt(queryStrParams.limit)
+        ? parseInt(await queryStrParams.limit)
         : pageSizeNro;
-      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      pageNro = queryStrParams.page
+        ? parseInt(await queryStrParams.page)
+        : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
     //-- end with pagination  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
-        raw: true
+        order: order,
+        raw: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -281,8 +326,8 @@ const getAllComponentService = async (req, res) => {
  */
 const getAllWithAttributesComponentService = async (req, res) => {
   try {
+    //Params
     componentList = null;
-    msg = null;
     queryStrParams = null;
     codigoParam = null;
     imagenParam = null;
@@ -292,11 +337,17 @@ const getAllWithAttributesComponentService = async (req, res) => {
     fabricanteParam = null;
     stockParam = 0;
     precioParam = 0;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
       codigoParam = queryStrParams.codigo ? queryStrParams.codigo : codigoParam;
       imagenParam = queryStrParams.imagen ? queryStrParams.imagen : imagenParam;
       nroPiezaParam = queryStrParams.nroPieza
@@ -315,48 +366,66 @@ const getAllWithAttributesComponentService = async (req, res) => {
         ? parseInt(queryStrParams.stock)
         : stockParam;
       precioParam = queryStrParams.precio ? queryStrParams.precio : precioParam;
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
     //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           [Op.or]: {
             codigo: {
-              [Op.like]: `%${codigoParam}%`
+              [Op.like]: `%${codigoParam}%`,
             },
             imagen: {
-              [Op.like]: `%${imagenParam}%`
+              [Op.like]: `%${imagenParam}%`,
             },
             nro_pieza: {
-              [Op.like]: `%${nroPiezaParam}%`
+              [Op.like]: `%${nroPiezaParam}%`,
             },
             categoria: {
-              [Op.like]: `%${categoriaParam}%`
+              [Op.like]: `%${categoriaParam}%`,
             },
             descripcion: {
-              [Op.like]: `%${descripcionParam}%`
+              [Op.like]: `%${descripcionParam}%`,
             },
             fabricante: {
-              [Op.like]: `%${fabricanteParam}%`
+              [Op.like]: `%${fabricanteParam}%`,
             },
             stock: {
-              [Op.eq]: stockParam
+              [Op.eq]: stockParam,
             },
             precio: {
-              [Op.eq]: precioParam
-            }
-          }
+              [Op.eq]: precioParam,
+            },
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
-        raw: true
+        order: order,
+        raw: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -386,30 +455,53 @@ const getAllWithAttributesComponentService = async (req, res) => {
  */
 const getAllComponentWithDetailsService = async (req, res) => {
   try {
+    //params
     componentList = null;
     queryStrParams = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
     msg = null;
 
     //-- start with pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
     //-- end with pagination  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         include: [{ model: ComponentDetail, required: true }],
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -442,33 +534,56 @@ const getAllComponentWithBipolarTransistorService = async (req, res) => {
   try {
     componentList = null;
     queryStrParams = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
     msg = null;
 
     //-- start with pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
     //-- end with pagination  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           categoria: {
-            [Op.like]: `%Transistores BJT%` //containing what is entered, less strictmatch
-          }
+            [Op.like]: `%Transistores BJT%`, //containing what is entered, less strictmatch
+          },
         },
         include: [{ model: BipolarTransistor, required: true }],
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -501,20 +616,43 @@ const getAllComponentWithAllModelsService = async (req, res) => {
   try {
     componentList = null;
     queryStrParams = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
     msg = null;
 
     //-- start with pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
     //-- end with pagination  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {},
@@ -522,13 +660,13 @@ const getAllComponentWithAllModelsService = async (req, res) => {
           { model: ComponentDetail, required: false },
           { model: BipolarTransistor, required: false },
           { model: MosfetTransistor, required: false },
-          { model: ElectrolycticCapacitor, required: false }
+          { model: ElectrolycticCapacitor, required: false },
         ],
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -564,20 +702,22 @@ const getComponentByIdService = async (req, res) => {
     params = null;
     idParam = null;
     msg = null;
+    //Pagination
+    msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
+    if (params != (null && undefined)) {
       idParam = params.id ? parseInt(params.id) : null;
     }
     //-- end with params  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findByPk(idParam, {
         attributes: {},
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItem) => {
           component = componentItem;
@@ -612,40 +752,63 @@ const getAllComponentLikeCodeService = async (req, res) => {
     componentList = null;
     codigoParam = null;
     queryStrParams = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
     msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
-      codigoParam = params.codigo ? params.codigo : null;
+    if (params != (null && undefined)) {
+      codigoParam = params.codigo ? params.codigo : codigoParam;
     }
     //-- end with params  ---
 
     //-- start with pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
     //-- end with pagination  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           codigo: {
-            [Op.like]: `%${codigoParam}%`
-          }
+            [Op.like]: `%${codigoParam}%`,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -680,40 +843,63 @@ const getAllComponentLikeImageService = async (req, res) => {
     componentList = null;
     imagenParam = null;
     queryStrParams = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
     msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
-      imagenParam = params.imagen ? params.imagen : null;
+    if (params != (null && undefined)) {
+      imagenParam = params.imagen ? params.imagen : imagenParam;
     }
     //-- end with params  ---
 
     //-- start with pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
     //-- end with pagination  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           imagen: {
-            [Op.like]: `%${imagenParam}%`
-          }
+            [Op.like]: `%${imagenParam}%`,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -748,12 +934,17 @@ const getAllComponentLikePartNumberService = async (req, res) => {
     componentList = null;
     nroPiezaParam = null;
     queryStrParams = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
     msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
+    if (params != (null && undefined)) {
       nroPiezaParam = params.nroPieza ? params.nroPieza : null;
     }
     //-- end with params  ---
@@ -761,31 +952,49 @@ const getAllComponentLikePartNumberService = async (req, res) => {
     //-- start with pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
     //-- end with pagination  ---
 
-    if (Component != null) {
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           nro_pieza: {
-            [Op.like]: `%${nroPiezaParam}%`
-          }
+            [Op.like]: `%${nroPiezaParam}%`,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
-          console.log(componentList)
+          console.log(componentList);
         })
         .catch(async (error) => {
           msg = `Error in getAllComponentLikePartNumberService() function when trying to get a component by nro de pieza. Caused by ${error}`;
@@ -815,46 +1024,69 @@ const getAllComponentLikePartNumberService = async (req, res) => {
 const getAllComponentLikeCategoryAndMakerService = async (req, res) => {
   try {
     componentList = null;
-    msg = null;
     queryStrParams = null;
     categoriaParam = null;
     fabricanteParam = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
       categoriaParam = queryStrParams.categoria
         ? queryStrParams.categoria
         : categoriaParam;
       fabricanteParam = queryStrParams.fabricante
         ? queryStrParams.fabricante
         : fabricanteParam;
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
-    //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
+    //-- end with pagination  ---
+
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           [Op.or]: {
             categoria: {
-              [Op.like]: `%${categoriaParam}%`
+              [Op.like]: `%${categoriaParam}%`,
             },
             fabricante: {
-              [Op.like]: `%${fabricanteParam}%`
-            }
-          }
+              [Op.like]: `%${fabricanteParam}%`,
+            },
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -890,11 +1122,17 @@ const getAllComponentLikeDescriptionService = async (req, res) => {
     msg = null;
     queryStrParams = null;
     descripcionParam = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
+    if (params != (null && undefined)) {
       descripcionParam = params.descripcion ? params.descripcion : null;
     }
     //-- end with params  ---
@@ -902,27 +1140,45 @@ const getAllComponentLikeDescriptionService = async (req, res) => {
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
-    //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
+    //-- end with pagination  ---
+
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           descripcion: {
-            [Op.like]: `%${descripcionParam}%`
-          }
+            [Op.like]: `%${descripcionParam}%`,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -955,42 +1211,65 @@ const getAllComponentLikeDescriptionService = async (req, res) => {
 const getAllComponentLikeStockService = async (req, res) => {
   try {
     componentList = null;
-    msg = null;
     queryStrParams = null;
     stockParam = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
-      stockParam = params.stock ? parseInt(params.stock) : null;
+    if (params != (null && undefined)) {
+      stockParam = params.stock ? parseInt(params.stock) : stockParam;
     }
-    //-- end with params  ---
+    //-- end with params ---
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
-    //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
+    //-- end with pagination  ---
+
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           stock: {
-            [Op.eq]: stockParam
-          }
+            [Op.eq]: stockParam,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -1026,40 +1305,64 @@ const getAllComponentLikeStockMaxService = async (req, res) => {
     msg = null;
     queryStrParams = null;
     stockMax = 100;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
-      stockMax = params.stock ? parseInt(params.stock) : null;
+    if (params != (null && undefined)) {
+      stockMax = params.stock ? parseInt(params.stock) : stockMax;
     }
     //-- end with params  ---
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
-    //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
+    //-- end with pagination  ---
+
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           stock: {
             [Op.gt]: 0,
-            [Op.lte]: stockMax
-          }
+            [Op.lte]: stockMax,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -1096,38 +1399,63 @@ const getAllComponentLikeStockMinMaxService = async (req, res) => {
     queryStrParams = null;
     stockMin = 0;
     stockMax = 100;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //stock
       stockMin = queryStrParams.stockMin
         ? parseInt(queryStrParams.stockMin)
         : stockMin;
       stockMax = queryStrParams.stockMax
         ? parseInt(queryStrParams.stockMax)
         : stockMax;
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
-    //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
+    //-- end with pagination  ---
+
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           stock: {
             [Op.gte]: stockMin,
-            [Op.lte]: stockMax
-          }
+            [Op.lte]: stockMax,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -1163,39 +1491,63 @@ const getAllComponentLikePriceService = async (req, res) => {
     msg = null;
     queryStrParams = null;
     priceParam = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
-      priceParam = params.precio ? parseFloat(params.precio) : null;
+    if (params != (null && undefined)) {
+      priceParam = params.precio ? parseFloat(params.precio) : priceParam;
     }
     //-- end with params  ---
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
-    //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
+    //-- end with pagination  ---
+
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           precio: {
-            [Op.eq]: priceParam
-          }
+            [Op.eq]: priceParam,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -1231,40 +1583,66 @@ const getAllComponentLikePriceMaxService = async (req, res) => {
     msg = null;
     queryStrParams = null;
     priceMaxParam = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
-      priceMaxParam = params.precioMax ? parseFloat(params.precioMax) : null;
+    if (params != (null && undefined)) {
+      priceMaxParam = params.precioMax
+        ? parseFloat(params.precioMax)
+        : priceMaxParam;
     }
     //-- end with params  ---
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
-    //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
+    //-- end with pagination  ---
+
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           precio: {
             [Op.gt]: 0,
-            [Op.lte]: priceMaxParam
-          }
+            [Op.lte]: priceMaxParam,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -1301,39 +1679,63 @@ const getAllComponentLikePriceMinMaxService = async (req, res) => {
     queryStrParams = null;
     priceMinParam = null;
     priceMaxParam = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msg = null;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != (null && undefined)) {
+      //Prices
       priceMinParam = queryStrParams.precioMin
         ? parseFloat(queryStrParams.precioMin)
         : null;
       priceMaxParam = queryStrParams.precioMax
         ? parseFloat(queryStrParams.precioMax)
         : null;
-
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
-    //-- end with querys params and pagination  ---
 
-    if (Component != null) {
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (null || undefined)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
+    //-- end with pagination  ---
+
+    if (Component != (null && undefined)) {
       await Component.findAll({
         attributes: {},
         where: {
           precio: {
             [Op.gte]: priceMinParam,
-            [Op.lte]: priceMaxParam
-          }
+            [Op.lte]: priceMaxParam,
+          },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
-        nest: true
+        nest: true,
       })
         .then(async (componentItems) => {
           componentList = componentItems;
@@ -1376,5 +1778,5 @@ module.exports = {
   getAllComponentLikeStockMinMaxService,
   getAllComponentLikePriceService,
   getAllComponentLikePriceMaxService,
-  getAllComponentLikePriceMinMaxService
+  getAllComponentLikePriceMinMaxService,
 };

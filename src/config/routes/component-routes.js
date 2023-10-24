@@ -1,5 +1,5 @@
 //External
-const componentRouter = require("express").Router();
+const componentRouter = require('express').Router();
 const {
   addComponentController,
   getAllComponentController,
@@ -20,91 +20,91 @@ const {
   getAllComponentLikePriceController,
   getAllComponentLikePriceMaxController,
   getAllComponentLikePriceMinMaxController,
-  getAllComponentLikeImageController
-} = require("../../controllers/component.controller");
+  getAllComponentLikeImageController,
+} = require('../../controllers/component.controller');
 //Controllers
 
 const {
   checkBodyFieldsAddComponent,
-  checkBodyFieldsUpdateComponent
-} = require("../../helpers/validations/component/express-validator");
+  checkBodyFieldsUpdateComponent,
+} = require('../../helpers/validations/component/express-validator');
 
 componentRouter.post(
-  "/",
+  '/',
   checkBodyFieldsAddComponent(),
-  addComponentController
+  addComponentController,
 );
 
 componentRouter.patch(
-  "/id/:id",
+  '/id/:id',
   checkBodyFieldsUpdateComponent(),
-  updateComponentController
+  updateComponentController,
 );
 
-componentRouter.delete("/:id", deleteComponentController);
+componentRouter.delete('/:id', deleteComponentController);
 
-componentRouter.get("/list", getAllComponentController);
+componentRouter.get('/list', getAllComponentController);
 
 componentRouter.get(
-  "/list-with-attributes",
-  getAllWithAttributesComponentController
+  '/list-with-attributes',
+  getAllWithAttributesComponentController,
 );
 
 //component and component_detail tables
-componentRouter.get("/list-with-details", getAllWithDetailComponentController);
+componentRouter.get('/list-with-details', getAllWithDetailComponentController);
 
 //component and bipolar-transistor
 componentRouter.get(
-  "/bipolar-transistor-list",
-  getAllWithBipolarTransistorComponentController
+  '/bipolar-transistor-list',
+  getAllWithBipolarTransistorComponentController,
 );
 
 //component wih all models
-componentRouter.get("/list-all-models", getAllWithAllModelsComponentController);
+componentRouter.get('/list-all-models', getAllWithAllModelsComponentController);
 
-componentRouter.get("/id/:id", getComponentByIdController);
+componentRouter.get('/id/:id', getComponentByIdController);
 
-componentRouter.get("/codigo/:codigo", getAllComponentLikeCodeController);
+componentRouter.get('/codigo/:codigo', getAllComponentLikeCodeController);
 
-componentRouter.get("/imagen/:imagen", getAllComponentLikeImageController);
+componentRouter.get('/imagen/:imagen', getAllComponentLikeImageController);
 
 componentRouter.get(
-  "/nro-pieza/:nroPieza",
-  getAllComponentLikePartNumberController
+  '/nro-pieza/:nroPieza',
+  getAllComponentLikePartNumberController,
 );
 
 componentRouter.get(
-  "/categoria-fabricante",
-  getAllComponentLikeCategoryAndMakerController
+  '/categoria-fabricante',
+  getAllComponentLikeCategoryAndMakerController,
 );
 
 componentRouter.get(
-  "/descripcion/:descripcion",
-  getAllComponentLikeDescriptionController
+  '/descripcion/:descripcion',
+  getAllComponentLikeDescriptionController,
 );
 
-componentRouter.get("/stock/:stock", getAllComponentLikeStockController);
+componentRouter.get('/stock/:stock', getAllComponentLikeStockController);
 
 componentRouter.get(
-  "/stock-maximo/:stock",
-  getAllComponentLikeStockMaxController
-);
-
-componentRouter.get(
-  "/stock-minimo-maximo",
-  getAllComponentLikeStockMinMaxController
-);
-
-componentRouter.get("/precio/:precio", getAllComponentLikePriceController);
-
-componentRouter.get(
-  "/precio-maximo/:precioMax",
-  getAllComponentLikePriceMaxController
+  '/stock-maximo/:stock',
+  getAllComponentLikeStockMaxController,
 );
 
 componentRouter.get(
-  "/precio-minimo-maximo",
-  getAllComponentLikePriceMinMaxController
+  '/stock-minimo-maximo',
+  getAllComponentLikeStockMinMaxController,
+);
+
+componentRouter.get('/precio/:precio', getAllComponentLikePriceController);
+
+componentRouter.get(
+  '/precio-maximo/:precioMax',
+  getAllComponentLikePriceMaxController,
+);
+
+componentRouter.get(
+  '/precio-minimo-maximo',
+  getAllComponentLikePriceMinMaxController,
 );
 
 module.exports = componentRouter;

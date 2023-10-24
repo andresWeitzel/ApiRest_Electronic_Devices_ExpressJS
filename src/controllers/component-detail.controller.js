@@ -1,21 +1,25 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Services
 const {
-  getAllComponentDetailService, addComponentDetailService, updateComponentDetailService, deleteComponentDetailService, getAllWithAttributesComponentDetailService
-} = require("../services/component-detail.service");
+  getAllComponentDetailService,
+  addComponentDetailService,
+  updateComponentDetailService,
+  deleteComponentDetailService,
+  getAllWithAttributesComponentDetailService,
+} = require('../services/component-detail.service');
 //Enums
-const { statusName, statusDetails } = require("../enums/database/status");
-const { statusCode } = require("../enums/http/status-code");
-const { value } = require("../enums/general/value");
+const { statusName, statusDetails } = require('../enums/database/status');
+const { statusCode } = require('../enums/http/status-code');
 //Const-vars
-const statusCodeInternalServerError = statusCode.INTERNAL_SERVER_ERROR;
-const statusCodeBadRequest = statusCode.BAD_REQUEST;
-const statusCodeOk = statusCode.OK;
-const statusConnectionError = statusName.CONNECTION_ERROR;
-const statusConnectionErrorDetail = statusDetails.CONNECTION_ERROR_DETAIL;
-const statusConnectionRefused = statusName.CONNECTION_REFUSED;
-const statusConnectionRefusedDetail = statusDetails.CONNECTION_REFUSED_DETAIL;
+const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
+const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
+const OK_CODE = statusCode.OK;
+const CONNECTION_ERROR_STATUS = statusName.CONNECTION_ERROR;
+const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
+const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
+const CONNECTION_REFUSED_STATUS_DETAIL =
+  statusDetails.CONNECTION_REFUSED_DETAIL;
 let newComponentDetail;
 let updateComponentDetail;
 let deletedComponentDetail;
@@ -37,43 +41,41 @@ const addComponentDetailController = async (req, res) => {
     newComponentDetail = await addComponentDetailService(req);
 
     switch (newComponentDetail) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res
-          .status(statusCodeBadRequest)
-          .send({
-            error: "Bad request, could not add a component detail to database."
-          });
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
+          error: 'Bad request, could not add a component detail to database.',
+        });
         break;
       default:
         if (
-          typeof newComponentDetail === "object" &&
-          newComponentDetail.hasOwnProperty("id")
+          typeof newComponentDetail === 'object' &&
+          newComponentDetail.hasOwnProperty('id')
         ) {
-          res.status(statusCodeOk).send(newComponentDetail);
+          res.status(OK_CODE).send(newComponentDetail);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: newComponentDetail });
+        res.status(BAD_REQUEST_CODE).send({ error: newComponentDetail });
         break;
     }
   } catch (error) {
     msgResponse = 'ERROR in addComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
-
-
 
 /**
  * @description update a component detail to database
@@ -89,42 +91,42 @@ const updateComponentDetailController = async (req, res) => {
     updateComponentDetail = await updateComponentDetailService(req);
 
     switch (updateComponentDetail) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res
-          .status(statusCodeBadRequest)
-          .send({
-            error: "Bad request, could not update a component detail to database."
-          });
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
+          error:
+            'Bad request, could not update a component detail to database.',
+        });
         break;
       default:
         if (
-          typeof updateComponentDetail === "object" &&
-          updateComponentDetail.hasOwnProperty("objectUpdated")
+          typeof updateComponentDetail === 'object' &&
+          updateComponentDetail.hasOwnProperty('objectUpdated')
         ) {
-          res.status(statusCodeOk).send(updateComponentDetail);
+          res.status(OK_CODE).send(updateComponentDetail);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: updateComponentDetail });
+        res.status(BAD_REQUEST_CODE).send({ error: updateComponentDetail });
         break;
     }
   } catch (error) {
     msgResponse = 'ERROR in updateComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
-
 
 /**
  * @description delete a component detail from the database
@@ -140,37 +142,39 @@ const deleteComponentDetailController = async (req, res) => {
     deletedComponentDetail = await deleteComponentDetailService(req);
 
     switch (deletedComponentDetail) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
+      case 0:
+      case undefined:
+      case null:
         res
-          .status(statusCodeBadRequest)
-          .send({ error: "Bad request, could not delete a component detail." });
+          .status(BAD_REQUEST_CODE)
+          .send({ error: 'Bad request, could not delete a component detail.' });
         break;
       default:
         if (
-          typeof deletedComponentDetail === "object" &&
-          deletedComponentDetail.hasOwnProperty("objectDeleted")
+          typeof deletedComponentDetail === 'object' &&
+          deletedComponentDetail.hasOwnProperty('objectDeleted')
         ) {
-          res.status(statusCodeOk).send(deletedComponentDetail);
+          res.status(OK_CODE).send(deletedComponentDetail);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: deletedComponentDetail });
+        res.status(BAD_REQUEST_CODE).send({ error: deletedComponentDetail });
         break;
     }
   } catch (error) {
     msgResponse = 'ERROR in deleteComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send({error : msgResponse});
+    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
 
@@ -189,40 +193,40 @@ const getAllComponentDetailController = async (req, res) => {
     componentDetailList = await getAllComponentDetailService(req);
 
     switch (componentDetailList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res
-          .status(statusCodeBadRequest)
-          .send({
-            error:
-              "Bad request, could not get all paginated list component details."
-          });
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
+          error:
+            'Bad request, could not get all paginated list component details.',
+        });
         break;
       default:
         if (
-          typeof componentDetailList === "object" &&
-          componentDetailList[0]?.hasOwnProperty("id")
+          typeof componentDetailList === 'object' &&
+          componentDetailList[0]?.hasOwnProperty('id')
         ) {
-          res.status(statusCodeOk).send(componentDetailList);
+          res.status(OK_CODE).send(componentDetailList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentDetailList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentDetailList });
         break;
     }
   } catch (error) {
     msgResponse = 'ERROR in getAllComponentDetailController() function.';
-    msgLog = msgResponse + `Caused by ${error}`; 
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send(msgResponse);
+    res.status(INTERNAL_SERVER_ERROR_CODE).send(msgResponse);
   }
 };
 
@@ -242,38 +246,42 @@ const getAllWithAttributesComponentDetailController = async (req, res) => {
     componentDetailList = await getAllWithAttributesComponentDetailService(req);
 
     switch (componentDetailList) {
-      case statusConnectionError:
+      case CONNECTION_ERROR_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionErrorDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
         break;
-      case statusConnectionRefused:
+      case CONNECTION_REFUSED_STATUS:
         res
-          .status(statusCodeInternalServerError)
-          .send({ error: statusConnectionRefusedDetail });
+          .status(INTERNAL_SERVER_ERROR_CODE)
+          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case value.IS_ZERO_NUMBER || value.IS_UNDEFINED || value.IS_NULL:
-        res.status(statusCodeBadRequest).send({
+      case 0:
+      case undefined:
+      case null:
+        res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, failed to get all paginated components details list according to all attributes."
+            'Bad request, failed to get all paginated components details list according to all attributes.',
         });
         break;
       default:
         if (
-          (typeof componentDetailList === "object" || Array.isArray(componentDetailList)) &&
-          componentDetailList[0]?.hasOwnProperty("id")
+          (typeof componentDetailList === 'object' ||
+            Array.isArray(componentDetailList)) &&
+          componentDetailList[0]?.hasOwnProperty('id')
         ) {
-          res.status(statusCodeOk).send(componentDetailList);
+          res.status(OK_CODE).send(componentDetailList);
           break;
         }
-        res.status(statusCodeBadRequest).send({ error: componentDetailList });
+        res.status(BAD_REQUEST_CODE).send({ error: componentDetailList });
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in getAllWithAttributesComponentDetailController() function.';
-    msgLog = msgResponse + `Caused by ${error}`; 
+    msgResponse =
+      'ERROR in getAllWithAttributesComponentDetailController() function.';
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    res.status(statusCodeInternalServerError).send(msgResponse);
+    res.status(INTERNAL_SERVER_ERROR_CODE).send(msgResponse);
   }
 };
 
@@ -282,5 +290,5 @@ module.exports = {
   updateComponentDetailController,
   deleteComponentDetailController,
   getAllComponentDetailController,
-  getAllWithAttributesComponentDetailController
+  getAllWithAttributesComponentDetailController,
 };

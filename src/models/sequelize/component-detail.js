@@ -1,9 +1,9 @@
 //External
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize');
 //Database
-const { dbConnection } = require("../../db/local-config");
+const { dbConnection } = require('../../db/local-config');
 //Models
-const { Component } = require("./component");
+const { Component } = require('./component');
 
 /**
  * @description database component_detail model with their respective fields and constraints
@@ -16,7 +16,7 @@ let ComponentDetail = dbConnection.define(
       allowNull: false,
       references: {
         model: Component,
-        key: "id",
+        key: 'id',
       },
     },
     hoja_de_datos: {
@@ -55,7 +55,7 @@ let ComponentDetail = dbConnection.define(
   {
     timestamps: false,
     tableName: 'componentes_detalles',
-  }
+  },
 );
 
 module.exports = { ComponentDetail };

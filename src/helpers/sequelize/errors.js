@@ -2,7 +2,7 @@
 const {
   sequelizeConstraint,
   sequelizeConnection,
-} = require("../../enums/sequelize/errors");
+} = require('../../enums/sequelize/errors');
 //Const-vars
 let check;
 
@@ -14,21 +14,20 @@ let check;
  */
 const checkErrors = async (error, msg) => {
   try {
-    check=null;
+    check = null;
     if (error != (null || undefined)) {
       check =
         error.name.toLowerCase() ==
-        sequelizeConstraint.UNIQUE_CONSTRAINT_ERROR.toLowerCase() ||
-          sequelizeConstraint.FOREIGN_KEY_CONSTRAINT_ERROR.toLowerCase() ||
-          sequelizeConstraint.EXCLUSION_CONSTRAINT_ERROR.toLowerCase() ||
-          sequelizeConnection.CONNECTION_ERROR.toLowerCase() ||
-          sequelizeConnection.CONNECTION_REFUSED_ERROR.toLowerCase() ||
-          sequelizeConnection.INVALID_CONNECTION_ERROR.toLowerCase() ||
-          sequelizeConnection.CONNECTION_TIMEOUT_ERROR.toLowerCase()
+          sequelizeConstraint.UNIQUE_CONSTRAINT_ERROR.toLowerCase() ||
+        sequelizeConstraint.FOREIGN_KEY_CONSTRAINT_ERROR.toLowerCase() ||
+        sequelizeConstraint.EXCLUSION_CONSTRAINT_ERROR.toLowerCase() ||
+        sequelizeConnection.CONNECTION_ERROR.toLowerCase() ||
+        sequelizeConnection.CONNECTION_REFUSED_ERROR.toLowerCase() ||
+        sequelizeConnection.INVALID_CONNECTION_ERROR.toLowerCase() ||
+        sequelizeConnection.CONNECTION_TIMEOUT_ERROR.toLowerCase()
           ? `${error.name} : ${error.parent?.detail || error.parent?.error}`
           : msg;
-
-    }else{
+    } else {
       check = msg;
     }
   } catch (error) {

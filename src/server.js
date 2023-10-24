@@ -1,12 +1,12 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Environment vars
 //Env vars
 const PORT = process.env.APP_PORT || 8082;
 //Config middleware
-const { appMiddleware } = require("./config/middleware/index");
+const { appMiddleware } = require('./config/middleware/index');
 //Utils swagger
-const { swaggerDocs } = require("./utils/swagger");
+const { swaggerDocs } = require('./utils/swagger');
 //Const-vars
 let app;
 

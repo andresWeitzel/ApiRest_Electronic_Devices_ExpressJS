@@ -31,11 +31,12 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
-    "check": "remark . --quiet --frail",
-    "format": "remark . --quiet --frail --output",
-    "format-md": "remark . --output",
     "start": "npm run format-md && node src/server.js",
-    "start:dev": "nodemon src/server.js"
+    "start:dev": "nodemon src/server.js",
+    "format-prettier": "prettier --write \"{src,test}/**/*.{js,ts}\"",
+    "check": "remark . --quiet --frail",
+    "format-remark": "remark . --quiet --frail --output",
+    "format-md": "remark . --output"
   },
   "repository": {
     "type": "git",
@@ -53,22 +54,22 @@
       "strong": "*"
     }
   },
-    "plugins": [
-      "remark-preset-lint-consistent",
-      "remark-preset-lint-recommended",
-      "remark-lint",
-      "remark-lint-table-cell-padding",
-      [
-        "remark-lint-list-item-indent",
-        "tab-size"
-      ],
-      [
-        "remark-lint-emphasis-marker",
-        "*"
-      ],
-      [
-        "remark-lint-strong-marker",
-        "*"
-      ]
+  "plugins": [
+    "remark-preset-lint-consistent",
+    "remark-preset-lint-recommended",
+    "remark-lint",
+    "remark-lint-table-cell-padding",
+    [
+      "remark-lint-list-item-indent",
+      "tab-size"
+    ],
+    [
+      "remark-lint-emphasis-marker",
+      "*"
+    ],
+    [
+      "remark-lint-strong-marker",
+      "*"
     ]
+  ]
 }
