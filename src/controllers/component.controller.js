@@ -1,5 +1,5 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Services
 const {
   addComponentService,
@@ -22,14 +22,14 @@ const {
   getAllComponentLikePriceService,
   getAllComponentLikePriceMaxService,
   getAllComponentLikePriceMinMaxService,
-} = require("../services/component.service");
+} = require('../services/component.service');
 //Enums
-const { statusName, statusDetails } = require("../enums/database/status");
-const { statusCode } = require("../enums/http/status-code");
+const { statusName, statusDetails } = require('../enums/database/status');
+const { statusCode } = require('../enums/http/status-code');
 const {
   paginationNameValueError,
   paginationDescriptionValueError,
-} = require("../enums/pagination/errors");
+} = require('../enums/pagination/errors');
 //Const-vars
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
@@ -84,12 +84,12 @@ const addComponentController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: "Bad request, could not add a component." });
+          .send({ error: 'Bad request, could not add a component.' });
         break;
       default:
         if (
-          typeof newComponent === "object" &&
-          newComponent.hasOwnProperty("id")
+          typeof newComponent === 'object' &&
+          newComponent.hasOwnProperty('id')
         ) {
           res.status(OK_CODE).send(newComponent);
           break;
@@ -98,7 +98,7 @@ const addComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = "ERROR in addComponentController() function.";
+    msgResponse = 'ERROR in addComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -134,12 +134,12 @@ const updateComponentController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: "Bad request, could not update a component." });
+          .send({ error: 'Bad request, could not update a component.' });
         break;
       default:
         if (
-          typeof updatedComponent === "object" &&
-          updatedComponent.hasOwnProperty("objectUpdated")
+          typeof updatedComponent === 'object' &&
+          updatedComponent.hasOwnProperty('objectUpdated')
         ) {
           res.status(OK_CODE).send(updatedComponent);
           break;
@@ -148,7 +148,7 @@ const updateComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = "ERROR in updateComponentController() function.";
+    msgResponse = 'ERROR in updateComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -184,12 +184,12 @@ const deleteComponentController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: "Bad request, could not delete a component." });
+          .send({ error: 'Bad request, could not delete a component.' });
         break;
       default:
         if (
-          typeof deletedComponent === "object" &&
-          deletedComponent.hasOwnProperty("objectDeleted")
+          typeof deletedComponent === 'object' &&
+          deletedComponent.hasOwnProperty('objectDeleted')
         ) {
           res.status(OK_CODE).send(deletedComponent);
           break;
@@ -198,7 +198,7 @@ const deleteComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = "ERROR in deleteComponentController() function.";
+    msgResponse = 'ERROR in deleteComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -243,25 +243,25 @@ const getAllComponentController = async (req, res) => {
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
-          error: "Bad request, failed to obtain paginated component list.",
+          error: 'Bad request, failed to obtain paginated component list.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to all atributes." });
+            .send({ ok: 'No items found according to all atributes.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
@@ -315,25 +315,25 @@ const getAllWithAttributesComponentController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, failed to get all paginated components list according to all attributes.",
+            'Bad request, failed to get all paginated components list according to all attributes.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to all atributes." });
+            .send({ ok: 'No items found according to all atributes.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
@@ -341,7 +341,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllWithAttributesComponentController() function.";
+      'ERROR in getAllWithAttributesComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -387,24 +387,24 @@ const getAllWithDetailComponentController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, failed to get all paginated components list and components_details according to all attributes.",
+            'Bad request, failed to get all paginated components list and components_details according to all attributes.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res.status(OK_CODE).send({
-            ok: "No items found according to the component details model.",
+            ok: 'No items found according to the component details model.',
           });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
@@ -412,7 +412,7 @@ const getAllWithDetailComponentController = async (req, res) => {
         }
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllWithDetailComponentController() function.";
+    msgResponse = 'ERROR in getAllWithDetailComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -458,24 +458,24 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.",
+            'Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res.status(OK_CODE).send({
-            ok: "No items found according to the bipolar transistor model.",
+            ok: 'No items found according to the bipolar transistor model.',
           });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
@@ -484,7 +484,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllWithBipolarTransistorComponentController() function.";
+      'ERROR in getAllWithBipolarTransistorComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -530,32 +530,32 @@ const getAllWithAllModelsComponentController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.",
+            'Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to the all models." });
+            .send({ ok: 'No items found according to the all models.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
         }
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllWithAllModelsComponentController() function.";
+    msgResponse = 'ERROR in getAllWithAllModelsComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -591,32 +591,32 @@ const getComponentByIdController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get a component with the requested id. Check if the component exist into the database",
+            'Bad request, could not get a component with the requested id. Check if the component exist into the database',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to the id." });
+            .send({ ok: 'No items found according to the id.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
         }
     }
   } catch (error) {
-    msgResponse = "ERROR in getComponentByIdController() function.";
+    msgResponse = 'ERROR in getComponentByIdController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -662,32 +662,32 @@ const getAllComponentLikeCodeController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according the code.",
+            'Bad request, could not get all paginated list components according the code.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to the code." });
+            .send({ ok: 'No items found according to the code.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
         }
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllComponentLikeCodeController() function.";
+    msgResponse = 'ERROR in getAllComponentLikeCodeController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -733,32 +733,32 @@ const getAllComponentLikeImageController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according the imagen.",
+            'Bad request, could not get all paginated list components according the imagen.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to the image." });
+            .send({ ok: 'No items found according to the image.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
         }
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllComponentLikeImageController() function.";
+    msgResponse = 'ERROR in getAllComponentLikeImageController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -804,25 +804,25 @@ const getAllComponentLikePartNumberController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according the nro de pieza.",
+            'Bad request, could not get all paginated list components according the nro de pieza.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to the part number." });
+            .send({ ok: 'No items found according to the part number.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
@@ -830,7 +830,7 @@ const getAllComponentLikePartNumberController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllComponentLikePartNumberController() function.";
+      'ERROR in getAllComponentLikePartNumberController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -876,25 +876,25 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according the categoria and fabricante.",
+            'Bad request, could not get all paginated list components according the categoria and fabricante.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to the maker or category." });
+            .send({ ok: 'No items found according to the maker or category.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
@@ -902,7 +902,7 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllComponentLikeCategoryAndMakerController() function.";
+      'ERROR in getAllComponentLikeCategoryAndMakerController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -948,25 +948,25 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according to the description.",
+            'Bad request, could not get all paginated list components according to the description.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to the description." });
+            .send({ ok: 'No items found according to the description.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
@@ -974,7 +974,7 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllComponentLikeDescriptionController() function.";
+      'ERROR in getAllComponentLikeDescriptionController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -1006,27 +1006,47 @@ const getAllComponentLikeStockController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according to the stock.",
+            'Bad request, could not get all paginated list components according to the stock.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === 'object' &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: 'No items found according to the stock.' });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllComponentLikeStockController() function.";
+    msgResponse = 'ERROR in getAllComponentLikeStockController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -1058,27 +1078,47 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according to the stock max.",
+            'Bad request, could not get all paginated list components according to the stock max.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === 'object' &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: 'No items found according to the stock max.' });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllComponentLikeStockMaxController() function.";
+    msgResponse = 'ERROR in getAllComponentLikeStockMaxController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -1110,28 +1150,48 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according to the stock min and max.",
+            'Bad request, could not get all paginated list components according to the stock min and max.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === 'object' &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: 'No items found according to the stock min and max.' });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllComponentLikeStockMinMaxController() function.";
+      'ERROR in getAllComponentLikeStockMinMaxController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -1163,27 +1223,47 @@ const getAllComponentLikePriceController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according to the price.",
+            'Bad request, could not get all paginated list components according to the price.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === 'object' &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: 'No items found according to the price.' });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllComponentLikePriceController() function.";
+    msgResponse = 'ERROR in getAllComponentLikePriceController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -1215,27 +1295,47 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according to the max price.",
+            'Bad request, could not get all paginated list components according to the max price.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === 'object' &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: 'No items found according to the price max.' });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllComponentLikePriceMaxController() function.";
+    msgResponse = 'ERROR in getAllComponentLikePriceMaxController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -1267,28 +1367,48 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case 0:
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according to the min and max price.",
+            'Bad request, could not get all paginated list components according to the min and max price.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" || Array.isArray(componentList)) &&
-          componentList[0]?.hasOwnProperty("id")
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
+          (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
+        } else if (
+          (typeof componentList === 'object' &&
+            Object.keys(componentList).length == 0) ||
+          (Array.isArray(componentList) && componentList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: 'No items found according to the price min and max.' });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentList });
-        break;
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllComponentLikePriceMinMaxController() function.";
+      'ERROR in getAllComponentLikePriceMinMaxController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });

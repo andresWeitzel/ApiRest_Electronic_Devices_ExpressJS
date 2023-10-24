@@ -34,7 +34,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/list?page=0&limit=100",
+									"raw": "{{base_url}}/componentes/list?page=0&limit=100&orderBy=precio&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -50,6 +50,14 @@
 										{
 											"key": "limit",
 											"value": "100"
+										},
+										{
+											"key": "orderBy",
+											"value": "precio"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -78,7 +86,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=HD&imagen=http&nroPieza=a&categoria=Transistores&descripcion=a&fabricante=a&stock=1&precio=9.0&page=0&limit=10",
+									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=HD&imagen=http&nroPieza=a&categoria=Transistores&descripcion=a&fabricante=a&stock=1&precio=9.0&page=0&limit=10&orderBy=codigo&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -126,6 +134,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "codigo"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -154,7 +170,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/list-with-details?page=0&limit=10",
+									"raw": "{{base_url}}/componentes/list-with-details?page=0&limit=10&orderBy=codigo&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -170,6 +186,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "codigo"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -198,7 +222,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/bipolar-transistor-list?page=0&limit=10",
+									"raw": "{{base_url}}/componentes/bipolar-transistor-list?page=0&limit=100&orderBy=nro_pieza&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -213,7 +237,15 @@
 										},
 										{
 											"key": "limit",
-											"value": "10"
+											"value": "100"
+										},
+										{
+											"key": "orderBy",
+											"value": "nro_pieza"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -242,7 +274,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/list-all-models?page=0&limit=100",
+									"raw": "{{base_url}}/componentes/list-all-models?page=0&limit=100&orderBy=categoria&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -258,6 +290,14 @@
 										{
 											"key": "limit",
 											"value": "100"
+										},
+										{
+											"key": "orderBy",
+											"value": "categoria"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -321,14 +361,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/codigo/DFHSDK-3CD010G?page=0&limit=2",
+									"raw": "{{base_url}}/componentes/codigo/A?page=0&limit=20&orderBy=PRECIO&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"componentes",
 										"codigo",
-										"DFHSDK-3CD010G"
+										"A"
 									],
 									"query": [
 										{
@@ -337,7 +377,15 @@
 										},
 										{
 											"key": "limit",
-											"value": "2"
+											"value": "20"
+										},
+										{
+											"key": "orderBy",
+											"value": "PRECIO"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -366,14 +414,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/imagen/panasonic?page=0&limit=200",
+									"raw": "{{base_url}}/componentes/imagen/http?page=0&limit=200&orderBy=stock&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"componentes",
 										"imagen",
-										"panasonic"
+										"http"
 									],
 									"query": [
 										{
@@ -383,6 +431,14 @@
 										{
 											"key": "limit",
 											"value": "200"
+										},
+										{
+											"key": "orderBy",
+											"value": "stock"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -411,14 +467,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/nro-pieza/nroPieza=A?page=0&limit=200",
+									"raw": "{{base_url}}/componentes/nro-pieza/A0EOSAA?page=0&limit=200",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"componentes",
 										"nro-pieza",
-										"nroPieza=A"
+										"A0EOSAA"
 									],
 									"query": [
 										{
@@ -456,7 +512,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/categoria-fabricante?categoria=Transistores BJT&fabricante=&page=0&limit=10",
+									"raw": "{{base_url}}/componentes/categoria-fabricante?categoria=Transistores BJT&fabricante=&page=0&limit=10&orderBy=stock&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -480,6 +536,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "stock"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -508,14 +572,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/descripcion/Resistores?page=0&limit=10",
+									"raw": "{{base_url}}/componentes/descripcion/Transistor?page=0&limit=100&orderBy=stock&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"componentes",
 										"descripcion",
-										"Resistores"
+										"Transistor"
 									],
 									"query": [
 										{
@@ -524,7 +588,15 @@
 										},
 										{
 											"key": "limit",
-											"value": "10"
+											"value": "100"
+										},
+										{
+											"key": "orderBy",
+											"value": "stock"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -553,7 +625,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/stock/10?page=0&limit=10",
+									"raw": "{{base_url}}/componentes/stock/10?page=0&limit=10&orderBy=stock&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -570,6 +642,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "stock"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -598,7 +678,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/stock-maximo/10?page=0&limit=10",
+									"raw": "{{base_url}}/componentes/stock-maximo/10?page=0&limit=10&orderBy=stock&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -615,6 +695,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "stock"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -643,7 +731,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/stock-minimo-maximo?stockMin=10&stockMax=100&page=0&limit=10",
+									"raw": "{{base_url}}/componentes/stock-minimo-maximo?stockMin=10&stockMax=20&page=0&limit=10&orderBy=stock&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -658,7 +746,7 @@
 										},
 										{
 											"key": "stockMax",
-											"value": "100"
+											"value": "20"
 										},
 										{
 											"key": "page",
@@ -667,6 +755,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "stock"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -695,7 +791,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/precio/10?page=0&limit=10",
+									"raw": "{{base_url}}/componentes/precio/10?page=0&limit=100&orderBy=precio&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -711,7 +807,15 @@
 										},
 										{
 											"key": "limit",
-											"value": "10"
+											"value": "100"
+										},
+										{
+											"key": "orderBy",
+											"value": "precio"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -740,7 +844,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/precio-maximo/10?page=0&limit=10",
+									"raw": "{{base_url}}/componentes/precio-maximo/10?page=0&limit=10&orderBy=precio&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -757,6 +861,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "precio"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -785,7 +897,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/precio-minimo-maximo?precioMin=6&precioMax=20&page=0&limit=10",
+									"raw": "{{base_url}}/componentes/precio-minimo-maximo?precioMin=6&precioMax=20&page=0&limit=10&orderBy=codigo&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -809,6 +921,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "codigo"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -862,7 +982,46 @@
 				},
 				{
 					"name": "DELETE",
-					"item": []
+					"item": [
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"codigo\":\"DFHSDK-3CD010P3\",\r\n    \"imagen\":\"https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg\",\r\n    \"nro_pieza\":\"3CD010k\",\r\n    \"categoria\":\"Transistores BJT\",\r\n    \"descripcion\":\"Transistor BJT PNP\",\r\n    \"fabricante\":\"INCHANGE SEMICONDUCTOR\",\r\n    \"stock\":400,\r\n    \"precio\":5.0\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/componentes/30",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes",
+										"30"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "PATCH",
@@ -938,7 +1097,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes-detalles/list?page=0&limit=10",
+									"raw": "{{base_url}}/componentes-detalles/list?page=0&limit=100",
 									"host": [
 										"{{base_url}}"
 									],
@@ -953,139 +1112,7 @@
 										},
 										{
 											"key": "limit",
-											"value": "10"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getAllWithDetails",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-api-key",
-										"value": "{{x-api-key}}",
-										"type": "text"
-									},
-									{
-										"key": "Authorization",
-										"value": "{{bearer-token}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/componentes/list-with-details?page=0&limit=10",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"componentes",
-										"list-with-details"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
-											"value": "10"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getAllWithAllModels",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-api-key",
-										"value": "{{x-api-key}}",
-										"type": "text"
-									},
-									{
-										"key": "Authorization",
-										"value": "{{bearer-token}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/componentes/list-all-models?page=0&limit=100",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"componentes",
-										"list-all-models"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
 											"value": "100"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getAllWithBipolarTransistor",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-api-key",
-										"value": "{{x-api-key}}",
-										"type": "text"
-									},
-									{
-										"key": "Authorization",
-										"value": "{{bearer-token}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/componentes/bipolar-transistor-list?page=0&limit=10",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"componentes",
-										"bipolar-transistor-list"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
-											"value": "10"
 										}
 									]
 								}
@@ -1114,97 +1141,49 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=HD&imagen=http&nroPieza=a&categoria=Transistores&descripcion=a&fabricante=a&stock=1&precio=9.0&page=0&limit=10",
+									"raw": "{{base_url}}/componentes-detalles/list-with-attributes?idComponente=&hojaDatos=http&longitud=&ancho=&peso=&material=&voltajeRecom=&voltajeMinEntr=&voltajeMaxEntr=&page=0&limit=10",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"componentes",
+										"componentes-detalles",
 										"list-with-attributes"
 									],
 									"query": [
 										{
-											"key": "codigo",
-											"value": "HD"
+											"key": "idComponente",
+											"value": ""
 										},
 										{
-											"key": "imagen",
+											"key": "hojaDatos",
 											"value": "http"
 										},
 										{
-											"key": "nroPieza",
-											"value": "a"
+											"key": "longitud",
+											"value": ""
 										},
 										{
-											"key": "categoria",
-											"value": "Transistores"
+											"key": "ancho",
+											"value": ""
 										},
 										{
-											"key": "descripcion",
-											"value": "a"
+											"key": "peso",
+											"value": ""
 										},
 										{
-											"key": "fabricante",
-											"value": "a"
+											"key": "material",
+											"value": ""
 										},
 										{
-											"key": "stock",
-											"value": "1"
+											"key": "voltajeRecom",
+											"value": ""
 										},
 										{
-											"key": "precio",
-											"value": "9.0"
+											"key": "voltajeMinEntr",
+											"value": ""
 										},
 										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
-											"value": "10"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getLikeCategoriaFabricante",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-api-key",
-										"value": "{{x-api-key}}",
-										"type": "text"
-									},
-									{
-										"key": "Authorization",
-										"value": "{{bearer-token}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/componentes/categoria-fabricante?categoria=Transistores BJT&fabricante=&page=0&limit=10",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"componentes",
-										"categoria-fabricante"
-									],
-									"query": [
-										{
-											"key": "categoria",
-											"value": "Transistores BJT"
-										},
-										{
-											"key": "fabricante",
+											"key": "voltajeMaxEntr",
 											"value": ""
 										},
 										{
@@ -1214,176 +1193,6 @@
 										{
 											"key": "limit",
 											"value": "10"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getById",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-api-key",
-										"value": "{{x-api-key}}",
-										"type": "text"
-									},
-									{
-										"key": "Authorization",
-										"value": "{{bearer-token}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/componentes/id/2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"componentes",
-										"id",
-										"2"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getLikeCodigo",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{bearer-token}}",
-										"type": "text"
-									},
-									{
-										"key": "x-api-key",
-										"value": "{{x-api-key}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/componentes/codigo/DFHSDK-3CD010G?page=0&limit=2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"componentes",
-										"codigo",
-										"DFHSDK-3CD010G"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
-											"value": "2"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getLikeImagen",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{bearer-token}}",
-										"type": "text"
-									},
-									{
-										"key": "x-api-key",
-										"value": "{{x-api-key}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/componentes/imagen/http?page=0&limit=2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"componentes",
-										"imagen",
-										"http"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
-											"value": "2"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getLikeNroPieza",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{bearer-token}}",
-										"type": "text"
-									},
-									{
-										"key": "x-api-key",
-										"value": "{{x-api-key}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/componentes/nro-pieza/3CD010G?page=0&limit=2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"componentes",
-										"nro-pieza",
-										"3CD010G"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
-											"value": "2"
 										}
 									]
 								}
@@ -1418,15 +1227,15 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"codigo\":\"DFHSDK-3CD010P\",\r\n    \"imagen\":\"https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg\",\r\n    \"nro_pieza\":\"3CD010k\",\r\n    \"categoria\":\"Transistores BJT\",\r\n    \"descripcion\":\"Transistor BJT PNP\",\r\n    \"fabricante\":\"INCHANGE SEMICONDUCTOR\",\r\n    \"stock\":400,\r\n    \"precio\":5.0\r\n}"
+									"raw": "{\r\n        \"id_componente\":\"30\",\r\n        \"hoja_de_datos\": \"https://alltransistors.com/es/mosfet/transistor.php?transistor=18314\",\r\n        \"longitud\": \"45.6mm\",\r\n        \"ancho\": \"44mm\",\r\n        \"peso\": \"0.878 g\",\r\n        \"material\": \"metal-silicio\",\r\n        \"voltaje_recomendado\": \"56 VDC\",\r\n        \"voltaje_min_entrada\": \"33.3 VDC\",\r\n        \"voltaje_max_entrada\": \"120 VDC\"\r\n}"
 								},
 								"url": {
-									"raw": "{{base_url}}/componentes/",
+									"raw": "{{base_url}}/componentes-detalles/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"componentes",
+										"componentes-detalles",
 										""
 									]
 								}
@@ -1437,11 +1246,85 @@
 				},
 				{
 					"name": "DELETE",
-					"item": []
+					"item": [
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/componentes-detalles/54",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes-detalles",
+										"54"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
-					"name": "PUT",
-					"item": []
+					"name": "PATCH",
+					"item": [
+						{
+							"name": "update",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"id_componente\": 31,\r\n        \"hoja_de_datos\": \"https://alltransistors.com/es/mosfet/transistor.php?transistor=18314\",\r\n        \"longitud\": \"45.6mm\",\r\n        \"ancho\": \"44mm\",\r\n        \"peso\": \"0.878 g\",\r\n        \"material\": \"metal-silicio\",\r\n        \"voltaje_recomendado\": \"56 VDC\",\r\n        \"voltaje_min_entrada\": \"33.3 VDC\",\r\n        \"voltaje_max_entrada\": \"120 VDC\"\r\n    }"
+								},
+								"url": {
+									"raw": "{{base_url}}/componentes-detalles/54",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes-detalles",
+										"54"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
