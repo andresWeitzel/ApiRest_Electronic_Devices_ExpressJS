@@ -27,6 +27,8 @@ let voltajeRecParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
 
+//For check
+
 /**
  * @description add a component-detail to database
  * @param {any} req any type
