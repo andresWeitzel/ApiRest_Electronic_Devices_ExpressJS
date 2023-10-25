@@ -1,10 +1,8 @@
 //External
 const componentRouter = require('express').Router();
 const {
-  addComponentController,
   getAllComponentController,
   deleteComponentController,
-  updateComponentController,
   getAllWithAttributesComponentController,
   getAllWithDetailComponentController,
   getAllWithBipolarTransistorComponentController,
@@ -23,11 +21,14 @@ const {
   getAllComponentLikeImageController,
 } = require('../../controllers/component.controller');
 //Controllers
-
+const { addComponentController } = require('../../controllers/component/add');
+const { updateComponentController } = require('../../controllers/component/update');
+//validators
 const {
   checkBodyFieldsAddComponent,
   checkBodyFieldsUpdateComponent,
 } = require('../../helpers/validations/component/express-validator');
+
 
 componentRouter.post(
   '/',

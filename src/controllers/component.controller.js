@@ -2,8 +2,7 @@
 require('dotenv').config();
 //Services
 const {
-  addComponentService,
-  updateComponentService,
+  // updateComponentService,
   deleteComponentService,
   getAllComponentService,
   getComponentByIdService,
@@ -49,111 +48,10 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
-let newComponent;
-let updatedComponent;
 let deletedComponent;
 let msgResponse;
 let msgLog;
 
-/**
- * @description add a componente to database
- * @param {any} req any type
- * @param {any} res any type
- * @returns a json object with the transaction performed
- * @example
- */
-const addComponentController = async (req, res) => {
-  try {
-    msgResponse = null;
-    msgLog = null;
-    newComponent = await addComponentService(req);
-
-    switch (newComponent) {
-      case CONNECTION_ERROR_STATUS:
-        res
-          .status(INTERNAL_SERVER_ERROR_CODE)
-          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
-        break;
-      case CONNECTION_REFUSED_STATUS:
-        res
-          .status(INTERNAL_SERVER_ERROR_CODE)
-          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
-        break;
-      case 0:
-      case undefined:
-      case null:
-        res
-          .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not add a component.' });
-        break;
-      default:
-        if (
-          typeof newComponent === 'object' &&
-          newComponent.hasOwnProperty('id')
-        ) {
-          res.status(OK_CODE).send(newComponent);
-          break;
-        }
-        res.status(BAD_REQUEST_CODE).send({ error: newComponent });
-        break;
-    }
-  } catch (error) {
-    msgResponse = 'ERROR in addComponentController() function.';
-    msgLog = msgResponse + `Caused by ${error}`;
-    console.log(msgLog);
-    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
-  }
-};
-
-/**
- * @description update a componente from the database
- * @param {any} req any type
- * @param {any} res any type
- * @returns a json object with the transaction performed
- * @example
- */
-const updateComponentController = async (req, res) => {
-  try {
-    msgResponse = null;
-    msgLog = null;
-    updatedComponent = await updateComponentService(req);
-
-    switch (updatedComponent) {
-      case CONNECTION_ERROR_STATUS:
-        res
-          .status(INTERNAL_SERVER_ERROR_CODE)
-          .send({ error: CONNECTION_ERROR_STATUS_DETAIL });
-        break;
-      case CONNECTION_REFUSED_STATUS:
-        res
-          .status(INTERNAL_SERVER_ERROR_CODE)
-          .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
-        break;
-      case 0:
-      case undefined:
-      case null:
-        res
-          .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not update a component.' });
-        break;
-      default:
-        if (
-          typeof updatedComponent === 'object' &&
-          updatedComponent.hasOwnProperty('objectUpdated')
-        ) {
-          res.status(OK_CODE).send(updatedComponent);
-          break;
-        }
-        res.status(BAD_REQUEST_CODE).send({ error: updatedComponent });
-        break;
-    }
-  } catch (error) {
-    msgResponse = 'ERROR in updateComponentController() function.';
-    msgLog = msgResponse + `Caused by ${error}`;
-    console.log(msgLog);
-    res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
-  }
-};
 
 /**
  * @description delete a component from the database
@@ -1416,8 +1314,6 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
 };
 
 module.exports = {
-  addComponentController,
-  updateComponentController,
   deleteComponentController,
   getAllComponentController,
   getAllWithAttributesComponentController,

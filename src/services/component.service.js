@@ -10,7 +10,6 @@ const {
 } = require('../models/sequelize/electrolytic_capacitor');
 //Enums
 const { statusName } = require('../enums/database/status');
-const { value } = require('../enums/general/value');
 const { checkErrors } = require('../helpers/sequelize/errors');
 const {
   checkOrderBy,
@@ -23,8 +22,7 @@ const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
-//components
-let newComponent;
+//componentss
 let componentList;
 let component;
 //params
@@ -52,138 +50,6 @@ let orderAt;
 let order;
 let msg;
 
-/**
- * @description add a componente to database
- * @param {any} req any type
- * @param {any} res any type
- * @returns a json object with the transaction performed
- * @example
- */
-const addComponentService = async (req, res) => {
-  try {
-    newComponent = null;
-    msg = null;
-    codigoParam = null;
-    imagenParam = null;
-    nroPiezaParam = null;
-    categoriaParam = null;
-    descripcionParam = null;
-    fabricanteParam = null;
-    stockParam = null;
-    priceParam = null;
-
-    if (Component != (null && undefined)) {
-      await Component.create({
-        codigo: req.body?.codigo ? req.body.codigo : codigoParam,
-        imagen: req.body?.imagen ? req.body.imagen : imagenParam,
-        nro_pieza: req.body?.nro_pieza ? req.body.nro_pieza : nroPiezaParam,
-        categoria: req.body?.categoria ? req.body.categoria : categoriaParam,
-        descripcion: req.body?.descripcion
-          ? req.body.descripcion
-          : descripcionParam,
-        fabricante: req.body?.fabricante
-          ? req.body.fabricante
-          : fabricanteParam,
-        stock: req.body?.stock ? req.body.stock : stockParam,
-        precio: req.body?.precio ? req.body.precio : priceParam,
-      })
-        .then(async (componentItem) => {
-          newComponent = componentItem.dataValues;
-        })
-        .catch(async (error) => {
-          msg = `Error in addComponentService() function when trying to create a component. Caused by ${error}`;
-          console.log(msg);
-          newComponent = await checkErrors(error, error.name);
-        });
-    } else {
-      newComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
-    }
-  } catch (error) {
-    msg = `Error in addComponentService() function. Caused by ${error}`;
-    console.log(msg);
-    newComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
-  }
-  return newComponent;
-};
-
-/**
- * @description update a componente from the database
- * @param {any} req any type
- * @param {any} res any type
- * @returns a json object with the transaction performed
- * @example
- */
-const updateComponentService = async (req, res) => {
-  try {
-    updatedComponent = null;
-    msg = null;
-    params = null;
-    idParam = 0;
-    codigoParam = null;
-    imagenParam = null;
-    nroPiezaParam = null;
-    categoriaParam = null;
-    descripcionParam = null;
-    fabricanteParam = null;
-    stockParam = null;
-    priceParam = null;
-
-    //-- start with params ---
-    params = req.params;
-
-    if (params != (null && undefined)) {
-      idParam = params.id ? parseInt(params.id) : idParam;
-    }
-    //-- end with params  ---
-
-    if (Component != (null && undefined) && idParam != null) {
-      await Component.update(
-        {
-          codigo: req.body?.codigo ? req.body.codigo : codigoParam,
-          imagen: req.body?.imagen ? req.body.imagen : imagenParam,
-          nro_pieza: req.body?.nro_pieza ? req.body.nro_pieza : nroPiezaParam,
-          categoria: req.body?.categoria ? req.body.categoria : categoriaParam,
-          descripcion: req.body?.descripcion
-            ? req.body.descripcion
-            : descripcionParam,
-          fabricante: req.body?.fabricante
-            ? req.body.fabricante
-            : fabricanteParam,
-          stock: req.body?.stock ? req.body.stock : stockParam,
-          precio: req.body?.precio ? req.body.precio : priceParam,
-        },
-        {
-          where: {
-            id: idParam,
-          },
-        },
-      )
-        .then(async (componentItem) => {
-          updatedComponent =
-            componentItem[0] == 1
-              ? {
-                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
-                }
-              : {
-                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`,
-                };
-        })
-        .catch(async (error) => {
-          msg = `Error in updateComponentService() function when trying to update a component. Caused by ${error}`;
-          console.log(msg);
-
-          updatedComponent = await checkErrors(error, error.name);
-        });
-    } else {
-      updatedComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
-    }
-  } catch (error) {
-    msg = `Error in updateComponentService() function. Caused by ${error}`;
-    console.log(msg);
-    updatedComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
-  }
-  return updatedComponent;
-};
 
 /**
  * @description delete a component from the database
@@ -1759,8 +1625,6 @@ const getAllComponentLikePriceMinMaxService = async (req, res) => {
 };
 
 module.exports = {
-  addComponentService,
-  updateComponentService,
   deleteComponentService,
   getAllComponentService,
   getAllWithAttributesComponentService,
