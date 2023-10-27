@@ -1,8 +1,8 @@
 //Models
-const { Component } = require("../../models/sequelize/component");
+const { Component } = require('../../models/sequelize/component');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //params
 let idParam;
 let codigoParam;
@@ -66,7 +66,7 @@ const updateComponentService = async (req, res) => {
           where: {
             id: idParam,
           },
-        }
+        },
       )
         .then(async (componentItem) => {
           updatedComponent =

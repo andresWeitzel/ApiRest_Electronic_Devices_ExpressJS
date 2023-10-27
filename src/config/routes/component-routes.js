@@ -1,11 +1,6 @@
 //External
 const componentRouter = require('express').Router();
 const {
-  getAllComponentController,
-  deleteComponentController,
-  getAllWithAttributesComponentController,
-  getAllWithDetailComponentController,
-  getAllWithBipolarTransistorComponentController,
   getAllWithAllModelsComponentController,
   getComponentByIdController,
   getAllComponentLikeCodeController,
@@ -22,13 +17,29 @@ const {
 } = require('../../controllers/component.controller');
 //Controllers
 const { addComponentController } = require('../../controllers/component/add');
-const { updateComponentController } = require('../../controllers/component/update');
+const {
+  deleteComponentController,
+} = require('../../controllers/component/delete');
+const {
+  getAllComponentController,
+} = require('../../controllers/component/get-all');
+const {
+  getAllWithAttributesComponentController,
+} = require('../../controllers/component/get-all-with-attributes');
+const {
+  getAllWithBipolarTransistorComponentController,
+} = require('../../controllers/component/get-all-with-bipolar-transistor');
+const {
+  getAllWithDetailComponentController,
+} = require('../../controllers/component/get-all-with-details');
+const {
+  updateComponentController,
+} = require('../../controllers/component/update');
 //validators
 const {
   checkBodyFieldsAddComponent,
   checkBodyFieldsUpdateComponent,
 } = require('../../helpers/validations/component/express-validator');
-
 
 componentRouter.post(
   '/',

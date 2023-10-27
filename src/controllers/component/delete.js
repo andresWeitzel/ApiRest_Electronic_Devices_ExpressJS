@@ -1,7 +1,7 @@
 //External
 require('dotenv').config();
 //Services
-const { addComponentService } = require('../../services/component/add');
+const { deleteComponentService } = require('../../services/component/delete');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -16,24 +16,24 @@ const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
 // Pagination
-let newComponent;
+let deletedComponent;
 let msgResponse;
 let msgLog;
 
 /**
- * @description add a componente to database
+ * @description delete a component from the database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const addComponentController = async (req, res) => {
+const deleteComponentController = async (req, res) => {
   try {
     msgResponse = null;
     msgLog = null;
-    newComponent = await addComponentService(req);
+    deletedComponent = await deleteComponentService(req);
 
-    switch (newComponent) {
+    switch (deletedComponent) {
       case CONNECTION_ERROR_STATUS:
         res
           .status(INTERNAL_SERVER_ERROR_CODE)
@@ -49,21 +49,21 @@ const addComponentController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not add a component.' });
+          .send({ error: 'Bad request, could not delete a component.' });
         break;
       default:
         if (
-          typeof newComponent === 'object' &&
-          newComponent.hasOwnProperty('id')
+          typeof deletedComponent === 'object' &&
+          deletedComponent.hasOwnProperty('objectDeleted')
         ) {
-          res.status(OK_CODE).send(newComponent);
+          res.status(OK_CODE).send(deletedComponent);
           break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: newComponent });
+        res.status(BAD_REQUEST_CODE).send({ error: deletedComponent });
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in addComponentController() function.';
+    msgResponse = 'ERROR in deleteComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -71,5 +71,5 @@ const addComponentController = async (req, res) => {
 };
 
 module.exports = {
-  addComponentController,
+  deleteComponentController,
 };

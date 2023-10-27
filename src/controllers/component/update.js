@@ -19,7 +19,6 @@ let updatedComponent;
 let msgResponse;
 let msgLog;
 
-
 /**
  * @description update a componente from the database
  * @param {any} req any type
@@ -71,5 +70,5 @@ const updateComponentController = async (req, res) => {
 };
 
 module.exports = {
-    updateComponentController
-}
+  updateComponentController,
+};

@@ -1,9 +1,9 @@
 //Models
-const { Component } = require("../../models/sequelize/component");
+const { Component } = require('../../models/sequelize/component');
 //Enums
-const { statusName } = require("../../enums/database/status");
+const { statusName } = require('../../enums/database/status');
 //Helpers
-const { checkErrors } = require("../../helpers/sequelize/errors");
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //components
 let newComponent;
 //params
