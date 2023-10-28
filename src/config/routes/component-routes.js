@@ -1,50 +1,36 @@
-//External
-const componentRouter = require('express').Router();
 const {
+  //router
+  componentRouter,
+  //checks
+  checkBodyFieldsAddComponent,
+  checkBodyFieldsUpdateComponent,
+  //controllers
+  createComponentController,
+  updateComponentController,
+  deleteComponentController,
+  getAllComponentController,
+  getAllWithAttributesComponentController,
+  getAllWithDetailComponentController,
+  getAllWithBipolarTransistorComponentController,
   getAllWithAllModelsComponentController,
   getComponentByIdController,
   getAllComponentLikeCodeController,
-  getAllComponentLikeDescriptionController,
+  getAllComponentLikeImageController,
   getAllComponentLikePartNumberController,
   getAllComponentLikeCategoryAndMakerController,
-  getAllComponentLikeStockMinMaxController,
-  getAllComponentLikeStockMaxController,
+  getAllComponentLikeDescriptionController,
   getAllComponentLikeStockController,
+  getAllComponentLikeStockMaxController,
+  getAllComponentLikeStockMinMaxController,
   getAllComponentLikePriceController,
   getAllComponentLikePriceMaxController,
   getAllComponentLikePriceMinMaxController,
-  getAllComponentLikeImageController,
-} = require('../../controllers/component.controller');
-//Controllers
-const { addComponentController } = require('../../controllers/component/add');
-const {
-  deleteComponentController,
-} = require('../../controllers/component/delete');
-const {
-  getAllComponentController,
-} = require('../../controllers/component/get-all');
-const {
-  getAllWithAttributesComponentController,
-} = require('../../controllers/component/get-all-with-attributes');
-const {
-  getAllWithBipolarTransistorComponentController,
-} = require('../../controllers/component/get-all-with-bipolar-transistor');
-const {
-  getAllWithDetailComponentController,
-} = require('../../controllers/component/get-all-with-details');
-const {
-  updateComponentController,
-} = require('../../controllers/component/update');
-//validators
-const {
-  checkBodyFieldsAddComponent,
-  checkBodyFieldsUpdateComponent,
-} = require('../../helpers/validations/component/express-validator');
+} = require('./component-routes-imports');
 
 componentRouter.post(
   '/',
   checkBodyFieldsAddComponent(),
-  addComponentController,
+  createComponentController,
 );
 
 componentRouter.patch(

@@ -1,7 +1,7 @@
 //External
 require('dotenv').config();
 //Services
-const { addComponentService } = require('../../services/component/add');
+const { createComponentService } = require('../../services/component/create');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -21,17 +21,17 @@ let msgResponse;
 let msgLog;
 
 /**
- * @description add a componente to database
+ * @description create a componente to database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const addComponentController = async (req, res) => {
+const createComponentController = async (req, res) => {
   try {
     msgResponse = null;
     msgLog = null;
-    newComponent = await addComponentService(req);
+    newComponent = await createComponentService(req);
 
     switch (newComponent) {
       case CONNECTION_ERROR_STATUS:
@@ -63,7 +63,7 @@ const addComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in addComponentController() function.';
+    msgResponse = 'ERROR in createComponentController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
@@ -71,5 +71,5 @@ const addComponentController = async (req, res) => {
 };
 
 module.exports = {
-  addComponentController,
+  createComponentController,
 };

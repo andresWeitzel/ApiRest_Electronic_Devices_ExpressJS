@@ -18,13 +18,13 @@ let priceParam;
 let msg;
 
 /**
- * @description add a componente to database
+ * @description create a componente to database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const addComponentService = async (req, res) => {
+const createComponentService = async (req, res) => {
   try {
     newComponent = null;
     msg = null;
@@ -56,7 +56,7 @@ const addComponentService = async (req, res) => {
           newComponent = componentItem.dataValues;
         })
         .catch(async (error) => {
-          msg = `Error in addComponentService() function when trying to create a component. Caused by ${error}`;
+          msg = `Error in createComponentService() function when trying to create a component. Caused by ${error}`;
           console.log(msg);
           newComponent = await checkErrors(error, error.name);
         });
@@ -64,7 +64,7 @@ const addComponentService = async (req, res) => {
       newComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
-    msg = `Error in addComponentService() function. Caused by ${error}`;
+    msg = `Error in createComponentService() function. Caused by ${error}`;
     console.log(msg);
     newComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
@@ -72,5 +72,5 @@ const addComponentService = async (req, res) => {
 };
 
 module.exports = {
-  addComponentService,
+  createComponentService,
 };
