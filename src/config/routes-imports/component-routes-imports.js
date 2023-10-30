@@ -1,9 +1,4 @@
-//External
-const componentRouter = require('express').Router();
 const {
-  getAllComponentLikeDescriptionController,
-  getAllComponentLikePartNumberController,
-  getAllComponentLikeCategoryAndMakerController,
   getAllComponentLikeStockMinMaxController,
   getAllComponentLikeStockMaxController,
   getAllComponentLikeStockController,
@@ -11,10 +6,20 @@ const {
   getAllComponentLikePriceMaxController,
   getAllComponentLikePriceMinMaxController,
 } = require('../../controllers/component.controller');
+//External
+const componentRouter = require('express').Router();
+//validators
+const {
+  checkBodyFieldsAddComponent,
+  checkBodyFieldsUpdateComponent,
+} = require('../../helpers/validations/component/express-validator');
 //Controllers
 const {
   createComponentController,
 } = require('../../controllers/component/create');
+const {
+  updateComponentController,
+} = require('../../controllers/component/update');
 const {
   deleteComponentController,
 } = require('../../controllers/component/delete');
@@ -27,6 +32,9 @@ const {
 const {
   getAllComponentLikeImageController,
 } = require('../../controllers/component/get-all-like-image');
+const {
+  getAllComponentLikePartNumberController,
+} = require('../../controllers/component/get-all-like-part-number');
 const {
   getAllWithAttributesComponentController,
 } = require('../../controllers/component/get-all-with-attributes');
@@ -43,19 +51,14 @@ const {
   getComponentByIdController,
 } = require('../../controllers/component/get-by-id');
 const {
-  updateComponentController,
-} = require('../../controllers/component/update');
-//validators
+  getAllComponentLikeCategoryAndMakerController,
+} = require('../../controllers/component/get-all-like-category-and-maker');
 const {
-  checkBodyFieldsAddComponent,
-  checkBodyFieldsUpdateComponent,
-} = require('../../helpers/validations/component/express-validator');
+  getAllComponentLikeDescriptionController,
+} = require('../../controllers/component/get-all-like-description');
 
 module.exports = {
   //For migration
-  getAllComponentLikeDescriptionController,
-  getAllComponentLikePartNumberController,
-  getAllComponentLikeCategoryAndMakerController,
   getAllComponentLikeStockMinMaxController,
   getAllComponentLikeStockMaxController,
   getAllComponentLikeStockController,
@@ -66,6 +69,9 @@ module.exports = {
   componentRouter,
   createComponentController,
   deleteComponentController,
+  updateComponentController,
+  checkBodyFieldsAddComponent,
+  checkBodyFieldsUpdateComponent,
   getAllComponentController,
   getAllComponentLikeCodeController,
   getAllComponentLikeImageController,
@@ -74,7 +80,7 @@ module.exports = {
   getAllWithDetailComponentController,
   getAllWithAllModelsComponentController,
   getComponentByIdController,
-  updateComponentController,
-  checkBodyFieldsAddComponent,
-  checkBodyFieldsUpdateComponent,
+  getAllComponentLikePartNumberController,
+  getAllComponentLikeCategoryAndMakerController,
+  getAllComponentLikeDescriptionController,
 };

@@ -25,7 +25,7 @@ const {
   getAllComponentLikePriceController,
   getAllComponentLikePriceMaxController,
   getAllComponentLikePriceMinMaxController,
-} = require('./component-routes-imports');
+} = require('../routes-imports/component-routes-imports');
 
 componentRouter.post(
   '/',
