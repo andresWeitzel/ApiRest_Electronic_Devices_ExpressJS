@@ -1,6 +1,7 @@
+//External
+const componentRouter = require("express").Router();
+//controllers
 const {
-  //router
-  componentRouter,
   //checks
   checkBodyFieldsAddComponent,
   checkBodyFieldsUpdateComponent,
