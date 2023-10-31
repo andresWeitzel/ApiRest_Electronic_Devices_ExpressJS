@@ -1,38 +1,37 @@
 //External
-const componentRouter = require('express').Router();
+const componentRouter = require("express").Router();
+//controllers
 const {
-  addComponentController,
-  getAllComponentController,
-  deleteComponentController,
+  //checks
+  checkBodyFieldsAddComponent,
+  checkBodyFieldsUpdateComponent,
+  //controllers
+  createComponentController,
   updateComponentController,
+  deleteComponentController,
+  getAllComponentController,
   getAllWithAttributesComponentController,
   getAllWithDetailComponentController,
   getAllWithBipolarTransistorComponentController,
   getAllWithAllModelsComponentController,
   getComponentByIdController,
   getAllComponentLikeCodeController,
-  getAllComponentLikeDescriptionController,
+  getAllComponentLikeImageController,
   getAllComponentLikePartNumberController,
   getAllComponentLikeCategoryAndMakerController,
-  getAllComponentLikeStockMinMaxController,
-  getAllComponentLikeStockMaxController,
+  getAllComponentLikeDescriptionController,
   getAllComponentLikeStockController,
+  getAllComponentLikeStockMaxController,
+  getAllComponentLikeStockMinMaxController,
   getAllComponentLikePriceController,
   getAllComponentLikePriceMaxController,
   getAllComponentLikePriceMinMaxController,
-  getAllComponentLikeImageController,
-} = require('../../controllers/component.controller');
-//Controllers
-
-const {
-  checkBodyFieldsAddComponent,
-  checkBodyFieldsUpdateComponent,
-} = require('../../helpers/validations/component/express-validator');
+} = require('../routes-imports/component-routes-imports');
 
 componentRouter.post(
   '/',
   checkBodyFieldsAddComponent(),
-  addComponentController,
+  createComponentController,
 );
 
 componentRouter.patch(
