@@ -66,13 +66,13 @@ const {
 } = require("../../controllers/component/get-all-like-price-min-max");
 
 module.exports = {
-  //For migration
-  //Migrated
+  //Validators
+  checkBodyFieldsAddComponent,
+  checkBodyFieldsUpdateComponent,
+  //Controllers
   createComponentController,
   deleteComponentController,
   updateComponentController,
-  checkBodyFieldsAddComponent,
-  checkBodyFieldsUpdateComponent,
   getAllComponentController,
   getAllComponentLikeCodeController,
   getAllComponentLikeImageController,
