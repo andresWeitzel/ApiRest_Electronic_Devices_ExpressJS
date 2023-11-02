@@ -1,38 +1,35 @@
 //External
-const componentDetailRouter = require('express').Router();
+const componentDetailRouter = require("express").Router();
 //Controllers
 const {
-  addComponentDetailController,
+  checkBodyFieldsAddComponentDetails,
+  createComponentDetailController,
+  checkBodyFieldsUpdateComponentDetail,
   updateComponentDetailController,
   deleteComponentDetailController,
   getAllComponentDetailController,
   getAllWithAttributesComponentDetailController,
-} = require('../../controllers/component-detail.controller');
-//Helpers
-const {
-  checkBodyFieldsAddComponentDetails,
-  checkBodyFieldsUpdateComponentDetail,
-} = require('../../helpers/validations/component-detail/express-validator');
+} = require("../routes-imports/component-detail-routes-imports");
 
 componentDetailRouter.post(
-  '/',
+  "/",
   checkBodyFieldsAddComponentDetails(),
-  addComponentDetailController,
+  createComponentDetailController
 );
 
 componentDetailRouter.patch(
-  '/:id',
+  "/:id",
   checkBodyFieldsUpdateComponentDetail(),
-  updateComponentDetailController,
+  updateComponentDetailController
 );
 
-componentDetailRouter.delete('/:id', deleteComponentDetailController);
+componentDetailRouter.delete("/:id", deleteComponentDetailController);
 
-componentDetailRouter.get('/list', getAllComponentDetailController);
+componentDetailRouter.get("/list", getAllComponentDetailController);
 
 componentDetailRouter.get(
-  '/list-with-attributes',
-  getAllWithAttributesComponentDetailController,
+  "/list-with-attributes",
+  getAllWithAttributesComponentDetailController
 );
 
 module.exports = componentDetailRouter;
