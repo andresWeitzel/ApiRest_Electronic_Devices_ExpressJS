@@ -6,13 +6,10 @@ const {
   createComponentDetailController,
   checkBodyFieldsUpdateComponentDetail,
   updateComponentDetailController,
-} = require("../routes-imports/component-detail-routes-imports");
-
-const {
   deleteComponentDetailController,
   getAllComponentDetailController,
   getAllWithAttributesComponentDetailController,
-} = require('../../controllers/component-detail.controller');
+} = require("../routes-imports/component-detail-routes-imports");
 
 componentDetailRouter.post(
   "/",
@@ -26,13 +23,13 @@ componentDetailRouter.patch(
   updateComponentDetailController
 );
 
-componentDetailRouter.delete('/:id', deleteComponentDetailController);
+componentDetailRouter.delete("/:id", deleteComponentDetailController);
 
-componentDetailRouter.get('/list', getAllComponentDetailController);
+componentDetailRouter.get("/list", getAllComponentDetailController);
 
 componentDetailRouter.get(
-  '/list-with-attributes',
-  getAllWithAttributesComponentDetailController,
+  "/list-with-attributes",
+  getAllWithAttributesComponentDetailController
 );
 
 module.exports = componentDetailRouter;

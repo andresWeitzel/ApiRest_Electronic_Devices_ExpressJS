@@ -2,7 +2,6 @@
 const { ComponentDetail } = require('../../models/sequelize/component-detail');
 //Enums
 const { statusName } = require('../../enums/database/status');
-const { value } = require('../../enums/general/value');
 const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const-vars
 let msg;
@@ -42,7 +41,7 @@ const updateComponentDetailService = async (req, res) => {
     //-- start with params ---
     params = req.params;
 
-    if (params != value.IS_NULL) {
+    if (params != (null && undefined)) {
       idParam = params.id ? params.id : null;
     }
     //-- end with params  ---

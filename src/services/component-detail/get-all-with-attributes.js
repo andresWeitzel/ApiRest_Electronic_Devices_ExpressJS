@@ -1,21 +1,17 @@
 //Externals
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 //Models
-const { ComponentDetail } = require('../models/sequelize/component-detail');
+const { ComponentDetail } = require("../../models/sequelize/component-detail");
 //Enums
-const { statusName } = require('../enums/database/status');
-const { value } = require('../enums/general/value');
-const { checkErrors } = require('../helpers/sequelize/errors');
+const { statusName } = require("../../enums/database/status");
+const { checkErrors } = require("../../helpers/sequelize/errors");
 //Const-vars
-const orderBy = [['id', 'ASC']];
+const orderBy = [["id", "ASC"]];
 let componentDetailList;
 let queryStrParams;
 let pageSizeNro = 30;
 let pageNro = 0;
 let msg;
-let params;
-let idParam;
-let deleteComponentDetail;
 let idComponenteParam;
 let hojaDatosParam;
 let longitudParam;
@@ -24,125 +20,6 @@ let materialParam;
 let voltajeRecParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
-
-
-
-/**
- * @description delete a component detail from the database
- * @param {any} req any type
- * @param {any} res any type
- * @returns a json object with the transaction performed
- * @example
- */
-const deleteComponentDetailService = async (req, res) => {
-  try {
-    deleteComponentDetail = null;
-    msg = null;
-    params = null;
-    idParam = 0;
-
-    //-- start with params ---
-    params = req.params;
-
-    if (params != value.IS_NULL) {
-      idParam = params.id ? params.id : null;
-    }
-    //-- end with params  ---
-
-    if (ComponentDetail != null && idParam != null) {
-      await ComponentDetail.destroy({
-        where: {
-          id: idParam,
-        },
-      })
-        .then(async (componentDetailItem) => {
-          deleteComponentDetail =
-            componentDetailItem == 1
-              ? {
-                  objectDeleted: `Se ha eliminado correctamente el detalle de componente según el id ${idParam}`,
-                }
-              : {
-                  objectDeleted: `No se ha eliminado el detalle del componente según el id ${idParam}. Comprobar si el mismo existe en la db.`,
-                };
-        })
-        .catch(async (error) => {
-          msg = `Error in deleteComponentDetailService() function when trying to delete a component detail. Caused by ${error}`;
-          console.log(msg);
-
-          deleteComponentDetail = await checkErrors(error, error.name);
-        });
-    } else {
-      deleteComponentDetail = await checkErrors(
-        null,
-        statusName.CONNECTION_REFUSED,
-      );
-    }
-  } catch (error) {
-    msg = `Error in deleteComponentDetailService() function. Caused by ${error}`;
-    console.log(msg);
-    deleteComponentDetail = await checkErrors(
-      error,
-      statusName.CONNECTION_ERROR,
-    );
-  }
-  return deleteComponentDetail;
-};
-
-/**
- * @description get all paginated components details from the database
- * @param {any} req any type
- * @param {any} res any type
- * @returns a json object with the transaction performed
- * @example
- */
-const getAllComponentDetailService = async (req, res) => {
-  try {
-    componentDetailList = null;
-    queryStrParams = null;
-    msg = null;
-
-    //-- start with pagination  ---
-    queryStrParams = req.query;
-
-    if (queryStrParams != value.IS_NULL) {
-      pageSizeNro = queryStrParams.limit
-        ? parseInt(queryStrParams.limit)
-        : pageSizeNro;
-      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
-    }
-    //-- end with pagination  ---
-
-    if (ComponentDetail != null) {
-      await ComponentDetail.findAll({
-        attributes: {},
-        limit: pageSizeNro,
-        offset: pageNro,
-        order: orderBy,
-        raw: true,
-      })
-        .then(async (componentDetailsItems) => {
-          componentDetailList = componentDetailsItems;
-        })
-        .catch(async (error) => {
-          msg = `Error in getAllComponentDetailService() function when trying to get all paginated components. Caused by ${error}`;
-          console.log(error);
-
-          componentDetailList = await checkErrors(error, error.name);
-        });
-    } else {
-      componentDetailList = await checkErrors(
-        null,
-        statusName.CONNECTION_REFUSED,
-      );
-    }
-  } catch (error) {
-    msg = `Error in getAllComponentDetailService() function. Caused by ${error}`;
-    console.log(msg);
-
-    componentDetailList = await checkErrors(error, statusName.CONNECTION_ERROR);
-  }
-  return componentDetailList;
-};
 
 /**
  * @description get all paginated components details list according to all attributes from the database
@@ -169,7 +46,7 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != value.IS_NULL) {
+    if (queryStrParams != null) {
       idComponenteParam = queryStrParams.idComponente
         ? queryStrParams.idComponente
         : idComponenteParam;
@@ -250,7 +127,7 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
     } else {
       componentDetailList = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        statusName.CONNECTION_REFUSED
       );
     }
   } catch (error) {
@@ -262,7 +139,5 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
 };
 
 module.exports = {
-  deleteComponentDetailService,
-  getAllComponentDetailService,
   getAllWithAttributesComponentDetailService,
 };

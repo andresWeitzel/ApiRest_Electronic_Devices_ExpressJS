@@ -10,6 +10,15 @@ const {
 const {
   updateComponentDetailController,
 } = require("../../controllers/component-detail/update");
+const {
+  deleteComponentDetailController,
+} = require("../../controllers/component-detail/delete");
+const {
+  getAllComponentDetailController,
+} = require("../../controllers/component-detail/get-all");
+const {
+  getAllWithAttributesComponentDetailController,
+} = require("../../controllers/component-detail/get-all-with-attributes");
 
 module.exports = {
   //Validators
@@ -18,4 +27,7 @@ module.exports = {
   //Controllers
   createComponentDetailController,
   updateComponentDetailController,
+  deleteComponentDetailController,
+  getAllComponentDetailController,
+  getAllWithAttributesComponentDetailController,
 };
