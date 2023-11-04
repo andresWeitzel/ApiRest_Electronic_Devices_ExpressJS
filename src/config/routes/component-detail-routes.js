@@ -1,5 +1,5 @@
 //External
-const componentDetailRouter = require("express").Router();
+const componentDetailRouter = require('express').Router();
 //Controllers
 const {
   checkBodyFieldsAddComponentDetails,
@@ -9,27 +9,27 @@ const {
   deleteComponentDetailController,
   getAllComponentDetailController,
   getAllWithAttributesComponentDetailController,
-} = require("../routes-imports/component-detail-routes-imports");
+} = require('../routes-imports/component-detail-routes-imports');
 
 componentDetailRouter.post(
-  "/",
+  '/',
   checkBodyFieldsAddComponentDetails(),
-  createComponentDetailController
+  createComponentDetailController,
 );
 
 componentDetailRouter.patch(
-  "/:id",
+  '/:id',
   checkBodyFieldsUpdateComponentDetail(),
-  updateComponentDetailController
+  updateComponentDetailController,
 );
 
-componentDetailRouter.delete("/:id", deleteComponentDetailController);
+componentDetailRouter.delete('/:id', deleteComponentDetailController);
 
-componentDetailRouter.get("/list", getAllComponentDetailController);
+componentDetailRouter.get('/list', getAllComponentDetailController);
 
 componentDetailRouter.get(
-  "/list-with-attributes",
-  getAllWithAttributesComponentDetailController
+  '/list-with-attributes',
+  getAllWithAttributesComponentDetailController,
 );
 
 module.exports = componentDetailRouter;

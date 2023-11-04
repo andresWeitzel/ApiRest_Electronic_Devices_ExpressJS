@@ -9,8 +9,6 @@ let params;
 let idParam;
 let deleteComponentDetail;
 
-
-
 /**
  * @description delete a component detail from the database
  * @param {any} req any type
@@ -73,5 +71,5 @@ const deleteComponentDetailService = async (req, res) => {
 };
 
 module.exports = {
-    deleteComponentDetailService
-}
+  deleteComponentDetailService,
+};

@@ -1,7 +1,9 @@
 //External
 require('dotenv').config();
 //Services
-const { updateComponentDetailService } = require('../../services/component-detail/update');
+const {
+  updateComponentDetailService,
+} = require('../../services/component-detail/update');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -17,7 +19,6 @@ const CONNECTION_REFUSED_STATUS_DETAIL =
 let updateComponentDetail;
 let msgResponse;
 let msgLog;
-
 
 /**
  * @description update a component detail to database
@@ -71,5 +72,5 @@ const updateComponentDetailController = async (req, res) => {
 };
 
 module.exports = {
-    updateComponentDetailController
-}
+  updateComponentDetailController,
+};

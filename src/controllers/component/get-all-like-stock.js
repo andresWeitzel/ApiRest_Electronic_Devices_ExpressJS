@@ -1,7 +1,9 @@
 //External
 require('dotenv').config();
 //Services
-const { getAllComponentLikeStockService } = require('../../services/component/get-all-like-stock');
+const {
+  getAllComponentLikeStockService,
+} = require('../../services/component/get-all-like-stock');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -104,5 +106,5 @@ const getAllComponentLikeStockController = async (req, res) => {
 };
 
 module.exports = {
-    getAllComponentLikeStockController   
-}
+  getAllComponentLikeStockController,
+};

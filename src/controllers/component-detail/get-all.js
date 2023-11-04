@@ -1,10 +1,12 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Services
-const { getAllComponentDetailService } = require("../../services/component-detail/get-all");
+const {
+  getAllComponentDetailService,
+} = require('../../services/component-detail/get-all');
 //Enums
-const { statusName, statusDetails } = require("../../enums/database/status");
-const { statusCode } = require("../../enums/http/status-code");
+const { statusName, statusDetails } = require('../../enums/database/status');
+const { statusCode } = require('../../enums/http/status-code');
 //Const-vars
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -48,13 +50,13 @@ const getAllComponentDetailController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list component details.",
+            'Bad request, could not get all paginated list component details.',
         });
         break;
       default:
         if (
-          typeof componentDetailList === "object" &&
-          componentDetailList[0]?.hasOwnProperty("id")
+          typeof componentDetailList === 'object' &&
+          componentDetailList[0]?.hasOwnProperty('id')
         ) {
           res.status(OK_CODE).send(componentDetailList);
           break;
@@ -63,7 +65,7 @@ const getAllComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = "ERROR in getAllComponentDetailController() function.";
+    msgResponse = 'ERROR in getAllComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send(msgResponse);

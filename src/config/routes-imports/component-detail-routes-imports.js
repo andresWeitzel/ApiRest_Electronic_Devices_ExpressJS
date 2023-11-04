@@ -2,23 +2,23 @@
 const {
   checkBodyFieldsAddComponentDetails,
   checkBodyFieldsUpdateComponentDetail,
-} = require("../../helpers/validations/component-detail/express-validator");
+} = require('../../helpers/validations/component-detail/express-validator');
 //Controllers
 const {
   createComponentDetailController,
-} = require("../../controllers/component-detail/create");
+} = require('../../controllers/component-detail/create');
 const {
   updateComponentDetailController,
-} = require("../../controllers/component-detail/update");
+} = require('../../controllers/component-detail/update');
 const {
   deleteComponentDetailController,
-} = require("../../controllers/component-detail/delete");
+} = require('../../controllers/component-detail/delete');
 const {
   getAllComponentDetailController,
-} = require("../../controllers/component-detail/get-all");
+} = require('../../controllers/component-detail/get-all');
 const {
   getAllWithAttributesComponentDetailController,
-} = require("../../controllers/component-detail/get-all-with-attributes");
+} = require('../../controllers/component-detail/get-all-with-attributes');
 
 module.exports = {
   //Validators

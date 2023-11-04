@@ -7,13 +7,13 @@ const { checkErrors } = require('../../helpers/sequelize/errors');
 let idParam;
 let codigoParam;
 let params;
+let reqBody;
 let imagenParam;
 let nroPiezaParam;
 let categoriaParam;
 let descripcionParam;
 let fabricanteParam;
 let stockParam;
-let priceParam;
 let msg;
 
 /**
@@ -28,6 +28,7 @@ const updateComponentService = async (req, res) => {
     updatedComponent = null;
     msg = null;
     params = null;
+    reqBody = null;
     idParam = 0;
     codigoParam = null;
     imagenParam = null;
@@ -41,26 +42,42 @@ const updateComponentService = async (req, res) => {
     //-- start with params ---
     params = req.params;
 
-    if (params != (null && undefined)) {
-      idParam = params.id ? parseInt(params.id) : idParam;
+    if (params == (null || undefined)) {
+      return null;
     }
+    idParam = params.id ? parseInt(params.id) : idParam;
     //-- end with params  ---
 
-    if (Component != (null && undefined) && idParam != null) {
+    //-- start with body ---
+    reqBody = req.body;
+    if (reqBody == (null || undefined)) {
+      return null;
+    }
+    codigoParam = reqBody?.codigo ? reqBody.codigo : codigoParam;
+    imagenParam = reqBody?.imagen ? reqBody.imagen : imagenParam;
+    nroPiezaParam = reqBody?.nro_pieza ? reqBody.nro_pieza : nroPiezaParam;
+    categoriaParam = reqBody?.categoria ? reqBody.categoria : categoriaParam;
+    descripcionParam = reqBody?.descripcion
+      ? reqBody.descripcion
+      : descripcionParam;
+    fabricanteParam = reqBody?.fabricante
+      ? reqBody.fabricante
+      : fabricanteParam;
+    stockParam = reqBody?.stock ? reqBody.stock : stockParam;
+    precioParam = reqBody?.precio ? reqBody.precio : precioParam;
+    //-- end with body ---
+
+    if (Component != (null && undefined)) {
       await Component.update(
         {
-          codigo: req.body?.codigo ? req.body.codigo : codigoParam,
-          imagen: req.body?.imagen ? req.body.imagen : imagenParam,
-          nro_pieza: req.body?.nro_pieza ? req.body.nro_pieza : nroPiezaParam,
-          categoria: req.body?.categoria ? req.body.categoria : categoriaParam,
-          descripcion: req.body?.descripcion
-            ? req.body.descripcion
-            : descripcionParam,
-          fabricante: req.body?.fabricante
-            ? req.body.fabricante
-            : fabricanteParam,
-          stock: req.body?.stock ? req.body.stock : stockParam,
-          precio: req.body?.precio ? req.body.precio : priceParam,
+          codigo: codigoParam,
+          imagen: imagenParam,
+          nro_pieza: nroPiezaParam,
+          categoria: categoriaParam,
+          descripcion: descripcionParam,
+          fabricante: fabricanteParam,
+          stock: stockParam,
+          precio: precioParam,
         },
         {
           where: {

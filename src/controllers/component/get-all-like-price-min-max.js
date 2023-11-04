@@ -1,16 +1,16 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Services
 const {
   getAllComponentLikePriceMinMaxService,
-} = require("../../services/component/get-all-like-price-min-max");
+} = require('../../services/component/get-all-like-price-min-max');
 //Enums
-const { statusName, statusDetails } = require("../../enums/database/status");
-const { statusCode } = require("../../enums/http/status-code");
+const { statusName, statusDetails } = require('../../enums/database/status');
+const { statusCode } = require('../../enums/http/status-code');
 const {
   paginationNameValueError,
   paginationDescriptionValueError,
-} = require("../../enums/pagination/errors");
+} = require('../../enums/pagination/errors');
 //Const-vars
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
@@ -73,25 +73,25 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list components according to the min and max price.",
+            'Bad request, could not get all paginated list components according to the min and max price.',
         });
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res
             .status(OK_CODE)
-            .send({ ok: "No items found according to the price min and max." });
+            .send({ ok: 'No items found according to the price min and max.' });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
@@ -99,7 +99,7 @@ const getAllComponentLikePriceMinMaxController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllComponentLikePriceMinMaxController() function.";
+      'ERROR in getAllComponentLikePriceMinMaxController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });

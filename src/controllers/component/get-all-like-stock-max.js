@@ -1,7 +1,9 @@
 //External
 require('dotenv').config();
 //Services
-const { getAllComponentLikeStockMaxService } = require('../../services/component/get-all-like-stock-max');
+const {
+  getAllComponentLikeStockMaxService,
+} = require('../../services/component/get-all-like-stock-max');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -103,6 +105,6 @@ const getAllComponentLikeStockMaxController = async (req, res) => {
   }
 };
 
-module.exports={
-    getAllComponentLikeStockMaxController
-}
+module.exports = {
+  getAllComponentLikeStockMaxController,
+};

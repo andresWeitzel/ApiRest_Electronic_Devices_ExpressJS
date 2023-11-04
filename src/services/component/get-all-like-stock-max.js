@@ -123,5 +123,5 @@ const getAllComponentLikeStockMaxService = async (req, res) => {
 };
 
 module.exports = {
-    getAllComponentLikeStockMaxService
-}
+  getAllComponentLikeStockMaxService,
+};

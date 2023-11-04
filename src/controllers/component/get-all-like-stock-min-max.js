@@ -1,7 +1,9 @@
 //External
 require('dotenv').config();
 //Services
-const { getAllComponentLikeStockMinMaxService } = require('../../services/component/get-all-like-stock-min-max');
+const {
+  getAllComponentLikeStockMinMaxService,
+} = require('../../services/component/get-all-like-stock-min-max');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -30,8 +32,6 @@ const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
 let msgResponse;
 let msgLog;
-
-
 
 /**
  * @description get all paginated components according to stock min and max from database
@@ -106,7 +106,6 @@ const getAllComponentLikeStockMinMaxController = async (req, res) => {
   }
 };
 
-
 module.exports = {
-    getAllComponentLikeStockMinMaxController
-}
+  getAllComponentLikeStockMinMaxController,
+};

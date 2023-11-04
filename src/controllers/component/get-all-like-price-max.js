@@ -1,7 +1,9 @@
 //External
 require('dotenv').config();
 //Services
-const { getAllComponentLikePriceMaxService } = require('../../services/component/get-all-like-price-max');
+const {
+  getAllComponentLikePriceMaxService,
+} = require('../../services/component/get-all-like-price-max');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -30,7 +32,6 @@ const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
 let msgResponse;
 let msgLog;
-
 
 /**
  * @description get all paginated components according to the max price from database
@@ -105,5 +106,5 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
 };
 
 module.exports = {
-    getAllComponentLikePriceMaxController
-}
+  getAllComponentLikePriceMaxController,
+};

@@ -1,12 +1,12 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Services
 const {
   getAllWithAttributesComponentDetailService,
-} = require("../../services/component-detail/get-all-with-attributes");
+} = require('../../services/component-detail/get-all-with-attributes');
 //Enums
-const { statusName, statusDetails } = require("../../enums/database/status");
-const { statusCode } = require("../../enums/http/status-code");
+const { statusName, statusDetails } = require('../../enums/database/status');
+const { statusCode } = require('../../enums/http/status-code');
 //Const-vars
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -51,14 +51,14 @@ const getAllWithAttributesComponentDetailController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, failed to get all paginated components details list according to all attributes.",
+            'Bad request, failed to get all paginated components details list according to all attributes.',
         });
         break;
       default:
         if (
-          (typeof componentDetailList === "object" ||
+          (typeof componentDetailList === 'object' ||
             Array.isArray(componentDetailList)) &&
-          componentDetailList[0]?.hasOwnProperty("id")
+          componentDetailList[0]?.hasOwnProperty('id')
         ) {
           res.status(OK_CODE).send(componentDetailList);
           break;
@@ -68,7 +68,7 @@ const getAllWithAttributesComponentDetailController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllWithAttributesComponentDetailController() function.";
+      'ERROR in getAllWithAttributesComponentDetailController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send(msgResponse);
