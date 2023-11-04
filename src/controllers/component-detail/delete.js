@@ -1,7 +1,9 @@
 //External
 require('dotenv').config();
 //Services
-const { deleteComponentDetailService } = require('../../services/component-detail/delete');
+const {
+  deleteComponentDetailService,
+} = require('../../services/component-detail/delete');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -17,8 +19,6 @@ const CONNECTION_REFUSED_STATUS_DETAIL =
 let deletedComponentDetail;
 let msgResponse;
 let msgLog;
-
-
 
 /**
  * @description delete a component detail from the database
@@ -70,6 +70,6 @@ const deleteComponentDetailController = async (req, res) => {
   }
 };
 
-module.exports ={
-    deleteComponentDetailController
-}
+module.exports = {
+  deleteComponentDetailController,
+};

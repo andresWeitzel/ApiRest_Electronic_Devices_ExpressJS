@@ -1,7 +1,9 @@
 //External
 require('dotenv').config();
 //Services
-const { createComponentDetailService } = require('../../services/component-detail/create');
+const {
+  createComponentDetailService,
+} = require('../../services/component-detail/create');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
@@ -69,5 +71,5 @@ const createComponentDetailController = async (req, res) => {
 };
 
 module.exports = {
-    createComponentDetailController
-}
+  createComponentDetailController,
+};

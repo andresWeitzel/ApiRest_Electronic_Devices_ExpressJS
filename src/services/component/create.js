@@ -13,8 +13,9 @@ let nroPiezaParam;
 let categoriaParam;
 let descripcionParam;
 let fabricanteParam;
+let reqBody;
 let stockParam;
-let priceParam;
+let precioParam;
 let msg;
 
 /**
@@ -28,6 +29,7 @@ const createComponentService = async (req, res) => {
   try {
     newComponent = null;
     msg = null;
+    reqBody = null;
     codigoParam = null;
     imagenParam = null;
     nroPiezaParam = null;
@@ -35,22 +37,37 @@ const createComponentService = async (req, res) => {
     descripcionParam = null;
     fabricanteParam = null;
     stockParam = null;
-    priceParam = null;
+    precioParam = null;
+
+    //-- start with body ---
+    reqBody = req.body;
+    if (reqBody == (null || undefined)) {
+      return null;
+    }
+    codigoParam = reqBody?.codigo ? reqBody.codigo : codigoParam;
+    imagenParam = reqBody?.imagen ? reqBody.imagen : imagenParam;
+    nroPiezaParam = reqBody?.nro_pieza ? reqBody.nro_pieza : nroPiezaParam;
+    categoriaParam = reqBody?.categoria ? reqBody.categoria : categoriaParam;
+    descripcionParam = reqBody?.descripcion
+      ? reqBody.descripcion
+      : descripcionParam;
+    fabricanteParam = reqBody?.fabricante
+      ? reqBody.fabricante
+      : fabricanteParam;
+    stockParam = reqBody?.stock ? reqBody.stock : stockParam;
+    precioParam = reqBody?.precio ? reqBody.precio : precioParam;
+    //-- end with body ---
 
     if (Component != (null && undefined)) {
       await Component.create({
-        codigo: req.body?.codigo ? req.body.codigo : codigoParam,
-        imagen: req.body?.imagen ? req.body.imagen : imagenParam,
-        nro_pieza: req.body?.nro_pieza ? req.body.nro_pieza : nroPiezaParam,
-        categoria: req.body?.categoria ? req.body.categoria : categoriaParam,
-        descripcion: req.body?.descripcion
-          ? req.body.descripcion
-          : descripcionParam,
-        fabricante: req.body?.fabricante
-          ? req.body.fabricante
-          : fabricanteParam,
-        stock: req.body?.stock ? req.body.stock : stockParam,
-        precio: req.body?.precio ? req.body.precio : priceParam,
+        codigo: codigoParam,
+        imagen: imagenParam,
+        nro_pieza: nroPiezaParam,
+        categoria: categoriaParam,
+        descripcion: descripcionParam,
+        fabricante: fabricanteParam,
+        stock: stockParam,
+        precio: precioParam,
       })
         .then(async (componentItem) => {
           newComponent = componentItem.dataValues;

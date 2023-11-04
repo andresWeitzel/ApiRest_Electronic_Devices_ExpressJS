@@ -34,27 +34,44 @@ const createComponentDetailService = async (req, res) => {
     voltajeMinEntrParam = null;
     voltajeMaxEntrParam = null;
 
+    //-- start with body ---
+    reqBody = req.body;
+    if (reqBody == (null || undefined)) {
+      return null;
+    }
+    idComponenteParam = reqBody?.id_componente
+      ? reqBody.id_componente
+      : idComponenteParam;
+    hojaDatosParam = reqBody?.hoja_de_datos
+      ? reqBody.hoja_de_datos
+      : hojaDatosParam;
+    longitudParam = reqBody?.longitud ? reqBody.longitud : longitudParam;
+    anchoParam = reqBody?.ancho ? reqBody.ancho : anchoParam;
+    pesoParam = reqBody?.peso ? reqBody.peso : pesoParam;
+    materialParam = reqBody?.material ? reqBody.material : materialParam;
+    voltajeRecomendadoParam = reqBody?.voltaje_recomendado
+      ? reqBody.voltaje_recomendado
+      : voltajeRecomendadoParam;
+    voltajeMinEntrParam = reqBody?.voltaje_min_entrada
+      ? reqBody.voltaje_min_entrada
+      : voltajeMinEntrParam;
+    voltajeMaxEntrParam = reqBody?.voltaje_max_entrada
+      ? reqBody.voltaje_max_entrada
+      : voltajeMaxEntrParam;
+
+    //-- end with body ---
+
     if (ComponentDetail != null) {
       await ComponentDetail.create({
-        id_componente: req.body?.id_componente
-          ? req.body.id_componente
-          : idComponenteParam,
-        hoja_de_datos: req.body?.hoja_de_datos
-          ? req.body.hoja_de_datos
-          : hojaDatosParam,
-        longitud: req.body?.longitud ? req.body.longitud : longitudParam,
-        ancho: req.body?.ancho ? req.body.ancho : anchoParam,
-        peso: req.body?.peso ? req.body.peso : pesoParam,
-        material: req.body?.material ? req.body.material : materialParam,
-        voltaje_recomendado: req.body?.voltaje_recomendado
-          ? req.body.voltaje_recomendado
-          : voltajeRecomendadoParam,
-        voltaje_min_entrada: req.body?.voltaje_min_entrada
-          ? req.body.voltaje_min_entrada
-          : voltajeMinEntrParam,
-        voltaje_max_entrada: req.body?.voltaje_max_entrada
-          ? req.body.voltaje_max_entrada
-          : voltajeMaxEntrParam,
+        id_componente: idComponenteParam,
+        hoja_de_datos: hojaDatosParam,
+        longitud: longitudParam,
+        ancho: anchoParam,
+        peso: pesoParam,
+        material: materialParam,
+        voltaje_recomendado: voltajeRecomendadoParam,
+        voltaje_min_entrada: voltajeMinEntrParam,
+        voltaje_max_entrada: voltajeMaxEntrParam,
       })
         .then(async (componentDetailItem) => {
           newComponentDetail = componentDetailItem.dataValues;
@@ -79,5 +96,5 @@ const createComponentDetailService = async (req, res) => {
 };
 
 module.exports = {
-    createComponentDetailService
-}
+  createComponentDetailService,
+};

@@ -1,12 +1,12 @@
 //Externals
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 //Models
-const { ComponentDetail } = require("../../models/sequelize/component-detail");
+const { ComponentDetail } = require('../../models/sequelize/component-detail');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const-vars
-const orderBy = [["id", "ASC"]];
+const orderBy = [['id', 'ASC']];
 let componentDetailList;
 let queryStrParams;
 let pageSizeNro = 30;
@@ -127,7 +127,7 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
     } else {
       componentDetailList = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED
+        statusName.CONNECTION_REFUSED,
       );
     }
   } catch (error) {

@@ -29,8 +29,6 @@ let orderAt;
 let order;
 let msg;
 
-
-
 /**
  * @description get all paginated components list according to its stock min and max from the database
  * @param {any} req any type
@@ -125,5 +123,5 @@ const getAllComponentLikeStockMinMaxService = async (req, res) => {
 };
 
 module.exports = {
-    getAllComponentLikeStockMinMaxService
-}
+  getAllComponentLikeStockMinMaxService,
+};

@@ -29,8 +29,6 @@ let orderAt;
 let order;
 let msg;
 
-
-
 /**
  * @description get all paginated components list according to its max price from the database
  * @param {any} req any type
@@ -126,6 +124,6 @@ const getAllComponentLikePriceMaxService = async (req, res) => {
   return componentList;
 };
 
-module.exports={
-    getAllComponentLikePriceMaxService
-}
+module.exports = {
+  getAllComponentLikePriceMaxService,
+};

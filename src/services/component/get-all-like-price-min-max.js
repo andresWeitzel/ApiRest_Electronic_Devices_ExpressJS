@@ -29,7 +29,6 @@ let orderAt;
 let order;
 let msg;
 
-
 /**
  * @description get all paginated components list according to its min and max price from the database
  * @param {any} req any type

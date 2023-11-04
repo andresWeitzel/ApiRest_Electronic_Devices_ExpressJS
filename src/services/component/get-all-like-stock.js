@@ -121,5 +121,5 @@ const getAllComponentLikeStockService = async (req, res) => {
 };
 
 module.exports = {
-    getAllComponentLikeStockService
-}
+  getAllComponentLikeStockService,
+};

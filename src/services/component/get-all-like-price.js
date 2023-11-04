@@ -29,8 +29,6 @@ let orderAt;
 let order;
 let msg;
 
-
-
 /**
  * @description get all paginated components list according to its price from the database
  * @param {any} req any type
@@ -123,6 +121,6 @@ const getAllComponentLikePriceService = async (req, res) => {
   return componentList;
 };
 
-module.exports={
-    getAllComponentLikePriceService
-}
+module.exports = {
+  getAllComponentLikePriceService,
+};
