@@ -52,23 +52,23 @@ const updateComponentDetailService = async (req, res) => {
     if (reqBody == (null || undefined)) {
       return null;
     }
-    idComponenteParam = reqBody?.id_componente
+    idComponenteParam = reqBody.id_componente
       ? reqBody.id_componente
       : idComponenteParam;
-    hojaDatosParam = reqBody?.hoja_de_datos
+    hojaDatosParam = reqBody.hoja_de_datos
       ? reqBody.hoja_de_datos
       : hojaDatosParam;
-    longitudParam = reqBody?.longitud ? reqBody.longitud : longitudParam;
-    anchoParam = reqBody?.ancho ? reqBody.ancho : anchoParam;
-    pesoParam = reqBody?.peso ? reqBody.peso : pesoParam;
-    materialParam = reqBody?.material ? reqBody.material : materialParam;
-    voltajeRecomendadoParam = reqBody?.voltaje_recomendado
+    longitudParam = reqBody.longitud ? reqBody.longitud : longitudParam;
+    anchoParam = reqBody.ancho ? reqBody.ancho : anchoParam;
+    pesoParam = reqBody.peso ? reqBody.peso : pesoParam;
+    materialParam = reqBody.material ? reqBody.material : materialParam;
+    voltajeRecomendadoParam = reqBody.voltaje_recomendado
       ? reqBody.voltaje_recomendado
       : voltajeRecomendadoParam;
-    voltajeMinEntrParam = reqBody?.voltaje_min_entrada
+    voltajeMinEntrParam = reqBody.voltaje_min_entrada
       ? reqBody.voltaje_min_entrada
       : voltajeMinEntrParam;
-    voltajeMaxEntrParam = reqBody?.voltaje_max_entrada
+    voltajeMaxEntrParam = reqBody.voltaje_max_entrada
       ? reqBody.voltaje_max_entrada
       : voltajeMaxEntrParam;
 
