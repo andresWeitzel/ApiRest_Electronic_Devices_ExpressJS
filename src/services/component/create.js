@@ -44,18 +44,16 @@ const createComponentService = async (req, res) => {
     if (reqBody == (null || undefined)) {
       return null;
     }
-    codigoParam = reqBody?.codigo ? reqBody.codigo : codigoParam;
-    imagenParam = reqBody?.imagen ? reqBody.imagen : imagenParam;
-    nroPiezaParam = reqBody?.nro_pieza ? reqBody.nro_pieza : nroPiezaParam;
-    categoriaParam = reqBody?.categoria ? reqBody.categoria : categoriaParam;
-    descripcionParam = reqBody?.descripcion
+    codigoParam = reqBody.codigo ? reqBody.codigo : codigoParam;
+    imagenParam = reqBody.imagen ? reqBody.imagen : imagenParam;
+    nroPiezaParam = reqBody.nro_pieza ? reqBody.nro_pieza : nroPiezaParam;
+    categoriaParam = reqBody.categoria ? reqBody.categoria : categoriaParam;
+    descripcionParam = reqBody.descripcion
       ? reqBody.descripcion
       : descripcionParam;
-    fabricanteParam = reqBody?.fabricante
-      ? reqBody.fabricante
-      : fabricanteParam;
-    stockParam = reqBody?.stock ? reqBody.stock : stockParam;
-    precioParam = reqBody?.precio ? reqBody.precio : precioParam;
+    fabricanteParam = reqBody.fabricante ? reqBody.fabricante : fabricanteParam;
+    stockParam = reqBody.stock ? reqBody.stock : stockParam;
+    precioParam = reqBody.precio ? reqBody.precio : precioParam;
     //-- end with body ---
 
     if (Component != (null && undefined)) {
