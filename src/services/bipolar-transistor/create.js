@@ -1,5 +1,7 @@
 //Models
-const { BipolarTransistor } = require('../../models/sequelize/bipolar-transistor');
+const {
+  BipolarTransistor,
+} = require('../../models/sequelize/bipolar-transistor');
 //Enums
 const { statusName } = require('../../enums/database/status');
 //Helpers
@@ -21,7 +23,6 @@ let disipMaxParam;
 let tempJuntParam;
 let reqBody;
 let msgLog;
-
 
 /**
  * @description create a bipolar-transistor to database
@@ -51,17 +52,28 @@ const createBipolarTransistorService = async (req, res) => {
     if (reqBody == (null || undefined)) {
       return null;
     }
-    idComponenteParam = reqBody.idComponenteParam ? reqBody.idComponenteParam : idComponenteParam;
+    idComponenteParam = reqBody.id_componente
+      ? reqBody.id_componente
+      : idComponenteParam;
     tipoParam = reqBody.tipo ? reqBody.tipo : tipoParam;
-    voltajeColecEmisParam = reqBody.voltaje_colec_emis ? reqBody.voltaje_colec_emis : voltajeColecEmisParam;
-    voltajeColecBaseParam = reqBody.voltaje_colec_base_param ? reqBody.voltaje_colec_base_param : voltajeColecBaseParam;
-    voltajeEmisBaseParam = reqBody.voltaje_emis_base ? reqBody.voltaje_emis_base : voltajeEmisBaseParam;
+    voltajeColecEmisParam = reqBody.voltaje_colec_emis
+      ? reqBody.voltaje_colec_emis
+      : voltajeColecEmisParam;
+    voltajeColecBaseParam = reqBody.voltaje_colec_base_param
+      ? reqBody.voltaje_colec_base_param
+      : voltajeColecBaseParam;
+    voltajeEmisBaseParam = reqBody.voltaje_emis_base
+      ? reqBody.voltaje_emis_base
+      : voltajeEmisBaseParam;
     voltajeColecEmisSatParam = reqBody.voltaje_colec_emis_sat
       ? reqBody.voltaje_colec_emis_sat
       : voltajeColecEmisSatParam;
-    corrienteColecParam = reqBody
-    .corriente_colec ? reqBody.corriente_colec : corrienteColecParam;
-    gananciaHfeParam = reqBody.ganancia_hfe ? reqBody.ganancia_hfe : gananciaHfeParam;
+    corrienteColecParam = reqBody.corriente_colec
+      ? reqBody.corriente_colec
+      : corrienteColecParam;
+    gananciaHfeParam = reqBody.ganancia_hfe
+      ? reqBody.ganancia_hfe
+      : gananciaHfeParam;
     disipMaxParam = reqBody.disip_max ? reqBody.disip_max : disipMaxParam;
     tempJuntParam = reqBody.temp_juntura ? reqBody.temp_juntura : tempJuntParam;
     //-- end with body ---
@@ -77,7 +89,7 @@ const createBipolarTransistorService = async (req, res) => {
         corriente_colec: corrienteColecParam,
         ganancia_hfe: gananciaHfeParam,
         disip_max: disipMaxParam,
-        temp_juntura: tempJuntParam
+        temp_juntura: tempJuntParam,
       })
         .then(async (object) => {
           newBipolarTransistor = object.dataValues;
@@ -88,16 +100,22 @@ const createBipolarTransistorService = async (req, res) => {
           newBipolarTransistor = await checkErrors(error, error.name);
         });
     } else {
-      newBipolarTransistor = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      newBipolarTransistor = await checkErrors(
+        null,
+        statusName.CONNECTION_REFUSED,
+      );
     }
   } catch (error) {
     msgLog = GENERIC_ERROR_LOG_MESSAGE + error;
     console.log(msgLog);
-    newBipolarTransistor = await checkErrors(error, statusName.CONNECTION_ERROR);
+    newBipolarTransistor = await checkErrors(
+      error,
+      statusName.CONNECTION_ERROR,
+    );
   }
   return newBipolarTransistor;
 };
 
 module.exports = {
-    createBipolarTransistorService,
+  createBipolarTransistorService,
 };
