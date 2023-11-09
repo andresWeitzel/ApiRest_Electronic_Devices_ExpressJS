@@ -1,8 +1,5 @@
-// //Validators
-// const {
-//     checkBodyFieldsAddComponentDetails,
-//     checkBodyFieldsUpdateComponentDetail,
-//   } = require('../../helpers/validations/component-detail/express-validator');
+//Validators
+const { checkBodyFieldsAddBipolarTransistor } = require('../../helpers/validations/bipolar-transistor/express-validator');
 //Controllers
 const {
   createBipolarTransistorController,
@@ -23,7 +20,7 @@ const {
 
 module.exports = {
   // //Validators
-  // checkBodyFieldsAddComponentDetails,
+  checkBodyFieldsAddBipolarTransistor,
   // checkBodyFieldsUpdateComponentDetail,
   //Controllers
   createBipolarTransistorController,
@@ -32,3 +29,4 @@ module.exports = {
   // getAllComponentDetailController,
   // getAllWithAttributesComponentDetailController,
 };
+
