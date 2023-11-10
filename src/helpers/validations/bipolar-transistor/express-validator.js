@@ -1,215 +1,245 @@
 //External
-const { check } = require('express-validator');
-const { validationResult } = require('express-validator');
+const { check } = require("express-validator");
+const { validationResult } = require("express-validator");
 //Const-vars
 /**
  * @description identificador del componente.
  * @example 12
  */
-const NAME_VALUE_ID_COMPONENT = 'id_componente';
+const NAME_VALUE_ID_COMPONENT = "id_componente";
 const MIN_VALUE_ID_COMPONENT = 1;
 const MAX_VALUE_ID_COMPONENT = 100000000;
 /**
  * @description bipolar transistor type
  * @example NPN, PNP
  */
-const NAME_VALUE_TIPO = 'tipo';
+const NAME_VALUE_TIPO = "tipo";
 const MIN_VALUE_LENGHT_TIPO = 0;
 const MAX_VALUE_LENGHT_TIPO = 10;
 /**
- * @description longitud en mm.
- * @example 69.0 mm
+ * @description voltaje del colector y emisor en V.
+ * @example 3.2 V
  */
-const NAME_VALUE_VOLTAJE_COLEC_EMIS = 'voltaje_colec_emis';
+const NAME_VALUE_VOLTAJE_COLEC_EMIS = "voltaje_colec_emis";
 const MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS = 3;
 const MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS = 30;
-// /**
-//  * @description ancho en mm . Ej: 56.7 mm
-//  */
-// const NAME_VALUE_ANCHO = 'ancho';
-// const MIN_VALUE_LENGHT_ANCHO = 3;
-// const MAX_VALUE_LENGHT_ANCHO = 30;
-// /**
-//  * @description peso en gramos . Ej: 19.4 gramos
-//  */
-// const NAME_VALUE_PESO = 'peso';
-// const MIN_VALUE_LENGHT_PESO = 3;
-// const MAX_VALUE_LENGHT_PESO = 30;
-// /**
-//  * @description material del componente . Ej: silicio,acero, plastico, etc
-//  */
-// const NAME_VALUE_MATERIAL = 'material';
-// const MIN_VALUE_LENGHT_MATERIAL = 3;
-// const MAX_VALUE_LENGHT_MATERIAL = 50;
-// /**
-//  * @description voltaje recomendado del componente . Ej: 5 voltios
-//  */
-// const NAME_VALUE_VOLTAJE_RECOMENDADO = 'voltaje_recomendado';
-// const MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO = 3;
-// const MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO = 30;
-// /**
-//  * @description voltaje minimo de entrada del componente . Ej: 3.3 voltios
-//  */
-// const NAME_VALUE_VOLTAJE_MIN_ENTRADA = 'voltaje_min_entrada';
-// const MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA = 3;
-// const MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA = 30;
-// /**
-//  * @description voltaje máximo de entrada del componente . Ej: 12 voltios
-//  */
-// const NAME_VALUE_VOLTAJE_MAX_ENTRADA = 'voltaje_max_entrada';
-// const MIN_VALUE_LENGHT_VOLTAJE_MAX_ENTRADA = 3;
-// const MAX_VALUE_LENGHT_VOLTAJE_MAX_ENTRADA = 30;
+/**
+ * @description voltaje del colector y base
+ * @example 30 V
+ */
+const NAME_VALUE_VOLTAJE_COLEC_BASE = "voltaje_colec_base";
+const MIN_VALUE_LENGHT_VOLTAJE_COLEC_BASE = 3;
+const MAX_VALUE_LENGHT_VOLTAJE_COLEC_BASE = 30;
+/**
+ * @description voltaje del emisor y base
+ * @example 120 V
+ */
+const NAME_VALUE_VOLTAJE_EMIS_BASE = "voltaje_emis_base";
+const MIN_VALUE_LENGHT_VOLTAJE_EMIS_BASE = 3;
+const MAX_VALUE_LENGHT_VOLTAJE_EMIS_BASE = 30;
+/**
+ * @description voltaje del colector y emisor en saturación
+ * @example 5 V
+ */
+const NAME_VALUE_VOLTAJE_COLEC_EMIS_SAT = "voltaje_colec_emis_sat";
+const MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT = 3;
+const MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT = 30;
+/**
+ * @description corriente del colector
+ * @example 1.5 A
+ */
+const NAME_VALUE_CORRIENTE_COLEC = "corriente_colec";
+const MIN_VALUE_LENGHT_CORRIENTE_COLEC = 3;
+const MAX_VALUE_LENGHT_CORRIENTE_COLEC = 30;
+/**
+ * @description ganancia en hfe
+ */
+const NAME_VALUE_GANANCIA_HFE = "ganancia_hfe";
+const MIN_VALUE_LENGHT_GANANCIA_HFE = 1;
+const MAX_VALUE_LENGHT_GANANCIA_HFE = 30;
+/**
+ * @description disipación máxima
+ * @example 0.64 W
+ */
+const NAME_VALUE_DISIP_MAX = "disip_max";
+const MIN_VALUE_LENGHT_DISIP_MAX = 3;
+const MAX_VALUE_LENGHT_DISIP_MAX = 30;
+/**
+ * @description temperatura de juntura
+ * @example 55 a +155 °C
+ */
+const NAME_VALUE_TEMP_JUNTURA = "temp_juntura";
+const MIN_VALUE_LENGHT_TEMP_JUNTURA = 3;
+const MAX_VALUE_LENGHT_TEMP_JUNTURA = 50;
 
 /**
  * @description check all validations for the body fields to add a bipolar transistor
  * @returns an array with all the validations that do not comply with what was tested
  */
-const checkBodyFieldsAddBipolarTransistor    = () => {
+const checkBodyFieldsAddBipolarTransistor = () => {
   try {
     return [
       //Check id_component
       check(`${NAME_VALUE_ID_COMPONENT}`)
         .exists()
         .withMessage(
-          `The ${NAME_VALUE_ID_COMPONENT} of bipolar transistor is required`,
+          `The ${NAME_VALUE_ID_COMPONENT} of bipolar transistor is required`
         )
         .isInt({ min: MIN_VALUE_ID_COMPONENT, max: MAX_VALUE_ID_COMPONENT })
         .withMessage(
-          `The ${NAME_VALUE_ID_COMPONENT} of bipolar transistor should be number (integer) and must be betwenn ${MIN_VALUE_ID_COMPONENT} to ${MAX_VALUE_ID_COMPONENT}.`,
+          `The ${NAME_VALUE_ID_COMPONENT} of bipolar transistor should be number (integer) and must be betwenn ${MIN_VALUE_ID_COMPONENT} to ${MAX_VALUE_ID_COMPONENT}.`
         ),
       //Check tipo
       check(`${NAME_VALUE_TIPO}`)
         .exists()
-        .withMessage(
-          `The ${NAME_VALUE_TIPO} of bipolar transistor is required`,
-        )
+        .withMessage(`The ${NAME_VALUE_TIPO} of bipolar transistor is required`)
         .isString()
         .withMessage(
-          `The ${NAME_VALUE_TIPO} of bipolar transistor should be string`,
+          `The ${NAME_VALUE_TIPO} of bipolar transistor should be string`
         )
         .isLength({
           min: MIN_VALUE_LENGHT_TIPO,
           max: MAX_VALUE_LENGHT_TIPO,
         })
         .withMessage(
-          `The value of the ${NAME_VALUE_TIPO} must be between ${MIN_VALUE_LENGHT_TIPO} and ${MAX_VALUE_LENGHT_TIPO} characters`,
+          `The value of the ${NAME_VALUE_TIPO} must be between ${MIN_VALUE_LENGHT_TIPO} and ${MAX_VALUE_LENGHT_TIPO} characters`
         ),
       //Check voltaje_colec_emis
       check(`${NAME_VALUE_VOLTAJE_COLEC_EMIS}`)
         .exists()
         .withMessage(
-          `The ${NAME_VALUE_VOLTAJE_COLEC_EMIS} of bipolar transistor is required`,
+          `The ${NAME_VALUE_VOLTAJE_COLEC_EMIS} of bipolar transistor is required`
         )
         .isString()
         .withMessage(
-          `The ${NAME_VALUE_VOLTAJE_COLEC_EMIS} of bipolar transistor should be string`,
+          `The ${NAME_VALUE_VOLTAJE_COLEC_EMIS} of bipolar transistor should be string`
         )
         .isLength({
           min: MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS,
           max: MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS,
         })
         .withMessage(
-          `The value of the ${NAME_VALUE_VOLTAJE_COLEC_EMIS} must be between ${MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS} and ${MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS} characters`,
+          `The value of the ${NAME_VALUE_VOLTAJE_COLEC_EMIS} must be between ${MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS} and ${MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS} characters`
         ),
-    //   //Check ancho
-    //   check(`${NAME_VALUE_ANCHO}`)
-    //     .exists()
-    //     .withMessage(`The ${NAME_VALUE_ANCHO} of bipolar transistor is required`)
-    //     .isString()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_ANCHO} of bipolar transistor should be string`,
-    //     )
-    //     .isLength({
-    //       min: MIN_VALUE_LENGHT_ANCHO,
-    //       max: MAX_VALUE_LENGHT_ANCHO,
-    //     })
-    //     .withMessage(
-    //       `The value of the ${NAME_VALUE_ANCHO} must be between ${MIN_VALUE_LENGHT_ANCHO} and ${MAX_VALUE_LENGHT_ANCHO} characters`,
-    //     ),
-    //   //Check peso
-    //   check(`${NAME_VALUE_PESO}`)
-    //     .exists()
-    //     .withMessage(`The ${NAME_VALUE_PESO} of bipolar transistor is required`)
-    //     .isString()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_PESO} of bipolar transistor should be string`,
-    //     )
-    //     .isLength({
-    //       min: MIN_VALUE_LENGHT_PESO,
-    //       max: MAX_VALUE_LENGHT_PESO,
-    //     })
-    //     .withMessage(
-    //       `The value of the ${NAME_VALUE_PESO} must be between ${MIN_VALUE_LENGHT_PESO} and ${MAX_VALUE_LENGHT_PESO} characters`,
-    //     ),
-    //   //Check material
-    //   check(`${NAME_VALUE_MATERIAL}`)
-    //     .exists()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_MATERIAL} of bipolar transistor is required`,
-    //     )
-    //     .isString()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_MATERIAL} of bipolar transistor should be string`,
-    //     )
-    //     .isLength({
-    //       min: MIN_VALUE_LENGHT_MATERIAL,
-    //       max: MAX_VALUE_LENGHT_MATERIAL,
-    //     })
-    //     .withMessage(
-    //       `The value of the ${NAME_VALUE_MATERIAL} must be between ${MIN_VALUE_LENGHT_MATERIAL} and ${MAX_VALUE_LENGHT_MATERIAL} characters`,
-    //     ),
-    //   //Check voltaje_recomendado
-    //   check(`${NAME_VALUE_VOLTAJE_RECOMENDADO}`)
-    //     .exists()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_VOLTAJE_RECOMENDADO} of bipolar transistor is required`,
-    //     )
-    //     .isString()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_VOLTAJE_RECOMENDADO} of bipolar transistor should be string`,
-    //     )
-    //     .isLength({
-    //       min: MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO,
-    //       max: MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO,
-    //     })
-    //     .withMessage(
-    //       `The value of the ${NAME_VALUE_VOLTAJE_RECOMENDADO} must be between ${MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO} and ${MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO} characters`,
-    //     ),
-    //   //Check voltaje_min_entrada
-    //   check(`${NAME_VALUE_VOLTAJE_MIN_ENTRADA}`)
-    //     .exists()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} of bipolar transistor is required`,
-    //     )
-    //     .isString()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} of bipolar transistor should be string`,
-    //     )
-    //     .isLength({
-    //       min: MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA,
-    //       max: MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA,
-    //     })
-    //     .withMessage(
-    //       `The value of the ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} must be between ${MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} and ${MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} characters`,
-    //     ),
-    //   //Check voltaje_max_entrada
-    //   check(`${NAME_VALUE_VOLTAJE_MAX_ENTRADA}`)
-    //     .exists()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_VOLTAJE_MAX_ENTRADA} of bipolar transistor is required`,
-    //     )
-    //     .isString()
-    //     .withMessage(
-    //       `The ${NAME_VALUE_VOLTAJE_MAX_ENTRADA} of bipolar transistor should be string`,
-    //     )
-    //     .isLength({
-    //       min: MIN_VALUE_LENGHT_VOLTAJE_MAX_ENTRADA,
-    //       max: MAX_VALUE_LENGHT_VOLTAJE_MAX_ENTRADA,
-    //     })
-    //     .withMessage(
-    //       `The value of the ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} must be between ${MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} and ${MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} characters`,
-    //     ),
-
+      //Check voltaje_colec_base
+      check(`${NAME_VALUE_VOLTAJE_COLEC_BASE}`)
+        .exists()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_COLEC_BASE} of bipolar transistor is required`
+        )
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_COLEC_BASE} of bipolar transistor should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_VOLTAJE_COLEC_BASE,
+          max: MAX_VALUE_LENGHT_VOLTAJE_COLEC_BASE,
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_VOLTAJE_COLEC_BASE} must be between ${MIN_VALUE_LENGHT_VOLTAJE_COLEC_BASE} and ${MAX_VALUE_LENGHT_VOLTAJE_COLEC_BASE} characters`
+        ),
+      //Check voltaje_emis_base
+      check(`${NAME_VALUE_VOLTAJE_EMIS_BASE}`)
+        .exists()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_EMIS_BASE} of bipolar transistor is required`
+        )
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_EMIS_BASE} of bipolar transistor should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_VOLTAJE_EMIS_BASE,
+          max: MAX_VALUE_LENGHT_VOLTAJE_EMIS_BASE,
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_VOLTAJE_EMIS_BASE} must be between ${MIN_VALUE_LENGHT_VOLTAJE_EMIS_BASE} and ${MAX_VALUE_LENGHT_VOLTAJE_EMIS_BASE} characters`
+        ),
+      //Check voltaje_colec_emis_sat
+      check(`${NAME_VALUE_VOLTAJE_COLEC_EMIS_SAT}`)
+        .exists()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_COLEC_EMIS_SAT} of bipolar transistor is required`
+        )
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_VOLTAJE_COLEC_EMIS_SAT} of bipolar transistor should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT,
+          max: MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT,
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_VOLTAJE_COLEC_EMIS_SAT} must be between ${MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT} and ${MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT} characters`
+        ),
+      //Check corriente_colec
+      check(`${NAME_VALUE_CORRIENTE_COLEC}`)
+        .exists()
+        .withMessage(
+          `The ${NAME_VALUE_CORRIENTE_COLEC} of bipolar transistor is required`
+        )
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_CORRIENTE_COLEC} of bipolar transistor should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_CORRIENTE_COLEC,
+          max: MAX_VALUE_LENGHT_CORRIENTE_COLEC,
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_CORRIENTE_COLEC} must be between ${MIN_VALUE_LENGHT_CORRIENTE_COLEC} and ${MAX_VALUE_LENGHT_CORRIENTE_COLEC} characters`
+        ),
+      //Check ganancia_hfe
+      check(`${NAME_VALUE_GANANCIA_HFE}`)
+        .exists()
+        .withMessage(
+          `The ${NAME_VALUE_GANANCIA_HFE} of bipolar transistor is required`
+        )
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_GANANCIA_HFE} of bipolar transistor should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_GANANCIA_HFE,
+          max: MAX_VALUE_LENGHT_GANANCIA_HFE,
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_GANANCIA_HFE} must be between ${MIN_VALUE_LENGHT_GANANCIA_HFE} and ${MAX_VALUE_LENGHT_GANANCIA_HFE} characters`
+        ),
+      //Check disip_max
+      check(`${NAME_VALUE_DISIP_MAX}`)
+        .exists()
+        .withMessage(
+          `The ${NAME_VALUE_DISIP_MAX} of bipolar transistor is required`
+        )
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_DISIP_MAX} of bipolar transistor should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_DISIP_MAX,
+          max: MAX_VALUE_LENGHT_DISIP_MAX,
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_GANANCIA_HFE} must be between ${MIN_VALUE_LENGHT_GANANCIA_HFE} and ${MAX_VALUE_LENGHT_GANANCIA_HFE} characters`
+        ),
+      //Check temp_juntura
+      check(`${NAME_VALUE_TEMP_JUNTURA}`)
+        .exists()
+        .withMessage(
+          `The ${NAME_VALUE_TEMP_JUNTURA} of bipolar transistor is required`
+        )
+        .isString()
+        .withMessage(
+          `The ${NAME_VALUE_TEMP_JUNTURA} of bipolar transistor should be string`
+        )
+        .isLength({
+          min: MIN_VALUE_LENGHT_TEMP_JUNTURA,
+          max: MAX_VALUE_LENGHT_TEMP_JUNTURA,
+        })
+        .withMessage(
+          `The value of the ${NAME_VALUE_TEMP_JUNTURA} must be between ${MIN_VALUE_LENGHT_TEMP_JUNTURA} and ${MAX_VALUE_LENGHT_TEMP_JUNTURA} characters`
+        ),
       (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -267,88 +297,88 @@ const checkBodyFieldsAddBipolarTransistor    = () => {
 //           `The value of the ${NAME_VALUE_VOLTAJE_COLEC_EMIS} must be between ${MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS} and ${MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS} characters`,
 //         ),
 //       //Check ancho
-//       check(`${NAME_VALUE_ANCHO}`)
+//       check(`${NAME_VALUE_VOLTAJE_COLEC_BASE}`)
 //         .optional()
 //         .isString()
 //         .withMessage(
-//           `The ${NAME_VALUE_ANCHO} of bipolar transistor should be string`,
+//           `The ${NAME_VALUE_VOLTAJE_COLEC_BASE} of bipolar transistor should be string`,
 //         )
 //         .isLength({
-//           min: MIN_VALUE_LENGHT_ANCHO,
-//           max: MAX_VALUE_LENGHT_ANCHO,
+//           min: MIN_VALUE_LENGHT_VOLTAJE_COLEC_BASE,
+//           max: MAX_VALUE_LENGHT_VOLTAJE_COLEC_BASE,
 //         })
 //         .withMessage(
-//           `The value of the ${NAME_VALUE_ANCHO} must be between ${MIN_VALUE_LENGHT_ANCHO} and ${MAX_VALUE_LENGHT_ANCHO} characters`,
+//           `The value of the ${NAME_VALUE_VOLTAJE_COLEC_BASE} must be between ${MIN_VALUE_LENGHT_VOLTAJE_COLEC_BASE} and ${MAX_VALUE_LENGHT_VOLTAJE_COLEC_BASE} characters`,
 //         ),
 //       //Check peso
-//       check(`${NAME_VALUE_PESO}`)
+//       check(`${NAME_VALUE_VOLTAJE_EMIS_BASE}`)
 //         .optional()
 //         .isString()
 //         .withMessage(
-//           `The ${NAME_VALUE_PESO} of bipolar transistor should be string`,
+//           `The ${NAME_VALUE_VOLTAJE_EMIS_BASE} of bipolar transistor should be string`,
 //         )
 //         .isLength({
-//           min: MIN_VALUE_LENGHT_PESO,
-//           max: MAX_VALUE_LENGHT_PESO,
+//           min: MIN_VALUE_LENGHT_VOLTAJE_EMIS_BASE,
+//           max: MAX_VALUE_LENGHT_VOLTAJE_EMIS_BASE,
 //         })
 //         .withMessage(
-//           `The value of the ${NAME_VALUE_PESO} must be between ${MIN_VALUE_LENGHT_PESO} and ${MAX_VALUE_LENGHT_PESO} characters`,
+//           `The value of the ${NAME_VALUE_VOLTAJE_EMIS_BASE} must be between ${MIN_VALUE_LENGHT_VOLTAJE_EMIS_BASE} and ${MAX_VALUE_LENGHT_VOLTAJE_EMIS_BASE} characters`,
 //         ),
 //       //Check material
-//       check(`${NAME_VALUE_MATERIAL}`)
+//       check(`${NAME_VALUE_VOLTAJE_COLEC_EMIS_SAT}`)
 //         .optional()
 //         .isString()
 //         .withMessage(
-//           `The ${NAME_VALUE_MATERIAL} of bipolar transistor should be string`,
+//           `The ${NAME_VALUE_VOLTAJE_COLEC_EMIS_SAT} of bipolar transistor should be string`,
 //         )
 //         .isLength({
-//           min: MIN_VALUE_LENGHT_MATERIAL,
-//           max: MAX_VALUE_LENGHT_MATERIAL,
+//           min: MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT,
+//           max: MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT,
 //         })
 //         .withMessage(
-//           `The value of the ${NAME_VALUE_MATERIAL} must be between ${MIN_VALUE_LENGHT_MATERIAL} and ${MAX_VALUE_LENGHT_MATERIAL} characters`,
+//           `The value of the ${NAME_VALUE_VOLTAJE_COLEC_EMIS_SAT} must be between ${MIN_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT} and ${MAX_VALUE_LENGHT_VOLTAJE_COLEC_EMIS_SAT} characters`,
 //         ),
 //       //Check voltaje_recomendado
-//       check(`${NAME_VALUE_VOLTAJE_RECOMENDADO}`)
+//       check(`${NAME_VALUE_CORRIENTE_COLEC}`)
 //         .optional()
 //         .isString()
 //         .withMessage(
-//           `The ${NAME_VALUE_VOLTAJE_RECOMENDADO} of bipolar transistor should be string`,
+//           `The ${NAME_VALUE_CORRIENTE_COLEC} of bipolar transistor should be string`,
 //         )
 //         .isLength({
-//           min: MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO,
-//           max: MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO,
+//           min: MIN_VALUE_LENGHT_CORRIENTE_COLEC,
+//           max: MAX_VALUE_LENGHT_CORRIENTE_COLEC,
 //         })
 //         .withMessage(
-//           `The value of the ${NAME_VALUE_VOLTAJE_RECOMENDADO} must be between ${MIN_VALUE_LENGHT_VOLTAJE_RECOMENDADO} and ${MAX_VALUE_LENGHT_VOLTAJE_RECOMENDADO} characters`,
+//           `The value of the ${NAME_VALUE_CORRIENTE_COLEC} must be between ${MIN_VALUE_LENGHT_CORRIENTE_COLEC} and ${MAX_VALUE_LENGHT_CORRIENTE_COLEC} characters`,
 //         ),
 //       //Check voltaje_min_entrada
-//       check(`${NAME_VALUE_VOLTAJE_MIN_ENTRADA}`)
+//       check(`${NAME_VALUE_GANANCIA_HFE}`)
 //         .optional()
 //         .isString()
 //         .withMessage(
-//           `The ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} of bipolar transistor should be string`,
+//           `The ${NAME_VALUE_GANANCIA_HFE} of bipolar transistor should be string`,
 //         )
 //         .isLength({
-//           min: MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA,
-//           max: MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA,
+//           min: MIN_VALUE_LENGHT_GANANCIA_HFE,
+//           max: MAX_VALUE_LENGHT_GANANCIA_HFE,
 //         })
 //         .withMessage(
-//           `The value of the ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} must be between ${MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} and ${MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} characters`,
+//           `The value of the ${NAME_VALUE_GANANCIA_HFE} must be between ${MIN_VALUE_LENGHT_GANANCIA_HFE} and ${MAX_VALUE_LENGHT_GANANCIA_HFE} characters`,
 //         ),
 //       //Check voltaje_max_entrada
-//       check(`${NAME_VALUE_VOLTAJE_MAX_ENTRADA}`)
+//       check(`${NAME_VALUE_DISIP_MAX}`)
 //         .optional()
 //         .isString()
 //         .withMessage(
-//           `The ${NAME_VALUE_VOLTAJE_MAX_ENTRADA} of bipolar transistor should be string`,
+//           `The ${NAME_VALUE_DISIP_MAX} of bipolar transistor should be string`,
 //         )
 //         .isLength({
-//           min: MIN_VALUE_LENGHT_VOLTAJE_MAX_ENTRADA,
-//           max: MAX_VALUE_LENGHT_VOLTAJE_MAX_ENTRADA,
+//           min: MIN_VALUE_LENGHT_DISIP_MAX,
+//           max: MAX_VALUE_LENGHT_DISIP_MAX,
 //         })
 //         .withMessage(
-//           `The value of the ${NAME_VALUE_VOLTAJE_MIN_ENTRADA} must be between ${MIN_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} and ${MAX_VALUE_LENGHT_VOLTAJE_MIN_ENTRADA} characters`,
+//           `The value of the ${NAME_VALUE_GANANCIA_HFE} must be between ${MIN_VALUE_LENGHT_GANANCIA_HFE} and ${MAX_VALUE_LENGHT_GANANCIA_HFE} characters`,
 //         ),
 
 //       (req, res, next) => {
@@ -366,6 +396,6 @@ const checkBodyFieldsAddBipolarTransistor    = () => {
 // };
 
 module.exports = {
-  checkBodyFieldsAddBipolarTransistor    ,
+  checkBodyFieldsAddBipolarTransistor,
   //checkBodyFieldsUpdateComponentDetail,
 };
