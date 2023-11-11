@@ -1,5 +1,7 @@
 //Validators
-const { checkBodyFieldsAddBipolarTransistor } = require('../../helpers/validations/bipolar-transistor/express-validator');
+const {
+  checkBodyFieldsAddBipolarTransistor,
+} = require('../../helpers/validations/bipolar-transistor/express-validator');
 //Controllers
 const {
   createBipolarTransistorController,
@@ -29,4 +31,3 @@ module.exports = {
   // getAllComponentDetailController,
   // getAllWithAttributesComponentDetailController,
 };
-

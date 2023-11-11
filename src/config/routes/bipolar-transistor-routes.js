@@ -2,7 +2,8 @@
 const bipolarTransistorRouter = require('express').Router();
 //Controllers
 const {
-  createBipolarTransistorController, checkBodyFieldsAddBipolarTransistor,
+  createBipolarTransistorController,
+  checkBodyFieldsAddBipolarTransistor,
 } = require('../routes-imports/bipolar-transistor-routes-imports');
 
 bipolarTransistorRouter.post(
