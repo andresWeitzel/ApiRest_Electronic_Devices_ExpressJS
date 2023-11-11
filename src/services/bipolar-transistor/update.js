@@ -18,6 +18,8 @@ let materialParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
 
+//For check 
+
 /**
  * @description update a bipolar transistor to database
  * @param {any} req any type
