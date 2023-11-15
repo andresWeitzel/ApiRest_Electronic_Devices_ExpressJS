@@ -14,7 +14,9 @@ let idComponenteParam;
 let tipoParam;
 let longitudParam;
 let anchoParam;
+let pesoParam;
 let materialParam;
+let voltajeRecomendadoParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
 
@@ -32,11 +34,13 @@ const updateBipolarTransistorService = async (req, res) => {
     updateBipolarTransistor = null;
     msg = null;
     idParam = null;
-    idComponenteParam = null;
+    idComponenteParam = undefined;
     tipoParam = null;
     longitudParam = null;
     anchoParam = null;
+    pesoParam = null;
     materialParam = null;
+    voltajeRecomendadoParam = null;
     voltajeRecParam = null;
     voltajeMinEntrParam = null;
     voltajeMaxEntrParam = null;
