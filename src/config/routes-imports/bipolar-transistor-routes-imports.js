@@ -10,6 +10,9 @@ const {
 const {
   updateBipolarTransistorController,
 } = require('../../controllers/bipolar-transistor/update');
+const {
+  getAllBipolarTransistorController,
+} = require('../../controllers/bipolar-transistor/get-all');
 
 module.exports = {
   //Validators
@@ -18,4 +21,5 @@ module.exports = {
   //Controllers
   createBipolarTransistorController,
   updateBipolarTransistorController,
+  getAllBipolarTransistorController,
 };

@@ -5,22 +5,21 @@ const {
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//Const-vars
-let msg;
-let params;
-let idParam;
+//Vars
 let updateBipolarTransistor;
 let idComponenteParam;
 let tipoParam;
-let longitudParam;
-let anchoParam;
-let pesoParam;
-let materialParam;
-let voltajeRecomendadoParam;
-let voltajeMinEntrParam;
-let voltajeMaxEntrParam;
-
-//For check updated
+let voltajeColecEmisParam;
+let voltajeColecBaseParam;
+let voltajeEmisBaseParam;
+let voltajeColecEmisSatParam;
+let corrienteColecParam;
+let gananciaHfeParam;
+let disipMaxParam;
+let tempJuntParam;
+let reqBody;
+let idParam;
+let msgLog;
 
 /**
  * @description update a bipolar transistor to database
@@ -32,18 +31,19 @@ let voltajeMaxEntrParam;
 const updateBipolarTransistorService = async (req, res) => {
   try {
     updateBipolarTransistor = null;
-    msg = null;
+    reqBody = null;
+    idComponenteParam = null;
     idParam = null;
-    idComponenteParam = undefined;
     tipoParam = null;
-    longitudParam = null;
-    anchoParam = null;
-    pesoParam = null;
-    materialParam = null;
-    voltajeRecomendadoParam = null;
-    voltajeRecParam = null;
-    voltajeMinEntrParam = null;
-    voltajeMaxEntrParam = null;
+    voltajeColecEmisParam = null;
+    voltajeColecBaseParam = null;
+    voltajeEmisBaseParam = null;
+    voltajeColecEmisSatParam = null;
+    corrienteColecParam = null;
+    gananciaHfeParam = null;
+    disipMaxParam = null;
+    tempJuntParam = null;
+    msgLog = null;
 
     //-- start with params ---
     params = req.params;
@@ -52,7 +52,7 @@ const updateBipolarTransistorService = async (req, res) => {
       return null;
     }
 
-    idParam = params?.id ? params.id : idParam;
+    idParam = params.id ? params.id : idParam;
     //-- end with params  ---
 
     //-- start with body ---
@@ -64,34 +64,41 @@ const updateBipolarTransistorService = async (req, res) => {
       ? reqBody.id_componente
       : idComponenteParam;
     tipoParam = reqBody.tipo ? reqBody.tipo : tipoParam;
-    longitudParam = reqBody.longitud ? reqBody.longitud : longitudParam;
-    anchoParam = reqBody.ancho ? reqBody.ancho : anchoParam;
-    pesoParam = reqBody.peso ? reqBody.peso : pesoParam;
-    materialParam = reqBody.material ? reqBody.material : materialParam;
-    voltajeRecomendadoParam = reqBody.voltaje_recomendado
-      ? reqBody.voltaje_recomendado
-      : voltajeRecomendadoParam;
-    voltajeMinEntrParam = reqBody.voltaje_min_entrada
-      ? reqBody.voltaje_min_entrada
-      : voltajeMinEntrParam;
-    voltajeMaxEntrParam = reqBody.voltaje_max_entrada
-      ? reqBody.voltaje_max_entrada
-      : voltajeMaxEntrParam;
-
+    voltajeColecEmisParam = reqBody.voltaje_colec_emis
+      ? reqBody.voltaje_colec_emis
+      : voltajeColecEmisParam;
+    voltajeColecBaseParam = reqBody.voltaje_colec_base_param
+      ? reqBody.voltaje_colec_base_param
+      : voltajeColecBaseParam;
+    voltajeEmisBaseParam = reqBody.voltaje_emis_base
+      ? reqBody.voltaje_emis_base
+      : voltajeEmisBaseParam;
+    voltajeColecEmisSatParam = reqBody.voltaje_colec_emis_sat
+      ? reqBody.voltaje_colec_emis_sat
+      : voltajeColecEmisSatParam;
+    corrienteColecParam = reqBody.corriente_colec
+      ? reqBody.corriente_colec
+      : corrienteColecParam;
+    gananciaHfeParam = reqBody.ganancia_hfe
+      ? reqBody.ganancia_hfe
+      : gananciaHfeParam;
+    disipMaxParam = reqBody.disip_max ? reqBody.disip_max : disipMaxParam;
+    tempJuntParam = reqBody.temp_juntura ? reqBody.temp_juntura : tempJuntParam;
     //-- end with body ---
 
     if (BipolarTransistor != null && idParam != null) {
       await BipolarTransistor.update(
         {
           id_componente: idComponenteParam,
-          hoja_de_datos: tipoParam,
-          longitud: longitudParam,
-          ancho: anchoParam,
-          peso: pesoParam,
-          material: materialParam,
-          voltaje_recomendado: voltajeRecomendadoParam,
-          voltaje_min_entrada: voltajeMinEntrParam,
-          voltaje_max_entrada: voltajeMaxEntrParam,
+          tipo: tipoParam,
+          voltaje_colec_emis: voltajeColecEmisParam,
+          voltaje_colec_base_param: voltajeColecBaseParam,
+          voltaje_emis_base: voltajeEmisBaseParam,
+          voltaje_colec_emis_sat: voltajeColecEmisSatParam,
+          corriente_colec: corrienteColecParam,
+          ganancia_hfe: gananciaHfeParam,
+          disip_max: disipMaxParam,
+          temp_juntura: tempJuntParam,
         },
         {
           where: {
@@ -99,9 +106,9 @@ const updateBipolarTransistorService = async (req, res) => {
           },
         },
       )
-        .then(async (BipolarTransistorItem) => {
+        .then(async (bipolarTransistorItem) => {
           updateBipolarTransistor =
-            BipolarTransistorItem[0] == 1
+            bipolarTransistorItem[0] == 1
               ? {
                   objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
                 }

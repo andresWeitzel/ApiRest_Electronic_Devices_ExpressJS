@@ -8,6 +8,7 @@ const {
   //controllers
   createBipolarTransistorController,
   updateBipolarTransistorController,
+  getAllBipolarTransistorController,
 } = require('../routes-imports/bipolar-transistor-routes-imports');
 
 bipolarTransistorRouter.post(
@@ -21,5 +22,7 @@ bipolarTransistorRouter.patch(
   checkBodyFieldsUpdateBipolarTransistor(),
   updateBipolarTransistorController,
 );
+
+bipolarTransistorRouter.get('/list', getAllBipolarTransistorController);
 
 module.exports = bipolarTransistorRouter;
