@@ -1,11 +1,11 @@
 //Models
-const { ComponentDetail } = require('../../models/sequelize/component-detail');
+const { BipolarTransistor } = require('../../models/sequelize/bipolar-transistor');
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const-vars
 const orderBy = [['id', 'ASC']];
-let componentDetailList;
+let bipolarTransistorList;
 let queryStrParams;
 let pageSizeNro = 30;
 let pageNro = 0;
@@ -20,7 +20,7 @@ let msg;
  */
 const getAllBipolarTransistorService = async (req, res) => {
   try {
-    componentDetailList = null;
+    bipolarTransistorList = null;
     queryStrParams = null;
     msg = null;
 
@@ -35,25 +35,25 @@ const getAllBipolarTransistorService = async (req, res) => {
     }
     //-- end with pagination  ---
 
-    if (ComponentDetail != null) {
-      await ComponentDetail.findAll({
+    if (BipolarTransistor != null) {
+      await BipolarTransistor.findAll({
         attributes: {},
         limit: pageSizeNro,
         offset: pageNro,
         order: orderBy,
         raw: true,
       })
-        .then(async (componentDetailsItems) => {
-          componentDetailList = componentDetailsItems;
+        .then(async (bipolarTransistorItems) => {
+          bipolarTransistorList = bipolarTransistorItems;
         })
         .catch(async (error) => {
           msg = `Error in getAllBipolarTransistorService() function when trying to get all paginated components. Caused by ${error}`;
           console.log(error);
 
-          componentDetailList = await checkErrors(error, error.name);
+          bipolarTransistorList = await checkErrors(error, error.name);
         });
     } else {
-      componentDetailList = await checkErrors(
+      bipolarTransistorList = await checkErrors(
         null,
         statusName.CONNECTION_REFUSED,
       );
@@ -62,9 +62,9 @@ const getAllBipolarTransistorService = async (req, res) => {
     msg = `Error in getAllBipolarTransistorService() function. Caused by ${error}`;
     console.log(msg);
 
-    componentDetailList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    bipolarTransistorList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
-  return componentDetailList;
+  return bipolarTransistorList;
 };
 
 module.exports = {

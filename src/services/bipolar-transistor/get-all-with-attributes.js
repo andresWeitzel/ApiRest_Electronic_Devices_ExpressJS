@@ -54,33 +54,33 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
     queryStrParams = req.query;
 
     if (queryStrParams != null) {
-      idComponenteParam = queryStrParams.id_componente
-        ? queryStrParams.id_componente
+      idComponenteParam = queryStrParams.idComponente
+        ? queryStrParams.idComponente
         : idComponenteParam;
       tipoParam = queryStrParams.tipo ? queryStrParams.tipo : tipoParam;
-      voltajeColecEmisParam = queryStrParams.voltaje_colec_emis
-        ? queryStrParams.voltaje_colec_emis
+      voltajeColecEmisParam = queryStrParams.voltajeColecEmis
+        ? queryStrParams.voltajeColecEmis
         : voltajeColecEmisParam;
-      voltajeColecBaseParam = queryStrParams.voltaje_colec_base_param
-        ? queryStrParams.voltaje_colec_base_param
+      voltajeColecBaseParam = queryStrParams.voltajeColecBase
+        ? queryStrParams.voltajeColecBase
         : voltajeColecBaseParam;
-      voltajeEmisBaseParam = queryStrParams.voltaje_emis_base
-        ? queryStrParams.voltaje_emis_base
+      voltajeEmisBaseParam = queryStrParams.voltajeEmisBase
+        ? queryStrParams.voltajeEmisBase
         : voltajeEmisBaseParam;
-      voltajeColecEmisSatParam = queryStrParams.voltaje_colec_emis_sat
-        ? queryStrParams.voltaje_colec_emis_sat
+      voltajeColecEmisSatParam = queryStrParams.voltajeColecEmisSat
+        ? queryStrParams.voltajeColecEmisSat
         : voltajeColecEmisSatParam;
-      corrienteColecParam = queryStrParams.corriente_colec
-        ? queryStrParams.corriente_colec
+      corrienteColecParam = queryStrParams.corrienteColec
+        ? queryStrParams.corrienteColec
         : corrienteColecParam;
-      gananciaHfeParam = queryStrParams.ganancia_hfe
-        ? queryStrParams.ganancia_hfe
+      gananciaHfeParam = queryStrParams.gananciaHfe
+        ? queryStrParams.gananciaHfe
         : gananciaHfeParam;
-      disipMaxParam = queryStrParams.disip_max
-        ? queryStrParams.disip_max
+      disipMaxParam = queryStrParams.disipMax
+        ? queryStrParams.disipMax
         : disipMaxParam;
-      tempJuntParam = queryStrParams.temp_juntura
-        ? queryStrParams.temp_juntura
+      tempJuntParam = queryStrParams.tempJuntura
+        ? queryStrParams.tempJuntura
         : tempJuntParam;
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
