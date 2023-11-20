@@ -91,10 +91,10 @@ const getAllComponentLikeCategoryAndMakerService = async (req, res) => {
         where: {
           [Op.or]: {
             categoria: {
-              [Op.like]: `%${categoriaParam}%`,
+              [Op.iLike]: `%${categoriaParam}%`,
             },
             fabricante: {
-              [Op.like]: `%${fabricanteParam}%`,
+              [Op.iLike]: `%${fabricanteParam}%`,
             },
           },
         },
