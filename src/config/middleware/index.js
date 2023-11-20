@@ -5,11 +5,13 @@ let cors = require('cors');
 let listEndpoints = require('express-list-endpoints');
 //Env vars
 const API_LOCAL_BASE_URL = process.env.API_LOCAL_BASE_URL;
-const COMPONENT_ENPOINT = process.env.API_COMPONENT_NAME_URL;
-const COMPONENT_DETAIL_ENPOINT = process.env.API_COMPONENT_DETAIL_NAME_URL;
+const COMPONENT_ENDPOINT = process.env.API_COMPONENT_NAME_URL;
+const COMPONENT_DETAIL_ENDPOINT = process.env.API_COMPONENT_DETAIL_NAME_URL;
+const BIPOLAR_TRANSISTOR_ENDPOINT = process.env.API_BIPOLAR_TRANSISTOR_NAME_URL;
 //Config router
 const componentRouter = require('../routes/component-routes');
 const componentDetailRouter = require('../routes/component-detail-routes');
+const bipolarTransistorRouter = require('../routes/bipolar-transistor-routes');
 
 /**
  * @description initial settings for cors, express, etc (Middleware)
@@ -40,8 +42,9 @@ const appMiddleware = async () => {
     //-- end config for data api --
 
     //-- start with routes --
-    app.use(COMPONENT_ENPOINT, componentRouter);
-    app.use(COMPONENT_DETAIL_ENPOINT, componentDetailRouter);
+    app.use(COMPONENT_ENDPOINT, componentRouter);
+    app.use(COMPONENT_DETAIL_ENDPOINT, componentDetailRouter);
+    app.use(BIPOLAR_TRANSISTOR_ENDPOINT, bipolarTransistorRouter);
     //-- end with routes --
 
     //-- See all endpoints

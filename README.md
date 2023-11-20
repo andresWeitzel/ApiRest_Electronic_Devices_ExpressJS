@@ -17,7 +17,7 @@
 
 Rest Api about electronic devices implemented with express, morgan-middleware, nodeJS, sequelize, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, postgreSQL, others.
 
-*   [Database repository](https://github.com/andresWeitzel/db_dispositives_electronicos_postgreSQL)
+*   [Database repository](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 *   [Functionality Test Playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" > <img src="https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/doc/assets/social-networks/yt.png" width="5%" height="5%" /> </a>
 
 <br>
