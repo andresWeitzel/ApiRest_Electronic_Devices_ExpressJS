@@ -1,5 +1,5 @@
 //External
-const bipolarTransistorRouter = require("express").Router();
+const bipolarTransistorRouter = require('express').Router();
 //Controllers and checks
 const {
   //checks
@@ -10,25 +10,25 @@ const {
   updateBipolarTransistorController,
   getAllBipolarTransistorController,
   getAllWithAttributesBipolarTransistorController,
-} = require("../routes-imports/bipolar-transistor-routes-imports");
+} = require('../routes-imports/bipolar-transistor-routes-imports');
 
 bipolarTransistorRouter.post(
-  "/",
+  '/',
   checkBodyFieldsAddBipolarTransistor(),
-  createBipolarTransistorController
+  createBipolarTransistorController,
 );
 
 bipolarTransistorRouter.patch(
-  "/:id",
+  '/:id',
   checkBodyFieldsUpdateBipolarTransistor(),
-  updateBipolarTransistorController
+  updateBipolarTransistorController,
 );
 
-bipolarTransistorRouter.get("/list", getAllBipolarTransistorController);
+bipolarTransistorRouter.get('/list', getAllBipolarTransistorController);
 
 bipolarTransistorRouter.get(
-  "/list-with-attributes",
-  getAllWithAttributesBipolarTransistorController
+  '/list-with-attributes',
+  getAllWithAttributesBipolarTransistorController,
 );
 
 module.exports = bipolarTransistorRouter;

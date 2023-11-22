@@ -2,20 +2,20 @@
 const {
   checkBodyFieldsAddBipolarTransistor,
   checkBodyFieldsUpdateBipolarTransistor,
-} = require("../../helpers/validations/bipolar-transistor/express-validator");
+} = require('../../helpers/validations/bipolar-transistor/express-validator');
 //Controllers
 const {
   createBipolarTransistorController,
-} = require("../../controllers/bipolar-transistor/create");
+} = require('../../controllers/bipolar-transistor/create');
 const {
   updateBipolarTransistorController,
-} = require("../../controllers/bipolar-transistor/update");
+} = require('../../controllers/bipolar-transistor/update');
 const {
   getAllBipolarTransistorController,
-} = require("../../controllers/bipolar-transistor/get-all");
+} = require('../../controllers/bipolar-transistor/get-all');
 const {
   getAllWithAttributesBipolarTransistorController,
-} = require("../../controllers/bipolar-transistor/get-all-with-attributes");
+} = require('../../controllers/bipolar-transistor/get-all-with-attributes');
 
 module.exports = {
   //Validators

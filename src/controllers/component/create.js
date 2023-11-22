@@ -15,6 +15,8 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+const ADD_COMPONENT_ERROR_DETAIL =
+  'Error in createComponentController() function. Caused by ';
 // Pagination
 let newComponent;
 let msgResponse;
@@ -63,8 +65,8 @@ const createComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in createComponentController() function.';
-    msgLog = msgResponse + `Caused by ${error}`;
+    msgResponse = ADD_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }

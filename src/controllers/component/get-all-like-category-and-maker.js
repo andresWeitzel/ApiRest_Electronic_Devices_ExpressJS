@@ -30,6 +30,8 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'Error in getAllComponentLikeCategoryAndMakerController() function. Caused by ';
 let msgResponse;
 let msgLog;
 
@@ -97,10 +99,10 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
         }
     }
   } catch (error) {
-    msgResponse =
-      'ERROR in getAllComponentLikeCategoryAndMakerController() function.';
-    msgLog = msgResponse + `Caused by ${error}`;
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
     console.log(msgLog);
+
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };

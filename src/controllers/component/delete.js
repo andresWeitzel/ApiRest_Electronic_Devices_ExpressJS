@@ -15,6 +15,8 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+const DELETE_COMPONENT_ERROR_DETAIL =
+  'Error in deleteComponentController() function. Caused by ';
 // Pagination
 let deletedComponent;
 let msgResponse;
@@ -31,6 +33,7 @@ const deleteComponentController = async (req, res) => {
   try {
     msgResponse = null;
     msgLog = null;
+
     deletedComponent = await deleteComponentService(req);
 
     switch (deletedComponent) {
@@ -63,9 +66,10 @@ const deleteComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in deleteComponentController() function.';
-    msgLog = msgResponse + `Caused by ${error}`;
+    msgResponse = DELETE_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
     console.log(msgLog);
+
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };

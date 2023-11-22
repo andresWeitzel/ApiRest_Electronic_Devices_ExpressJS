@@ -4,9 +4,11 @@ const { Component } = require('../../models/sequelize/component');
 const { statusName } = require('../../enums/database/status');
 //Helpers
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//components
+//const
+const ADD_COMPONENT_ERROR_DETAIL =
+  'Error in createComponentService() function. Caused by ';
+//Vars
 let newComponent;
-//params
 let codigoParam;
 let imagenParam;
 let nroPiezaParam;
@@ -16,7 +18,8 @@ let fabricanteParam;
 let reqBody;
 let stockParam;
 let precioParam;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description create a componente to database
@@ -28,7 +31,8 @@ let msg;
 const createComponentService = async (req, res) => {
   try {
     newComponent = null;
-    msg = null;
+    msgLog = null;
+    msgResponse = null;
     reqBody = null;
     codigoParam = null;
     imagenParam = null;
@@ -71,16 +75,20 @@ const createComponentService = async (req, res) => {
           newComponent = componentItem.dataValues;
         })
         .catch(async (error) => {
-          msg = `Error in createComponentService() function when trying to create a component. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = ADD_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + error;
+          console.log(msgLog);
+
           newComponent = await checkErrors(error, error.name);
         });
     } else {
       newComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
-    msg = `Error in createComponentService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = ADD_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
+    console.log(msgLog);
+
     newComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return newComponent;

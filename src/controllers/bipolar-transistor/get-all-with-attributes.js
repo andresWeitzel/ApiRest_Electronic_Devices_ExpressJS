@@ -1,12 +1,12 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Services
 const {
   getAllWithAttributesBipolarTransistor,
-} = require("../../services/bipolar-transistor/get-all-with-attributes");
+} = require('../../services/bipolar-transistor/get-all-with-attributes');
 //Enums
-const { statusName, statusDetails } = require("../../enums/database/status");
-const { statusCode } = require("../../enums/http/status-code");
+const { statusName, statusDetails } = require('../../enums/database/status');
+const { statusCode } = require('../../enums/http/status-code');
 //Const
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -51,13 +51,13 @@ const getAllWithAttributesBipolarTransistorController = async (req, res) => {
       case null:
         res.status(BAD_REQUEST_CODE).send({
           error:
-            "Bad request, could not get all paginated list bipolar transistor with attributes.",
+            'Bad request, could not get all paginated list bipolar transistor with attributes.',
         });
         break;
       default:
         if (
-          typeof componentDetailList === "object" &&
-          componentDetailList[0]?.hasOwnProperty("id")
+          typeof componentDetailList === 'object' &&
+          componentDetailList[0]?.hasOwnProperty('id')
         ) {
           res.status(OK_CODE).send(componentDetailList);
           break;
@@ -67,7 +67,7 @@ const getAllWithAttributesBipolarTransistorController = async (req, res) => {
     }
   } catch (error) {
     msgResponse =
-      "ERROR in getAllWithAttributesBipolarTransistorController() function.";
+      'ERROR in getAllWithAttributesBipolarTransistorController() function.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send(msgResponse);
