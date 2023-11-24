@@ -29,7 +29,8 @@ let pageNro = 0;
 let orderBy;
 let orderAt;
 let order;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated components list according to its category and maker from the database

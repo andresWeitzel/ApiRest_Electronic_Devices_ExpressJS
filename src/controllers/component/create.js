@@ -17,6 +17,8 @@ const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
 const ADD_COMPONENT_ERROR_DETAIL =
   'Error in createComponentController() function. Caused by ';
+const ADD_COMPONENT_BAD_REQUEST_DETAIL =
+  'Bad request, could not add a component.';
 // Pagination
 let newComponent;
 let msgResponse;
@@ -51,7 +53,7 @@ const createComponentController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not add a component.' });
+          .send({ error: ADD_COMPONENT_BAD_REQUEST_DETAIL });
         break;
       default:
         if (

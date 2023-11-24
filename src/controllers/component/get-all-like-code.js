@@ -30,6 +30,13 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
+//erros
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'ERROR in getAllComponentLikeCodeController() function. Caused by  ';
+const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
+  'Bad request, could not get all paginated list components according to the code.';
+const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
+  'No items found according to the code.';
 let msgResponse;
 let msgLog;
 
@@ -71,8 +78,7 @@ const getAllComponentLikeCodeController = async (req, res) => {
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
-          error:
-            'Bad request, could not get all paginated list components according the code.',
+          error: GET_ALL_COMPONENT_BAD_REQUEST_DETAIL,
         });
         break;
       default:
@@ -88,18 +94,17 @@ const getAllComponentLikeCodeController = async (req, res) => {
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
-          res
-            .status(OK_CODE)
-            .send({ ok: 'No items found according to the code.' });
+          res.status(OK_CODE).send({ ok: GET_ALL_COMPONENT_NOT_FOUND_DETAIL });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
         }
     }
   } catch (error) {
-    msgResponse = 'ERROR in getAllComponentLikeCodeController() function.';
-    msgLog = msgResponse + `Caused by ${error}`;
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
     console.log(msgLog);
+
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };

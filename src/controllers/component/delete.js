@@ -17,6 +17,8 @@ const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
 const DELETE_COMPONENT_ERROR_DETAIL =
   'Error in deleteComponentController() function. Caused by ';
+const DELETE_COMPONENT_BAD_REQUEST_DETAIL =
+  'Bad request, could not delete a component.';
 // Pagination
 let deletedComponent;
 let msgResponse;
@@ -52,7 +54,7 @@ const deleteComponentController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not delete a component.' });
+          .send({ error: DELETE_COMPONENT_BAD_REQUEST_DETAIL });
         break;
       default:
         if (
