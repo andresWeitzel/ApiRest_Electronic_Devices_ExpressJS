@@ -1,16 +1,16 @@
 //External
-require('dotenv').config();
+require("dotenv").config();
 //Services
 const {
   getAllComponentLikeImageService,
-} = require('../../services/component/get-all-like-image');
+} = require("../../services/component/get-all-like-image");
 //Enums
-const { statusName, statusDetails } = require('../../enums/database/status');
-const { statusCode } = require('../../enums/http/status-code');
+const { statusName, statusDetails } = require("../../enums/database/status");
+const { statusCode } = require("../../enums/http/status-code");
 const {
   paginationNameValueError,
   paginationDescriptionValueError,
-} = require('../../enums/pagination/errors');
+} = require("../../enums/pagination/errors");
 //Const-vars
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
@@ -30,6 +30,13 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
+//erros
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  "ERROR in getAllComponentLikeImageController() function. Caused by  ";
+const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
+  "Bad request, could not get all paginated list components according to the image.";
+const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
+  "No items found according to the image.";
 let msgResponse;
 let msgLog;
 
@@ -71,35 +78,33 @@ const getAllComponentLikeImageController = async (req, res) => {
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
-          error:
-            'Bad request, could not get all paginated list components according the imagen.',
+          error: GET_ALL_COMPONENT_BAD_REQUEST_DETAIL,
         });
         break;
       default:
         if (
-          (typeof componentList === 'object' &&
-            componentList[0]?.hasOwnProperty('id')) ||
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === 'object' &&
+          (typeof componentList === "object" &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
-          res
-            .status(OK_CODE)
-            .send({ ok: 'No items found according to the image.' });
+          res.status(OK_CODE).send({ ok: GET_ALL_COMPONENT_NOT_FOUND_DETAIL });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
         }
     }
   } catch (error) {
-    msgResponse = 'ERROR in getAllComponentLikeImageController() function.';
-    msgLog = msgResponse + `Caused by ${error}`;
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
     console.log(msgLog);
+
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };

@@ -1,16 +1,16 @@
 //External
-require('dotenv').config();
+require("dotenv").config();
 //Services
 const {
   getAllComponentLikePartNumberService,
-} = require('../../services/component/get-all-like-part-number');
+} = require("../../services/component/get-all-like-part-number");
 //Enums
-const { statusName, statusDetails } = require('../../enums/database/status');
-const { statusCode } = require('../../enums/http/status-code');
+const { statusName, statusDetails } = require("../../enums/database/status");
+const { statusCode } = require("../../enums/http/status-code");
 const {
   paginationNameValueError,
   paginationDescriptionValueError,
-} = require('../../enums/pagination/errors');
+} = require("../../enums/pagination/errors");
 //Const-vars
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
@@ -30,11 +30,18 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
+//erros
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  "ERROR in getAllComponentLikePartNumberController() function. Caused by  ";
+const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
+  "Bad request, could not get all paginated list components according to the part number.";
+const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
+  "No items found according to the part number.";
 let msgResponse;
 let msgLog;
 
 /**
- * @description get all paginated components according to part number from database
+ * @description get all paginated components according to the part number from database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
@@ -71,36 +78,33 @@ const getAllComponentLikePartNumberController = async (req, res) => {
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
-          error:
-            'Bad request, could not get all paginated list components according the nro de pieza.',
+          error: GET_ALL_COMPONENT_BAD_REQUEST_DETAIL,
         });
         break;
       default:
         if (
-          (typeof componentList === 'object' &&
-            componentList[0]?.hasOwnProperty('id')) ||
+          (typeof componentList === "object" &&
+            componentList[0]?.hasOwnProperty("id")) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === 'object' &&
+          (typeof componentList === "object" &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
-          res
-            .status(OK_CODE)
-            .send({ ok: 'No items found according to the part number.' });
+          res.status(OK_CODE).send({ ok: GET_ALL_COMPONENT_NOT_FOUND_DETAIL });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
         }
     }
   } catch (error) {
-    msgResponse =
-      'ERROR in getAllComponentLikePartNumberController() function.';
-    msgLog = msgResponse + `Caused by ${error}`;
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
     console.log(msgLog);
+
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
