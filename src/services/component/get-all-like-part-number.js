@@ -1,22 +1,22 @@
 //Externals
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 //Models
-const { Component } = require("../../models/sequelize/component");
+const { Component } = require('../../models/sequelize/component');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 const {
   checkOrderBy,
   checkOrderAt,
-} = require("../../helpers/pagination/components/component");
-const { paginationNameValueError } = require("../../enums/pagination/errors");
+} = require('../../helpers/pagination/components/component');
+const { paginationNameValueError } = require('../../enums/pagination/errors');
 //const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
 const GET_ALL_COMPONENT_ERROR_DETAIL =
-  "Error in getAllComponentLikePartNumberService() function. Caused by ";
+  'Error in getAllComponentLikePartNumberService() function. Caused by ';
 //componentss
 let componentList;
 //params
@@ -24,8 +24,8 @@ let queryStrParams;
 let params;
 let nroPiezaParam;
 //pagination
-let pageSizeNro = 30;
-let pageNro = 0;
+let pageSizeNro;
+let pageNro;
 let orderBy;
 let orderAt;
 let order;
@@ -45,10 +45,10 @@ const getAllComponentLikePartNumberService = async (req, res) => {
     nroPiezaParam = null;
     queryStrParams = null;
     //Pagination
-    pageSizeNro = 5;
+    pageSizeNro = 10;
     pageNro = 0;
-    orderBy = "id";
-    orderAt = "ASC";
+    orderBy = 'id';
+    orderAt = 'ASC';
     msgLog = null;
     msgResponse = null;
 

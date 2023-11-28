@@ -15,6 +15,8 @@ const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'Error in getAllComponentLikeStockMinMaxService() function. Caused by ';
 //componentss
 let componentList;
 //params
@@ -22,12 +24,13 @@ let queryStrParams;
 let stockMin;
 let stockMax;
 //pagination
-let pageSizeNro = 30;
-let pageNro = 0;
+let pageSizeNro;
+let pageNro;
 let orderBy;
 let orderAt;
 let order;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated components list according to its stock min and max from the database
@@ -39,16 +42,16 @@ let msg;
 const getAllComponentLikeStockMinMaxService = async (req, res) => {
   try {
     componentList = null;
-    msg = null;
     queryStrParams = null;
     stockMin = 0;
     stockMax = 100;
     //Pagination
-    pageSizeNro = 5;
+    pageSizeNro = 10;
     pageNro = 0;
     orderBy = 'id';
     orderAt = 'ASC';
-    msg = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
@@ -105,8 +108,9 @@ const getAllComponentLikeStockMinMaxService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikeStockMinMaxService() function when trying to get all paginated component by stock min and stock max. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + error;
+          console.log(msgLog);
 
           componentList = await checkErrors(error, error.name);
         });
@@ -114,8 +118,9 @@ const getAllComponentLikeStockMinMaxService = async (req, res) => {
       componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
-    msg = `Error in getAllComponentLikeStockMinMaxService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
+    console.log(msgLog);
 
     componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }

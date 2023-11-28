@@ -24,8 +24,8 @@ let queryStrParams;
 let codigoParam;
 let params;
 //pagination
-let pageSizeNro = 30;
-let pageNro = 0;
+let pageSizeNro;
+let pageNro;
 let orderBy;
 let orderAt;
 let order;
@@ -45,7 +45,7 @@ const getAllComponentLikeCodeService = async (req, res) => {
     codigoParam = null;
     queryStrParams = null;
     //Pagination
-    pageSizeNro = 5;
+    pageSizeNro = 10;
     pageNro = 0;
     orderBy = 'id';
     orderAt = 'ASC';

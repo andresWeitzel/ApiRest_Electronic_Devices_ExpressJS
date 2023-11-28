@@ -15,6 +15,8 @@ const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'Error in getAllComponentLikePriceMaxService() function. Caused by ';
 //componentss
 let componentList;
 //params
@@ -22,12 +24,13 @@ let queryStrParams;
 let params;
 let priceMaxParam;
 //pagination
-let pageSizeNro = 30;
-let pageNro = 0;
+let pageSizeNro;
+let pageNro;
 let orderBy;
 let orderAt;
 let order;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated components list according to its max price from the database
@@ -39,15 +42,15 @@ let msg;
 const getAllComponentLikePriceMaxService = async (req, res) => {
   try {
     componentList = null;
-    msg = null;
     queryStrParams = null;
     priceMaxParam = null;
     //Pagination
-    pageSizeNro = 5;
+    pageSizeNro = 10;
     pageNro = 0;
     orderBy = 'id';
     orderAt = 'ASC';
-    msg = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with params ---
     params = req.params;
@@ -107,8 +110,9 @@ const getAllComponentLikePriceMaxService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikePriceMaxService() function when trying to get all paginated component by price. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + error;
+          console.log(msgLog);
 
           componentList = await checkErrors(error, error.name);
         });
@@ -116,8 +120,9 @@ const getAllComponentLikePriceMaxService = async (req, res) => {
       componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
-    msg = `Error in getAllComponentLikePriceMaxService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + error;
+    console.log(msgLog);
 
     componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
   }

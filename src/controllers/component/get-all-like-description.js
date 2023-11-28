@@ -1,16 +1,16 @@
 //External
-require("dotenv").config();
+require('dotenv').config();
 //Services
 const {
   getAllComponentLikeDescriptionService,
-} = require("../../services/component/get-all-like-description");
+} = require('../../services/component/get-all-like-description');
 //Enums
-const { statusName, statusDetails } = require("../../enums/database/status");
-const { statusCode } = require("../../enums/http/status-code");
+const { statusName, statusDetails } = require('../../enums/database/status');
+const { statusCode } = require('../../enums/http/status-code');
 const {
   paginationNameValueError,
   paginationDescriptionValueError,
-} = require("../../enums/pagination/errors");
+} = require('../../enums/pagination/errors');
 //Const-vars
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
@@ -32,11 +32,11 @@ const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
 //erros
 const GET_ALL_COMPONENT_ERROR_DETAIL =
-  "ERROR in getAllComponentLikeDescriptionController() function. Caused by  ";
+  'ERROR in getAllComponentLikeDescriptionController() function. Caused by  ';
 const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
-  "Bad request, could not get all paginated list components according to the description.";
+  'Bad request, could not get all paginated list components according to the description.';
 const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
-  "No items found according to the description.";
+  'No items found according to the description.';
 let msgResponse;
 let msgLog;
 
@@ -83,14 +83,14 @@ const getAllComponentLikeDescriptionController = async (req, res) => {
         break;
       default:
         if (
-          (typeof componentList === "object" &&
-            componentList[0]?.hasOwnProperty("id")) ||
+          (typeof componentList === 'object' &&
+            componentList[0]?.hasOwnProperty('id')) ||
           (Array.isArray(componentList) && componentList.length)
         ) {
           res.status(OK_CODE).send(componentList);
           break;
         } else if (
-          (typeof componentList === "object" &&
+          (typeof componentList === 'object' &&
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {

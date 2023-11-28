@@ -24,8 +24,8 @@ let queryStrParams;
 let categoriaParam;
 let fabricanteParam;
 //pagination
-let pageSizeNro = 30;
-let pageNro = 0;
+let pageSizeNro;
+let pageNro;
 let orderBy;
 let orderAt;
 let order;
@@ -46,7 +46,7 @@ const getAllComponentLikeCategoryAndMakerService = async (req, res) => {
     categoriaParam = null;
     fabricanteParam = null;
     //Pagination
-    pageSizeNro = 5;
+    pageSizeNro = 10;
     pageNro = 0;
     orderBy = 'id';
     orderAt = 'ASC';
