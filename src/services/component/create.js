@@ -4,9 +4,13 @@ const { Component } = require('../../models/sequelize/component');
 const { statusName } = require('../../enums/database/status');
 //Helpers
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//const
+//Const
+//errors
 const ADD_COMPONENT_ERROR_DETAIL =
-  'Error in createComponentService() function. Caused by ';
+  'Error in createComponentService() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
 let newComponent;
 let codigoParam;
@@ -76,20 +80,20 @@ const createComponentService = async (req, res) => {
         })
         .catch(async (error) => {
           msgResponse = ADD_COMPONENT_ERROR_DETAIL;
-          msgLog = msgResponse + error;
+          msgLog = msgResponse + `Caused by ${error}`;
           console.log(msgLog);
 
           newComponent = await checkErrors(error, error.name);
         });
     } else {
-      newComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      newComponent = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
     msgResponse = ADD_COMPONENT_ERROR_DETAIL;
-    msgLog = msgResponse + error;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
 
-    newComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
+    newComponent = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return newComponent;
 };

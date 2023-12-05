@@ -10,13 +10,17 @@ const {
   checkOrderAt,
 } = require('../../helpers/pagination/components/component');
 const { paginationNameValueError } = require('../../enums/pagination/errors');
-//const
+//Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
 const GET_ALL_COMPONENT_ERROR_DETAIL =
-  'Error in getAllComponentLikeStockMaxService() function. Caused by ';
+  'Error in getAllComponentLikeStockMaxService() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 //components
 let componentList;
 //params
@@ -109,20 +113,20 @@ const getAllComponentLikeStockMaxService = async (req, res) => {
         })
         .catch(async (error) => {
           msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
-          msgLog = msgResponse + error;
+          msgLog = msgResponse + `Caused by ${error}`;
           console.log(msgLog);
 
           componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      componentList = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
     msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
-    msgLog = msgResponse + error;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
 
-    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    componentList = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return componentList;
 };

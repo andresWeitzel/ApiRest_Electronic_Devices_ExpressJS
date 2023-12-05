@@ -3,13 +3,17 @@ const { Component } = require('../../models/sequelize/component');
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//const
+//Const
+//errors details
 const DELETE_COMPONENT_ERROR_DETAIL =
-  'Error in deleteComponentService() function. Caused by ';
+  'Error in deleteComponentService() function.';
 const DELETE_OBJECT_DETAILS =
   'Component has been successfully removed based on id ';
 const DELETE_OBJECT_ERROR_DETAILS =
   'Check if the component you want to remove exists in the db. The component has not been removed based on the id ';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
 let idParam;
 let params;
@@ -58,20 +62,20 @@ const deleteComponentService = async (req, res) => {
         })
         .catch(async (error) => {
           msgResponse = DELETE_COMPONENT_ERROR_DETAIL;
-          msgLog = msgResponse + error;
+          msgLog = msgResponse + `Caused by ${error}`;
           console.log(msgLog);
 
           deleteComponent = await checkErrors(error, error.name);
         });
     } else {
-      deleteComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      deleteComponent = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
     msgResponse = DELETE_COMPONENT_ERROR_DETAIL;
-    msgLog = msgResponse + error;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
 
-    deleteComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
+    deleteComponent = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return deleteComponent;
 };
