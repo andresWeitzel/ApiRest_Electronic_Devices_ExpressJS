@@ -35,8 +35,6 @@ let msgResponse;
 const createComponentService = async (req, res) => {
   try {
     newComponent = null;
-    msgLog = null;
-    msgResponse = null;
     reqBody = null;
     codigoParam = null;
     imagenParam = null;
@@ -46,6 +44,8 @@ const createComponentService = async (req, res) => {
     fabricanteParam = null;
     stockParam = null;
     precioParam = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with body ---
     reqBody = req.body;

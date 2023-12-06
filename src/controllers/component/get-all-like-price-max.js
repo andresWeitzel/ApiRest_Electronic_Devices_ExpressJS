@@ -32,7 +32,7 @@ const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
 //erros
 const GET_ALL_COMPONENT_ERROR_DETAIL =
-  'ERROR in getAllComponentLikePriceMaxController() function. Caused by  ';
+  'ERROR in getAllComponentLikePriceMaxController() function.';
 const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
   'Bad request, could not get all paginated list components according to the price max.';
 const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
@@ -103,7 +103,7 @@ const getAllComponentLikePriceMaxController = async (req, res) => {
     }
   } catch (error) {
     msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
-    msgLog = msgResponse + error;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
 
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });

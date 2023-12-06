@@ -16,7 +16,7 @@ const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
 const ADD_COMPONENT_ERROR_DETAIL =
-  'Error in createComponentController() function. Caused by ';
+  'Error in createComponentController() function.';
 const ADD_COMPONENT_BAD_REQUEST_DETAIL =
   'Bad request, could not add a component.';
 // Pagination
@@ -68,7 +68,7 @@ const createComponentController = async (req, res) => {
     }
   } catch (error) {
     msgResponse = ADD_COMPONENT_ERROR_DETAIL;
-    msgLog = msgResponse + error;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
