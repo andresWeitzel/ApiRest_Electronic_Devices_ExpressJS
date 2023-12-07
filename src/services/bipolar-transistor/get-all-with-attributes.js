@@ -1,14 +1,14 @@
 //Externals
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 //Models
 const {
   BipolarTransistor,
-} = require("../../models/sequelize/bipolar-transistor");
+} = require('../../models/sequelize/bipolar-transistor');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const
-const orderBy = [["id", "ASC"]];
+const orderBy = [['id', 'ASC']];
 //Vars
 let componentDetailList;
 let idComponenteParam;
@@ -139,7 +139,7 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
     } else {
       componentDetailList = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED
+        statusName.CONNECTION_REFUSED,
       );
     }
   } catch (error) {

@@ -1,5 +1,7 @@
 //Models
-const { BipolarTransistor } = require('../../models/sequelize/bipolar-transistor');
+const {
+  BipolarTransistor,
+} = require('../../models/sequelize/bipolar-transistor');
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
@@ -62,7 +64,10 @@ const getAllBipolarTransistorService = async (req, res) => {
     msg = `Error in getAllBipolarTransistorService() function. Caused by ${error}`;
     console.log(msg);
 
-    bipolarTransistorList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    bipolarTransistorList = await checkErrors(
+      error,
+      statusName.CONNECTION_ERROR,
+    );
   }
   return bipolarTransistorList;
 };

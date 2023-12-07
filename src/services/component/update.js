@@ -3,7 +3,18 @@ const { Component } = require('../../models/sequelize/component');
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//params
+//Const
+//errors details
+const UPDATE_OBJECT_DETAILS =
+  'Component has been successfully updated based on id ';
+const UPDATE_OBJECT_ERROR_DETAILS =
+  'Check if the component you want to updated exists in the db. The component has not been updated based on the id ';
+const UPDATE_COMPONENT_ERROR_DETAIL =
+  'Error in updateComponentService() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 let idParam;
 let codigoParam;
 let params;
@@ -14,7 +25,8 @@ let categoriaParam;
 let descripcionParam;
 let fabricanteParam;
 let stockParam;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description update a componente from the database
@@ -26,7 +38,6 @@ let msg;
 const updateComponentService = async (req, res) => {
   try {
     updatedComponent = null;
-    msg = null;
     params = null;
     reqBody = null;
     idParam = 0;
@@ -38,6 +49,8 @@ const updateComponentService = async (req, res) => {
     fabricanteParam = null;
     stockParam = null;
     priceParam = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with params ---
     params = req.params;
@@ -87,15 +100,16 @@ const updateComponentService = async (req, res) => {
           updatedComponent =
             componentItem[0] == 1
               ? {
-                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
+                  objectUpdated: UPDATE_OBJECT_DETAILS + idParam,
                 }
               : {
-                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`,
+                  objectUpdated: UPDATE_OBJECT_ERROR_DETAILS + idParam,
                 };
         })
         .catch(async (error) => {
-          msg = `Error in updateComponentService() function when trying to update a component. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = UPDATE_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
 
           updatedComponent = await checkErrors(error, error.name);
         });
@@ -103,8 +117,10 @@ const updateComponentService = async (req, res) => {
       updatedComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
     }
   } catch (error) {
-    msg = `Error in updateComponentService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = UPDATE_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+
     updatedComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
   }
   return updatedComponent;

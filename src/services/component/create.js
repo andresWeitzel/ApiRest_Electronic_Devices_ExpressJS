@@ -4,9 +4,15 @@ const { Component } = require('../../models/sequelize/component');
 const { statusName } = require('../../enums/database/status');
 //Helpers
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//components
+//Const
+//errors
+const ADD_COMPONENT_ERROR_DETAIL =
+  'Error in createComponentService() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 let newComponent;
-//params
 let codigoParam;
 let imagenParam;
 let nroPiezaParam;
@@ -16,7 +22,8 @@ let fabricanteParam;
 let reqBody;
 let stockParam;
 let precioParam;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description create a componente to database
@@ -28,7 +35,6 @@ let msg;
 const createComponentService = async (req, res) => {
   try {
     newComponent = null;
-    msg = null;
     reqBody = null;
     codigoParam = null;
     imagenParam = null;
@@ -38,6 +44,8 @@ const createComponentService = async (req, res) => {
     fabricanteParam = null;
     stockParam = null;
     precioParam = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with body ---
     reqBody = req.body;
@@ -71,17 +79,21 @@ const createComponentService = async (req, res) => {
           newComponent = componentItem.dataValues;
         })
         .catch(async (error) => {
-          msg = `Error in createComponentService() function when trying to create a component. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = ADD_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
+
           newComponent = await checkErrors(error, error.name);
         });
     } else {
-      newComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      newComponent = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
-    msg = `Error in createComponentService() function. Caused by ${error}`;
-    console.log(msg);
-    newComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
+    msgResponse = ADD_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+
+    newComponent = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return newComponent;
 };

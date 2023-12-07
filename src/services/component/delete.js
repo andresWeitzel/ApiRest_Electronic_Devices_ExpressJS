@@ -3,10 +3,22 @@ const { Component } = require('../../models/sequelize/component');
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//params
+//Const
+//errors details
+const DELETE_COMPONENT_ERROR_DETAIL =
+  'Error in deleteComponentService() function.';
+const DELETE_OBJECT_DETAILS =
+  'Component has been successfully removed based on id ';
+const DELETE_OBJECT_ERROR_DETAILS =
+  'Check if the component you want to remove exists in the db. The component has not been removed based on the id ';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 let idParam;
 let params;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description delete a component from the database
@@ -19,7 +31,8 @@ const deleteComponentService = async (req, res) => {
   try {
     //Params
     deleteComponent = null;
-    msg = null;
+    msgLog = null;
+    msgResponse = null;
     params = null;
     idParam = 0;
 
@@ -41,25 +54,28 @@ const deleteComponentService = async (req, res) => {
           deleteComponent =
             componentItem == 1
               ? {
-                  objectDeleted: `Se ha eliminado correctamente el componente según el id ${idParam}`,
+                  objectDeleted: DELETE_OBJECT_DETAILS + idParam,
                 }
               : {
-                  objectDeleted: `No se ha eliminado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`,
+                  objectDeleted: DELETE_OBJECT_ERROR_DETAILS + idParam,
                 };
         })
         .catch(async (error) => {
-          msg = `Error in deleteComponentService() function when trying to delete a component. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = DELETE_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
 
           deleteComponent = await checkErrors(error, error.name);
         });
     } else {
-      deleteComponent = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      deleteComponent = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
-    msg = `Error in deleteComponentService() function. Caused by ${error}`;
-    console.log(msg);
-    deleteComponent = await checkErrors(error, statusName.CONNECTION_ERROR);
+    msgResponse = DELETE_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+
+    deleteComponent = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return deleteComponent;
 };

@@ -30,6 +30,12 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'Error in getAllComponentLikeCategoryAndMakerController() function.';
+const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
+  'Bad request, could not get all paginated list components according the categoria and fabricante.';
+const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
+  'No items found according to the maker or category.';
 let msgResponse;
 let msgLog;
 
@@ -71,8 +77,7 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
-          error:
-            'Bad request, could not get all paginated list components according the categoria and fabricante.',
+          error: GET_ALL_COMPONENT_BAD_REQUEST_DETAIL,
         });
         break;
       default:
@@ -88,19 +93,17 @@ const getAllComponentLikeCategoryAndMakerController = async (req, res) => {
             Object.keys(componentList).length == 0) ||
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
-          res
-            .status(OK_CODE)
-            .send({ ok: 'No items found according to the maker or category.' });
+          res.status(OK_CODE).send({ ok: GET_ALL_COMPONENT_NOT_FOUND_DETAIL });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
           break;
         }
     }
   } catch (error) {
-    msgResponse =
-      'ERROR in getAllComponentLikeCategoryAndMakerController() function.';
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
+
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };

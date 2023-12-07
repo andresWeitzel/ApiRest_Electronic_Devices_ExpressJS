@@ -3,13 +3,20 @@ const { Component } = require('../../models/sequelize/component');
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
+//Const
+const GET_BY_ID_COMPONENT_ERROR_DETAIL =
+  'Error in getComponentByIdService() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //components
 let component;
 //params
 let idParam;
 let params;
 //pagination
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get a component according to its identifier from the database
@@ -25,7 +32,8 @@ const getComponentByIdService = async (req, res) => {
     idParam = null;
     msg = null;
     //Pagination
-    msg = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with params ---
     params = req.params;
@@ -45,19 +53,21 @@ const getComponentByIdService = async (req, res) => {
           component = componentItem;
         })
         .catch(async (error) => {
-          msg = `Error in getComponentByIdService() function when trying to get a component by id. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = GET_BY_ID_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
 
           component = await checkErrors(error, error.name);
         });
     } else {
-      component = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      component = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
-    msg = `Error in getComponentByIdService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = GET_BY_ID_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
 
-    component = await checkErrors(error, statusName.CONNECTION_ERROR);
+    component = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return component;
 };

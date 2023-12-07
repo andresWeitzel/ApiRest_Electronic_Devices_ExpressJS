@@ -10,25 +10,30 @@ const {
   checkOrderAt,
 } = require('../../helpers/pagination/components/component');
 const { paginationNameValueError } = require('../../enums/pagination/errors');
-
-//const
+//Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
-//componentss
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'Error in getAllComponentLikeImageService() function.';
+//Status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//components
 let componentList;
 //params
 let queryStrParams;
 let params;
 let imagenParam;
 //pagination
-let pageSizeNro = 30;
-let pageNro = 0;
+let pageSizeNro;
+let pageNro;
 let orderBy;
 let orderAt;
 let order;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated components list according to its imagen from the database
@@ -43,11 +48,12 @@ const getAllComponentLikeImageService = async (req, res) => {
     imagenParam = null;
     queryStrParams = null;
     //Pagination
-    pageSizeNro = 5;
+    pageSizeNro = 10;
     pageNro = 0;
     orderBy = 'id';
     orderAt = 'ASC';
-    msg = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with params ---
     params = req.params;
@@ -91,7 +97,7 @@ const getAllComponentLikeImageService = async (req, res) => {
         attributes: {},
         where: {
           imagen: {
-            [Op.like]: `%${imagenParam}%`,
+            [Op.iLike]: `%${imagenParam}%`,
           },
         },
         limit: pageSizeNro,
@@ -104,19 +110,21 @@ const getAllComponentLikeImageService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikeImageService() function when trying to get a component by imagen. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
 
           componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      componentList = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
-    msg = `Error in getAllComponentLikeImageService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
 
-    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    componentList = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return componentList;
 };

@@ -15,6 +15,10 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+const ADD_COMPONENT_ERROR_DETAIL =
+  'Error in createComponentController() function.';
+const ADD_COMPONENT_BAD_REQUEST_DETAIL =
+  'Bad request, could not add a component.';
 // Pagination
 let newComponent;
 let msgResponse;
@@ -49,7 +53,7 @@ const createComponentController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not add a component.' });
+          .send({ error: ADD_COMPONENT_BAD_REQUEST_DETAIL });
         break;
       default:
         if (
@@ -63,7 +67,7 @@ const createComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in createComponentController() function.';
+    msgResponse = ADD_COMPONENT_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });

@@ -5,7 +5,7 @@ const { updateComponentService } = require('../../services/component/update');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
-//Const-vars
+//Const
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -15,6 +15,11 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+const UPDATE_COMPONENT_ERROR_DETAIL =
+  'ERROR in updateComponentController() function.';
+const UPDATE_COMPONENT_BAD_REQUEST_DETAIL =
+  'Bad request, could not update a component.';
+//Vars
 let updatedComponent;
 let msgResponse;
 let msgLog;
@@ -48,7 +53,7 @@ const updateComponentController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not update a component.' });
+          .send({ error: UPDATE_COMPONENT_BAD_REQUEST_DETAIL });
         break;
       default:
         if (
@@ -62,7 +67,7 @@ const updateComponentController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in updateComponentController() function.';
+    msgResponse = UPDATE_COMPONENT_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });

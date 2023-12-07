@@ -10,25 +10,31 @@ const {
   checkOrderAt,
 } = require('../../helpers/pagination/components/component');
 const { paginationNameValueError } = require('../../enums/pagination/errors');
-
-//const
+//Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
-//componentss
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'Error in getAllComponentLikePartNumberService() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
+//components
 let componentList;
 //params
 let queryStrParams;
 let params;
 let nroPiezaParam;
 //pagination
-let pageSizeNro = 30;
-let pageNro = 0;
+let pageSizeNro;
+let pageNro;
 let orderBy;
 let orderAt;
 let order;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated components list according to its part number from the database
@@ -43,11 +49,12 @@ const getAllComponentLikePartNumberService = async (req, res) => {
     nroPiezaParam = null;
     queryStrParams = null;
     //Pagination
-    pageSizeNro = 5;
+    pageSizeNro = 10;
     pageNro = 0;
     orderBy = 'id';
     orderAt = 'ASC';
-    msg = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with params ---
     params = req.params;
@@ -91,7 +98,7 @@ const getAllComponentLikePartNumberService = async (req, res) => {
         attributes: {},
         where: {
           nro_pieza: {
-            [Op.like]: `%${nroPiezaParam}%`,
+            [Op.iLike]: `%${nroPiezaParam}%`,
           },
         },
         limit: pageSizeNro,
@@ -102,22 +109,23 @@ const getAllComponentLikePartNumberService = async (req, res) => {
       })
         .then(async (componentItems) => {
           componentList = componentItems;
-          console.log(componentList);
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentLikePartNumberService() function when trying to get a component by nro de pieza. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
 
           componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      componentList = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
-    msg = `Error in getAllComponentLikePartNumberService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
 
-    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    componentList = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return componentList;
 };

@@ -8,23 +8,29 @@ const {
   checkOrderAt,
 } = require('../../helpers/pagination/components/component');
 const { paginationNameValueError } = require('../../enums/pagination/errors');
-
-//const
+//Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'Error in getAllComponentService() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 //componentss
 let componentList;
 //params
 let queryStrParams;
 //pagination
-let pageSizeNro = 30;
-let pageNro = 0;
+let pageSizeNro;
+let pageNro;
 let orderBy;
 let orderAt;
 let order;
-let msg;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated components from the database
@@ -43,7 +49,8 @@ const getAllComponentService = async (req, res) => {
     pageNro = 0;
     orderBy = 'id';
     orderAt = 'ASC';
-    msg = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with pagination  ---
     queryStrParams = req.query;
@@ -87,17 +94,21 @@ const getAllComponentService = async (req, res) => {
           componentList = componentItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentService() function when trying to get all paginated components. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
+
           componentList = await checkErrors(error, error.name);
         });
     } else {
-      componentList = await checkErrors(null, statusName.CONNECTION_REFUSED);
+      componentList = await checkErrors(null, CONNECTION_REFUSED_STATUS_NAME);
     }
   } catch (error) {
-    msg = `Error in getAllComponentService() function. Caused by ${error}`;
-    console.log(msg);
-    componentList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+
+    componentList = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return componentList;
 };
