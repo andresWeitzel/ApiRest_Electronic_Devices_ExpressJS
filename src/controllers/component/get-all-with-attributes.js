@@ -11,7 +11,7 @@ const {
   paginationNameValueError,
   paginationDescriptionValueError,
 } = require('../../enums/pagination/errors');
-//Const-vars
+//Const
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -31,11 +31,12 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
 const GET_ALL_COMPONENT_ERROR_DETAIL =
-  'ERROR in getAllWithAttributesComponentController() function. Caused by  ';
+  'ERROR in getAllWithAttributesComponentController() function.';
 const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
   'Bad request, could not get all paginated list components according to their attributes.';
 const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
   'No items found according to their attributes.';
+//Vars
 let msgResponse;
 let msgLog;
 
@@ -102,7 +103,7 @@ const getAllWithAttributesComponentController = async (req, res) => {
     }
   } catch (error) {
     msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
-    msgLog = msgResponse + error;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
 
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });

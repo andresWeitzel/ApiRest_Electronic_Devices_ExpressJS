@@ -31,7 +31,7 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
 const GET_ALL_COMPONENT_ERROR_DETAIL =
-  'ERROR in getAllComponentLikeStockController() function. Caused by  ';
+  'ERROR in getAllComponentLikeStockController() function.';
 const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
   'Bad request, could not get all paginated list components according to the stock.';
 const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
@@ -102,7 +102,7 @@ const getAllComponentLikeStockController = async (req, res) => {
     }
   } catch (error) {
     msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
-    msgLog = msgResponse + error;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
 
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });

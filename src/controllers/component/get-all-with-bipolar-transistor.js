@@ -11,7 +11,7 @@ const {
   paginationNameValueError,
   paginationDescriptionValueError,
 } = require('../../enums/pagination/errors');
-//Const-vars
+//Const
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -21,6 +21,12 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+const GET_ALL_COMPONENT_ERROR_DETAIL =
+  'ERROR in getAllWithBipolarTransistorComponentController() function.';
+const GET_ALL_COMPONENT_BAD_REQUEST_DETAIL =
+  'Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.';
+const GET_ALL_COMPONENT_NOT_FOUND_DETAIL =
+  'No items found according to the bipolar transistor model.';
 // Pagination
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
@@ -30,6 +36,7 @@ const ORDER_BY_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
 const ORDER_AT_DESCRIPTION_VALUE_ERROR =
   paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
+//Vars
 let msgResponse;
 let msgLog;
 
@@ -71,8 +78,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
-          error:
-            'Bad request, failed to get all paginated components list and bipolar_transistor according to all attributes.',
+          error: GET_ALL_COMPONENT_BAD_REQUEST_DETAIL,
         });
         break;
       default:
@@ -89,7 +95,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
           (Array.isArray(componentList) && componentList.length == 0)
         ) {
           res.status(OK_CODE).send({
-            ok: 'No items found according to the bipolar transistor model.',
+            ok: GET_ALL_COMPONENT_NOT_FOUND_DETAIL,
           });
         } else {
           res.status(BAD_REQUEST_CODE).send({ error: componentList });
@@ -97,8 +103,7 @@ const getAllWithBipolarTransistorComponentController = async (req, res) => {
         }
     }
   } catch (error) {
-    msgResponse =
-      'ERROR in getAllWithBipolarTransistorComponentController() function.';
+    msgResponse = GET_ALL_COMPONENT_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
