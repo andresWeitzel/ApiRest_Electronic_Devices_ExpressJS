@@ -14,6 +14,8 @@ let materialParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
 
+//For refactor
+
 /**
  * @description create a component-detail to database
  * @param {any} req any type
