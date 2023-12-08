@@ -1,17 +1,28 @@
 //Externals
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 //Models
-const { ComponentDetail } = require('../../models/sequelize/component-detail');
+const { ComponentDetail } = require("../../models/sequelize/component-detail");
 //Enums
-const { statusName } = require('../../enums/database/status');
-const { checkErrors } = require('../../helpers/sequelize/errors');
-//Const-vars
-const orderBy = [['id', 'ASC']];
+const { statusName } = require("../../enums/database/status");
+const { checkErrors } = require("../../helpers/sequelize/errors");
+const { paginationNameValueError } = require("../../enums/pagination/errors");
+const {
+  checkOrderBy,
+  checkOrderAt,
+} = require("../../helpers/pagination/components/component");
+//Const
+const ORDER_BY_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
+const ORDER_AT_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL =
+  "Error in getAllWithAttributesComponentDetailService() function.";
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 let componentDetailList;
 let queryStrParams;
-let pageSizeNro = 30;
-let pageNro = 0;
-let msg;
 let idComponenteParam;
 let hojaDatosParam;
 let longitudParam;
@@ -20,6 +31,14 @@ let materialParam;
 let voltajeRecParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
+//pagination
+let pageSizeNro;
+let pageNro;
+let orderBy;
+let orderAt;
+let order;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated components details list according to all attributes from the database
@@ -31,7 +50,6 @@ let voltajeMaxEntrParam;
 const getAllWithAttributesComponentDetailService = async (req, res) => {
   try {
     componentDetailList = null;
-    msg = null;
     queryStrParams = null;
     idComponenteParam = 0;
     hojaDatosParam = null;
@@ -42,6 +60,13 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
     voltajeRecParam = null;
     voltajeMinEntrParam = null;
     voltajeMaxEntrParam = null;
+    //Pagination
+    pageSizeNro = 10;
+    pageNro = 0;
+    orderBy = "id";
+    orderAt = "ASC";
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
@@ -70,14 +95,31 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
       voltajeMaxEntrParam = queryStrParams.voltajeMaxEntr
         ? queryStrParams.voltajeMaxEntr
         : voltajeMaxEntrParam;
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
     //-- end with querys params and pagination  ---
 
-    if (ComponentDetail != null) {
+    if (ComponentDetail != (null && undefined)) {
       await ComponentDetail.findAll({
         attributes: {},
         where: {
@@ -86,54 +128,61 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
               [Op.eq]: `${idComponenteParam}`,
             },
             hoja_de_datos: {
-              [Op.like]: `%${hojaDatosParam}%`,
+              [Op.iLike]: `%${hojaDatosParam}%`,
             },
             longitud: {
-              [Op.like]: `%${longitudParam}%`,
+              [Op.iLike]: `%${longitudParam}%`,
             },
             ancho: {
-              [Op.like]: `%${anchoParam}%`,
+              [Op.iLike]: `%${anchoParam}%`,
             },
             peso: {
-              [Op.like]: `%${pesoParam}%`,
+              [Op.iLike]: `%${pesoParam}%`,
             },
             material: {
-              [Op.like]: `%${materialParam}%`,
+              [Op.iLike]: `%${materialParam}%`,
             },
             voltaje_recomendado: {
-              [Op.like]: `%${voltajeRecParam}%`,
+              [Op.iLike]: `%${voltajeRecParam}%`,
             },
             voltaje_min_entrada: {
-              [Op.like]: `%${voltajeMinEntrParam}%`,
+              [Op.iLike]: `%${voltajeMinEntrParam}%`,
             },
             voltaje_max_entrada: {
-              [Op.like]: `%${voltajeMaxEntrParam}%`,
+              [Op.iLike]: `%${voltajeMaxEntrParam}%`,
             },
           },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
       })
         .then(async (componentDetailsItems) => {
           componentDetailList = componentDetailsItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllWithAttributesComponentDetailService() function when trying to get all paginated component details by all attributes. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
+
           componentDetailList = await checkErrors(error, error.name);
         });
     } else {
       componentDetailList = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        CONNECTION_REFUSED_STATUS_NAME
       );
     }
   } catch (error) {
-    msg = `Error in getAllWithAttributesComponentDetailService() function. Caused by ${error}`;
-    console.log(msg);
-    componentDetailList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    msgResponse = GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+
+    componentDetailList = await checkErrors(
+      error,
+      CONNECTION_ERROR_STATUS_NAME
+    );
   }
   return componentDetailList;
 };

@@ -31,10 +31,10 @@ const deleteComponentService = async (req, res) => {
   try {
     //Params
     deleteComponent = null;
-    msgLog = null;
-    msgResponse = null;
     params = null;
     idParam = 0;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with params ---
     params = req.params;

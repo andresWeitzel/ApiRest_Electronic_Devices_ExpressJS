@@ -1,10 +1,16 @@
 //Models
-const { ComponentDetail } = require('../../models/sequelize/component-detail');
+const { ComponentDetail } = require("../../models/sequelize/component-detail");
 //Enums
-const { statusName } = require('../../enums/database/status');
-const { checkErrors } = require('../../helpers/sequelize/errors');
-//Const-vars
-let msg;
+const { statusName } = require("../../enums/database/status");
+const { checkErrors } = require("../../helpers/sequelize/errors");
+//Const
+//errors
+const ADD_COMPONENT_DETAIL_ERROR_DETAIL =
+  "Error in createComponentDetailService() function.";
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 let newComponentDetail;
 let idComponenteParam;
 let hojaDatosParam;
@@ -13,8 +19,8 @@ let anchoParam;
 let materialParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
-
-//For refactor
+let msgLog;
+let msgResponse;
 
 /**
  * @description create a component-detail to database
@@ -26,7 +32,6 @@ let voltajeMaxEntrParam;
 const createComponentDetailService = async (req, res) => {
   try {
     newComponentDetail = null;
-    msg = null;
     idComponenteParam = null;
     hojaDatosParam = null;
     longitudParam = null;
@@ -35,6 +40,8 @@ const createComponentDetailService = async (req, res) => {
     voltajeRecParam = null;
     voltajeMinEntrParam = null;
     voltajeMaxEntrParam = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with body ---
     reqBody = req.body;
@@ -79,20 +86,24 @@ const createComponentDetailService = async (req, res) => {
           newComponentDetail = componentDetailItem.dataValues;
         })
         .catch(async (error) => {
-          msg = `Error in addComponentDetailService() function when trying to create a component detail. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = ADD_COMPONENT_DETAIL_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
+
           newComponentDetail = await checkErrors(error, error.name);
         });
     } else {
       newComponentDetail = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        CONNECTION_REFUSED_STATUS_NAME
       );
     }
   } catch (error) {
-    msg = `Error in addComponentDetailService() function. Caused by ${error}`;
-    console.log(msg);
-    newComponentDetail = await checkErrors(error, statusName.CONNECTION_ERROR);
+    msgResponse = ADD_COMPONENT_DETAIL_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+
+    newComponentDetail = await checkErrors(error, CONNECTION_ERROR_STATUS_NAME);
   }
   return newComponentDetail;
 };

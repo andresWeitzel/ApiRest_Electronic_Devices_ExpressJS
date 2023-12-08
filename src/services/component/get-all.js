@@ -21,7 +21,6 @@ const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
 //componentss
 let componentList;
-//params
 let queryStrParams;
 //pagination
 let pageSizeNro;

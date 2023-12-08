@@ -1,10 +1,20 @@
 //Models
-const { ComponentDetail } = require('../../models/sequelize/component-detail');
+const { ComponentDetail } = require("../../models/sequelize/component-detail");
 //Enums
-const { statusName } = require('../../enums/database/status');
-const { checkErrors } = require('../../helpers/sequelize/errors');
-//Const-vars
-let msg;
+const { statusName } = require("../../enums/database/status");
+const { checkErrors } = require("../../helpers/sequelize/errors");
+//Const
+//errors details
+const UPDATE_OBJECT_DETAILS =
+  "Component detail has been successfully updated based on id ";
+const UPDATE_OBJECT_ERROR_DETAILS =
+  "Check if the component detail you want to updated exists in the db. The component detail has not been updated based on the id ";
+const UPDATE_COMPONENT_DETAIL_ERROR_DETAIL =
+  "Error in updateComponentDetailService() function.";
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 let params;
 let idParam;
 let updateComponentDetail;
@@ -15,6 +25,8 @@ let anchoParam;
 let materialParam;
 let voltajeMinEntrParam;
 let voltajeMaxEntrParam;
+let msgLog;
+let msgResponse;
 
 /**
  * @description update a component-detail to database
@@ -36,6 +48,8 @@ const updateComponentDetailService = async (req, res) => {
     voltajeRecParam = null;
     voltajeMinEntrParam = null;
     voltajeMaxEntrParam = null;
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with params ---
     params = req.params;
@@ -91,35 +105,39 @@ const updateComponentDetailService = async (req, res) => {
           where: {
             id: idParam,
           },
-        },
+        }
       )
         .then(async (componentDetailItem) => {
-          updateComponentDetail =
+          updatedComponentDetail =
             componentDetailItem[0] == 1
               ? {
-                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
+                  objectUpdated: UPDATE_OBJECT_DETAILS + idParam,
                 }
               : {
-                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`,
+                  objectUpdated: UPDATE_OBJECT_ERROR_DETAILS + idParam,
                 };
         })
         .catch(async (error) => {
-          msg = `Error in updateComponentDetailService() function when trying to create a component. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = UPDATE_COMPONENT_DETAIL_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
+
           updateComponentDetail = await checkErrors(error, error.name);
         });
     } else {
       updateComponentDetail = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        CONNECTION_REFUSED_STATUS_NAME
       );
     }
   } catch (error) {
-    msg = `Error in updateComponentDetailService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = UPDATE_COMPONENT_DETAIL_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+
     updateComponentDetail = await checkErrors(
       error,
-      statusName.CONNECTION_ERROR,
+      CONNECTION_ERROR_STATUS_NAME
     );
   }
   return updateComponentDetail;
