@@ -7,7 +7,11 @@ const {
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
-//Const-vars
+const {
+  paginationNameValueError,
+  paginationDescriptionValueError,
+} = require('../../enums/pagination/errors');
+//Const
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
 const OK_CODE = statusCode.OK;
@@ -16,6 +20,22 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+// Pagination
+const ORDER_BY_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
+const ORDER_AT_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const ORDER_BY_DESCRIPTION_VALUE_ERROR =
+  paginationDescriptionValueError.ORDER_BY_DESCRIPTION_VALUE_ERROR;
+const ORDER_AT_DESCRIPTION_VALUE_ERROR =
+  paginationDescriptionValueError.ORDER_AT_DESCRIPTION_VALUE_ERROR;
+const GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL =
+  'ERROR in getAllWithAttributesComponentDetailController() function.';
+const GET_ALL_COMPONENT_DETAIL_BAD_REQUEST_DETAIL =
+  'Bad request, could not get all paginated list components details according to their attributes.';
+const GET_ALL_COMPONENT_DETAIL_NOT_FOUND_DETAIL =
+  'No items found according to their attributes.';
+//Vars
 let componentDetailList;
 let msgResponse;
 let msgLog;
@@ -46,31 +66,49 @@ const getAllWithAttributesComponentDetailController = async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_CODE)
           .send({ error: CONNECTION_REFUSED_STATUS_DETAIL });
         break;
-      case 0:
+      case ORDER_BY_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_BY_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
+      case ORDER_AT_NAME_VALUE_ERROR:
+        res.status(BAD_REQUEST_CODE).send({
+          error: ORDER_AT_DESCRIPTION_VALUE_ERROR,
+        });
+        break;
       case undefined:
       case null:
         res.status(BAD_REQUEST_CODE).send({
-          error:
-            'Bad request, failed to get all paginated components details list according to all attributes.',
+          error: GET_ALL_COMPONENT_DETAIL_BAD_REQUEST_DETAIL,
         });
         break;
       default:
         if (
-          (typeof componentDetailList === 'object' ||
-            Array.isArray(componentDetailList)) &&
-          componentDetailList[0]?.hasOwnProperty('id')
+          (typeof componentDetailList === 'object' &&
+            componentDetailList[0]?.hasOwnProperty('id')) ||
+          (Array.isArray(componentDetailList) && componentDetailList.length)
         ) {
           res.status(OK_CODE).send(componentDetailList);
           break;
+        } else if (
+          (typeof componentDetailList === 'object' &&
+            Object.keys(componentDetailList).length == 0) ||
+          (Array.isArray(componentDetailList) &&
+            componentDetailList.length == 0)
+        ) {
+          res
+            .status(OK_CODE)
+            .send({ ok: GET_ALL_COMPONENT_DETAIL_NOT_FOUND_DETAIL });
+        } else {
+          res.status(BAD_REQUEST_CODE).send({ error: componentDetailList });
+          break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: componentDetailList });
-        break;
     }
   } catch (error) {
-    msgResponse =
-      'ERROR in getAllWithAttributesComponentDetailController() function.';
+    msgResponse = GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
+
     res.status(INTERNAL_SERVER_ERROR_CODE).send(msgResponse);
   }
 };

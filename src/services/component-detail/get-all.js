@@ -2,14 +2,34 @@
 const { ComponentDetail } = require('../../models/sequelize/component-detail');
 //Enums
 const { statusName } = require('../../enums/database/status');
+const { paginationNameValueError } = require('../../enums/pagination/errors');
+//Helpers
+const {
+  checkOrderBy,
+  checkOrderAt,
+} = require('../../helpers/pagination/components/component');
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//Const-vars
-const orderBy = [['id', 'ASC']];
+//Const
+const ORDER_BY_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
+const ORDER_AT_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL =
+  'Error in getAllComponentDetailService() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 let componentDetailList;
 let queryStrParams;
-let pageSizeNro = 30;
-let pageNro = 0;
-let msg;
+//pagination
+let pageSizeNro;
+let pageNro;
+let orderBy;
+let orderAt;
+let order;
+let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated components details from the database
@@ -22,47 +42,77 @@ const getAllComponentDetailService = async (req, res) => {
   try {
     componentDetailList = null;
     queryStrParams = null;
-    msg = null;
+    //Pagination
+    pageSizeNro = 5;
+    pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with pagination  ---
     queryStrParams = req.query;
 
-    if (queryStrParams != null) {
+    if (queryStrParams != (null && undefined)) {
       pageSizeNro = queryStrParams.limit
-        ? parseInt(queryStrParams.limit)
+        ? parseInt(await queryStrParams.limit)
         : pageSizeNro;
-      pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      pageNro = queryStrParams.page
+        ? parseInt(await queryStrParams.page)
+        : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
+
     //-- end with pagination  ---
 
-    if (ComponentDetail != null) {
+    if (ComponentDetail != (null && undefined)) {
       await ComponentDetail.findAll({
         attributes: {},
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
       })
         .then(async (componentDetailsItems) => {
           componentDetailList = componentDetailsItems;
         })
         .catch(async (error) => {
-          msg = `Error in getAllComponentDetailService() function when trying to get all paginated components. Caused by ${error}`;
-          console.log(error);
+          msgResponse = GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
 
           componentDetailList = await checkErrors(error, error.name);
         });
     } else {
       componentDetailList = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
-    msg = `Error in getAllComponentDetailService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
 
-    componentDetailList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    componentDetailList = await checkErrors(
+      error,
+      CONNECTION_ERROR_STATUS_NAME,
+    );
   }
   return componentDetailList;
 };

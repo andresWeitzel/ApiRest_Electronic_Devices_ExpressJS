@@ -34,7 +34,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/list?page=0&limit=100&orderBy=precio&orderAt=asc",
+									"raw": "{{base_url}}/componentes/list?page=0&limit=100&orderBy=id&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -53,7 +53,7 @@
 										},
 										{
 											"key": "orderBy",
-											"value": "precio"
+											"value": "id"
 										},
 										{
 											"key": "orderAt",
@@ -86,7 +86,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=HD&imagen=http&nroPieza=a&categoria=Transistores&descripcion=a&fabricante=a&stock=1&precio=9.0&page=0&limit=10&orderBy=codigo&orderAt=asc",
+									"raw": "{{base_url}}/componentes/list-with-attributes?codigo=hd&imagen=http&nroPieza=a&categoria=Transistores&descripcion=a&fabricante=a&stock=1&precio=9.0&page=0&limit=10&orderBy=codigo&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -97,7 +97,7 @@
 									"query": [
 										{
 											"key": "codigo",
-											"value": "HD"
+											"value": "hd"
 										},
 										{
 											"key": "imagen",
@@ -361,7 +361,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/codigo/A?page=0&limit=20&orderBy=PRECIO&orderAt=asc",
+									"raw": "{{base_url}}/componentes/codigo/A?page=0&limit=20&orderBy=id&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -381,7 +381,7 @@
 										},
 										{
 											"key": "orderBy",
-											"value": "PRECIO"
+											"value": "id"
 										},
 										{
 											"key": "orderAt",
@@ -467,14 +467,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/nro-pieza/A0EOSAA?page=0&limit=200",
+									"raw": "{{base_url}}/componentes/nro-pieza/A?page=0&limit=200&orderBy=stock&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"componentes",
 										"nro-pieza",
-										"A0EOSAA"
+										"A"
 									],
 									"query": [
 										{
@@ -484,6 +484,14 @@
 										{
 											"key": "limit",
 											"value": "200"
+										},
+										{
+											"key": "orderBy",
+											"value": "stock"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -512,7 +520,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes/categoria-fabricante?categoria=Transistores BJT&fabricante=&page=0&limit=10&orderBy=stock&orderAt=asc",
+									"raw": "{{base_url}}/componentes/categoria-fabricante?categoria=Transistores bjt&fabricante=&page=0&limit=10&orderBy=stock&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -523,7 +531,7 @@
 									"query": [
 										{
 											"key": "categoria",
-											"value": "Transistores BJT"
+											"value": "Transistores bjt"
 										},
 										{
 											"key": "fabricante",
@@ -1004,18 +1012,14 @@
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"codigo\":\"DFHSDK-3CD010P3\",\r\n    \"imagen\":\"https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg\",\r\n    \"nro_pieza\":\"3CD010k\",\r\n    \"categoria\":\"Transistores BJT\",\r\n    \"descripcion\":\"Transistor BJT PNP\",\r\n    \"fabricante\":\"INCHANGE SEMICONDUCTOR\",\r\n    \"stock\":400,\r\n    \"precio\":5.0\r\n}"
-								},
 								"url": {
-									"raw": "{{base_url}}/componentes/30",
+									"raw": "{{base_url}}/componentes/35",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"componentes",
-										"30"
+										"35"
 									]
 								}
 							},
@@ -1309,8 +1313,228 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n        \"id_componente\": 31,\r\n        \"hoja_de_datos\": \"https://alltransistors.com/es/mosfet/transistor.php?transistor=18314\",\r\n        \"longitud\": \"45.6mm\",\r\n        \"ancho\": \"44mm\",\r\n        \"peso\": \"0.878 g\",\r\n        \"material\": \"metal-silicio\",\r\n        \"voltaje_recomendado\": \"56 VDC\",\r\n        \"voltaje_min_entrada\": \"33.3 VDC\",\r\n        \"voltaje_max_entrada\": \"120 VDC\"\r\n    }"
+									"raw": "{\r\n        \"hoja_de_datos\": \"https://alltradsddasdadasdasdadasdsadadadadadasdaddasd31231313123123\",\r\n        \"longitud\": \"45.6mm\",\r\n        \"ancho\": \"44mm\",\r\n        \"peso\": \"0.878 g\",\r\n        \"material\": \"metal-silicio\",\r\n        \"voltaje_recomendado\": \"56 VDC\",\r\n        \"voltaje_min_entrada\": \"33.3 VDC\",\r\n        \"voltaje_max_entrada\": \"120 VDC\"\r\n    }"
 								},
+								"url": {
+									"raw": "{{base_url}}/componentes-detalles/61",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"componentes-detalles",
+										"61"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transistores Bipolares",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/transistores-bipolares/list?page=0&limit=100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"transistores-bipolares",
+										"list"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllWithAttributes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/transistores-bipolares/list-with-attributes?idComponente=&tipo=npn&voltajeColecEmis=&voltajeColecBase=&voltajeEmisBase=&voltajeColecEmisSat=&corrienteColec=&gananciaHfe=&disipMax=&tempJuntura=&page=0&limit=100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"transistores-bipolares",
+										"list-with-attributes"
+									],
+									"query": [
+										{
+											"key": "idComponente",
+											"value": ""
+										},
+										{
+											"key": "tipo",
+											"value": "npn"
+										},
+										{
+											"key": "voltajeColecEmis",
+											"value": ""
+										},
+										{
+											"key": "voltajeColecBase",
+											"value": ""
+										},
+										{
+											"key": "voltajeEmisBase",
+											"value": ""
+										},
+										{
+											"key": "voltajeColecEmisSat",
+											"value": ""
+										},
+										{
+											"key": "corrienteColec",
+											"value": ""
+										},
+										{
+											"key": "gananciaHfe",
+											"value": ""
+										},
+										{
+											"key": "disipMax",
+											"value": ""
+										},
+										{
+											"key": "tempJuntura",
+											"value": ""
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "insert",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"id_componente\":26,\r\n        \"tipo\": \"NPN\",\r\n        \"voltaje_colec_emis\": \"189 AC\",\r\n        \"voltaje_colec_base\": \"167 AC\",\r\n        \"voltaje_emis_base\": \"123 AC\",\r\n        \"voltaje_colec_emis_sat\": \"225 AC\",\r\n        \"corriente_colec\": \"1.2 A\",\r\n        \"ganancia_hfe\": \"80\",\r\n        \"disip_max\": \"110°C\",\r\n        \"temp_juntura\": \"120°C\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/transistores-bipolares/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"transistores-bipolares",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/componentes-detalles/54",
 									"host": [
@@ -1319,6 +1543,49 @@
 									"path": [
 										"componentes-detalles",
 										"54"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PATCH",
+					"item": [
+						{
+							"name": "update",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{bearer-token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"id_componente\":41,\r\n        \"tipo\": \"NPN\",\r\n        \"voltaje_colec_emis\": \"189 AC\",\r\n        \"voltaje_colec_base\": \"167 AC\",\r\n        \"voltaje_emis_base\": \"123 AC\",\r\n        \"voltaje_colec_emis_sat\": \"225 AC\",\r\n        \"corriente_colec\": \"1.2 A\",\r\n        \"ganancia_hfe\": \"80\",\r\n        \"disip_max\": \"110°C\",\r\n        \"temp_juntura\": \"120°C\"\r\n    }"
+								},
+								"url": {
+									"raw": "{{base_url}}/transistores-bipolares/64",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"transistores-bipolares",
+										"64"
 									]
 								}
 							},
