@@ -1,16 +1,16 @@
 //Models
-const { ComponentDetail } = require("../../models/sequelize/component-detail");
+const { ComponentDetail } = require('../../models/sequelize/component-detail');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const
 //errors details
 const DELETE_COMPONENT_DETAIL_ERROR_DETAIL =
-  "Error in deleteComponentDetailService() function.";
+  'Error in deleteComponentDetailService() function.';
 const DELETE_OBJECT_DETAILS =
-  "Component detail has been successfully removed based on id ";
+  'Component detail has been successfully removed based on id ';
 const DELETE_OBJECT_ERROR_DETAILS =
-  "Check if the component detail you want to remove exists in the db. The component detail has not been removed based on the id ";
+  'Check if the component detail you want to remove exists in the db. The component detail has not been removed based on the id ';
 //status
 const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
 const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
@@ -71,7 +71,7 @@ const deleteComponentDetailService = async (req, res) => {
     } else {
       deleteComponentDetail = await checkErrors(
         null,
-        CONNECTION_REFUSED_STATUS_NAME
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
@@ -81,7 +81,7 @@ const deleteComponentDetailService = async (req, res) => {
 
     deleteComponentDetail = await checkErrors(
       error,
-      CONNECTION_ERROR_STATUS_NAME
+      CONNECTION_ERROR_STATUS_NAME,
     );
   }
   return deleteComponentDetail;

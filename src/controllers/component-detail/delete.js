@@ -7,7 +7,7 @@ const {
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
-//Const-vars
+//Const
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
 const OK_CODE = statusCode.OK;
@@ -16,6 +16,11 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+const DELETE_COMPONENT_DETAIL_ERROR_DETAIL =
+  'Error in deleteComponentDetailController() function.';
+const DELETE_COMPONENT_DETAIL_BAD_REQUEST_DETAIL =
+  'Bad request, could not delete a component detail.';
+//Vars
 let deletedComponentDetail;
 let msgResponse;
 let msgLog;
@@ -49,7 +54,7 @@ const deleteComponentDetailController = async (req, res) => {
       case null:
         res
           .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not delete a component detail.' });
+          .send({ error: DELETE_COMPONENT_DETAIL_BAD_REQUEST_DETAIL });
         break;
       default:
         if (
@@ -63,7 +68,7 @@ const deleteComponentDetailController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in deleteComponentDetailController() function.';
+    msgResponse = DELETE_COMPONENT_DETAIL_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });

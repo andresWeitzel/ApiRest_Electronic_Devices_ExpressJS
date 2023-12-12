@@ -1,12 +1,12 @@
 //Models
-const { ComponentDetail } = require("../../models/sequelize/component-detail");
+const { ComponentDetail } = require('../../models/sequelize/component-detail');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const
 //errors
 const ADD_COMPONENT_DETAIL_ERROR_DETAIL =
-  "Error in createComponentDetailService() function.";
+  'Error in createComponentDetailService() function.';
 //status
 const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
 const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
@@ -95,7 +95,7 @@ const createComponentDetailService = async (req, res) => {
     } else {
       newComponentDetail = await checkErrors(
         null,
-        CONNECTION_REFUSED_STATUS_NAME
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {

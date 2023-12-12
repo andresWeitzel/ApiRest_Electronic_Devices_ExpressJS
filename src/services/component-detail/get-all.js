@@ -1,21 +1,21 @@
 //Models
-const { ComponentDetail } = require("../../models/sequelize/component-detail");
+const { ComponentDetail } = require('../../models/sequelize/component-detail');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { paginationNameValueError } = require("../../enums/pagination/errors");
+const { statusName } = require('../../enums/database/status');
+const { paginationNameValueError } = require('../../enums/pagination/errors');
 //Helpers
 const {
   checkOrderBy,
   checkOrderAt,
-} = require("../../helpers/pagination/components/component");
-const { checkErrors } = require("../../helpers/sequelize/errors");
+} = require('../../helpers/pagination/components/component');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
 const GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL =
-  "Error in getAllComponentDetailService() function.";
+  'Error in getAllComponentDetailService() function.';
 //status
 const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
 const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
@@ -45,8 +45,8 @@ const getAllComponentDetailService = async (req, res) => {
     //Pagination
     pageSizeNro = 5;
     pageNro = 0;
-    orderBy = "id";
-    orderAt = "ASC";
+    orderBy = 'id';
+    orderAt = 'ASC';
     msgLog = null;
     msgResponse = null;
 
@@ -101,7 +101,7 @@ const getAllComponentDetailService = async (req, res) => {
     } else {
       componentDetailList = await checkErrors(
         null,
-        CONNECTION_REFUSED_STATUS_NAME
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
@@ -111,7 +111,7 @@ const getAllComponentDetailService = async (req, res) => {
 
     componentDetailList = await checkErrors(
       error,
-      CONNECTION_ERROR_STATUS_NAME
+      CONNECTION_ERROR_STATUS_NAME,
     );
   }
   return componentDetailList;

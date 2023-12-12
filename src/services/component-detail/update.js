@@ -1,16 +1,16 @@
 //Models
-const { ComponentDetail } = require("../../models/sequelize/component-detail");
+const { ComponentDetail } = require('../../models/sequelize/component-detail');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const
 //errors details
 const UPDATE_OBJECT_DETAILS =
-  "Component detail has been successfully updated based on id ";
+  'Component detail has been successfully updated based on id ';
 const UPDATE_OBJECT_ERROR_DETAILS =
-  "Check if the component detail you want to updated exists in the db. The component detail has not been updated based on the id ";
+  'Check if the component detail you want to updated exists in the db. The component detail has not been updated based on the id ';
 const UPDATE_COMPONENT_DETAIL_ERROR_DETAIL =
-  "Error in updateComponentDetailService() function.";
+  'Error in updateComponentDetailService() function.';
 //status
 const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
 const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
@@ -105,10 +105,10 @@ const updateComponentDetailService = async (req, res) => {
           where: {
             id: idParam,
           },
-        }
+        },
       )
         .then(async (componentDetailItem) => {
-          updatedComponentDetail =
+          updateComponentDetail =
             componentDetailItem[0] == 1
               ? {
                   objectUpdated: UPDATE_OBJECT_DETAILS + idParam,
@@ -127,7 +127,7 @@ const updateComponentDetailService = async (req, res) => {
     } else {
       updateComponentDetail = await checkErrors(
         null,
-        CONNECTION_REFUSED_STATUS_NAME
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
@@ -137,7 +137,7 @@ const updateComponentDetailService = async (req, res) => {
 
     updateComponentDetail = await checkErrors(
       error,
-      CONNECTION_ERROR_STATUS_NAME
+      CONNECTION_ERROR_STATUS_NAME,
     );
   }
   return updateComponentDetail;

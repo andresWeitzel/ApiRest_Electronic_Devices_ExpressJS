@@ -1,22 +1,22 @@
 //Externals
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 //Models
-const { ComponentDetail } = require("../../models/sequelize/component-detail");
+const { ComponentDetail } = require('../../models/sequelize/component-detail');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
-const { paginationNameValueError } = require("../../enums/pagination/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
+const { paginationNameValueError } = require('../../enums/pagination/errors');
 const {
   checkOrderBy,
   checkOrderAt,
-} = require("../../helpers/pagination/components/component");
+} = require('../../helpers/pagination/components/component');
 //Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
 const GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL =
-  "Error in getAllWithAttributesComponentDetailService() function.";
+  'Error in getAllWithAttributesComponentDetailService() function.';
 //status
 const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
 const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
@@ -63,8 +63,8 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
     //Pagination
     pageSizeNro = 10;
     pageNro = 0;
-    orderBy = "id";
-    orderAt = "ASC";
+    orderBy = 'id';
+    orderAt = 'ASC';
     msgLog = null;
     msgResponse = null;
 
@@ -171,7 +171,7 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
     } else {
       componentDetailList = await checkErrors(
         null,
-        CONNECTION_REFUSED_STATUS_NAME
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
@@ -181,7 +181,7 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
 
     componentDetailList = await checkErrors(
       error,
-      CONNECTION_ERROR_STATUS_NAME
+      CONNECTION_ERROR_STATUS_NAME,
     );
   }
   return componentDetailList;
