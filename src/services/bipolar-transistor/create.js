@@ -24,6 +24,8 @@ let tempJuntParam;
 let reqBody;
 let msgLog;
 
+//Updated here
+
 /**
  * @description create a bipolar-transistor to database
  * @param {any} req any type
