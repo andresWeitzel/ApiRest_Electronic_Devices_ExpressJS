@@ -67,10 +67,9 @@ const createComponentDetailService = async (req, res) => {
     voltajeMaxEntrParam = reqBody.voltaje_max_entrada
       ? reqBody.voltaje_max_entrada
       : voltajeMaxEntrParam;
-
     //-- end with body ---
 
-    if (ComponentDetail != null) {
+    if (ComponentDetail != (null && undefined)) {
       await ComponentDetail.create({
         id_componente: idComponenteParam,
         hoja_de_datos: hojaDatosParam,
