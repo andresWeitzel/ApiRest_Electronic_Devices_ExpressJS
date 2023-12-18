@@ -1,7 +1,7 @@
 //External
 const { DataTypes } = require('sequelize');
 //Database
-const { dbConnection } = require('../../db/local-config');
+const { dbConnection } = require('../../db/config');
 //Models
 const { ComponentDetail } = require('./component-detail');
 const { BipolarTransistor } = require('./bipolar-transistor');

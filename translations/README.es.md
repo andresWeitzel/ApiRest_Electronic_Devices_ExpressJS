@@ -15,7 +15,7 @@
 
 </div>  
 
-Api Rest acerca de dispositivos electrónicos implementado con express, morgan-middleware, nodeJS, sequelize, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, postgreSQL, otros.
+Api Rest acerca de dispositivos electrónicos implementado con Express, Morgan, Railway ,NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, otros.
 
 *   [Repositorio base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 *   [Playlist Prueba de Funcionalidad](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank"> <img src="https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS/blob/master/doc/assets/social-networks/yt.png" width="5%" height="5%" /> </a>
@@ -349,6 +349,12 @@ npm run dev o npm start
 
 *   [remark-lint-emphasis-marker](https://www.npmjs.com/package/remark-lint-emphasis-marker)
 *   [remark-preset-lint-recommended](https://www.npmjs.com/package/remark-preset-lint-recommended)
-*   [remark-reference-links](https://www.npmjs.com/package/remark-reference-links) <br>
+*   [remark-reference-links](https://www.npmjs.com/package/remark-reference-links)
+
+#### Railway
+
+*   [Example Deploy with Nodejs and Mysql](https://www.youtube.com/watch?v=C3NhmT__Mn4\&ab_channel=Fazt)
+
+<br>
 
 </details>
