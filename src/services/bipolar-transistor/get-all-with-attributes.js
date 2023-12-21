@@ -7,8 +7,18 @@ const {
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//Const
-const orderBy = [['id', 'ASC']];
+// const { paginationNameValueError } = require('../../enums/pagination/errors');
+// const {
+//   checkOrderBy,
+//   checkOrderAt,
+// } = require('../../helpers/pagination/components/component');
+// //Const
+// const ORDER_BY_NAME_VALUE_ERROR =
+//   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
+// const ORDER_AT_NAME_VALUE_ERROR =
+//   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+// const GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL =
+//   'Error in getAllWithAttributesComponentDetailService() function.';
 //Vars
 let componentDetailList;
 let idComponenteParam;
@@ -98,28 +108,28 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
               [Op.eq]: `${idComponenteParam}`,
             },
             tipo: {
-              [Op.like]: `%${tipoParam}%`,
+              [Op.iLike]: `%${tipoParam}%`,
             },
             voltaje_colec_emis: {
-              [Op.like]: `%${voltajeColecEmisParam}%`,
+              [Op.iLike]: `%${voltajeColecEmisParam}%`,
             },
             voltaje_colec_base: {
-              [Op.like]: `%${voltajeColecBaseParam}%`,
+              [Op.iLike]: `%${voltajeColecBaseParam}%`,
             },
             voltaje_colec_emis_sat: {
-              [Op.like]: `%${voltajeColecEmisSatParam}%`,
+              [Op.iLike]: `%${voltajeColecEmisSatParam}%`,
             },
             corriente_colec: {
-              [Op.like]: `%${corrienteColecParam}%`,
+              [Op.iLike]: `%${corrienteColecParam}%`,
             },
             ganancia_hfe: {
-              [Op.like]: `%${gananciaHfeParam}%`,
+              [Op.iLike]: `%${gananciaHfeParam}%`,
             },
             disip_max: {
-              [Op.like]: `%${disipMaxParam}%`,
+              [Op.iLike]: `%${disipMaxParam}%`,
             },
             temp_juntura: {
-              [Op.like]: `%${tempJuntParam}%`,
+              [Op.iLike]: `%${tempJuntParam}%`,
             },
           },
         },
