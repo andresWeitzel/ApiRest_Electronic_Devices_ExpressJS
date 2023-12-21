@@ -1,24 +1,27 @@
 //Externals
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 //Models
 const {
   BipolarTransistor,
-} = require('../../models/sequelize/bipolar-transistor');
+} = require("../../models/sequelize/bipolar-transistor");
 //Enums
-const { statusName } = require('../../enums/database/status');
-const { checkErrors } = require('../../helpers/sequelize/errors');
-// const { paginationNameValueError } = require('../../enums/pagination/errors');
-// const {
-//   checkOrderBy,
-//   checkOrderAt,
-// } = require('../../helpers/pagination/components/component');
-// //Const
-// const ORDER_BY_NAME_VALUE_ERROR =
-//   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
-// const ORDER_AT_NAME_VALUE_ERROR =
-//   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
-// const GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL =
-//   'Error in getAllWithAttributesComponentDetailService() function.';
+const { statusName } = require("../../enums/database/status");
+const { checkErrors } = require("../../helpers/sequelize/errors");
+const { paginationNameValueError } = require("../../enums/pagination/errors");
+const {
+  checkOrderBy,
+  checkOrderAt,
+} = require("../../helpers/pagination/bipolar-transistor/bipolar-transistor");
+//Const
+const ORDER_BY_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
+const ORDER_AT_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL =
+  "Error in getAllWithAttributesBipolarTransistor() function.";
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
 let componentDetailList;
 let idComponenteParam;
@@ -32,9 +35,14 @@ let gananciaHfeParam;
 let disipMaxParam;
 let tempJuntParam;
 let queryStrParams;
+//pagination
 let pageSizeNro;
 let pageNro;
+let orderBy;
+let orderAt;
+let order;
 let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated bipolar transistors list according to all attributes from the database
@@ -57,8 +65,13 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
     gananciaHfeParam = null;
     disipMaxParam = null;
     tempJuntParam = null;
-    pageSizeNro = 30;
+    //Pagination
+    pageSizeNro = 10;
     pageNro = 0;
+    orderBy = "id";
+    orderAt = "ASC";
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
@@ -97,6 +110,20 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
     //-- end with querys params and pagination  ---
 
     if (BipolarTransistor != null) {
@@ -135,27 +162,34 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
       })
         .then(async (componentDetailsItems) => {
           componentDetailList = componentDetailsItems;
         })
         .catch(async (error) => {
-          msgLog = `Error in getAllWithAttributesBipolarTransistor() function when trying to get all paginated bipolar transistor by all attributes. Caused by ${error}`;
+          msgResponse = GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
           console.log(msgLog);
+
           componentDetailList = await checkErrors(error, error.name);
         });
     } else {
       componentDetailList = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        CONNECTION_REFUSED_STATUS_NAME
       );
     }
   } catch (error) {
-    msgLog = `Error in getAllWithAttributesBipolarTransistor() function. Caused by ${error}`;
+    msgResponse = GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    componentDetailList = await checkErrors(error, statusName.CONNECTION_ERROR);
+    
+    componentDetailList = await checkErrors(
+      error,
+      CONNECTION_ERROR_STATUS_NAME
+    );
   }
   return componentDetailList;
 };

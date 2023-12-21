@@ -53,7 +53,7 @@ const checkOrderBy = async (orderBy) => {
     }
     return orderBy;
   } catch (error) {
-    msgResponse = 'ERROR in checkOrderBy() helper function.';
+    msgResponse = 'ERROR in checkOrderBy() helper function from component.js';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     return null;
@@ -82,7 +82,7 @@ const checkOrderAt = async (orderAt) => {
     }
     return orderAt;
   } catch (error) {
-    msgResponse = 'ERROR in checkOrderAt() helper function.';
+    msgResponse = 'ERROR in checkOrderAt() helper function from component.js';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     return null;
