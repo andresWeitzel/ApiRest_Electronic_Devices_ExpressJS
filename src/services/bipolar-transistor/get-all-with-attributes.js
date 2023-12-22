@@ -1,29 +1,29 @@
 //Externals
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 //Models
 const {
   BipolarTransistor,
-} = require("../../models/sequelize/bipolar-transistor");
+} = require('../../models/sequelize/bipolar-transistor');
 //Enums
-const { statusName } = require("../../enums/database/status");
-const { checkErrors } = require("../../helpers/sequelize/errors");
-const { paginationNameValueError } = require("../../enums/pagination/errors");
+const { statusName } = require('../../enums/database/status');
+const { checkErrors } = require('../../helpers/sequelize/errors');
+const { paginationNameValueError } = require('../../enums/pagination/errors');
 const {
   checkOrderBy,
   checkOrderAt,
-} = require("../../helpers/pagination/bipolar-transistor/bipolar-transistor");
+} = require('../../helpers/pagination/bipolar-transistor/bipolar-transistor');
 //Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
 const ORDER_AT_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
 const GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL =
-  "Error in getAllWithAttributesBipolarTransistor() function.";
+  'Error in getAllWithAttributesBipolarTransistor() function.';
 //status
 const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
 const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
-let componentDetailList;
+let bipolarTransistorList;
 let idComponenteParam;
 let tipoParam;
 let voltajeColecEmisParam;
@@ -53,7 +53,7 @@ let msgResponse;
  */
 const getAllWithAttributesBipolarTransistor = async (req, res) => {
   try {
-    componentDetailList = null;
+    bipolarTransistorList = null;
     queryStrParams = null;
     idComponenteParam = 0;
     tipoParam = null;
@@ -68,8 +68,8 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
     //Pagination
     pageSizeNro = 10;
     pageNro = 0;
-    orderBy = "id";
-    orderAt = "ASC";
+    orderBy = 'id';
+    orderAt = 'ASC';
     msgLog = null;
     msgResponse = null;
 
@@ -105,10 +105,13 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
       tempJuntParam = queryStrParams.tempJuntura
         ? queryStrParams.tempJuntura
         : tempJuntParam;
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
 
     orderBy = await checkOrderBy(orderBy);
@@ -166,32 +169,32 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
         raw: true,
       })
         .then(async (componentDetailsItems) => {
-          componentDetailList = componentDetailsItems;
+          bipolarTransistorList = componentDetailsItems;
         })
         .catch(async (error) => {
           msgResponse = GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
           msgLog = msgResponse + `Caused by ${error}`;
           console.log(msgLog);
 
-          componentDetailList = await checkErrors(error, error.name);
+          bipolarTransistorList = await checkErrors(error, error.name);
         });
     } else {
-      componentDetailList = await checkErrors(
+      bipolarTransistorList = await checkErrors(
         null,
-        CONNECTION_REFUSED_STATUS_NAME
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
     msgResponse = GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    
-    componentDetailList = await checkErrors(
+
+    bipolarTransistorList = await checkErrors(
       error,
-      CONNECTION_ERROR_STATUS_NAME
+      CONNECTION_ERROR_STATUS_NAME,
     );
   }
-  return componentDetailList;
+  return bipolarTransistorList;
 };
 
 module.exports = {

@@ -13,47 +13,48 @@ const checkOrderBy = async (orderBy) => {
     msgLog = null;
 
     switch (orderBy.toLowerCase()) {
-      case "id":
-        orderBy = "id";
+      case 'id':
+        orderBy = 'id';
         break;
-      case "hojadedatos":
-      case "hoja de datos":
-      case "hoja_de_datos":
-        orderBy = "hoja_de_datos";
+      case 'hojadedatos':
+      case 'hoja de datos':
+      case 'hoja_de_datos':
+        orderBy = 'hoja_de_datos';
         break;
-      case "longitud":
-        orderBy = "longitud";
+      case 'longitud':
+        orderBy = 'longitud';
         break;
-      case "ancho":
-        orderBy = "ancho";
+      case 'ancho':
+        orderBy = 'ancho';
         break;
-      case "peso":
-        orderBy = "peso";
+      case 'peso':
+        orderBy = 'peso';
         break;
-      case "material":
-        orderBy = "material";
+      case 'material':
+        orderBy = 'material';
         break;
-      case "voltajerrecomendado":
-      case "voltaje recomendado":
-      case "voltaje_recomendado":
-        orderBy = "voltaje_recomendado";
+      case 'voltajerrecomendado':
+      case 'voltaje recomendado':
+      case 'voltaje_recomendado':
+        orderBy = 'voltaje_recomendado';
         break;
-      case "voltajeminentrada":
-      case "voltaje min entrada":
-      case "voltaje_min_entrada":
-        orderBy = "voltaje_min_entrada";
+      case 'voltajeminentrada':
+      case 'voltaje min entrada':
+      case 'voltaje_min_entrada':
+        orderBy = 'voltaje_min_entrada';
         break;
-      case "voltajemaxentrada":
-      case "voltaje max entrada":
-      case "voltaje_max_entrada":
-        orderBy = "voltaje_max_entrada";
+      case 'voltajemaxentrada':
+      case 'voltaje max entrada':
+      case 'voltaje_max_entrada':
+        orderBy = 'voltaje_max_entrada';
         break;
       default:
         orderBy = null;
     }
     return orderBy;
   } catch (error) {
-    msgResponse = "ERROR in checkOrderBy() helper function from component-detail.js.";
+    msgResponse =
+      'ERROR in checkOrderBy() helper function from component-detail.js.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     return null;
@@ -71,18 +72,19 @@ const checkOrderAt = async (orderAt) => {
     msgLog = null;
 
     switch (orderAt.toLowerCase()) {
-      case "asc":
-        orderAt = "ASC";
+      case 'asc':
+        orderAt = 'ASC';
         break;
-      case "desc":
-        orderAt = "DESC";
+      case 'desc':
+        orderAt = 'DESC';
         break;
       default:
         orderAt = null;
     }
     return orderAt;
   } catch (error) {
-    msgResponse = "ERROR in checkOrderAt() helper function from component-detail.js.";
+    msgResponse =
+      'ERROR in checkOrderAt() helper function from component-detail.js.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     return null;
