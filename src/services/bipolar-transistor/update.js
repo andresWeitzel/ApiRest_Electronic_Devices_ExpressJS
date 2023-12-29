@@ -5,6 +5,17 @@ const {
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
+//Const
+//errors details
+const UPDATE_OBJECT_DETAILS =
+  'Bipolar Transistor has been successfully updated based on id ';
+const UPDATE_OBJECT_ERROR_DETAILS =
+  'Check if the bipolar transistor you want to updated exists in the db. The bipolar transistor has not been updated based on the id ';
+const UPDATE_BIPOLAR_TRANSISTOR_ERROR_DETAIL =
+  'Error in updateBipolarTransistorService service function.';
+  //status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
 let updateBipolarTransistor;
 let idComponenteParam;
@@ -20,6 +31,7 @@ let tempJuntParam;
 let reqBody;
 let idParam;
 let msgLog;
+let msgResponse;
 
 /**
  * @description update a bipolar transistor to database
@@ -44,6 +56,7 @@ const updateBipolarTransistorService = async (req, res) => {
     disipMaxParam = null;
     tempJuntParam = null;
     msgLog = null;
+    msgResponse = null;
 
     //-- start with params ---
     params = req.params;
@@ -109,30 +122,34 @@ const updateBipolarTransistorService = async (req, res) => {
         .then(async (bipolarTransistorItem) => {
           updateBipolarTransistor =
             bipolarTransistorItem[0] == 1
-              ? {
-                  objectUpdated: `Se ha actualizado correctamente el componente según el id ${idParam}`,
-                }
-              : {
-                  objectUpdated: `No se ha actualizado el componente según el id ${idParam}. Comprobar si el componente existe en la db.`,
-                };
+            ? {
+              objectUpdated: UPDATE_OBJECT_DETAILS + idParam,
+            }
+          : {
+              objectUpdated: UPDATE_OBJECT_ERROR_DETAILS + idParam,
+            };
         })
         .catch(async (error) => {
-          msg = `Error in updateBipolarTransistorService() function when trying to create a component. Caused by ${error}`;
-          console.log(msg);
+          msgResponse = UPDATE_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
+
           updateBipolarTransistor = await checkErrors(error, error.name);
         });
     } else {
       updateBipolarTransistor = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
-    msg = `Error in updateBipolarTransistorService() function. Caused by ${error}`;
-    console.log(msg);
+    msgResponse = UPDATE_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
+    console.log(msgLog);
+
     updateBipolarTransistor = await checkErrors(
       error,
-      statusName.CONNECTION_ERROR,
+      CONNECTION_ERROR,
     );
   }
   return updateBipolarTransistor;

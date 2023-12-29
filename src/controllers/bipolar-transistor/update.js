@@ -16,6 +16,11 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+  const UPDATE_BIPOLAR_TRANSISTOR_ERROR_DETAIL =
+  'ERROR in updateBipolarTransistorController() function.';
+const UPDATE_BIPOLAR_TRANSISTOR_BAD_REQUEST_DETAIL =
+  'Bad request, could not update a bipolar transistor.';
+  //Vars
 let updateComponentDetail;
 let msgResponse;
 let msgLog;
@@ -47,10 +52,9 @@ const updateBipolarTransistorController = async (req, res) => {
       case 0:
       case undefined:
       case null:
-        res.status(BAD_REQUEST_CODE).send({
-          error:
-            'Bad request, could not update a biplar transistor to database.',
-        });
+        res
+          .status(BAD_REQUEST_CODE)
+          .send({ error: UPDATE_BIPOLAR_TRANSISTOR_BAD_REQUEST_DETAIL });
         break;
       default:
         if (
@@ -64,7 +68,7 @@ const updateBipolarTransistorController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in updateBipolarTransistorController() function.';
+    msgResponse = UPDATE_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
