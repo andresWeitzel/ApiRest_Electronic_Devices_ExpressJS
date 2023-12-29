@@ -6,7 +6,7 @@ const { checkErrors } = require('../../helpers/sequelize/errors');
 const {
   checkOrderBy,
   checkOrderAt,
-} = require('../../helpers/pagination/components/component');
+} = require('../../helpers/pagination/component/component');
 const { paginationNameValueError } = require('../../enums/pagination/errors');
 //Const
 const ORDER_BY_NAME_VALUE_ERROR =

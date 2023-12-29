@@ -16,6 +16,9 @@ const {
 const {
   getAllWithAttributesBipolarTransistorController,
 } = require('../../controllers/bipolar-transistor/get-all-with-attributes');
+const {
+  deleteBipolarTransistorController,
+} = require('../../controllers/bipolar-transistor/delete');
 
 module.exports = {
   //Validators
@@ -26,4 +29,5 @@ module.exports = {
   updateBipolarTransistorController,
   getAllBipolarTransistorController,
   getAllWithAttributesBipolarTransistorController,
+  deleteBipolarTransistorController,
 };

@@ -1101,7 +1101,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes-detalles/list?page=0&limit=100",
+									"raw": "{{base_url}}/componentes-detalles/list?page=0&limit=100&orderBy=peso&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1117,6 +1117,14 @@
 										{
 											"key": "limit",
 											"value": "100"
+										},
+										{
+											"key": "orderBy",
+											"value": "peso"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -1145,7 +1153,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes-detalles/list-with-attributes?idComponente=&hojaDatos=http&longitud=&ancho=&peso=&material=&voltajeRecom=&voltajeMinEntr=&voltajeMaxEntr=&page=0&limit=10",
+									"raw": "{{base_url}}/componentes-detalles/list-with-attributes?idComponente=&hojaDatos=http&longitud=&ancho=&peso=&material=&voltajeRecom=&voltajeMinEntr=&voltajeMaxEntr=&page=0&limit=10&orderBy=longitud&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1197,6 +1205,14 @@
 										{
 											"key": "limit",
 											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "longitud"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -1360,7 +1376,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/transistores-bipolares/list?page=0&limit=100",
+									"raw": "{{base_url}}/transistores-bipolares/list?page=0&limit=100&orderBy=voltaje_colec_emis&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1376,6 +1392,14 @@
 										{
 											"key": "limit",
 											"value": "100"
+										},
+										{
+											"key": "orderBy",
+											"value": "voltaje_colec_emis"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -1404,7 +1428,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/transistores-bipolares/list-with-attributes?idComponente=&tipo=npn&voltajeColecEmis=&voltajeColecBase=&voltajeEmisBase=&voltajeColecEmisSat=&corrienteColec=&gananciaHfe=&disipMax=&tempJuntura=&page=0&limit=100",
+									"raw": "{{base_url}}/transistores-bipolares/list-with-attributes?idComponente=&tipo=npn&voltajeColecEmis=&voltajeColecBase=&voltajeEmisBase=&voltajeColecEmisSat=&corrienteColec=&gananciaHfe=&disipMax=&tempJuntura=&page=0&limit=100&orderBy=ganancia_hfe&orderAt=asc",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1460,6 +1484,14 @@
 										{
 											"key": "limit",
 											"value": "100"
+										},
+										{
+											"key": "orderBy",
+											"value": "ganancia_hfe"
+										},
+										{
+											"key": "orderAt",
+											"value": "asc"
 										}
 									]
 								}
@@ -1536,12 +1568,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/componentes-detalles/54",
+									"raw": "{{base_url}}/transistores-bipolares/54",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"componentes-detalles",
+										"transistores-bipolares",
 										"54"
 									]
 								}
