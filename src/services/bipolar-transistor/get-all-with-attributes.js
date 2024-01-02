@@ -7,10 +7,23 @@ const {
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
+const { paginationNameValueError } = require('../../enums/pagination/errors');
+const {
+  checkOrderBy,
+  checkOrderAt,
+} = require('../../helpers/pagination/bipolar-transistor/bipolar-transistor');
 //Const
-const orderBy = [['id', 'ASC']];
+const ORDER_BY_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
+const ORDER_AT_NAME_VALUE_ERROR =
+  paginationNameValueError.ORDER_AT_NAME_VALUE_ERROR;
+const GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL =
+  'Error in getAllWithAttributesBipolarTransistor() function.';
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
-let componentDetailList;
+let bipolarTransistorList;
 let idComponenteParam;
 let tipoParam;
 let voltajeColecEmisParam;
@@ -22,9 +35,14 @@ let gananciaHfeParam;
 let disipMaxParam;
 let tempJuntParam;
 let queryStrParams;
+//pagination
 let pageSizeNro;
 let pageNro;
+let orderBy;
+let orderAt;
+let order;
 let msgLog;
+let msgResponse;
 
 /**
  * @description get all paginated bipolar transistors list according to all attributes from the database
@@ -35,7 +53,7 @@ let msgLog;
  */
 const getAllWithAttributesBipolarTransistor = async (req, res) => {
   try {
-    componentDetailList = null;
+    bipolarTransistorList = null;
     queryStrParams = null;
     idComponenteParam = 0;
     tipoParam = null;
@@ -47,8 +65,13 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
     gananciaHfeParam = null;
     disipMaxParam = null;
     tempJuntParam = null;
-    pageSizeNro = 30;
+    //Pagination
+    pageSizeNro = 10;
     pageNro = 0;
+    orderBy = 'id';
+    orderAt = 'ASC';
+    msgLog = null;
+    msgResponse = null;
 
     //-- start with querys params and pagination  ---
     queryStrParams = req.query;
@@ -82,11 +105,28 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
       tempJuntParam = queryStrParams.tempJuntura
         ? queryStrParams.tempJuntura
         : tempJuntParam;
+      //Pagination
       pageSizeNro = queryStrParams.limit
         ? parseInt(queryStrParams.limit)
         : pageSizeNro;
       pageNro = queryStrParams.page ? parseInt(queryStrParams.page) : pageNro;
+      orderBy = queryStrParams.orderBy ? queryStrParams.orderBy : orderBy;
+      orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
+
+    orderBy = await checkOrderBy(orderBy);
+
+    if (orderBy == (null || undefined)) {
+      return ORDER_BY_NAME_VALUE_ERROR;
+    }
+
+    orderAt = await checkOrderAt(orderAt);
+
+    if (orderAt == (undefined || null)) {
+      return ORDER_AT_NAME_VALUE_ERROR;
+    }
+
+    order = [[orderBy, orderAt]];
     //-- end with querys params and pagination  ---
 
     if (BipolarTransistor != null) {
@@ -98,56 +138,63 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
               [Op.eq]: `${idComponenteParam}`,
             },
             tipo: {
-              [Op.like]: `%${tipoParam}%`,
+              [Op.iLike]: `%${tipoParam}%`,
             },
             voltaje_colec_emis: {
-              [Op.like]: `%${voltajeColecEmisParam}%`,
+              [Op.iLike]: `%${voltajeColecEmisParam}%`,
             },
             voltaje_colec_base: {
-              [Op.like]: `%${voltajeColecBaseParam}%`,
+              [Op.iLike]: `%${voltajeColecBaseParam}%`,
             },
             voltaje_colec_emis_sat: {
-              [Op.like]: `%${voltajeColecEmisSatParam}%`,
+              [Op.iLike]: `%${voltajeColecEmisSatParam}%`,
             },
             corriente_colec: {
-              [Op.like]: `%${corrienteColecParam}%`,
+              [Op.iLike]: `%${corrienteColecParam}%`,
             },
             ganancia_hfe: {
-              [Op.like]: `%${gananciaHfeParam}%`,
+              [Op.iLike]: `%${gananciaHfeParam}%`,
             },
             disip_max: {
-              [Op.like]: `%${disipMaxParam}%`,
+              [Op.iLike]: `%${disipMaxParam}%`,
             },
             temp_juntura: {
-              [Op.like]: `%${tempJuntParam}%`,
+              [Op.iLike]: `%${tempJuntParam}%`,
             },
           },
         },
         limit: pageSizeNro,
         offset: pageNro,
-        order: orderBy,
+        order: order,
         raw: true,
       })
         .then(async (componentDetailsItems) => {
-          componentDetailList = componentDetailsItems;
+          bipolarTransistorList = componentDetailsItems;
         })
         .catch(async (error) => {
-          msgLog = `Error in getAllWithAttributesBipolarTransistor() function when trying to get all paginated bipolar transistor by all attributes. Caused by ${error}`;
+          msgResponse = GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
           console.log(msgLog);
-          componentDetailList = await checkErrors(error, error.name);
+
+          bipolarTransistorList = await checkErrors(error, error.name);
         });
     } else {
-      componentDetailList = await checkErrors(
+      bipolarTransistorList = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
-    msgLog = `Error in getAllWithAttributesBipolarTransistor() function. Caused by ${error}`;
+    msgResponse = GET_ALL_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
+    msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    componentDetailList = await checkErrors(error, statusName.CONNECTION_ERROR);
+
+    bipolarTransistorList = await checkErrors(
+      error,
+      CONNECTION_ERROR_STATUS_NAME,
+    );
   }
-  return componentDetailList;
+  return bipolarTransistorList;
 };
 
 module.exports = {

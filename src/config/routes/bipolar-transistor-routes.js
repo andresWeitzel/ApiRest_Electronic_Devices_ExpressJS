@@ -10,6 +10,7 @@ const {
   updateBipolarTransistorController,
   getAllBipolarTransistorController,
   getAllWithAttributesBipolarTransistorController,
+  deleteBipolarTransistorController,
 } = require('../routes-imports/bipolar-transistor-routes-imports');
 
 bipolarTransistorRouter.post(
@@ -30,5 +31,7 @@ bipolarTransistorRouter.get(
   '/list-with-attributes',
   getAllWithAttributesBipolarTransistorController,
 );
+
+bipolarTransistorRouter.delete('/:id', deleteBipolarTransistorController);
 
 module.exports = bipolarTransistorRouter;

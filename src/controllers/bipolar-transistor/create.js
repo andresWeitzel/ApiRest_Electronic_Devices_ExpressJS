@@ -7,7 +7,7 @@ const {
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
-//Const-vars
+//Const
 //status-code
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -17,6 +17,11 @@ const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL =
   statusDetails.CONNECTION_REFUSED_DETAIL;
+const ADD_BIPOLAR_TRANSISTOR_ERROR_DETAIL =
+  'Error in createBipolarTransistorController() function.';
+const ADD_BIPOLAR_TRANSISTOR_BAD_REQUEST_DETAIL =
+  'Bad request, could not add a bipolar transistor.';
+//Vars
 // Pagination
 let newBipolarTransistor;
 let msgResponse;
@@ -49,9 +54,9 @@ const createBipolarTransistorController = async (req, res) => {
       case 0:
       case undefined:
       case null:
-        res
-          .status(BAD_REQUEST_CODE)
-          .send({ error: 'Bad request, could not add a bipolar transistor.' });
+        res.status(BAD_REQUEST_CODE).send({
+          error: ADD_BIPOLAR_TRANSISTOR_BAD_REQUEST_DETAIL,
+        });
         break;
       default:
         if (
@@ -65,9 +70,10 @@ const createBipolarTransistorController = async (req, res) => {
         break;
     }
   } catch (error) {
-    msgResponse = 'ERROR in createBipolarTransistorController() function.';
+    msgResponse = ADD_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
+
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };

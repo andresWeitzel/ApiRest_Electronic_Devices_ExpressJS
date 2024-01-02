@@ -6,10 +6,14 @@ const {
 const { statusName } = require('../../enums/database/status');
 //Helpers
 const { checkErrors } = require('../../helpers/sequelize/errors');
-//const
-const GENERIC_ERROR_LOG_MESSAGE =
+//Const
+//errors
+const ADD_BIPOLAR_TRANSISTOR_ERROR_DETAIL =
   'Error in createBipolarTransistorService function. Caused by ';
-//vars
+//status
+const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
+const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
+//Vars
 let newBipolarTransistor;
 let idComponenteParam;
 let tipoParam;
@@ -23,6 +27,7 @@ let disipMaxParam;
 let tempJuntParam;
 let reqBody;
 let msgLog;
+let msgResponse;
 
 /**
  * @description create a bipolar-transistor to database
@@ -46,6 +51,7 @@ const createBipolarTransistorService = async (req, res) => {
     disipMaxParam = null;
     tempJuntParam = null;
     msgLog = null;
+    msgResponse = null;
 
     //-- start with body ---
     reqBody = req.body;
@@ -95,14 +101,15 @@ const createBipolarTransistorService = async (req, res) => {
           newBipolarTransistor = object.dataValues;
         })
         .catch(async (error) => {
-          msgLog = GENERIC_ERROR_LOG_MESSAGE + error;
+          msgResponse = ADD_BIPOLAR_TRANSISTOR_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
           console.log(msgLog);
           newBipolarTransistor = await checkErrors(error, error.name);
         });
     } else {
       newBipolarTransistor = await checkErrors(
         null,
-        statusName.CONNECTION_REFUSED,
+        CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
@@ -110,7 +117,7 @@ const createBipolarTransistorService = async (req, res) => {
     console.log(msgLog);
     newBipolarTransistor = await checkErrors(
       error,
-      statusName.CONNECTION_ERROR,
+      CONNECTION_ERROR_STATUS_NAME,
     );
   }
   return newBipolarTransistor;

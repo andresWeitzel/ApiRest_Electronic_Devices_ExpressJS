@@ -11,7 +11,7 @@ const {
   paginationNameValueError,
   paginationDescriptionValueError,
 } = require('../../enums/pagination/errors');
-//Const-vars
+//Const
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
 const OK_CODE = statusCode.OK;
@@ -25,7 +25,7 @@ const GET_ALL_COMPONENT_DETAIL_ERROR_DETAIL =
 const GET_ALL_COMPONENT_DETAIL_BAD_REQUEST_DETAIL =
   'Bad request, failed to obtain paginated component details list.';
 const GET_ALL_COMPONENT_DETAIL_NOT_FOUND_DETAIL =
-  'No items found according to all atributes.';
+  'No items found according to all atributes for component detail.';
 // Pagination
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;

@@ -16,44 +16,45 @@ const checkOrderBy = async (orderBy) => {
       case 'id':
         orderBy = 'id';
         break;
-      case 'codigo':
-      case 'code':
-        orderBy = 'codigo';
+      case 'hojadedatos':
+      case 'hoja de datos':
+      case 'hoja_de_datos':
+        orderBy = 'hoja_de_datos';
         break;
-      case 'imagen':
-      case 'image':
-        orderBy = 'imagen';
+      case 'longitud':
+        orderBy = 'longitud';
         break;
-      case 'nro_pieza':
-      case 'nroPieza':
-      case 'nroPart':
-        orderBy = 'nro_pieza';
+      case 'ancho':
+        orderBy = 'ancho';
         break;
-      case 'categoria':
-      case 'category':
-        orderBy = 'categoria';
+      case 'peso':
+        orderBy = 'peso';
         break;
-      case 'descripcion':
-      case 'description':
-        orderBy = 'descripcion';
+      case 'material':
+        orderBy = 'material';
         break;
-      case 'fabricante':
-      case 'maker':
-        orderBy = 'fabricante';
+      case 'voltajerrecomendado':
+      case 'voltaje recomendado':
+      case 'voltaje_recomendado':
+        orderBy = 'voltaje_recomendado';
         break;
-      case 'stock':
-        orderBy = 'stock';
+      case 'voltajeminentrada':
+      case 'voltaje min entrada':
+      case 'voltaje_min_entrada':
+        orderBy = 'voltaje_min_entrada';
         break;
-      case 'precio':
-      case 'price':
-        orderBy = 'precio';
+      case 'voltajemaxentrada':
+      case 'voltaje max entrada':
+      case 'voltaje_max_entrada':
+        orderBy = 'voltaje_max_entrada';
         break;
       default:
         orderBy = null;
     }
     return orderBy;
   } catch (error) {
-    msgResponse = 'ERROR in checkOrderBy() helper function.';
+    msgResponse =
+      'ERROR in checkOrderBy() helper function from component-detail.js.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     return null;
@@ -82,7 +83,8 @@ const checkOrderAt = async (orderAt) => {
     }
     return orderAt;
   } catch (error) {
-    msgResponse = 'ERROR in checkOrderAt() helper function.';
+    msgResponse =
+      'ERROR in checkOrderAt() helper function from component-detail.js.';
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
     return null;
