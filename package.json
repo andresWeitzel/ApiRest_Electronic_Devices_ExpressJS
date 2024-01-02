@@ -42,7 +42,8 @@
     "format-md": "remark . --output",
     "test": "jest --verbose",
     "test:watch": "jest --watch --verbose",
-    "test:cov": "jest --coverage --verbose"
+    "test:cov": "jest --coverage --verbose",
+    "test:pagination-helper": "jest --verbose ./src/test/unit-test/helpers/pagination/*"
   },
   "repository": {
     "type": "git",
