@@ -29,8 +29,8 @@ const checkOrderBy = async (orderBy) => {
         orderBy = "imagen";
         break;
       case "nro_pieza":
-      case "nroPieza":
-      case "nroPart":
+      case "nropieza":
+      case "nropart":
         orderBy = "nro_pieza";
         break;
       case "categoria":
