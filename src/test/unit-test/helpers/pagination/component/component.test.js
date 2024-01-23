@@ -5,8 +5,8 @@ const {
   checkOrderAt,
 } = require("../../../../../helpers/pagination/component/component");
 //Const
-const MOCK_NUMBER_VALUE = 12;
-const MOCK_BOOLEAN_VALUE = true;
+const MOCK_NUMBER_VALUE = process.env.MOCK_NUMBER_01;
+const MOCK_BOOLEAN_VALUE = process.env.MOCK_BOOLEAN_01;
 //Vars
 let mockIdNameValue = "id";
 let mockCodeNameValue = "codigo";
