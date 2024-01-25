@@ -8,11 +8,11 @@ const {
 const MOCK_NUMBER_VALUE = process.env.MOCK_NUMBER_01;
 const MOCK_BOOLEAN_VALUE = process.env.MOCK_BOOLEAN_01;
 //Vars
-let mockIdNameValue = "id";
-let mockCodeNameValue = "codigo";
-let mockNroPartNameValue = "nro_pieza";
-let mockOrderAtAscNameValue = "asc";
-let mockOrderAtDescNameValue = "desc";
+let mockIdNameValue = process.env.MOCK_ID_NAME;
+let mockCodeNameValue = process.env.MOCK_CODE_NAME;
+let mockNroPartNameValue = process.env.MOCK_NRO_PART_NAME;
+let mockOrderAtAscNameValue = process.env.MOCK_ORDER_AT_ASC_NAME;
+let mockOrderAtDescNameValue = process.env.MOCK_ORDER_AT_DESC_NAME;
 let msg;
 let checkOrderByResult;
 let checkOrderAtResult;
