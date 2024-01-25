@@ -108,7 +108,6 @@ describe("- checkOrderBy helper (Unit Test)", () => {
       await expect(checkOrderByResult == mockNroPartNameValue).toBe(true);
       mockNroPartNameValue = "nropart";
       checkOrderByResult = await checkOrderBy(mockNroPartNameValue);
-      console.log(checkOrderByResult);
       await expect(checkOrderByResult == "nro_pieza").toBe(true);
       checkOrderByResult = await checkOrderBy(
         mockNroPartNameValue.toUpperCase()

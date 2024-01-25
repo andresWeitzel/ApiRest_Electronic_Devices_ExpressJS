@@ -4,14 +4,14 @@ const {
   checkOrderBy,
 } = require("../../../../../helpers/pagination/component-detail/component-detail");
 //Const
-const MOCK_NUMBER_VALUE = 12;
-const MOCK_BOOLEAN_VALUE = true;
+const MOCK_NUMBER_VALUE = process.env.MOCK_NUMBER_01;
+const MOCK_BOOLEAN_VALUE = process.env.MOCK_BOOLEAN_01;
 //Vars
-let mockIdNameValue = "id";
-let mockHojaDatosValue = "hoja_de_datos";
-let mockVolumenValue = "volumen";
-let mockOrderAtAscNameValue = "asc";
-let mockOrderAtDescNameValue = "desc";
+let mockIdNameValue = process.env.MOCK_ID_NAME;
+let mockDatasheetValue = process.env.MOCK_DATASHEET_NAME;
+let mockVolumeValue = process.env.MOCK_VOLUME_NAME;
+let mockOrderAtAscNameValue = process.env.MOCK_ORDER_AT_ASC_NAME;
+let mockOrderAtDescNameValue = process.env.MOCK_ORDER_AT_DESC_NAME;
 let msg;
 let checkOrderByResult;
 let checkOrderAtResult;
@@ -21,30 +21,30 @@ describe("- checkOrderBy helper (Unit Test)", () => {
     msg =
       "Should return a string value if a valid string argument is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockHojaDatosValue);
+      checkOrderByResult = await checkOrderBy(mockDatasheetValue);
       await expect(typeof checkOrderByResult == "string").toBe(true);
     });
 
     msg =
-      "Should return a boolean value if a invalid string argument is passed (This function expects one argument of type string).";
+      "Should return a null value if a invalid string argument is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockVolumenValue);
+      checkOrderByResult = await checkOrderBy(mockVolumeValue);
       await expect(checkOrderByResult == null).toBe(true);
     });
 
-    // msg =
-    //   "Should return a null value if number type argument is passed (This function expects one argument of type string).";
-    // it(msg, async () => {
-    //   checkOrderByResult = await checkOrderBy(MOCK_NUMBER_VALUE);
-    //   await expect(checkOrderByResult == null).toBe(true);
-    // });
+    msg =
+      "Should return a null value if a number type argument is passed (This function expects one argument of type string).";
+    it(msg, async () => {
+      checkOrderByResult = await checkOrderBy(MOCK_NUMBER_VALUE);
+      await expect(checkOrderByResult == null).toBe(true);
+    });
 
-    // msg =
-    //   "Should return a null value if boolean type argument is passed (This function expects one argument of type string).";
-    // it(msg, async () => {
-    //   checkOrderByResult = await checkOrderBy(MOCK_BOOLEAN_VALUE);
-    //   await expect(checkOrderByResult == null).toBe(true);
-    // });
+    msg =
+      "Should return a null value if a boolean type argument is passed (This function expects one argument of type string).";
+    it(msg, async () => {
+      checkOrderByResult = await checkOrderBy(MOCK_BOOLEAN_VALUE);
+      await expect(checkOrderByResult == null).toBe(true);
+    });
 
     // msg =
     //   "Should return a null value if others arguments are passed (This function expects one argument of type string).";
@@ -52,7 +52,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
     //   checkOrderByResult = await checkOrderBy(
     //     MOCK_BOOLEAN_VALUE,
     //     MOCK_NUMBER_VALUE,
-    //     mockHojaDatosValue
+    //     mockDatasheetValue
     //   );
     //   await expect(checkOrderByResult == null).toBe(true);
     // });
@@ -92,14 +92,14 @@ describe("- checkOrderBy helper (Unit Test)", () => {
   //     msg =
   //       "Should return a string type with 'codigo' value if a 'codigo', 'code', 'CODE' or 'CODIGO' value is passed (This function expects one argument of type string).";
   //     it(msg, async () => {
-  //       checkOrderByResult = await checkOrderBy(mockHojaDatosValue);
+  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue);
   //       await expect(checkOrderByResult == "codigo").toBe(true);
-  //       checkOrderByResult = await checkOrderBy(mockHojaDatosValue.toUpperCase());
+  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue.toUpperCase());
   //       await expect(checkOrderByResult == "codigo").toBe(true);
-  //       mockHojaDatosValue = "code";
-  //       checkOrderByResult = await checkOrderBy(mockHojaDatosValue);
+  //       mockDatasheetValue = "code";
+  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue);
   //       await expect(checkOrderByResult == "codigo").toBe(true);
-  //       checkOrderByResult = await checkOrderBy(mockHojaDatosValue.toUpperCase());
+  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue.toUpperCase());
   //       await expect(checkOrderByResult == "codigo").toBe(true);
   //     });
 
@@ -143,7 +143,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
   //     msg =
   //       "Should not return a error message if a valid argument is passed to the function (This function expects one argument of type string).";
   //     it(msg, async () => {
-  //       checkOrderByResult = await checkOrderBy(mockHojaDatosValue);
+  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue);
   //       await expect(async () => checkOrderByResult).not.toThrow(Error);
   //     });
 
@@ -185,7 +185,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
 //       checkOrderAtResult = await checkOrderAt(
 //         MOCK_BOOLEAN_VALUE,
 //         MOCK_NUMBER_VALUE,
-//         mockHojaDatosValue
+//         mockDatasheetValue
 //       );
 //       await expect(checkOrderAtResult == null).toBe(true);
 //     });

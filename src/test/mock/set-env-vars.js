@@ -1,0 +1,10 @@
+// Mock testing
+process.env.MOCK_NUMBER_01 = 1212313;
+process.env.MOCK_BOOLEAN_01 = true;
+process.env.MOCK_ID_NAME = 'id';
+process.env.MOCK_DATASHEET_NAME = 'hoja_de_datos';
+process.env.MOCK_VOLUME_NAME = 'volumen';
+process.env.MOCK_CODE_NAME = 'codigo';
+process.env.MOCK_NRO_PART_NAME = 'nro_pieza';
+process.env.MOCK_ORDER_AT_ASC_NAME = 'asc';
+process.env.MOCK_ORDER_AT_DESC_NAME = 'desc';
