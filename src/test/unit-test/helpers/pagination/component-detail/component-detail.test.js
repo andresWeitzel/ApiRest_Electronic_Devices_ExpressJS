@@ -5,11 +5,13 @@ const {
 } = require("../../../../../helpers/pagination/component-detail/component-detail");
 //Const
 const MOCK_NUMBER_VALUE = process.env.MOCK_NUMBER_01;
+const MOCK_STRING_VALUE = process.env.MOCK_STRING_01;
 const MOCK_BOOLEAN_VALUE = process.env.MOCK_BOOLEAN_01;
+const MOCK_ID_NAME_VALUE = process.env.MOCK_ID_NAME;
+const MOCK_DATASHEET_NAME_VALUE = process.env.MOCK_DATASHEET_NAME;
+const MOCK_VOLUME_NAME_VALUE = process.env.MOCK_VOLUME_NAME;
 //Vars
-let mockIdNameValue = process.env.MOCK_ID_NAME;
-let mockDatasheetValue = process.env.MOCK_DATASHEET_NAME;
-let mockVolumeValue = process.env.MOCK_VOLUME_NAME;
+let mockDatasheetNameModifiedValue = MOCK_DATASHEET_NAME_VALUE;
 let mockOrderAtAscNameValue = process.env.MOCK_ORDER_AT_ASC_NAME;
 let mockOrderAtDescNameValue = process.env.MOCK_ORDER_AT_DESC_NAME;
 let msg;
@@ -21,14 +23,14 @@ describe("- checkOrderBy helper (Unit Test)", () => {
     msg =
       "Should return a string value if a valid string argument is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockDatasheetValue);
+      checkOrderByResult = await checkOrderBy(MOCK_DATASHEET_NAME_VALUE);
       await expect(typeof checkOrderByResult == "string").toBe(true);
     });
 
     msg =
       "Should return a null value if a invalid string argument is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockVolumeValue);
+      checkOrderByResult = await checkOrderBy(MOCK_VOLUME_NAME_VALUE);
       await expect(checkOrderByResult == null).toBe(true);
     });
 
@@ -46,84 +48,58 @@ describe("- checkOrderBy helper (Unit Test)", () => {
       await expect(checkOrderByResult == null).toBe(true);
     });
 
-    // msg =
-    //   "Should return a null value if others arguments are passed (This function expects one argument of type string).";
-    // it(msg, async () => {
-    //   checkOrderByResult = await checkOrderBy(
-    //     MOCK_BOOLEAN_VALUE,
-    //     MOCK_NUMBER_VALUE,
-    //     mockDatasheetValue
-    //   );
-    //   await expect(checkOrderByResult == null).toBe(true);
-    // });
+    msg =
+      "Should return null if others invalid arguments are passed (this function expects a string argument).";
+    it(msg, async () => {
+      checkOrderByResult = await checkOrderBy(
+        MOCK_BOOLEAN_VALUE,
+        MOCK_NUMBER_VALUE,
+        MOCK_STRING_VALUE
+      );
+      await expect(checkOrderByResult == null).toBe(true);
+    });
 
-    // msg =
-    //   "Should return a null value if a null value is passed (This function expects one argument of type string).";
-    // it(msg, async () => {
-    //   checkOrderByResult = await checkOrderBy(null);
-    //   await expect(checkOrderByResult == null).toBe(true);
-    // });
+    msg =
+      "Should return a null value if a null value is passed (This function expects one argument of type string).";
+    it(msg, async () => {
+      checkOrderByResult = await checkOrderBy(null);
+      await expect(checkOrderByResult == null).toBe(true);
+    });
 
-    // msg =
-    //   "Should return a null value if a undefined value is passed (This function expects one argument of type string).";
-    // it(msg, async () => {
-    //   checkOrderByResult = await checkOrderBy(undefined);
-    //   await expect(checkOrderByResult == null).toBe(true);
-    // });
-
-    // msg =
-    //   "Should return a null value if a number value is passed (This function expects one argument of type string).";
-    // it(msg, async () => {
-    //   checkOrderByResult = await checkOrderBy(MOCK_NUMBER_VALUE);
-    //   await expect(checkOrderByResult == null).toBe(true);
-    // });
+    msg =
+      "Should return a null value if a undefined value is passed (This function expects one argument of type string).";
+    it(msg, async () => {
+      checkOrderByResult = await checkOrderBy(undefined);
+      await expect(checkOrderByResult == null).toBe(true);
+    });
   });
 
-  //   describe("2) Check cases for return cases.", () => {
-  //     msg =
-  //       "Should return a string type with 'id' value if a 'id' or 'ID' value is passed (This function expects one argument of type string).";
-  //     it(msg, async () => {
-  //       checkOrderByResult = await checkOrderBy(mockIdNameValue);
-  //       await expect(checkOrderByResult == "id").toBe(true);
-  //       checkOrderByResult = await checkOrderBy(mockIdNameValue.toUpperCase());
-  //       await expect(checkOrderByResult == "id").toBe(true);
-  //     });
+  describe("2) Check cases for return cases.", () => {
+    msg =
+      "Should return a string type with 'id' value if a 'id' or 'ID' value is passed (This function expects one argument of type string).";
+    it(msg, async () => {
+      checkOrderByResult = await checkOrderBy(MOCK_ID_NAME_VALUE);
+      await expect(checkOrderByResult == MOCK_ID_NAME_VALUE).toBe(true);
+      checkOrderByResult = await checkOrderBy(MOCK_ID_NAME_VALUE.toUpperCase());
+      await expect(checkOrderByResult == MOCK_ID_NAME_VALUE).toBe(true);
+    });
 
-  //     msg =
-  //       "Should return a string type with 'codigo' value if a 'codigo', 'code', 'CODE' or 'CODIGO' value is passed (This function expects one argument of type string).";
-  //     it(msg, async () => {
-  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue);
-  //       await expect(checkOrderByResult == "codigo").toBe(true);
-  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue.toUpperCase());
-  //       await expect(checkOrderByResult == "codigo").toBe(true);
-  //       mockDatasheetValue = "code";
-  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue);
-  //       await expect(checkOrderByResult == "codigo").toBe(true);
-  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue.toUpperCase());
-  //       await expect(checkOrderByResult == "codigo").toBe(true);
-  //     });
+    msg =
+      "Should return a string type with 'hoja_de_datos' value if a 'hoja_de_datos' or 'hoja de datos' or etc value is passed (This function expects one argument of type string).";
+    it(msg, async () => {
+      checkOrderByResult = await checkOrderBy(MOCK_DATASHEET_NAME_VALUE);
+      await expect(checkOrderByResult == MOCK_DATASHEET_NAME_VALUE).toBe(true);
+      checkOrderByResult = await checkOrderBy(
+        MOCK_DATASHEET_NAME_VALUE.toUpperCase()
+      );
+      await expect(checkOrderByResult == MOCK_DATASHEET_NAME_VALUE).toBe(true);
+      mockDatasheetNameModifiedValue = "hojadedatos";
+      checkOrderByResult = await checkOrderBy(mockDatasheetNameModifiedValue);
+      await expect(checkOrderByResult == MOCK_DATASHEET_NAME_VALUE).toBe(true);
+    });
 
-  //     msg =
-  //       "Should return a string type with 'nro_pieza' value if a 'NRO_PIEZA', 'nro_pieza', 'nropieza', 'nropart' value is passed (This function expects one argument of type string).";
-  //     it(msg, async () => {
-  //       checkOrderByResult = await checkOrderBy(mockNroPartNameValue);
-  //       await expect(checkOrderByResult == mockNroPartNameValue).toBe(true);
-  //       checkOrderByResult = await checkOrderBy(
-  //         mockNroPartNameValue.toUpperCase()
-  //       );
-  //       await expect(checkOrderByResult == mockNroPartNameValue).toBe(true);
-  //       mockNroPartNameValue = "nropart";
-  //       checkOrderByResult = await checkOrderBy(mockNroPartNameValue);
-  //       console.log(checkOrderByResult);
-  //       await expect(checkOrderByResult == "nro_pieza").toBe(true);
-  //       checkOrderByResult = await checkOrderBy(
-  //         mockNroPartNameValue.toUpperCase()
-  //       );
-  //       await expect(checkOrderByResult == "nro_pieza").toBe(true);
-  //     });
-
-  //     // -- The number of tests is simplified for each case, add here if necessary --
-  //   });
+    // -- The number of tests is simplified for each case, add here if necessary --
+  });
 
   //   describe("3) Check cases for error.", () => {
   //     msg =
@@ -143,7 +119,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
   //     msg =
   //       "Should not return a error message if a valid argument is passed to the function (This function expects one argument of type string).";
   //     it(msg, async () => {
-  //       checkOrderByResult = await checkOrderBy(mockDatasheetValue);
+  //       checkOrderByResult = await checkOrderBy(MOCK_DATASHEET_NAME_VALUE);
   //       await expect(async () => checkOrderByResult).not.toThrow(Error);
   //     });
 
@@ -185,7 +161,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
 //       checkOrderAtResult = await checkOrderAt(
 //         MOCK_BOOLEAN_VALUE,
 //         MOCK_NUMBER_VALUE,
-//         mockDatasheetValue
+//         MOCK_DATASHEET_NAME_VALUE
 //       );
 //       await expect(checkOrderAtResult == null).toBe(true);
 //     });
