@@ -12,6 +12,11 @@ const checkOrderBy = async (orderBy) => {
     msgResponse = null;
     msgLog = null;
 
+    
+    if (typeof orderBy != "string") {
+      return null;
+    }
+
     switch (orderBy.toLowerCase()) {
       case 'id':
         orderBy = 'id';
@@ -70,6 +75,11 @@ const checkOrderAt = async (orderAt) => {
   try {
     msgResponse = null;
     msgLog = null;
+
+    
+    if (typeof orderAt != "string") {
+      return null;
+    }
 
     switch (orderAt.toLowerCase()) {
       case 'asc':
