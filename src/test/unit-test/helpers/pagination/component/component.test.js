@@ -7,12 +7,14 @@ const {
 //Const
 const MOCK_NUMBER_VALUE = process.env.MOCK_NUMBER_01;
 const MOCK_BOOLEAN_VALUE = process.env.MOCK_BOOLEAN_01;
+const MOCK_ID_NAME_VALUE = process.env.MOCK_ID_NAME;
+const MOCK_CODE_NAME_VALUE = process.env.MOCK_CODE_NAME;
+const MOCK_NRO_PART_NAME_VALUE = process.env.MOCK_NRO_PART_NAME;
+const MOCK_ORDER_AT_ASC_NAME_VALUE = process.env.MOCK_ORDER_AT_ASC_NAME;
+const MOCK_ORDER_AT_DESC_NAME_VALUE = process.env.MOCK_ORDER_AT_DESC_NAME;
 //Vars
-let mockIdNameValue = process.env.MOCK_ID_NAME;
-let mockCodeNameValue = process.env.MOCK_CODE_NAME;
-let mockNroPartNameValue = process.env.MOCK_NRO_PART_NAME;
-let mockOrderAtAscNameValue = process.env.MOCK_ORDER_AT_ASC_NAME;
-let mockOrderAtDescNameValue = process.env.MOCK_ORDER_AT_DESC_NAME;
+let mockCodeNameModifiedValue = MOCK_CODE_NAME_VALUE;
+let mockNroPartNameModifiedValue = MOCK_NRO_PART_NAME_VALUE;
 let msg;
 let checkOrderByResult;
 let checkOrderAtResult;
@@ -22,7 +24,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
     msg =
       "Should return a string value if string argument is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockCodeNameValue);
+      checkOrderByResult = await checkOrderBy(MOCK_CODE_NAME_VALUE);
       await expect(typeof checkOrderByResult == "string").toBe(true);
     });
 
@@ -46,7 +48,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
       checkOrderByResult = await checkOrderBy(
         MOCK_BOOLEAN_VALUE,
         MOCK_NUMBER_VALUE,
-        mockCodeNameValue
+        MOCK_CODE_NAME_VALUE
       );
       await expect(checkOrderByResult == null).toBe(true);
     });
@@ -77,43 +79,46 @@ describe("- checkOrderBy helper (Unit Test)", () => {
     msg =
       "Should return a string type with 'id' value if a 'id' or 'ID' value is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockIdNameValue);
-      await expect(checkOrderByResult == "id").toBe(true);
-      checkOrderByResult = await checkOrderBy(mockIdNameValue.toUpperCase());
-      await expect(checkOrderByResult == "id").toBe(true);
+      checkOrderByResult = await checkOrderBy(MOCK_ID_NAME_VALUE);
+      await expect(checkOrderByResult == MOCK_ID_NAME_VALUE).toBe(true);
+      checkOrderByResult = await checkOrderBy(MOCK_ID_NAME_VALUE.toUpperCase());
+      await expect(checkOrderByResult == MOCK_ID_NAME_VALUE).toBe(true);
     });
 
     msg =
       "Should return a string type with 'codigo' value if a 'codigo', 'code', 'CODE' or 'CODIGO' value is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockCodeNameValue);
-      await expect(checkOrderByResult == "codigo").toBe(true);
-      checkOrderByResult = await checkOrderBy(mockCodeNameValue.toUpperCase());
-      await expect(checkOrderByResult == "codigo").toBe(true);
-      mockCodeNameValue = "code";
-      checkOrderByResult = await checkOrderBy(mockCodeNameValue);
-      await expect(checkOrderByResult == "codigo").toBe(true);
-      checkOrderByResult = await checkOrderBy(mockCodeNameValue.toUpperCase());
-      await expect(checkOrderByResult == "codigo").toBe(true);
+      checkOrderByResult = await checkOrderBy(MOCK_CODE_NAME_VALUE);
+      await expect(checkOrderByResult == MOCK_CODE_NAME_VALUE).toBe(true);
+      checkOrderByResult = await checkOrderBy(
+        MOCK_CODE_NAME_VALUE.toUpperCase()
+      );
+      await expect(checkOrderByResult == MOCK_CODE_NAME_VALUE).toBe(true);
+      mockCodeNameModifiedValue = "code";
+      checkOrderByResult = await checkOrderBy(mockCodeNameModifiedValue);
+      await expect(checkOrderByResult == MOCK_CODE_NAME_VALUE).toBe(true);
+      checkOrderByResult = await checkOrderBy(
+        MOCK_CODE_NAME_VALUE.toUpperCase()
+      );
+      await expect(checkOrderByResult == MOCK_CODE_NAME_VALUE).toBe(true);
     });
 
     msg =
       "Should return a string type with 'nro_pieza' value if a 'NRO_PIEZA', 'nro_pieza', 'nropieza', 'nropart' value is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockNroPartNameValue);
-      await expect(checkOrderByResult == mockNroPartNameValue).toBe(true);
+      checkOrderByResult = await checkOrderBy(MOCK_NRO_PART_NAME_VALUE);
+      await expect(checkOrderByResult == MOCK_NRO_PART_NAME_VALUE).toBe(true);
       checkOrderByResult = await checkOrderBy(
-        mockNroPartNameValue.toUpperCase()
+        MOCK_NRO_PART_NAME_VALUE.toUpperCase()
       );
-      await expect(checkOrderByResult == mockNroPartNameValue).toBe(true);
-      mockNroPartNameValue = "nropart";
-      checkOrderByResult = await checkOrderBy(mockNroPartNameValue);
-      console.log(checkOrderByResult);
-      await expect(checkOrderByResult == "nro_pieza").toBe(true);
+      await expect(checkOrderByResult == MOCK_NRO_PART_NAME_VALUE).toBe(true);
+      mockNroPartNameModifiedValue = "nropart";
+      checkOrderByResult = await checkOrderBy(mockNroPartNameModifiedValue);
+      await expect(checkOrderByResult == MOCK_NRO_PART_NAME_VALUE).toBe(true);
       checkOrderByResult = await checkOrderBy(
-        mockNroPartNameValue.toUpperCase()
+        MOCK_NRO_PART_NAME_VALUE.toUpperCase()
       );
-      await expect(checkOrderByResult == "nro_pieza").toBe(true);
+      await expect(checkOrderByResult == MOCK_NRO_PART_NAME_VALUE).toBe(true);
     });
 
     // -- The number of tests is simplified for each case, add here if necessary --
@@ -137,7 +142,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
     msg =
       "Should not return a error message if a valid argument is passed to the function (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderByResult = await checkOrderBy(mockCodeNameValue);
+      checkOrderByResult = await checkOrderBy(MOCK_CODE_NAME_VALUE);
       await expect(async () => checkOrderByResult).not.toThrow(Error);
     });
 
@@ -155,7 +160,7 @@ describe("- checkOrderAt helper (Unit Test)", () => {
     msg =
       "Should return a string value if string argument is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderAtResult = await checkOrderAt(mockOrderAtAscNameValue);
+      checkOrderAtResult = await checkOrderAt(MOCK_ORDER_AT_ASC_NAME_VALUE);
       await expect(typeof checkOrderAtResult == "string").toBe(true);
     });
 
@@ -179,7 +184,7 @@ describe("- checkOrderAt helper (Unit Test)", () => {
       checkOrderAtResult = await checkOrderAt(
         MOCK_BOOLEAN_VALUE,
         MOCK_NUMBER_VALUE,
-        mockCodeNameValue
+        MOCK_CODE_NAME_VALUE
       );
       await expect(checkOrderAtResult == null).toBe(true);
     });
@@ -210,23 +215,31 @@ describe("- checkOrderAt helper (Unit Test)", () => {
     msg =
       "Should return a string type with 'ASC' value if a 'asc' or 'ASC' value is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderAtResult = await checkOrderAt(mockOrderAtAscNameValue);
-      await expect(checkOrderAtResult == "ASC").toBe(true);
-      checkOrderAtResult = await checkOrderAt(
-        mockOrderAtAscNameValue.toUpperCase()
+      checkOrderAtResult = await checkOrderAt(MOCK_ORDER_AT_ASC_NAME_VALUE);
+      await expect(checkOrderAtResult == MOCK_ORDER_AT_ASC_NAME_VALUE).toBe(
+        true
       );
-      await expect(checkOrderAtResult == "ASC").toBe(true);
+      checkOrderAtResult = await checkOrderAt(
+        MOCK_ORDER_AT_ASC_NAME_VALUE.toLowerCase()
+      );
+      await expect(checkOrderAtResult == MOCK_ORDER_AT_ASC_NAME_VALUE).toBe(
+        true
+      );
     });
 
     msg =
       "Should return a string type with 'DESC' value if a 'desc' or 'DESC' value is passed (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderAtResult = await checkOrderAt(mockOrderAtDescNameValue);
-      await expect(checkOrderAtResult == "DESC").toBe(true);
-      checkOrderAtResult = await checkOrderAt(
-        mockOrderAtDescNameValue.toUpperCase()
+      checkOrderAtResult = await checkOrderAt(MOCK_ORDER_AT_DESC_NAME_VALUE);
+      await expect(checkOrderAtResult == MOCK_ORDER_AT_DESC_NAME_VALUE).toBe(
+        true
       );
-      await expect(checkOrderAtResult == "DESC").toBe(true);
+      checkOrderAtResult = await checkOrderAt(
+        MOCK_ORDER_AT_DESC_NAME_VALUE.toLowerCase()
+      );
+      await expect(checkOrderAtResult == MOCK_ORDER_AT_DESC_NAME_VALUE).toBe(
+        true
+      );
     });
   });
 
@@ -248,7 +261,7 @@ describe("- checkOrderAt helper (Unit Test)", () => {
     msg =
       "Should not return a error message if a valid argument is passed to the function (This function expects one argument of type string).";
     it(msg, async () => {
-      checkOrderAtResult = await checkOrderAt(mockOrderAtAscNameValue);
+      checkOrderAtResult = await checkOrderAt(MOCK_ORDER_AT_ASC_NAME_VALUE);
       await expect(async () => checkOrderAtResult).not.toThrow(Error);
     });
 
