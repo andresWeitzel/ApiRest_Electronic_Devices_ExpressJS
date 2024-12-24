@@ -19,6 +19,8 @@ let msg;
 let checkOrderByResult;
 let checkOrderAtResult;
 
+//Review catch cases
+
 describe("- checkOrderBy helper (Unit Test)", () => {
   describe("1) Check cases for arguments.", () => {
     msg =
