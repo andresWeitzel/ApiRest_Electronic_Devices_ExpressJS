@@ -1,61 +1,65 @@
+const { component } = require("../../../enums/names/fields");
+const { names } = require("../../../enums/pagination/acronym");
+const {
+  createMappings,
+} = require("../../../helpers/validations/format/fields");
+
 //Const-vars
 let msgResponse;
 let msgLog;
 
 /**
- * @description checks the order by value of the query string param to assign a field value
- * @param {String} orderBy String type
- * @returns a string with the field value or null
+ * @description Maps and validates the "orderBy" query string parameter to a specific field value
+ * @param {String} orderBy The input string
+ * @returns {String|null} The mapped field value or null if invalid
  */
-const checkOrderBy = async (orderBy) => {
+const checkOrderBy = (orderBy) => {
   try {
-    msgResponse = null;
-    msgLog = null;
-
-    if (typeof orderBy != "string") {
+    if (typeof orderBy !== "string") {
       return null;
     }
 
-    switch (orderBy.toLowerCase()) {
-      case "id":
-        orderBy = "id";
-        break;
-      case "codigo":
-      case "code":
-        orderBy = "codigo";
-        break;
-      case "imagen":
-      case "image":
-        orderBy = "imagen";
-        break;
-      case "nro_pieza":
-      case "nropieza":
-      case "nropart":
-        orderBy = "nro_pieza";
-        break;
-      case "categoria":
-      case "category":
-        orderBy = "categoria";
-        break;
-      case "descripcion":
-      case "description":
-        orderBy = "descripcion";
-        break;
-      case "fabricante":
-      case "maker":
-        orderBy = "fabricante";
-        break;
-      case "stock":
-        orderBy = "stock";
-        break;
-      case "precio":
-      case "price":
-        orderBy = "precio";
-        break;
-      default:
-        orderBy = null;
+    const orderByMapping = {
+      [component.ID]: component.ID,
+      [component.CODIGO]: component.CODIGO,
+      [component.CODE]: component.CODIGO,
+      [component.IMAGEN]: component.IMAGEN,
+      [component.IMAGE]: component.IMAGEN,
+      [component.NRO_PIEZA]: component.NRO_PIEZA,
+      [component.NRO_PART]: component.NRO_PIEZA,
+      // [component.CATEGORIA]: component.CATEGORIA,
+      // [component.CATEGORIA.toUpperCase()]: component.CATEGORIA,
+      // [component.CATEGORY]: component.CATEGORIA,
+      // [component.CATEGORY.toUpperCase()]: component.CATEGORIA,
+      // [component.DESCRIPCION]: component.DESCRIPCION,
+      // [component.DESCRIPCION.toUpperCase()]: component.DESCRIPCION,
+      // [component.DESCRIPTION]: component.DESCRIPCION,
+      // [component.DESCRIPTION.toUpperCase()]: component.DESCRIPCION,
+      // [component.FABRICANTE]: component.FABRICANTE,
+      // [component.FABRICANTE.toUpperCase()]: component.FABRICANTE,
+      // [component.MANUFACTURER]: component.FABRICANTE,
+      // [component.MANUFACTURER.toUpperCase()]: component.FABRICANTE,
+      // [maker]: component.FABRICANTE,
+      // [component.STOCK]: component.STOCK,
+      // [component.STOCK.toUpperCase()]: component.STOCK,
+      // [component.PRECIO]: component.PRECIO,
+      // [component.PRECIO.toUpperCase()]: component.PRECIO,
+      // [component.PRICE]: component.PRECIO,
+      // [component.PRICE.toUpperCase()]: component.PRECIO,
+    };
+
+    const mapping = createMappings(orderByMapping);
+
+    console.log(orderBy)
+    console.log(mapping)
+
+    // Comprobar si orderBy coincide con alguna de las claves del mapeo
+    if (mapping.hasOwnProperty(orderBy)) {
+      return mapping[orderBy];
     }
-    return orderBy;
+
+    return null;
+
   } catch (error) {
     msgResponse = "ERROR in checkOrderBy() helper function from component.js";
     msgLog = msgResponse + `Caused by ${error}`;
@@ -71,24 +75,18 @@ const checkOrderBy = async (orderBy) => {
  */
 const checkOrderAt = async (orderAt) => {
   try {
-    msgResponse = null;
-    msgLog = null;
-
     if (typeof orderAt != "string") {
       return null;
     }
 
-    switch (orderAt.toLowerCase()) {
-      case "asc":
-        orderAt = "ASC";
-        break;
-      case "desc":
-        orderAt = "DESC";
-        break;
-      default:
-        orderAt = null;
-    }
-    return orderAt;
+    const orderAtMapping = {
+      [names.ASCENDENTE]: names.ASCENDENTE,
+      [names.ASCENDENTE.toLowerCase()]: names.ASCENDENTE,
+      [names.DESCENDENTE]: names.DESCENDENTE,
+      [names.DESCENDENTE.toLowerCase()]: names.DESCENDENTE,
+    };
+
+    return orderAtMapping[orderAt.toLowerCase()] || null;
   } catch (error) {
     msgResponse = "ERROR in checkOrderAt() helper function from component.js";
     msgLog = msgResponse + `Caused by ${error}`;
