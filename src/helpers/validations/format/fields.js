@@ -38,8 +38,10 @@ const generateVariants = (key) => {
   variants.add(key.toUpperCase());
 
   // Reemplazar guiones bajos y guiones
-  variants.add(key.replace(/-/g, "_")); // Guiones a guiones bajos
-  variants.add(key.replace(/_/g, " ")); // Guiones bajos a espacios
+  variants.add(key.replace(/-/g, "_"));
+  variants.add(key.replace(/_/g, " ")); 
+  variants.add(key.toLowerCase().replace(/_/g, " "));
+  variants.add(key.toUpperCase().replace(/_/g, " "));
 
   variants.add(generateCamelCase(key));
 

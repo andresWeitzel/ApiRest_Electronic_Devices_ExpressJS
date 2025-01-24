@@ -1,5 +1,6 @@
 const component = {
   ID: "id",
+  ID_COMPONENTE: "id_componente",
   CODIGO: "codigo",
   CODE: "code",
   IMAGEN: "imagen",
@@ -15,7 +16,6 @@ const component = {
   STOCK: "stock",
   PRECIO: "precio",
   PRICE: "price",
-  ID_COMPONENTE: "id_componente",
   TIPO: "tipo",
   VOLTAJE_COLEC_EMIS: "voltaje_colec_emis",
   VOLTAJE_COLEC_BASE: "voltaje_colec_base",
@@ -24,7 +24,21 @@ const component = {
   CORRIENTE_COLEC: "corriente_colec",
   GANANCIA_HFE: "ganancia_hfe",
   DISIP_MAX: "disip_max",
-  TEMP_JUNTURA: "temp_juntura"
+  TEMP_JUNTURA: "temp_juntura",
+  HOJA_DE_DATOS:'hoja_de_datos',
+  DATASHEET:'datasheet',
+  LONGITUD:'longitud',
+  LENGTH:'length',
+  ANCHO:'ancho',
+  WIDTH:'width',
+  PESO:'peso',
+  WEIGTH:'weigth',
+  MATERIAL:'material',
+  VOLTAJE_RECOMENDADO:'voltaje_recomendado',
+  VOLTAJE_MIN_ENTRADA:'voltaje_min_entrada',
+  VOLTAJE_MAX_ENTRADA:'voltaje_max_entrada'
+
+
 };
 
 
