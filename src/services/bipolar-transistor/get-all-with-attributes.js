@@ -10,8 +10,8 @@ const { checkErrors } = require('../../helpers/sequelize/errors');
 const { paginationNameValueError } = require('../../enums/pagination/errors');
 const {
   checkOrderBy,
-  checkOrderAt,
 } = require('../../helpers/pagination/bipolar-transistor/bipolar-transistor');
+const { checkOrderAt } = require('../../helpers/pagination/ordering/orderAt');
 //Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
@@ -114,13 +114,13 @@ const getAllWithAttributesBipolarTransistor = async (req, res) => {
       orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
 
-    orderBy = await checkOrderBy(orderBy);
+    orderBy =  checkOrderBy(orderBy);
 
     if (orderBy == (null || undefined)) {
       return ORDER_BY_NAME_VALUE_ERROR;
     }
 
-    orderAt = await checkOrderAt(orderAt);
+    orderAt = checkOrderAt(orderAt);
 
     if (orderAt == (undefined || null)) {
       return ORDER_AT_NAME_VALUE_ERROR;

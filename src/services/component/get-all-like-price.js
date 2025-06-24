@@ -7,9 +7,9 @@ const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
 const {
   checkOrderBy,
-  checkOrderAt,
 } = require('../../helpers/pagination/component/component');
 const { paginationNameValueError } = require('../../enums/pagination/errors');
+const { checkOrderAt } = require('../../helpers/pagination/ordering/orderAt');
 //Const
 const ORDER_BY_NAME_VALUE_ERROR =
   paginationNameValueError.ORDER_BY_NAME_VALUE_ERROR;
@@ -77,13 +77,13 @@ const getAllComponentLikePriceService = async (req, res) => {
       orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
 
-    orderBy = await checkOrderBy(orderBy);
+    orderBy = checkOrderBy(orderBy);
 
     if (orderBy == (null || undefined)) {
       return ORDER_BY_NAME_VALUE_ERROR;
     }
 
-    orderAt = await checkOrderAt(orderAt);
+    orderAt = checkOrderAt(orderAt);
 
     if (orderAt == (null || undefined)) {
       return ORDER_AT_NAME_VALUE_ERROR;
