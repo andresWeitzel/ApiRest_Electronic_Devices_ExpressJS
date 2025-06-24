@@ -11,7 +11,7 @@ let msgLog;
  * @param {String} orderBy The input string
  * @returns {String|null} The mapped field value or null if invalid
  */
-const checkOrderBy = async (orderBy) => {
+const checkOrderBy = (orderBy) => {
   try {
     if (typeof orderBy !== "string") return null;
 
@@ -30,8 +30,6 @@ const checkOrderBy = async (orderBy) => {
     };
 
     const mapping = createMappings(orderByMapping);
-
-    console.log(mapping);
 
     // Comprobar si orderBy coincide con alguna de las claves del mapeo
     if (mapping.hasOwnProperty(orderBy)) {

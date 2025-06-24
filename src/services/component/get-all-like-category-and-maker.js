@@ -75,13 +75,13 @@ const getAllComponentLikeCategoryAndMakerService = async (req, res) => {
       orderAt = queryStrParams.orderAt ? queryStrParams.orderAt : orderAt;
     }
 
-    orderBy = await checkOrderBy(orderBy);
+    orderBy =  checkOrderBy(orderBy);
 
     if (orderBy == (null || undefined)) {
       return ORDER_BY_NAME_VALUE_ERROR;
     }
 
-    orderAt = await checkOrderAt(orderAt);
+    orderAt =  checkOrderAt(orderAt);
 
     if (orderAt == (null || undefined)) {
       return ORDER_AT_NAME_VALUE_ERROR;

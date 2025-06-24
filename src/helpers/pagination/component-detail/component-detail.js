@@ -11,7 +11,7 @@ let msgLog;
  * @param {String} orderBy The input string
  * @returns {String|null} The mapped field value or null if invalid
  */
-const checkOrderBy = async (orderBy) => {
+const checkOrderBy = (orderBy) => {
   try {
     if (typeof orderBy !== "string") {
       return null;
@@ -24,7 +24,7 @@ const checkOrderBy = async (orderBy) => {
       [component.ANCHO]: component.ANCHO,
       [component.PESO]: component.PESO,
       [component.MATERIAL]: component.MATERIAL,
-      [component.VOLTAJE_RRECOMENDADO]: component.VOLTAJE_RRECOMENDADO,
+      [component.VOLTAJE_RECOMENDADO]: component.VOLTAJE_RECOMENDADO,
       [component.VOLTAJE_MIN_ENTRADA]: component.VOLTAJE_MIN_ENTRADA,
       [component.VOLTAJE_MAX_ENTRADA]: component.VOLTAJE_MAX_ENTRADA,
     };
