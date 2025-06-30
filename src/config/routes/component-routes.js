@@ -13,6 +13,8 @@ const {
   getAllWithAttributesComponentController,
   getAllWithDetailComponentController,
   getAllWithBipolarTransistorComponentController,
+  getAllWithElectronicCapacitorComponentController,
+  getAllWithMosfetTransistorComponentController,
   getAllWithAllModelsComponentController,
   getComponentByIdController,
   getAllComponentLikeCodeController,
@@ -56,6 +58,18 @@ componentRouter.get('/list-with-details', getAllWithDetailComponentController);
 componentRouter.get(
   '/bipolar-transistor-list',
   getAllWithBipolarTransistorComponentController,
+);
+
+//component and electronic-capacitor
+componentRouter.get(
+  '/electronic-capacitor-list',
+  getAllWithElectronicCapacitorComponentController,
+);
+
+//component and mosfet-transistor
+componentRouter.get(
+  '/mosfet-transistor-list',
+  getAllWithMosfetTransistorComponentController,
 );
 
 //component wih all models

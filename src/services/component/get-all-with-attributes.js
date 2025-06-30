@@ -118,36 +118,60 @@ const getAllWithAttributesComponentService = async (req, res) => {
     //-- end with querys params and pagination  ---
 
     if (Component != (null && undefined)) {
+      // Construir el objeto where dinámicamente solo con atributos que tienen valores
+      const whereConditions = {};
+      
+      if (codigoParam && codigoParam.trim() !== '') {
+        whereConditions.codigo = {
+          [Op.iLike]: `%${codigoParam}%`,
+        };
+      }
+      
+      if (imagenParam && imagenParam.trim() !== '') {
+        whereConditions.imagen = {
+          [Op.iLike]: `%${imagenParam}%`,
+        };
+      }
+      
+      if (nroPiezaParam && nroPiezaParam.trim() !== '') {
+        whereConditions.nro_pieza = {
+          [Op.iLike]: `%${nroPiezaParam}%`,
+        };
+      }
+      
+      if (categoriaParam && categoriaParam.trim() !== '') {
+        whereConditions.categoria = {
+          [Op.iLike]: `%${categoriaParam}%`,
+        };
+      }
+      
+      if (descripcionParam && descripcionParam.trim() !== '') {
+        whereConditions.descripcion = {
+          [Op.iLike]: `%${descripcionParam}%`,
+        };
+      }
+      
+      if (fabricanteParam && fabricanteParam.trim() !== '') {
+        whereConditions.fabricante = {
+          [Op.iLike]: `%${fabricanteParam}%`,
+        };
+      }
+      
+      if (stockParam && stockParam > 0) {
+        whereConditions.stock = {
+          [Op.eq]: stockParam,
+        };
+      }
+      
+      if (precioParam && precioParam > 0) {
+        whereConditions.precio = {
+          [Op.eq]: precioParam,
+        };
+      }
+
       await Component.findAll({
         attributes: {},
-        where: {
-          [Op.or]: {
-            codigo: {
-              [Op.iLike]: `%${codigoParam}%`,
-            },
-            imagen: {
-              [Op.iLike]: `%${imagenParam}%`,
-            },
-            nro_pieza: {
-              [Op.iLike]: `%${nroPiezaParam}%`,
-            },
-            categoria: {
-              [Op.iLike]: `%${categoriaParam}%`,
-            },
-            descripcion: {
-              [Op.iLike]: `%${descripcionParam}%`,
-            },
-            fabricante: {
-              [Op.iLike]: `%${fabricanteParam}%`,
-            },
-            stock: {
-              [Op.eq]: stockParam,
-            },
-            precio: {
-              [Op.eq]: precioParam,
-            },
-          },
-        },
+        where: whereConditions,
         limit: pageSizeNro,
         offset: pageNro,
         order: order,

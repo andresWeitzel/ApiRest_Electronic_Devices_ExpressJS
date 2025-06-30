@@ -32,6 +32,12 @@ const {
   getAllWithBipolarTransistorComponentController,
 } = require('../../controllers/component/get-all-with-bipolar-transistor');
 const {
+  getAllWithElectronicCapacitorComponentController,
+} = require('../../controllers/component/get-all-with-electronic-capacitor');
+const {
+  getAllWithMosfetTransistorComponentController,
+} = require('../../controllers/component/get-all-with-mosfet-transistor');
+const {
   getAllWithDetailComponentController,
 } = require('../../controllers/component/get-all-with-details');
 const {
@@ -78,6 +84,8 @@ module.exports = {
   getAllComponentLikeImageController,
   getAllWithAttributesComponentController,
   getAllWithBipolarTransistorComponentController,
+  getAllWithElectronicCapacitorComponentController,
+  getAllWithMosfetTransistorComponentController,
   getAllWithDetailComponentController,
   getAllWithAllModelsComponentController,
   getComponentByIdController,

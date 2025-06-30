@@ -1,39 +1,39 @@
 //Models
-const { ComponentDetail } = require('../../models/sequelize/component-detail');
+const { ElectrolycticCapacitor } = require('../../models/sequelize/electrolytic_capacitor');
 //Enums
 const { statusName } = require('../../enums/database/status');
 const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const
 //errors details
 const UPDATE_OBJECT_DETAILS =
-  'Component detail has been successfully updated based on id ';
+  'Electrolytic capacitor has been successfully updated based on id ';
 const UPDATE_OBJECT_ERROR_DETAILS =
-  'Check if the component detail you want to updated exists in the db. The component detail has not been updated based on the id ';
-const UPDATE_COMPONENT_DETAIL_ERROR_DETAIL =
-  'Error in updateComponentDetailService() function.';
+  'Check if the electrolytic capacitor you want to updated exists in the db. The electrolytic capacitor has not been updated based on the id ';
+const UPDATE_ELECTROLYTIC_CAPACITOR_ERROR_DETAIL =
+  'Error in updateElectrolyticCapacitorService() function.';
 //status
 const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
 const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
 let params;
 let idParam;
-let updateComponentDetail;
+let updateElectrolyticCapacitor;
 let updateData;
 let reqBody;
 let msgLog;
 let msgResponse;
 
 /**
- * @description update a component-detail to database
+ * @description update an electrolytic capacitor to database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const updateComponentDetailService = async (req, res) => {
+const updateElectrolyticCapacitorService = async (req, res) => {
   try {
     idParam = null;
-    updateComponentDetail = null;
+    updateElectrolyticCapacitor = null;
     updateData = {};
     reqBody = null;
     msgLog = null;
@@ -59,35 +59,26 @@ const updateComponentDetailService = async (req, res) => {
     if (reqBody.id_componente !== undefined) {
       updateData.id_componente = reqBody.id_componente;
     }
-    if (reqBody.hoja_de_datos !== undefined) {
-      updateData.hoja_de_datos = reqBody.hoja_de_datos;
+    if (reqBody.tipo !== undefined) {
+      updateData.tipo = reqBody.tipo;
     }
-    if (reqBody.longitud !== undefined) {
-      updateData.longitud = reqBody.longitud;
+    if (reqBody.capacitancia !== undefined) {
+      updateData.capacitancia = reqBody.capacitancia;
     }
-    if (reqBody.ancho !== undefined) {
-      updateData.ancho = reqBody.ancho;
+    if (reqBody.tolerancia !== undefined) {
+      updateData.tolerancia = reqBody.tolerancia;
     }
-    if (reqBody.peso !== undefined) {
-      updateData.peso = reqBody.peso;
+    if (reqBody.rango_temperatura !== undefined) {
+      updateData.rango_temperatura = reqBody.rango_temperatura;
     }
-    if (reqBody.material !== undefined) {
-      updateData.material = reqBody.material;
-    }
-    if (reqBody.voltaje_recomendado !== undefined) {
-      updateData.voltaje_recomendado = reqBody.voltaje_recomendado;
-    }
-    if (reqBody.voltaje_min_entrada !== undefined) {
-      updateData.voltaje_min_entrada = reqBody.voltaje_min_entrada;
-    }
-    if (reqBody.voltaje_max_entrada !== undefined) {
-      updateData.voltaje_max_entrada = reqBody.voltaje_max_entrada;
+    if (reqBody.rango_tension_nominal !== undefined) {
+      updateData.rango_tension_nominal = reqBody.rango_tension_nominal;
     }
 
     //-- end with body ---
 
-    if (ComponentDetail != null && idParam != null && Object.keys(updateData).length > 0) {
-      await ComponentDetail.update(
+    if (ElectrolycticCapacitor != null && idParam != null && Object.keys(updateData).length > 0) {
+      await ElectrolycticCapacitor.update(
         updateData,
         {
           where: {
@@ -95,9 +86,9 @@ const updateComponentDetailService = async (req, res) => {
           },
         },
       )
-        .then(async (componentDetailItem) => {
-          updateComponentDetail =
-            componentDetailItem[0] == 1
+        .then(async (electrolyticCapacitorItem) => {
+          updateElectrolyticCapacitor =
+            electrolyticCapacitorItem[0] == 1
               ? {
                   objectUpdated: UPDATE_OBJECT_DETAILS + idParam,
                 }
@@ -106,31 +97,31 @@ const updateComponentDetailService = async (req, res) => {
                 };
         })
         .catch(async (error) => {
-          msgResponse = UPDATE_COMPONENT_DETAIL_ERROR_DETAIL;
+          msgResponse = UPDATE_ELECTROLYTIC_CAPACITOR_ERROR_DETAIL;
           msgLog = msgResponse + `Caused by ${error}`;
           console.log(msgLog);
 
-          updateComponentDetail = await checkErrors(error, error.name);
+          updateElectrolyticCapacitor = await checkErrors(error, error.name);
         });
     } else {
-      updateComponentDetail = await checkErrors(
+      updateElectrolyticCapacitor = await checkErrors(
         null,
         CONNECTION_REFUSED_STATUS_NAME,
       );
     }
   } catch (error) {
-    msgResponse = UPDATE_COMPONENT_DETAIL_ERROR_DETAIL;
+    msgResponse = UPDATE_ELECTROLYTIC_CAPACITOR_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
 
-    updateComponentDetail = await checkErrors(
+    updateElectrolyticCapacitor = await checkErrors(
       error,
       CONNECTION_ERROR_STATUS_NAME,
     );
   }
-  return updateComponentDetail;
+  return updateElectrolyticCapacitor;
 };
 
 module.exports = {
-  updateComponentDetailService,
-};
+  updateElectrolyticCapacitorService,
+}; 
