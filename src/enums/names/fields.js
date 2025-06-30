@@ -36,9 +36,18 @@ const component = {
   MATERIAL:'material',
   VOLTAJE_RECOMENDADO:'voltaje_recomendado',
   VOLTAJE_MIN_ENTRADA:'voltaje_min_entrada',
-  VOLTAJE_MAX_ENTRADA:'voltaje_max_entrada'
-
-
+  VOLTAJE_MAX_ENTRADA:'voltaje_max_entrada',
+  // Electrolytic Capacitor specific fields
+  CAPACITANCIA: "capacitancia",
+  TOLERANCIA: "tolerancia",
+  RANGO_TEMPERATURA: "rango_temperatura",
+  RANGO_TENSION_NOMINAL: "rango_tension_nominal",
+  // MOSFET Transistor specific fields
+  VOLTAJE_DRENAJE_FUENTE: "voltaje_drenaje_fuente",
+  CORRIENTE_CC_DRENAJE: "corriente_cc_drenaje",
+  TEMP_OP_MAX: "temp_op_max",
+  CONDUCT_DRENAJE_SUSTRATO: "conduct_drenaje_sustrato",
+  RESIST_DRENAJE_FUENTE: "resist_drenaje_fuente"
 };
 
 

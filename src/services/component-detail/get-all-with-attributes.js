@@ -27,6 +27,7 @@ let idComponenteParam;
 let hojaDatosParam;
 let longitudParam;
 let anchoParam;
+let pesoParam;
 let materialParam;
 let voltajeRecParam;
 let voltajeMinEntrParam;
@@ -120,39 +121,66 @@ const getAllWithAttributesComponentDetailService = async (req, res) => {
     //-- end with querys params and pagination  ---
 
     if (ComponentDetail != (null && undefined)) {
+      // Construir el objeto where dinámicamente solo con atributos que tienen valores
+      const whereConditions = {};
+      
+      if (idComponenteParam && idComponenteParam > 0) {
+        whereConditions.id_componente = {
+          [Op.eq]: idComponenteParam,
+        };
+      }
+      
+      if (hojaDatosParam && hojaDatosParam.trim() !== '') {
+        whereConditions.hoja_de_datos = {
+          [Op.iLike]: `%${hojaDatosParam}%`,
+        };
+      }
+      
+      if (longitudParam && longitudParam.trim() !== '') {
+        whereConditions.longitud = {
+          [Op.iLike]: `%${longitudParam}%`,
+        };
+      }
+      
+      if (anchoParam && anchoParam.trim() !== '') {
+        whereConditions.ancho = {
+          [Op.iLike]: `%${anchoParam}%`,
+        };
+      }
+      
+      if (pesoParam && pesoParam.trim() !== '') {
+        whereConditions.peso = {
+          [Op.iLike]: `%${pesoParam}%`,
+        };
+      }
+      
+      if (materialParam && materialParam.trim() !== '') {
+        whereConditions.material = {
+          [Op.iLike]: `%${materialParam}%`,
+        };
+      }
+      
+      if (voltajeRecParam && voltajeRecParam.trim() !== '') {
+        whereConditions.voltaje_recomendado = {
+          [Op.iLike]: `%${voltajeRecParam}%`,
+        };
+      }
+      
+      if (voltajeMinEntrParam && voltajeMinEntrParam.trim() !== '') {
+        whereConditions.voltaje_min_entrada = {
+          [Op.iLike]: `%${voltajeMinEntrParam}%`,
+        };
+      }
+      
+      if (voltajeMaxEntrParam && voltajeMaxEntrParam.trim() !== '') {
+        whereConditions.voltaje_max_entrada = {
+          [Op.iLike]: `%${voltajeMaxEntrParam}%`,
+        };
+      }
+
       await ComponentDetail.findAll({
         attributes: {},
-        where: {
-          [Op.or]: {
-            id_componente: {
-              [Op.eq]: `${idComponenteParam}`,
-            },
-            hoja_de_datos: {
-              [Op.iLike]: `%${hojaDatosParam}%`,
-            },
-            longitud: {
-              [Op.iLike]: `%${longitudParam}%`,
-            },
-            ancho: {
-              [Op.iLike]: `%${anchoParam}%`,
-            },
-            peso: {
-              [Op.iLike]: `%${pesoParam}%`,
-            },
-            material: {
-              [Op.iLike]: `%${materialParam}%`,
-            },
-            voltaje_recomendado: {
-              [Op.iLike]: `%${voltajeRecParam}%`,
-            },
-            voltaje_min_entrada: {
-              [Op.iLike]: `%${voltajeMinEntrParam}%`,
-            },
-            voltaje_max_entrada: {
-              [Op.iLike]: `%${voltajeMaxEntrParam}%`,
-            },
-          },
-        },
+        where: whereConditions,
         limit: pageSizeNro,
         offset: pageNro,
         order: order,

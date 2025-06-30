@@ -369,6 +369,7 @@ API_LOCAL_BASE_URL=http://localhost:8082
 API_COMPONENT_NAME_URL=/api/v1/componentes
 API_COMPONENT_DETAIL_NAME_URL=/api/v1/componentes-detalles
 API_BIPOLAR_TRANSISTOR_NAME_URL=/api/v1/transistores-bipolares
+API_ELECTROLYTIC_CAPACITOR_NAME_URL=/api/v1/capacitores-electroliticos
 
 # ===========================================
 # VARIABLES PARA TESTING

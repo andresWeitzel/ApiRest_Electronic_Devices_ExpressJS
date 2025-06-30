@@ -8,10 +8,14 @@ const API_LOCAL_BASE_URL = process.env.API_LOCAL_BASE_URL;
 const COMPONENT_ENDPOINT = process.env.API_COMPONENT_NAME_URL;
 const COMPONENT_DETAIL_ENDPOINT = process.env.API_COMPONENT_DETAIL_NAME_URL;
 const BIPOLAR_TRANSISTOR_ENDPOINT = process.env.API_BIPOLAR_TRANSISTOR_NAME_URL;
+const ELECTROLYTIC_CAPACITOR_ENDPOINT = process.env.API_ELECTROLYTIC_CAPACITOR_NAME_URL;
+const MOSFET_TRANSISTOR_ENDPOINT = process.env.API_MOSFET_TRANSISTOR_NAME_URL;
 //Config router
 const componentRouter = require('../routes/component-routes');
 const componentDetailRouter = require('../routes/component-detail-routes');
 const bipolarTransistorRouter = require('../routes/bipolar-transistor-routes');
+const electrolyticCapacitorRouter = require('../routes/electrolytic-capacitor-routes');
+const mosfetTransistorRouter = require('../routes/mosfet-transistor-routes');
 
 /**
  * @description initial settings for cors, express, etc (Middleware)
@@ -45,6 +49,8 @@ const appMiddleware = async () => {
     app.use(COMPONENT_ENDPOINT, componentRouter);
     app.use(COMPONENT_DETAIL_ENDPOINT, componentDetailRouter);
     app.use(BIPOLAR_TRANSISTOR_ENDPOINT, bipolarTransistorRouter);
+    app.use(ELECTROLYTIC_CAPACITOR_ENDPOINT, electrolyticCapacitorRouter);
+    app.use(MOSFET_TRANSISTOR_ENDPOINT, mosfetTransistorRouter);
     //-- end with routes --
 
     //-- See all endpoints
