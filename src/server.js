@@ -7,6 +7,8 @@ const PORT = process.env.PROD_PORT || process.env.APP_PORT || 8082;
 const { appMiddleware } = require('./config/middleware/index');
 //Utils swagger
 const { swaggerDocs } = require('./utils/swagger');
+//Models associations
+const { defineAssociations } = require('./models/sequelize/associations');
 //Const-vars
 let app;
 
@@ -16,6 +18,9 @@ let app;
  */
 const run = async () => {
   try {
+    //Define model associations
+    defineAssociations();
+
     //Middleware
     app = await appMiddleware();
 

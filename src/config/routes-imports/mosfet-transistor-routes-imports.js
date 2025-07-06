@@ -19,6 +19,33 @@ const {
 const {
   getAllWithAttributesMosfetTransistorController,
 } = require('../../controllers/mosfet-transistor/get-all-with-attributes');
+const {
+  getMosfetTransistorByIdController,
+} = require('../../controllers/mosfet-transistor/get-by-id');
+const {
+  getMosfetTransistorByComponentIdController,
+} = require('../../controllers/mosfet-transistor/get-by-component-id');
+const {
+  getAllMosfetTransistorLikeTipoController,
+} = require('../../controllers/mosfet-transistor/get-all-like-tipo');
+const {
+  getAllMosfetTransistorLikeVoltajeDrenajeFuenteController,
+} = require('../../controllers/mosfet-transistor/get-all-like-voltaje-drenaje-fuente');
+const {
+  getAllMosfetTransistorLikeCorrienteCcDrenajeController,
+} = require('../../controllers/mosfet-transistor/get-all-like-corriente-cc-drenaje');
+const {
+  getAllMosfetTransistorLikeDisipMaxController,
+} = require('../../controllers/mosfet-transistor/get-all-like-disip-max');
+const {
+  getAllMosfetTransistorLikeTempOpMaxController,
+} = require('../../controllers/mosfet-transistor/get-all-like-temp-op-max');
+const {
+  getAllMosfetTransistorLikeConductDrenajeSustratoController,
+} = require('../../controllers/mosfet-transistor/get-all-like-conduct-drenaje-sustrato');
+const {
+  getAllMosfetTransistorLikeResistDrenajeFuenteController,
+} = require('../../controllers/mosfet-transistor/get-all-like-resist-drenaje-fuente');
 
 module.exports = {
   //Validators
@@ -30,4 +57,13 @@ module.exports = {
   deleteMosfetTransistorController,
   getAllMosfetTransistorController,
   getAllWithAttributesMosfetTransistorController,
+  getMosfetTransistorByIdController,
+  getMosfetTransistorByComponentIdController,
+  getAllMosfetTransistorLikeTipoController,
+  getAllMosfetTransistorLikeVoltajeDrenajeFuenteController,
+  getAllMosfetTransistorLikeCorrienteCcDrenajeController,
+  getAllMosfetTransistorLikeDisipMaxController,
+  getAllMosfetTransistorLikeTempOpMaxController,
+  getAllMosfetTransistorLikeConductDrenajeSustratoController,
+  getAllMosfetTransistorLikeResistDrenajeFuenteController,
 }; 

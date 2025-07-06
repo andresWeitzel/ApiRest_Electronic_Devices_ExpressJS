@@ -73,46 +73,65 @@ const updateBipolarTransistorService = async (req, res) => {
     if (reqBody == (null || undefined)) {
       return null;
     }
-    idComponenteParam = reqBody.id_componente
-      ? reqBody.id_componente
-      : idComponenteParam;
-    tipoParam = reqBody.tipo ? reqBody.tipo : tipoParam;
-    voltajeColecEmisParam = reqBody.voltaje_colec_emis
-      ? reqBody.voltaje_colec_emis
-      : voltajeColecEmisParam;
-    voltajeColecBaseParam = reqBody.voltaje_colec_base_param
-      ? reqBody.voltaje_colec_base_param
-      : voltajeColecBaseParam;
-    voltajeEmisBaseParam = reqBody.voltaje_emis_base
-      ? reqBody.voltaje_emis_base
-      : voltajeEmisBaseParam;
-    voltajeColecEmisSatParam = reqBody.voltaje_colec_emis_sat
-      ? reqBody.voltaje_colec_emis_sat
-      : voltajeColecEmisSatParam;
-    corrienteColecParam = reqBody.corriente_colec
-      ? reqBody.corriente_colec
-      : corrienteColecParam;
-    gananciaHfeParam = reqBody.ganancia_hfe
-      ? reqBody.ganancia_hfe
-      : gananciaHfeParam;
-    disipMaxParam = reqBody.disip_max ? reqBody.disip_max : disipMaxParam;
-    tempJuntParam = reqBody.temp_juntura ? reqBody.temp_juntura : tempJuntParam;
+    
+    // Only assign values if they are provided in the request body
+    if (reqBody.hasOwnProperty('id_componente')) {
+      idComponenteParam = reqBody.id_componente;
+    }
+    if (reqBody.hasOwnProperty('tipo')) {
+      tipoParam = reqBody.tipo;
+    }
+    if (reqBody.hasOwnProperty('voltaje_colec_emis')) {
+      voltajeColecEmisParam = reqBody.voltaje_colec_emis;
+    }
+    if (reqBody.hasOwnProperty('voltaje_colec_base')) {
+      voltajeColecBaseParam = reqBody.voltaje_colec_base;
+    }
+    if (reqBody.hasOwnProperty('voltaje_emis_base')) {
+      voltajeEmisBaseParam = reqBody.voltaje_emis_base;
+    }
+    if (reqBody.hasOwnProperty('voltaje_colec_emis_sat')) {
+      voltajeColecEmisSatParam = reqBody.voltaje_colec_emis_sat;
+    }
+    if (reqBody.hasOwnProperty('corriente_colec')) {
+      corrienteColecParam = reqBody.corriente_colec;
+    }
+    if (reqBody.hasOwnProperty('ganancia_hfe')) {
+      gananciaHfeParam = reqBody.ganancia_hfe;
+    }
+    if (reqBody.hasOwnProperty('disip_max')) {
+      disipMaxParam = reqBody.disip_max;
+    }
+    if (reqBody.hasOwnProperty('temp_juntura')) {
+      tempJuntParam = reqBody.temp_juntura;
+    }
     //-- end with body ---
 
     if (BipolarTransistor != null && idParam != null) {
+      // Build update object only with provided values (including null values if explicitly provided)
+      const updateData = {};
+      
+      if (reqBody.hasOwnProperty('id_componente')) updateData.id_componente = idComponenteParam;
+      if (reqBody.hasOwnProperty('tipo')) updateData.tipo = tipoParam;
+      if (reqBody.hasOwnProperty('voltaje_colec_emis')) updateData.voltaje_colec_emis = voltajeColecEmisParam;
+      if (reqBody.hasOwnProperty('voltaje_colec_base')) updateData.voltaje_colec_base = voltajeColecBaseParam;
+      if (reqBody.hasOwnProperty('voltaje_emis_base')) updateData.voltaje_emis_base = voltajeEmisBaseParam;
+      if (reqBody.hasOwnProperty('voltaje_colec_emis_sat')) updateData.voltaje_colec_emis_sat = voltajeColecEmisSatParam;
+      if (reqBody.hasOwnProperty('corriente_colec')) updateData.corriente_colec = corrienteColecParam;
+      if (reqBody.hasOwnProperty('ganancia_hfe')) updateData.ganancia_hfe = gananciaHfeParam;
+      if (reqBody.hasOwnProperty('disip_max')) updateData.disip_max = disipMaxParam;
+      if (reqBody.hasOwnProperty('temp_juntura')) updateData.temp_juntura = tempJuntParam;
+
+      // Only update if there are fields to update
+      if (Object.keys(updateData).length === 0) {
+        updateBipolarTransistor = {
+          objectUpdated: 'No fields to update provided',
+        };
+        return updateBipolarTransistor;
+      }
+
       await BipolarTransistor.update(
-        {
-          id_componente: idComponenteParam,
-          tipo: tipoParam,
-          voltaje_colec_emis: voltajeColecEmisParam,
-          voltaje_colec_base_param: voltajeColecBaseParam,
-          voltaje_emis_base: voltajeEmisBaseParam,
-          voltaje_colec_emis_sat: voltajeColecEmisSatParam,
-          corriente_colec: corrienteColecParam,
-          ganancia_hfe: gananciaHfeParam,
-          disip_max: disipMaxParam,
-          temp_juntura: tempJuntParam,
-        },
+        updateData,
         {
           where: {
             id: idParam,
@@ -149,7 +168,7 @@ const updateBipolarTransistorService = async (req, res) => {
 
     updateBipolarTransistor = await checkErrors(
       error,
-      CONNECTION_ERROR,
+      CONNECTION_ERROR_STATUS_NAME,
     );
   }
   return updateBipolarTransistor;

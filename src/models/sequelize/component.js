@@ -2,11 +2,6 @@
 const { DataTypes } = require('sequelize');
 //Database
 const { dbConnection } = require('../../db/config');
-//Models
-const { ComponentDetail } = require('./component-detail');
-const { BipolarTransistor } = require('./bipolar-transistor');
-const { MosfetTransistor } = require('./mosfet-transistor');
-const { ElectrolycticCapacitor } = require('./electrolytic_capacitor');
 
 /**
  * @description database component model with their respective fields and constraints
@@ -52,21 +47,5 @@ let Component = dbConnection.define(
     tableName: 'componentes',
   },
 );
-Component.hasMany(ComponentDetail, {
-  foreignKey: 'id_componente',
-  foreignKeyConstraint: true,
-});
-Component.hasOne(BipolarTransistor, {
-  foreignKey: 'id_componente',
-  foreignKeyConstraint: true,
-});
-Component.hasOne(MosfetTransistor, {
-  foreignKey: 'id_componente',
-  foreignKeyConstraint: true,
-});
-Component.hasOne(ElectrolycticCapacitor, {
-  foreignKey: 'id_componente',
-  foreignKeyConstraint: true,
-});
 
 module.exports = { Component };

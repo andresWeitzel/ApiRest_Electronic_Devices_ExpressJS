@@ -3,10 +3,13 @@ require('dotenv').config();
 //Database
 const { dbConnection } = require('../../db/config');
 //Models
-const { MosfetTransistor } = require('../../models/sequelize/mosfet-transistor');
+const {
+  MosfetTransistor,
+} = require('../../models/sequelize/mosfet-transistor');
 //Enums
 const { statusName, statusDetails } = require('../../enums/database/status');
 const { statusCode } = require('../../enums/http/status-code');
+const { checkErrors } = require('../../helpers/sequelize/errors');
 //Const
 const INTERNAL_SERVER_ERROR_CODE = statusCode.INTERNAL_SERVER_ERROR;
 const BAD_REQUEST_CODE = statusCode.BAD_REQUEST;
@@ -16,67 +19,78 @@ const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL = statusDetails.CONNECTION_REFUSED_DETAIL;
 const DELETE_MOSFET_TRANSISTOR_ERROR_DETAIL = 'Error in deleteMosfetTransistorService() function.';
 const DELETE_MOSFET_TRANSISTOR_BAD_REQUEST_DETAIL = 'Bad request, could not delete mosfet transistor.';
+const DELETE_OBJECT_DETAILS = 'Mosfet Transistor has been successfully removed based on id ';
+const DELETE_OBJECT_ERROR_DETAILS = 'Check if the Mosfet Transistor you want to remove exists in the db. The Mosfet Transistor has not been removed based on the id ';
 //Vars
-let msgResponse;
+let params;
+let idParam;
+let deleteMosfetTransistor;
 let msgLog;
+let msgResponse;
 
 /**
- * @description delete a mosfet transistor from database
+ * @description delete a mosfet transistor from the database
  * @param {any} req any type
+ * @param {any} res any type
  * @returns a json object with the transaction performed
  * @example
  */
-const deleteMosfetTransistorService = async (req) => {
+const deleteMosfetTransistorService = async (req, res) => {
   try {
-    msgResponse = null;
+    deleteMosfetTransistor = null;
+    params = null;
+    idParam = null;
     msgLog = null;
+    msgResponse = null;
 
-    // Check database connection
-    if (!dbConnection) {
-      msgResponse = CONNECTION_ERROR_STATUS;
-      msgLog = CONNECTION_ERROR_STATUS_DETAIL;
-      console.log(msgLog);
-      return msgResponse;
+    //-- start with params ---
+    params = req.params;
+
+    if (params != (null && undefined)) {
+      idParam = params.id ? params.id : idParam;
     }
+    //-- end with params  ---
 
-    // Check if database is connected
-    try {
-      await dbConnection.authenticate();
-    } catch (error) {
-      msgResponse = CONNECTION_REFUSED_STATUS;
-      msgLog = CONNECTION_REFUSED_STATUS_DETAIL;
-      console.log(msgLog);
-      return msgResponse;
+    if (MosfetTransistor != null && idParam != null) {
+      await MosfetTransistor.destroy({
+        where: {
+          id: idParam,
+        },
+      })
+        .then(async (mosfetTransistorItem) => {
+          deleteMosfetTransistor =
+            mosfetTransistorItem == 1
+              ? {
+                  objectDeleted: DELETE_OBJECT_DETAILS + idParam,
+                }
+              : {
+                  objectDeleted: DELETE_OBJECT_ERROR_DETAILS + idParam,
+                };
+        })
+        .catch(async (error) => {
+          msgResponse = DELETE_MOSFET_TRANSISTOR_ERROR_DETAIL;
+          msgLog = msgResponse + `Caused by ${error}`;
+          console.log(msgLog);
+
+          deleteMosfetTransistor = await checkErrors(error, error.name);
+        });
+    } else {
+      deleteMosfetTransistor = await checkErrors(
+        null,
+        CONNECTION_REFUSED_STATUS,
+      );
     }
-
-    // Extract id from request
-    const { id } = req.params;
-    if (!id) {
-      msgResponse = DELETE_MOSFET_TRANSISTOR_BAD_REQUEST_DETAIL;
-      msgLog = msgResponse;
-      console.log(msgLog);
-      return msgResponse;
-    }
-
-    // Find mosfet transistor
-    const existingMosfetTransistor = await MosfetTransistor.findByPk(id);
-    if (!existingMosfetTransistor) {
-      msgResponse = 'Mosfet transistor not found';
-      msgLog = msgResponse;
-      console.log(msgLog);
-      return msgResponse;
-    }
-
-    // Delete mosfet transistor
-    await existingMosfetTransistor.destroy();
-    return { message: 'Mosfet transistor deleted successfully' };
-
   } catch (error) {
     msgResponse = DELETE_MOSFET_TRANSISTOR_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-    return msgResponse;
+
+    deleteMosfetTransistor = await checkErrors(
+      error,
+      CONNECTION_ERROR_STATUS,
+    );
   }
+  return deleteMosfetTransistor;
 };
 
 module.exports = {
