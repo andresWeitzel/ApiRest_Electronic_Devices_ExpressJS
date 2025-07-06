@@ -28,14 +28,14 @@ const MAX_VALUE_LENGHT_VOLTAJE_DRENAJE_FUENTE = 30;
  * @description corriente CC del drenaje del MOSFET. Ej: 3A
  */
 const NAME_VALUE_CORRIENTE_CC_DRENAJE = 'corriente_cc_drenaje';
-const MIN_VALUE_LENGHT_CORRIENTE_CC_DRENAJE = 3;
+const MIN_VALUE_LENGHT_CORRIENTE_CC_DRENAJE = 2;
 const MAX_VALUE_LENGHT_CORRIENTE_CC_DRENAJE = 30;
 
 /**
  * @description disipación máxima del MOSFET. Ej: 2.5W
  */
 const NAME_VALUE_DISIP_MAX = 'disip_max';
-const MIN_VALUE_LENGHT_DISIP_MAX = 3;
+const MIN_VALUE_LENGHT_DISIP_MAX = 2;
 const MAX_VALUE_LENGHT_DISIP_MAX = 30;
 
 /**

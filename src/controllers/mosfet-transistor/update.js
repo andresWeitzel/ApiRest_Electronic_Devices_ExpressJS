@@ -15,15 +15,15 @@ const CONNECTION_ERROR_STATUS = statusName.CONNECTION_ERROR;
 const CONNECTION_ERROR_STATUS_DETAIL = statusDetails.CONNECTION_ERROR_DETAIL;
 const CONNECTION_REFUSED_STATUS = statusName.CONNECTION_REFUSED;
 const CONNECTION_REFUSED_STATUS_DETAIL = statusDetails.CONNECTION_REFUSED_DETAIL;
-const UPDATE_MOSFET_TRANSISTOR_ERROR_DETAIL = 'Error in updateMosfetTransistorController() function.';
-const UPDATE_MOSFET_TRANSISTOR_BAD_REQUEST_DETAIL = 'Bad request, could not update mosfet transistor.';
+const UPDATE_MOSFET_TRANSISTOR_ERROR_DETAIL = 'ERROR in updateMosfetTransistorController() function.';
+const UPDATE_MOSFET_TRANSISTOR_BAD_REQUEST_DETAIL = 'Bad request, could not update a mosfet transistor.';
 //Vars
-let updatedMosfetTransistor;
+let updateMosfetTransistor;
 let msgResponse;
 let msgLog;
 
 /**
- * @description update a mosfet transistor in database
+ * @description update a mosfet transistor to database
  * @param {any} req any type
  * @param {any} res any type
  * @returns a json object with the transaction performed
@@ -33,9 +33,9 @@ const updateMosfetTransistorController = async (req, res) => {
   try {
     msgResponse = null;
     msgLog = null;
-    updatedMosfetTransistor = await updateMosfetTransistorService(req);
+    updateMosfetTransistor = await updateMosfetTransistorService(req);
 
-    switch (updatedMosfetTransistor) {
+    switch (updateMosfetTransistor) {
       case CONNECTION_ERROR_STATUS:
         res
           .status(INTERNAL_SERVER_ERROR_CODE)
@@ -49,26 +49,25 @@ const updateMosfetTransistorController = async (req, res) => {
       case 0:
       case undefined:
       case null:
-        res.status(BAD_REQUEST_CODE).send({
-          error: UPDATE_MOSFET_TRANSISTOR_BAD_REQUEST_DETAIL,
-        });
+        res
+          .status(BAD_REQUEST_CODE)
+          .send({ error: UPDATE_MOSFET_TRANSISTOR_BAD_REQUEST_DETAIL });
         break;
       default:
         if (
-          typeof updatedMosfetTransistor === 'object' &&
-          updatedMosfetTransistor.hasOwnProperty('id_componente')
+          typeof updateMosfetTransistor === 'object' &&
+          updateMosfetTransistor.hasOwnProperty('objectUpdated')
         ) {
-          res.status(OK_CODE).send(updatedMosfetTransistor);
+          res.status(OK_CODE).send(updateMosfetTransistor);
           break;
         }
-        res.status(BAD_REQUEST_CODE).send({ error: updatedMosfetTransistor });
+        res.status(BAD_REQUEST_CODE).send({ error: updateMosfetTransistor });
         break;
     }
   } catch (error) {
     msgResponse = UPDATE_MOSFET_TRANSISTOR_ERROR_DETAIL;
     msgLog = msgResponse + `Caused by ${error}`;
     console.log(msgLog);
-
     res.status(INTERNAL_SERVER_ERROR_CODE).send({ error: msgResponse });
   }
 };
