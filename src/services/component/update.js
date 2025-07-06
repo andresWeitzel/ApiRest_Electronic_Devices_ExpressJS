@@ -15,6 +15,7 @@ const UPDATE_COMPONENT_ERROR_DETAIL =
 const CONNECTION_REFUSED_STATUS_NAME = statusName.CONNECTION_REFUSED;
 const CONNECTION_ERROR_STATUS_NAME = statusName.CONNECTION_ERROR;
 //Vars
+let updatedComponent;
 let idParam;
 let codigoParam;
 let params;
@@ -48,7 +49,7 @@ const updateComponentService = async (req, res) => {
     descripcionParam = null;
     fabricanteParam = null;
     stockParam = null;
-    priceParam = null;
+    precioParam = null;
     msgLog = null;
     msgResponse = null;
 

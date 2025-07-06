@@ -57,8 +57,37 @@ const checkOrderBy = (orderBy) => {
   }
 };
 
+/**
+ * @description Maps and validates the "orderAt" query string parameter to ASC or DESC
+ * @param {String} orderAt The input string
+ * @returns {String|null} The mapped direction value or null if invalid
+ */
+const checkOrderAt = (orderAt) => {
+  try {
+    if (typeof orderAt !== "string") return null;
+
+    const orderAtMapping = {
+      'ASC': 'ASC',
+      'asc': 'ASC',
+      'Asc': 'ASC',
+      'DESC': 'DESC',
+      'desc': 'DESC',
+      'Desc': 'DESC'
+    };
+
+    return orderAtMapping[orderAt] || null;
+  } catch (error) {
+    msgResponse =
+      "ERROR in checkOrderAt() helper function from mosfet-transistor.js.";
+    msgLog = msgResponse + ` Caused by ${error}`;
+    console.log(msgLog);
+    return null;
+  }
+};
+
 module.exports = {
   getPagination,
   getPagingData,
   checkOrderBy,
+  checkOrderAt,
 }; 

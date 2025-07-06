@@ -110,7 +110,7 @@ const updateMosfetTransistorService = async (req, res) => {
 
     if (MosfetTransistor != null && idParam != null) {
       // Build update object only with provided values (including null values if explicitly provided)
-      const updateData = {};
+    const updateData = {};
       
       if (reqBody.hasOwnProperty('id_componente')) updateData.id_componente = idComponenteParam;
       if (reqBody.hasOwnProperty('tipo')) updateData.tipo = tipoParam;

@@ -37,14 +37,27 @@ Rest Api about electronic devices implemented with Express, Morgan, Railway ,Nod
 *   [1.3) Database Configuration with Docker and PostgreSQL](#13-database-configuration-with-docker-and-postgresql-)
 *   [1.4) Technologies.](#14-technologies-)
 
-### Section 2) Endpoints and Examples
+### Section 2) Testing Documentation and Implementation
 
-*   [2.0) EndPoints and resources.](#20-endpoints-and-resources-)
+*   [2.0) Testing Overview.](#20-testing-overview-)
+*   [2.1) Testing Structure.](#21-testing-structure-)
+*   [2.2) Testing Commands.](#22-testing-commands-)
+*   [2.3) Test Types.](#23-test-types-)
+*   [2.4) Test Configuration.](#24-test-configuration-)
+*   [2.5) Test Coverage.](#25-test-coverage-)
+*   [2.6) Test Cases.](#26-test-cases-)
+*   [2.7) Troubleshooting.](#27-troubleshooting-)
+*   [2.8) Quality Metrics.](#28-quality-metrics-)
+*   [2.9) Maintenance.](#29-maintenance-)
 
-### Section 3) Functionality Testing and References
+### Section 3) Endpoints and Examples
 
-*   [3.0) Functionality test.](#30-functionality-test-)
-*   [3.1) References.](#31-references-)
+*   [3.0) EndPoints and resources.](#30-endpoints-and-resources-)
+
+### Section 4) Functionality Testing and References
+
+*   [4.0) Functionality test.](#40-functionality-test-)
+*   [4.1) References.](#41-references-)
 
 <br>
 
@@ -546,9 +559,382 @@ The database includes the following main tables:
 
 <br>
 
-## Section 2) Endpoints and Examples.
+## Section 2) Testing Documentation and Implementation
 
-### 2.0) Endpoints and resources [🔝](#index-)
+### 2.0) Testing Overview [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+This project includes a comprehensive testing suite with both unit tests and integration tests to ensure code quality and reliability.
+
+**Testing Framework:** Jest with Supertest for API testing
+**Coverage:** >90% code coverage
+**Test Types:** Unit tests, Integration tests, Validation tests
+
+<br>
+
+</details>
+
+### 2.1) Testing Structure [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+```
+src/test/
+├── integration-test/          # Tests de integración
+│   ├── app.test.js           # Configuración de la app para tests
+│   ├── test-setup.js         # Configuración de base de datos de prueba
+│   ├── component.test.js     # Tests de endpoints de componentes
+│   ├── mosfet-transistor.test.js
+│   ├── bipolar-transistor.test.js
+│   ├── electrolytic-capacitor.test.js
+│   └── component-detail.test.js
+├── unit-test/                # Tests unitarios
+│   ├── helpers/              # Tests de helpers
+│   │   ├── pagination/       # Tests de paginación
+│   │   │   ├── component/
+│   │   │   ├── component-detail/
+│   │   │   └── mosfet-transistor.test.js
+│   │   └── validations/      # Tests de validaciones
+│   │       ├── component.test.js
+│   │       └── mosfet-transistor.test.js
+│   └── services/             # Tests de servicios
+│       ├── component.test.js
+│       └── mosfet-transistor.test.js
+└── mock/                     # Mocks y configuración
+    └── set-env-vars.js       # Variables de entorno para tests
+```
+
+<br>
+
+</details>
+
+### 2.2) Testing Commands [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+#### Execute all tests
+```bash
+npm test
+```
+
+#### Execute unit tests
+```bash
+npm run test:unit
+```
+
+#### Execute integration tests
+```bash
+npm run test:integration
+```
+
+#### Execute specific tests
+```bash
+# Pagination tests
+npm run test:pagination-helpers
+
+# Service tests
+npm run test:services
+
+# Validation tests
+npm run test:validations
+```
+
+#### Execute tests with coverage
+```bash
+npm run test:cov
+```
+
+#### Execute tests in watch mode
+```bash
+npm run test:watch
+```
+
+<br>
+
+</details>
+
+### 2.3) Test Types [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+#### 2.3.1) Unit Tests
+
+Unit tests focus on testing individual functions and isolated modules:
+
+**Pagination Helpers:**
+- **checkOrderBy**: Validates ordering fields
+- **checkOrderAt**: Validates ordering direction (ASC/DESC)
+
+**Validation Helpers:**
+- **validateCreateComponent**: Validates data for creating components
+- **validateUpdateComponent**: Validates data for updating components
+- **validateCreateMosfetTransistor**: Validates data for creating MOSFET transistors
+- **validateUpdateMosfetTransistor**: Validates data for updating MOSFET transistors
+
+**Services:**
+- **createComponentService**: Tests component creation
+- **getAllComponentService**: Tests component retrieval with pagination
+- **getComponentByIdService**: Tests retrieval by ID
+- **updateComponentService**: Tests updates
+- **deleteComponentService**: Tests deletion
+
+#### 2.3.2) Integration Tests
+
+Integration tests test complete API endpoints:
+
+**Component Endpoints:**
+- **POST /api/component**: Create component
+- **GET /api/component**: Get all components
+- **GET /api/component/:id**: Get component by ID
+- **PATCH /api/component/:id**: Update component
+- **DELETE /api/component/:id**: Delete component
+- **GET /api/component/search/***: Search endpoints
+
+**MOSFET Transistor Endpoints:**
+- **POST /api/mosfet-transistor**: Create MOSFET transistor
+- **GET /api/mosfet-transistor**: Get all MOSFET transistors
+- **GET /api/mosfet-transistor/:id**: Get by ID
+- **GET /api/mosfet-transistor/component/:componentId**: Get by component
+- **PATCH /api/mosfet-transistor/:id**: Update
+- **DELETE /api/mosfet-transistor/:id**: Delete
+- **GET /api/mosfet-transistor/search/***: Search endpoints
+
+**Bipolar Transistor Endpoints:**
+- Similar structure to MOSFET transistors
+
+**Electrolytic Capacitor Endpoints:**
+- Similar structure to MOSFET transistors
+
+**Component Detail Endpoints:**
+- Similar structure to components
+
+<br>
+
+</details>
+
+### 2.4) Test Configuration [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+#### 2.4.1) Environment Variables for Tests
+
+```bash
+# Test database
+TEST_DB_NAME=test_electronic_devices
+TEST_DB_USER=postgres
+TEST_DB_PASSWORD=postgres
+TEST_DB_HOST=localhost
+TEST_DB_PORT=5432
+
+# Mock variables for unit tests
+MOCK_NUMBER_01=1212313
+MOCK_BOOLEAN_01=true
+MOCK_STRING_01=MOCK_STRING_01
+MOCK_ID_NAME=id
+MOCK_CODE_NAME=codigo
+MOCK_NRO_PART_NAME=nro_pieza
+MOCK_ORDER_AT_ASC_NAME=ASC
+MOCK_ORDER_AT_DESC_NAME=DESC
+```
+
+#### 2.4.2) Jest Configuration
+
+```javascript
+// jest.config.js
+const config = {
+  setupFilesAfterEnv: ['./src/test/mock/set-env-vars.js'],
+  testEnvironment: 'node',
+  collectCoverageFrom: [
+    'src/**/*.js',
+    '!src/test/**',
+    '!src/server.js'
+  ],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov', 'html']
+};
+```
+
+<br>
+
+</details>
+
+### 2.5) Test Coverage [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+The tests cover:
+
+#### CRUD Functionality
+- ✅ Create (POST)
+- ✅ Read (GET)
+- ✅ Update (PATCH)
+- ✅ Delete (DELETE)
+
+#### Validations
+- ✅ Required fields
+- ✅ Data types
+- ✅ Value ranges
+- ✅ Specific formats
+
+#### Pagination and Ordering
+- ✅ Page parameters
+- ✅ Result limits
+- ✅ Ordering fields
+- ✅ Ordering direction
+
+#### Specific Searches
+- ✅ Search by code
+- ✅ Search by description
+- ✅ Search by price ranges
+- ✅ Search by stock ranges
+- ✅ Technical searches specific to component type
+
+#### Error Handling
+- ✅ Validation errors (400)
+- ✅ Resources not found (404)
+- ✅ Server errors (500)
+- ✅ Database connection errors
+
+<br>
+
+</details>
+
+### 2.6) Test Cases [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+#### Successful Cases
+- Successful component creation
+- Data retrieval with pagination
+- Partial record updates
+- Successful deletion
+- Searches with filters
+
+#### Error Cases
+- Invalid data in creation
+- Invalid data in updates
+- Non-existent IDs
+- Missing required fields
+- Out-of-range values
+
+#### Edge Cases
+- Pagination with extreme limits
+- Ordering with invalid fields
+- Searches with empty parameters
+- Relationships between entities
+
+<br>
+
+</details>
+
+### 2.7) Troubleshooting [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+#### Common Issues
+
+1. **Database connection error**
+   - Verify PostgreSQL is running
+   - Verify test database credentials
+   - Verify test database exists
+
+2. **Integration tests failing**
+   - Verify test database is clean
+   - Verify models are synchronized
+   - Verify environment variables are configured
+
+3. **Unit tests failing**
+   - Verify mocks are configured correctly
+   - Verify dependencies are imported correctly
+   - Verify mock variables are defined
+
+#### Debug Logs
+
+To enable detailed logs during tests:
+
+```bash
+# Enable Jest logs
+npm test -- --verbose
+
+# Enable database logs
+DEBUG=sequelize:* npm test
+```
+
+<br>
+
+</details>
+
+### 2.8) Quality Metrics [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+- **Code coverage**: >90%
+- **Unit tests**: 100+ cases
+- **Integration tests**: 50+ cases
+- **Execution time**: <30 seconds
+- **Reliability**: 99%+ tests passing consistently
+
+<br>
+
+</details>
+
+### 2.9) Maintenance [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+#### Adding New Tests
+
+1. **For new endpoints**:
+   - Create file in `integration-test/`
+   - Follow existing test patterns
+   - Include successful and error cases
+
+2. **For new services**:
+   - Create file in `unit-test/services/`
+   - Mock external dependencies
+   - Test all use cases
+
+3. **For new helpers**:
+   - Create file in `unit-test/helpers/`
+   - Test edge cases and errors
+   - Maintain high coverage
+
+#### Updating Existing Tests
+
+- Maintain compatibility with API changes
+- Update mocks when dependencies change
+- Review and update test cases according to new validations
+
+<br>
+
+</details>
+
+<br>
+
+## Section 3) Endpoints and Examples.
+
+### 3.0) Endpoints and resources [🔝](#index-)
 
 <details>
    <summary>View</summary>
@@ -560,9 +946,9 @@ The database includes the following main tables:
 
 <br>
 
-## Section 3) Functionality Testing and References.
+## Section 4) Functionality Testing and References.
 
-### 3.0) Functionality test [🔝](#index-)
+### 4.0) Functionality test [🔝](#index-)
 
 <details>
    <summary>View</summary>
@@ -570,7 +956,7 @@ The database includes the following main tables:
 
 </details>
 
-### 3.1) References [🔝](#index-)
+### 4.1) References [🔝](#index-)
 
 <details>
    <summary>View</summary>

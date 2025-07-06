@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-07-06T04:22:40.096Z",
+  "results": {
+    "unit": {
+      "success": false,
+      "error": "\n> apirest_dispositivos_electronicos_expressjs@1.0.0 test:unit\n> jest --verbose ./src/test/unit-test\n\n"
+    },
+    "integration": {
+      "success": false,
+      "error": "\n> apirest_dispositivos_electronicos_expressjs@1.0.0 test:integration\n> jest --verbose ./src/test/integration-test\n\n"
+    },
+    "coverage": {
+      "success": false,
+      "error": "\n> apirest_dispositivos_electronicos_expressjs@1.0.0 test:cov\n> jest --coverage --verbose\n\n---------------------------------------|---------|----------|---------|---------|-------------------\nFile                                   | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s \n---------------------------------------|---------|----------|---------|---------|-------------------\nAll files                              |   70.34 |    53.33 |   47.36 |   70.17 |                   \n enums/names                           |     100 |      100 |     100 |     100 |                   \n  fields.js                            |     100 |      100 |     100 |     100 |                   \n helpers/pagination/component          |      75 |      100 |     100 |      75 |                   \n  component.js                         |      75 |      100 |     100 |      75 | 50-53             \n helpers/pagination/component-detail   |      75 |      100 |     100 |      75 |                   \n  component-detail.js                  |      75 |      100 |     100 |      75 | 41-45             \n helpers/pagination/mosfet-transistor  |      56 |       40 |   33.33 |   54.16 |                   \n  mosfet-transistor.js                 |      56 |       40 |   33.33 |   54.16 | 10-12,16-19,52-56 \n helpers/validations/component         |   64.44 |        0 |       0 |   64.44 |                   \n  express-validator.js                 |   64.44 |        0 |       0 |   64.44 | 35-149,158-267    \n helpers/validations/format            |     100 |      100 |     100 |     100 |                   \n  fields.js                            |     100 |      100 |     100 |     100 |                   \n helpers/validations/mosfet-transistor |   64.44 |        0 |       0 |   64.44 |                   \n  express-validator.js                 |   64.44 |        0 |       0 |   64.44 | 67-193,202-322    \n---------------------------------------|---------|----------|---------|---------|-------------------\n"
+    },
+    "total": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0
+    }
+  },
+  "summary": {
+    "totalTests": 0,
+    "passedTests": 0,
+    "failedTests": 0,
+    "successRate": "0%"
+  }
+}
