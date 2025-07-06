@@ -93,7 +93,7 @@ describe("- checkOrderBy helper (Unit Test)", () => {
         MOCK_DATASHEET_NAME_VALUE.toUpperCase()
       );
       await expect(checkOrderByResult == MOCK_DATASHEET_NAME_VALUE).toBe(true);
-      mockDatasheetNameModifiedValue = "hojadedatos";
+      mockDatasheetNameModifiedValue = "hoja de datos";
       checkOrderByResult = await checkOrderBy(mockDatasheetNameModifiedValue);
       await expect(checkOrderByResult == MOCK_DATASHEET_NAME_VALUE).toBe(true);
     });

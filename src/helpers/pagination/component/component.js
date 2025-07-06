@@ -6,6 +6,19 @@ const {
 let msgResponse;
 let msgLog;
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 10;
+  const offset = page ? page * limit : 0;
+  return { limit, offset };
+};
+
+const getPagingData = (data, page, limit) => {
+  const { count: totalItems, rows: items } = data;
+  const currentPage = page ? +page : 0;
+  const totalPages = Math.ceil(totalItems / limit);
+  return { totalItems, items, totalPages, currentPage };
+};
+
 /**
  * @description Maps and validates the "orderBy" query string parameter to a specific field value
  * @param {String} orderBy The input string
@@ -54,6 +67,36 @@ const checkOrderBy = (orderBy) => {
   }
 };
 
+/**
+ * @description Maps and validates the "orderAt" query string parameter to ASC or DESC
+ * @param {String} orderAt The input string
+ * @returns {String|null} The mapped direction value or null if invalid
+ */
+const checkOrderAt = (orderAt) => {
+  try {
+    if (typeof orderAt !== "string") return null;
+
+    const orderAtMapping = {
+      'ASC': 'ASC',
+      'asc': 'ASC',
+      'Asc': 'ASC',
+      'DESC': 'DESC',
+      'desc': 'DESC',
+      'Desc': 'DESC'
+    };
+
+    return orderAtMapping[orderAt] || null;
+  } catch (error) {
+    msgResponse = "ERROR in checkOrderAt() helper function from component.js";
+    msgLog = msgResponse + ` Caused by ${error}`;
+    console.log(msgLog);
+    return null;
+  }
+};
+
 module.exports = {
+  getPagination,
+  getPagingData,
   checkOrderBy,
+  checkOrderAt,
 };
