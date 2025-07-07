@@ -1,4 +1,8 @@
+<div align="center">
+
 ![Index app](../doc/assets/componentes-example.png)
+
+</div>
 
 <div align="right">
    <img width="25" height="25" src="../doc/assets/icons/backend/javascript-typescript/png/sequelize.png" />
