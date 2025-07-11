@@ -21,10 +21,10 @@
 
 <div align="right">
      <a href="./translations/README.es.md" target="_blank">
-       <img src="./doc/assets/translation/arg-flag.jpg" width="10%" height="10%" />
+       <img src="./doc/assets/translation/arg-flag.jpg" width="65" height="40" />
    </a>
     <a href="./README.md" target="_blank">
-       <img src="./doc/assets/translation/eeuu-flag.jpg" width="10%" height="10%" />
+       <img src="./doc/assets/translation/eeuu-flag.jpg" width="65" height="40" />
    </a>
 </div>
 
@@ -41,8 +41,8 @@
 Rest Api about electronic devices implemented with Express, Morgan, Railway ,NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, Docker, others.
 
 *   [Database repository](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
-*   [Functionality Test Playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" > <img src="./doc/assets/social-networks/yt.png" width="5%" height="5%" /> </a>
-*   [Postman Collection](./postman/collections/Api_DispElectr_Express.postman_collection.json) - Complete API testing collection included in the project
+*   [Postman Collection](./postman/collections/Api_DispElectr_Express.postman_collection.json)
+*   [Functionality Test Playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" > <img src="./doc/assets/social-networks/yt.png" width="25" /> </a>
 
 <br>
 
@@ -204,7 +204,7 @@ The application follows a **layered architecture pattern** with clear separation
    <summary>View</summary>
    <br>
 
-#### 1.1.0) Initial settings
+### 1.1.0) Initial settings
 
 #### Prerequisites
 Before starting, ensure you have the following installed:
@@ -349,7 +349,7 @@ sudo usermod -aG docker $USER
    <summary>View</summary>
   <br>
 
-#### 1.2.0) Initial settings
+### 1.2.0) Initial settings
 
 This section guides you through setting up the project from scratch, including all dependencies, project structure, and configuration.
 
@@ -701,7 +701,7 @@ This structure provides a scalable and maintainable foundation for the electroni
    <summary>View</summary>
   <br>
 
-#### 1.3.0) Database Overview
+### 1.3.0) Database Overview
 
 This project uses **PostgreSQL** as the database engine, containerized with **Docker** for easy setup and deployment. The database contains information about electronic components including:
 
@@ -712,7 +712,7 @@ This project uses **PostgreSQL** as the database engine, containerized with **Do
 *   **Electrolytic Capacitors** (`capacitores_electroliticos`): Capacitor specifications
 
 
-#### 1.3.1) Docker Setup
+### 1.3.1) Docker Setup
 
 The project includes a `docker-compose.yml` file that automatically sets up PostgreSQL with all necessary configurations:
 
@@ -730,7 +730,7 @@ The project includes a `docker-compose.yml` file that automatically sets up Post
 *   WAL buffers: 16MB
 *   Work memory: 4MB
 
-#### 1.3.2) Environment Variables
+### 1.3.2) Environment Variables
 
 Create a `.env` file in the project root with the following configuration:
 
@@ -755,7 +755,7 @@ API_BIPOLAR_TRANSISTOR_NAME_URL=/api/v1/transistores-bipolares
 API_ELECTROLYTIC_CAPACITOR_NAME_URL=/api/v1/capacitores-electroliticos
 ```
 
-#### 1.3.3) Database Initialization
+### 1.3.3) Database Initialization
 
 The database is automatically initialized with the following SQL files located in the `init/` directory:
 
@@ -765,7 +765,7 @@ The database is automatically initialized with the following SQL files located i
 4. **`04_db_dispositivos_electronicos_DML_DELETE.sql`**: Sample delete operations
 5. **`05_db_dispositivos_electronicos_DML_QUERIES.sql`**: Sample queries
 
-#### 1.3.4) Starting the Database
+### 1.3.4) Starting the Database
 
 **Prerequisites:**
 *   [Docker](https://docs.docker.com/get-docker/) installed on your system
@@ -798,7 +798,7 @@ The database is automatically initialized with the following SQL files located i
    docker-compose down -v
    ```
 
-#### 1.3.5) Database Connection
+### 1.3.5) Database Connection
 
 The application automatically connects to the PostgreSQL database using Sequelize ORM. The connection is configured in `src/db/config.js` and uses the environment variables defined in your `.env` file.
 
@@ -809,7 +809,7 @@ The application automatically connects to the PostgreSQL database using Sequeliz
 *   **Username**: dispositivos_user
 *   **Password**: dispositivos_pass
 
-#### 1.3.6) Database Schema
+### 1.3.6) Database Schema
 
 The database includes the following main tables:
 
@@ -829,7 +829,7 @@ The database includes the following main tables:
 *   `placas_esp8266`: ESP8266 boards
 *   `placas_esp32`: ESP32 development boards
 
-#### 1.3.7) Troubleshooting
+### 1.3.7) Troubleshooting
 
 **Common Issues:**
 
@@ -1295,11 +1295,11 @@ DEBUG=sequelize:* npm test
    <summary>View</summary>
 <br>
 
-## API Overview
+## API Summary
 
 The API provides RESTful endpoints for managing electronic components with the following base URL:
 ```
-http://localhost:8082/api/v1
+http://localhost:8082
 ```
 
 ### Authentication
@@ -1343,257 +1343,705 @@ All API responses follow a consistent JSON format:
 
 ### 3.1) GET Operations
 
-#### 3.1.1) Get All Components
+#### 3.1.1) Get Components List
 
-###### Request (GET)
+##### Request (GET)
 
 ```bash
-curl --location --request GET 'http://localhost:8082/api/v1/componentes?page=1&limit=5&orderBy=codigo&orderAt=ASC' \
---header 'Content-Type: application/json'
+curl --location 'http://localhost:8082/componentes/list?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
 ```
 
-###### Response (200 OK)
+##### Response (200 OK)
 
 ```json
-{
-  "status": "success",
-  "message": "Components retrieved successfully",
-  "data": [
+[
     {
-      "id": 1,
-      "codigo": "COMP001",
-      "descripcion": "Arduino Uno R3",
-      "categoria": "Development Board",
-      "fabricante": "Arduino",
-      "precio": 25.99,
-      "stock": 50,
-      "imagen": "arduino-uno.jpg",
-      "nro_pieza": "A000066",
-      "created_at": "2023-06-28T16:46:31.000Z",
-      "updated_at": "2023-06-28T16:46:31.000Z"
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00"
     },
     {
-      "id": 2,
-      "codigo": "COMP002",
-      "descripcion": "Raspberry Pi 4 Model B",
-      "categoria": "Development Board",
-      "fabricante": "Raspberry Pi Foundation",
-      "precio": 45.00,
-      "stock": 25,
-      "imagen": "raspberry-pi-4.jpg",
-      "nro_pieza": "RPI4-4GB",
-      "created_at": "2023-06-28T16:47:15.000Z",
-      "updated_at": "2023-06-28T16:47:15.000Z"
+        "id": 2,
+        "codigo": "DFHSDK-3CD010G",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+        "nro_pieza": "3CD010G",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT PNP",
+        "fabricante": "INCHANGE SEMICONDUCTOR",
+        "stock": 450,
+        "precio": "5.00"
     }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 5,
-    "total": 150,
-    "pages": 30
-  }
-}
+]
 ```
 
-###### Response (400 Bad Request)
+#### 3.1.2) Get Component by Code
 
-```json
-{
-  "status": "error",
-  "message": "Invalid pagination parameters. Page must be a positive number and limit must be between 1 and 100."
-}
-```
-
-###### Response (500 Internal Server Error)
-
-```json
-{
-  "status": "error",
-  "message": "Database connection error. Please try again later."
-}
-```
-
-#### 3.1.2) Get Component by ID
-
-###### Request (GET)
+##### Request (GET)
 
 ```bash
-curl --location --request GET 'http://localhost:8082/api/v1/componentes/1' \
---header 'Content-Type: application/json'
+curl --location 'http://localhost:8082/componentes/list-with-attributes?codigo=LSÑK871-JSKU99&imagen=&nroPieza=&categoria=&descripcion=&fabricante=&stock=&precio=&page=0&limit=10&orderBy=codigo&orderAt=DESC' \
+--header 'Content-Type: application/json' \
+--data ''
 ```
 
-###### Response (200 OK)
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 14,
+        "codigo": "LSÑK871-JSKU99",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/capacitoresElectr/04_Capacitor%20Electrolitico%20de%20Aluminio%20Encaje%20a%20Presi%C3%B3n%20hitachi.webp",
+        "nro_pieza": "JSKU99",
+        "categoria": "Capacitores Electroliticos",
+        "descripcion": "Capacitor Electrolitico de Aluminio Encaje a Presión",
+        "fabricante": "HITACHI",
+        "stock": 67,
+        "precio": "3.00"
+    }
+]
+```
+
+#### 3.1.3) Get Components with Details
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/list-with-details?page=0&limit=10&orderBy=codigo&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00",
+        "componente_detalle": {
+            "id": 1,
+            "componente_id": 1,
+            "longitud": 68.6,
+            "ancho": 53.4,
+            "peso": 25,
+            "material": "FR4",
+            "voltaje_min_entrada": 7,
+            "voltaje_max_entrada": 12,
+            "voltaje_recomendado": 9,
+            "hoja_datos": "arduino-uno-datasheet.pdf"
+        }
+    }
+]
+```
+
+#### 3.1.4) Get Components with Bipolar Transistors
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/list-with-bipolar-transistor?page=0&limit=10&orderBy=codigo&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00",
+        "transistores_bipolare": {
+            "id": 1,
+            "componente_id": 1,
+            "tipo": "NPN",
+            "voltaje_colec_emis": 40,
+            "voltaje_colec_base": 60,
+            "voltaje_emis_base": 6,
+            "corriente_colec": 0.6,
+            "ganancia_hfe": 100,
+            "disip_max": 0.625,
+            "temp_juntura": 150,
+            "voltaje_colec_emis_sat": 0.3
+        }
+    }
+]
+```
+
+#### 3.1.5) Get Components with Electrolytic Capacitors
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/list-with-electronic-capacitor?page=0&limit=10&orderBy=codigo&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 11,
+        "codigo": "009-KLDIUAOASS",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/capacitoresElectr/01_capElectrAlumRadialVishay.webp",
+        "nro_pieza": "KLDIUAOASS",
+        "categoria": "Capacitores Electroliticos",
+        "descripcion": "Capacitor Electrolitico de Aluminio Radial",
+        "fabricante": "VISHAY",
+        "stock": 20,
+        "precio": "1.00",
+        "capacitores_electrolitico": {
+            "id": 1,
+            "componente_id": 11,
+            "tipo": "Plomo Radial",
+            "capacitancia": "22 µF a 12000 µF",
+            "tolerancia": "5/+20%",
+            "rango_temperatura": "-55 °C a to 105 °C",
+            "rango_tension_nominal": "10 V to 100 V"
+        }
+    }
+]
+```
+
+#### 3.1.6) Get Components with MOSFET Transistors
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/list-with-mosfet-transistor?page=0&limit=10&orderBy=codigo&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 9,
+        "codigo": "JDHFYT-AP4519GED",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresMosfet/01_transNpAdvancedPower.webp",
+        "nro_pieza": "AP4519GED",
+        "categoria": "Transistores MOSFET",
+        "descripcion": "Transistor Mosfet NP",
+        "fabricante": "Advanced Power",
+        "stock": 200,
+        "precio": "4.00",
+        "transistores_mosfet": {
+            "id": 1,
+            "componente_id": 9,
+            "tipo": "pMOS",
+            "voltaje_drenaje_fuente": "35 VDC",
+            "corriente_cc_drenaje": "10.4 A",
+            "disip_max": "35 W",
+            "temp_op_max": "170 °C",
+            "conduct_drenaje_sustrato": "95 (118) pF",
+            "resist_drenaje_fuente": "0.178 (0.142) Ohm"
+        }
+    }
+]
+```
+
+#### 3.1.7) Get Components with All Models
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/list-with-all-models?page=0&limit=10&orderBy=codigo&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00",
+        "componentes_detalles": {
+            "id": 1,
+            "componente_id": 1,
+            "longitud": 68.6,
+            "ancho": 53.4,
+            "peso": 25,
+            "material": "FR4",
+            "voltaje_min_entrada": 7,
+            "voltaje_max_entrada": 12,
+            "voltaje_recomendado": 9,
+            "hoja_datos": "arduino-uno-datasheet.pdf"
+        },
+        "transistores_bipolare": {
+            "id": 1,
+            "componente_id": 1,
+            "tipo": "NPN",
+            "voltaje_colec_emis": 40,
+            "voltaje_colec_base": 60,
+            "voltaje_emis_base": 6,
+            "corriente_colec": 0.6,
+            "ganancia_hfe": 100,
+            "disip_max": 0.625,
+            "temp_juntura": 150,
+            "voltaje_colec_emis_sat": 0.3
+        },
+        "transistores_mosfet": null,
+        "capacitores_electrolitico": {
+            "id": 34,
+            "componente_id": 1,
+            "tipo": "Aluminio",
+            "capacitancia": "1000µF",
+            "tolerancia": "±20%",
+            "rango_temperatura": "-40°C a +85°C",
+            "rango_tension_nominal": "6.3V a 450V"
+        }
+    }
+]
+```
+
+#### 3.1.8) Get Component by ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/id/1' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
 
 ```json
 {
-  "status": "success",
-  "message": "Component retrieved successfully",
-  "data": {
     "id": 1,
-    "codigo": "COMP001",
-    "descripcion": "Arduino Uno R3",
-    "categoria": "Development Board",
-    "fabricante": "Arduino",
-    "precio": 25.99,
-    "stock": 50,
-    "imagen": "arduino-uno.jpg",
-    "nro_pieza": "A000066",
-    "created_at": "2023-06-28T16:46:31.000Z",
-    "updated_at": "2023-06-28T16:46:31.000Z"
-  }
+    "codigo": "HDGHFK-KSH13006",
+    "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+    "nro_pieza": "KSH13006",
+    "categoria": "Transistores BJT",
+    "descripcion": "Transistor BJT NPN",
+    "fabricante": "SHANTOU HUASHAN",
+    "stock": 300,
+    "precio": "2.00"
 }
 ```
 
-###### Response (404 Not Found)
+#### 3.1.9) Search Components by Code
 
-```json
-{
-  "status": "error",
-  "message": "Component not found with ID: 999"
-}
-```
-
-#### 3.1.3) Search Components by Code
-
-###### Request (GET)
+##### Request (GET)
 
 ```bash
-curl --location --request GET 'http://localhost:8082/api/v1/componentes/search/codigo/COMP001' \
---header 'Content-Type: application/json'
+curl --location 'http://localhost:8082/componentes/codigo/A?page=0&limit=20&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
 ```
 
-###### Response (200 OK)
+##### Response (200 OK)
 
 ```json
-{
-  "status": "success",
-  "message": "Components found successfully",
-  "data": [
+[
     {
-      "id": 1,
-      "codigo": "COMP001",
-      "descripcion": "Arduino Uno R3",
-      "categoria": "Development Board",
-      "fabricante": "Arduino",
-      "precio": 25.99,
-      "stock": 50,
-      "imagen": "arduino-uno.jpg",
-      "nro_pieza": "A000066"
-    }
-  ]
-}
-```
-
-#### 3.1.4) Search Components by Price Range
-
-###### Request (GET)
-
-```bash
-curl --location --request GET 'http://localhost:8082/api/v1/componentes/search/precio-min-max/10/50' \
---header 'Content-Type: application/json'
-```
-
-###### Response (200 OK)
-
-```json
-{
-  "status": "success",
-  "message": "Components found successfully",
-  "data": [
-    {
-      "id": 1,
-      "codigo": "COMP001",
-      "descripcion": "Arduino Uno R3",
-      "categoria": "Development Board",
-      "fabricante": "Arduino",
-      "precio": 25.99,
-      "stock": 50
+        "id": 5,
+        "codigo": "JSKSHDD-10QQKAA",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/05_transNpnSTMicroelectronics.webp",
+        "nro_pieza": "10QQKAA",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "STMicroelectronics",
+        "stock": 212,
+        "precio": "4.00"
     },
     {
-      "id": 2,
-      "codigo": "COMP002",
-      "descripcion": "Raspberry Pi 4 Model B",
-      "categoria": "Development Board",
-      "fabricante": "Raspberry Pi Foundation",
-      "precio": 45.00,
-      "stock": 25
+        "id": 6,
+        "codigo": "KALDSHY-222AASA",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/06_transPnpInchangeSemiConduc02.webp",
+        "nro_pieza": "222AASA",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT PNP",
+        "fabricante": "INCHANGE SEMICONDUCTOR",
+        "stock": 450,
+        "precio": "3.00"
     }
-  ]
-}
+]
+```
+
+#### 3.1.10) Search Components by Image
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/imagen/http?page=0&limit=4&orderBy=stock&orderAt=DESC' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 6,
+        "codigo": "KALDSHY-222AASA",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/06_transPnpInchangeSemiConduc02.webp",
+        "nro_pieza": "222AASA",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT PNP",
+        "fabricante": "INCHANGE SEMICONDUCTOR",
+        "stock": 450,
+        "precio": "3.00"
+    }
+]
+```
+
+#### 3.1.11) Search Components by Part Number
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/nro-pieza/10QQKAA?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 5,
+        "codigo": "JSKSHDD-10QQKAA",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/05_transNpnSTMicroelectronics.webp",
+        "nro_pieza": "10QQKAA",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "STMicroelectronics",
+        "stock": 212,
+        "precio": "4.00"
+    }
+]
+```
+
+#### 3.1.12) Search Components by Category and Manufacturer
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/categoria-fabricante/Transistores%20BJT/SHANTOU%20HUASHAN?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00"
+    }
+]
+```
+
+#### 3.1.13) Search Components by Description
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/descripcion/Transistor?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00"
+    }
+]
+```
+
+#### 3.1.14) Search Components by Stock
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/stock/300?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00"
+    }
+]
+```
+
+#### 3.1.15) Search Components by Maximum Stock
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/stock-max/500?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 2,
+        "codigo": "DFHSDK-3CD010G",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+        "nro_pieza": "3CD010G",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT PNP",
+        "fabricante": "INCHANGE SEMICONDUCTOR",
+        "stock": 450,
+        "precio": "5.00"
+    }
+]
+```
+
+#### 3.1.16) Search Components by Stock Range
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/stock-min-max/200/500?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00"
+    },
+    {
+        "id": 2,
+        "codigo": "DFHSDK-3CD010G",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+        "nro_pieza": "3CD010G",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT PNP",
+        "fabricante": "INCHANGE SEMICONDUCTOR",
+        "stock": 450,
+        "precio": "5.00"
+    }
+]
+```
+
+#### 3.1.17) Search Components by Price
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/precio/5.00?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 2,
+        "codigo": "DFHSDK-3CD010G",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+        "nro_pieza": "3CD010G",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT PNP",
+        "fabricante": "INCHANGE SEMICONDUCTOR",
+        "stock": 450,
+        "precio": "5.00"
+    }
+]
+```
+
+#### 3.1.18) Search Components by Maximum Price
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/precio-max/10.00?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00"
+    },
+    {
+        "id": 2,
+        "codigo": "DFHSDK-3CD010G",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+        "nro_pieza": "3CD010G",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT PNP",
+        "fabricante": "INCHANGE SEMICONDUCTOR",
+        "stock": 450,
+        "precio": "5.00"
+    }
+]
+```
+
+#### 3.1.19) Search Components by Price Range
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes/precio-min-max/1.00/5.00?page=0&limit=10&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "codigo": "HDGHFK-KSH13006",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/01_transNpnShantouHuashan.jpg",
+        "nro_pieza": "KSH13006",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT NPN",
+        "fabricante": "SHANTOU HUASHAN",
+        "stock": 300,
+        "precio": "2.00"
+    },
+    {
+        "id": 2,
+        "codigo": "DFHSDK-3CD010G",
+        "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+        "nro_pieza": "3CD010G",
+        "categoria": "Transistores BJT",
+        "descripcion": "Transistor BJT PNP",
+        "fabricante": "INCHANGE SEMICONDUCTOR",
+        "stock": 450,
+        "precio": "5.00"
+    }
+]
 ```
 
 ### 3.2) POST Operations
 
 #### 3.2.1) Create Component
 
-###### Request (POST)
+##### Request (POST)
 
 ```bash
-curl --location --request POST 'http://localhost:8082/api/v1/componentes' \
+curl --location 'http://localhost:8082/componentes/' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "codigo": "COMP003",
-    "descripcion": "ESP32 Development Board",
-    "categoria": "Development Board",
-    "fabricante": "Espressif",
-    "precio": 12.99,
-    "stock": 75,
-    "imagen": "esp32-dev-board.jpg",
-    "nro_pieza": "ESP32-DEV"
+--data '{
+    "codigo": "DFHSDK-3CD010P3",
+    "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+    "nro_pieza": "3CD010k",
+    "categoria": "Transistores BJT",
+    "descripcion": "Transistor BJT PNP",
+    "fabricante": "INCHANGE SEMICONDUCTOR",
+    "stock": 400,
+    "precio": 5.0
 }'
 ```
 
-###### Response (201 Created)
+##### Response (200 OK)
 
 ```json
 {
-  "status": "success",
-  "message": "Component created successfully",
-  "data": {
-    "id": 3,
-    "codigo": "COMP003",
-    "descripcion": "ESP32 Development Board",
-    "categoria": "Development Board",
-    "fabricante": "Espressif",
-    "precio": 12.99,
-    "stock": 75,
-    "imagen": "esp32-dev-board.jpg",
-    "nro_pieza": "ESP32-DEV",
-    "created_at": "2023-06-28T17:30:15.000Z",
-    "updated_at": "2023-06-28T17:30:15.000Z"
-  }
-}
-```
-
-###### Response (400 Bad Request)
-
-```json
-{
-  "status": "error",
-  "message": "Validation failed",
-  "errors": [
-    {
-      "field": "codigo",
-      "message": "Code is required and must be between 3 and 20 characters"
-    },
-    {
-      "field": "precio",
-      "message": "Price must be a positive number"
-    },
-    {
-      "field": "stock",
-      "message": "Stock must be a non-negative integer"
-    }
-  ]
-}
-```
-
-###### Response (409 Conflict)
-
-```json
-{
-  "status": "error",
-  "message": "Component with code 'COMP003' already exists"
+    "id": 35,
+    "codigo": "DFHSDK-3CD010P3",
+    "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+    "nro_pieza": "3CD010k",
+    "categoria": "Transistores BJT",
+    "descripcion": "Transistor BJT PNP",
+    "fabricante": "INCHANGE SEMICONDUCTOR",
+    "stock": 400,
+    "precio": "5.00"
 }
 ```
 
@@ -1601,60 +2049,28 @@ curl --location --request POST 'http://localhost:8082/api/v1/componentes' \
 
 #### 3.3.1) Update Component
 
-###### Request (PATCH)
+##### Request (PATCH)
 
 ```bash
-curl --location --request PATCH 'http://localhost:8082/api/v1/componentes/1' \
+curl --location --request PATCH 'http://localhost:8082/componentes/id/35' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "precio": 29.99,
-    "stock": 45,
-    "descripcion": "Arduino Uno R3 - Updated Description"
+--data '{
+    "codigo": "HHHSA7-332",
+    "imagen": "https://raw.githubusercontent.com/andresWeitzel/db_microelectronica_Oracle/master/files/transistoresBjt/02_transPnpInchangeSemiConduc.jpg",
+    "nro_pieza": "3CD010k",
+    "categoria": "Transistores BJT",
+    "descripcion": "Transistor BJT PNP",
+    "fabricante": "INCHANGE SEMICONDUCTOR",
+    "stock": 400,
+    "precio": 5.0
 }'
 ```
 
-###### Response (200 OK)
+##### Response (200 OK)
 
 ```json
 {
-  "status": "success",
-  "message": "Component updated successfully",
-  "data": {
-    "id": 1,
-    "codigo": "COMP001",
-    "descripcion": "Arduino Uno R3 - Updated Description",
-    "categoria": "Development Board",
-    "fabricante": "Arduino",
-    "precio": 29.99,
-    "stock": 45,
-    "imagen": "arduino-uno.jpg",
-    "nro_pieza": "A000066",
-    "updated_at": "2023-06-28T18:15:30.000Z"
-  }
-}
-```
-
-###### Response (400 Bad Request)
-
-```json
-{
-  "status": "error",
-  "message": "Validation failed",
-  "errors": [
-    {
-      "field": "precio",
-      "message": "Price must be a positive number"
-    }
-  ]
-}
-```
-
-###### Response (404 Not Found)
-
-```json
-{
-  "status": "error",
-  "message": "Component not found with ID: 999"
+    "objectUpdated": "Component has been successfully updated based on id 35"
 }
 ```
 
@@ -1662,37 +2078,19 @@ curl --location --request PATCH 'http://localhost:8082/api/v1/componentes/1' \
 
 #### 3.4.1) Delete Component
 
-###### Request (DELETE)
+##### Request (DELETE)
 
 ```bash
-curl --location --request DELETE 'http://localhost:8082/api/v1/componentes/3' \
---header 'Content-Type: application/json'
+curl --location --request DELETE 'http://localhost:8082/componentes/35' \
+--header 'Content-Type: application/json' \
+--data ''
 ```
 
-###### Response (200 OK)
+##### Response (200 OK)
 
 ```json
 {
-  "status": "success",
-  "message": "Component deleted successfully"
-}
-```
-
-###### Response (404 Not Found)
-
-```json
-{
-  "status": "error",
-  "message": "Component not found with ID: 999"
-}
-```
-
-###### Response (409 Conflict)
-
-```json
-{
-  "status": "error",
-  "message": "Cannot delete component. It has associated records in other tables"
+    "message": "Component deleted successfully"
 }
 ```
 
@@ -1702,88 +2100,246 @@ curl --location --request DELETE 'http://localhost:8082/api/v1/componentes/3' \
 
 #### 3.5.1) Get All MOSFET Transistors
 
-###### Request (GET)
+##### Request (GET)
 
 ```bash
-curl --location --request GET 'http://localhost:8082/api/v1/transistores-mosfet?page=1&limit=5' \
---header 'Content-Type: application/json'
+curl --location 'http://localhost:8082/transistores-mosfet/list?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
 ```
 
-###### Response (200 OK)
+##### Response (200 OK)
 
 ```json
-{
-  "status": "success",
-  "message": "MOSFET transistors retrieved successfully",
-  "data": [
+[
     {
-      "id": 1,
-      "componente_id": 1,
-      "tipo": "N-Channel",
-      "voltaje_drenaje_fuente": 60,
-      "corriente_cc_drenaje": 3.2,
-      "disip_max": 1.4,
-      "resist_drenaje_fuente": 0.085,
-      "temp_op_max": 150,
-      "conduct_drenaje_sustrato": 0.0001,
-      "created_at": "2023-06-28T16:46:31.000Z",
-      "updated_at": "2023-06-28T16:46:31.000Z"
+        "id": 1,
+        "componente_id": 9,
+        "tipo": "NP",
+        "voltaje_drenaje_fuente": 60,
+        "corriente_cc_drenaje": 3.2,
+        "disip_max": 1.4,
+        "resist_drenaje_fuente": 0.085,
+        "temp_op_max": 150,
+        "conduct_drenaje_sustrato": 0.0001
+    },
+    {
+        "id": 2,
+        "componente_id": 10,
+        "tipo": "N",
+        "voltaje_drenaje_fuente": 60,
+        "corriente_cc_drenaje": 6.0,
+        "disip_max": 1.0,
+        "resist_drenaje_fuente": 0.12,
+        "temp_op_max": 150,
+        "conduct_drenaje_sustrato": 0.0001
     }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 5,
-    "total": 25,
-    "pages": 5
-  }
-}
+]
 ```
 
-#### 3.5.2) Get MOSFET Transistor by ID
+#### 3.5.2) Get MOSFET Transistors by Type
 
-###### Request (GET)
+##### Request (GET)
 
 ```bash
-curl --location --request GET 'http://localhost:8082/api/v1/transistores-mosfet/1' \
---header 'Content-Type: application/json'
+curl --location 'http://localhost:8082/transistores-mosfet/tipo/NP?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
 ```
 
-###### Response (200 OK)
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 9,
+        "tipo": "NP",
+        "voltaje_drenaje_fuente": 60,
+        "corriente_cc_drenaje": 3.2,
+        "disip_max": 1.4,
+        "resist_drenaje_fuente": 0.085,
+        "temp_op_max": 150,
+        "conduct_drenaje_sustrato": 0.0001
+    }
+]
+```
+
+#### 3.5.3) Get MOSFET Transistor by ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-mosfet/id/1' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
 
 ```json
 {
-  "status": "success",
-  "message": "MOSFET transistor retrieved successfully",
-  "data": {
     "id": 1,
-    "componente_id": 1,
-    "tipo": "N-Channel",
-    "voltaje_drenaje_fuente": 60,
-    "corriente_cc_drenaje": 3.2,
-    "disip_max": 1.4,
-    "resist_drenaje_fuente": 0.085,
-    "temp_op_max": 150,
-    "conduct_drenaje_sustrato": 0.0001,
-    "componente": {
-      "id": 1,
-      "codigo": "COMP001",
-      "descripcion": "Arduino Uno R3"
-    }
-  }
+    "componente_id": 9,
+    "tipo": "pMOS",
+    "voltaje_drenaje_fuente": "35 VDC",
+    "corriente_cc_drenaje": "10.4 A",
+    "disip_max": "35 W",
+    "temp_op_max": "170 °C",
+    "conduct_drenaje_sustrato": "95 (118) pF",
+    "resist_drenaje_fuente": "0.178 (0.142) Ohm"
 }
+```
+
+#### 3.5.4) Get MOSFET Transistor by Component ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-mosfet/componente/9' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+{
+    "id": 1,
+    "componente_id": 9,
+    "tipo": "pMOS",
+    "voltaje_drenaje_fuente": "35 VDC",
+    "corriente_cc_drenaje": "10.4 A",
+    "disip_max": "35 W",
+    "temp_op_max": "170 °C",
+    "conduct_drenaje_sustrato": "95 (118) pF",
+    "resist_drenaje_fuente": "0.178 (0.142) Ohm"
+}
+```
+
+#### 3.5.5) Search MOSFET Transistors by Drain-Source Voltage
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-mosfet/voltaje-drenaje-fuente/35?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 9,
+        "tipo": "pMOS",
+        "voltaje_drenaje_fuente": "35 VDC",
+        "corriente_cc_drenaje": "10.4 A",
+        "disip_max": "35 W",
+        "temp_op_max": "170 °C",
+        "conduct_drenaje_sustrato": "95 (118) pF",
+        "resist_drenaje_fuente": "0.178 (0.142) Ohm"
+    }
+]
+```
+
+#### 3.5.6) Search MOSFET Transistors by Drain Current
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-mosfet/corriente-cc-drenaje/10?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 9,
+        "tipo": "pMOS",
+        "voltaje_drenaje_fuente": "35 VDC",
+        "corriente_cc_drenaje": "10.4 A",
+        "disip_max": "35 W",
+        "temp_op_max": "170 °C",
+        "conduct_drenaje_sustrato": "95 (118) pF",
+        "resist_drenaje_fuente": "0.178 (0.142) Ohm"
+    }
+]
+```
+
+#### 3.5.7) Search MOSFET Transistors by Maximum Dissipation
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-mosfet/disip-max/35?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 9,
+        "tipo": "pMOS",
+        "voltaje_drenaje_fuente": "35 VDC",
+        "corriente_cc_drenaje": "10.4 A",
+        "disip_max": "35 W",
+        "temp_op_max": "170 °C",
+        "conduct_drenaje_sustrato": "95 (118) pF",
+        "resist_drenaje_fuente": "0.178 (0.142) Ohm"
+    }
+]
+```
+
+#### 3.5.8) Search MOSFET Transistors by Maximum Operating Temperature
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-mosfet/temp-op-max/170?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 9,
+        "tipo": "pMOS",
+        "voltaje_drenaje_fuente": "35 VDC",
+        "corriente_cc_drenaje": "10.4 A",
+        "disip_max": "35 W",
+        "temp_op_max": "170 °C",
+        "conduct_drenaje_sustrato": "95 (118) pF",
+        "resist_drenaje_fuente": "0.178 (0.142) Ohm"
+    }
+]
 ```
 
 ### 3.6) POST Operations
 
 #### 3.6.1) Create MOSFET Transistor
 
-###### Request (POST)
+##### Request (POST)
 
 ```bash
-curl --location --request POST 'http://localhost:8082/api/v1/transistores-mosfet' \
+curl --location 'http://localhost:8082/transistores-mosfet/' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "componente_id": 2,
+--data '{
+    "componente_id": 11,
     "tipo": "P-Channel",
     "voltaje_drenaje_fuente": 30,
     "corriente_cc_drenaje": 2.1,
@@ -1794,362 +2350,911 @@ curl --location --request POST 'http://localhost:8082/api/v1/transistores-mosfet
 }'
 ```
 
-###### Response (201 Created)
+##### Response (200 OK)
 
 ```json
 {
-  "status": "success",
-  "message": "MOSFET transistor created successfully",
-  "data": {
-    "id": 2,
-    "componente_id": 2,
+    "id": 3,
+    "componente_id": 11,
     "tipo": "P-Channel",
     "voltaje_drenaje_fuente": 30,
     "corriente_cc_drenaje": 2.1,
     "disip_max": 1.0,
     "resist_drenaje_fuente": 0.12,
     "temp_op_max": 150,
-    "conduct_drenaje_sustrato": 0.0001,
-    "created_at": "2023-06-28T17:45:20.000Z",
-    "updated_at": "2023-06-28T17:45:20.000Z"
-  }
-}
-```
-
-###### Response (400 Bad Request)
-
-```json
-{
-  "status": "error",
-  "message": "Validation failed",
-  "errors": [
-    {
-      "field": "componente_id",
-      "message": "Component ID is required and must exist"
-    },
-    {
-      "field": "voltaje_drenaje_fuente",
-      "message": "Drain-source voltage must be a positive number"
-    }
-  ]
-}
-```
-
-### 3.7) PATCH Operations
-
-#### 3.7.1) Update MOSFET Transistor
-
-###### Request (PATCH)
-
-```bash
-curl --location --request PATCH 'http://localhost:8082/api/v1/transistores-mosfet/1' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "disip_max": 1.6,
-    "temp_op_max": 175
-}'
-```
-
-###### Response (200 OK)
-
-```json
-{
-  "status": "success",
-  "message": "MOSFET transistor updated successfully",
-  "data": {
-    "id": 1,
-    "componente_id": 1,
-    "tipo": "N-Channel",
-    "voltaje_drenaje_fuente": 60,
-    "corriente_cc_drenaje": 3.2,
-    "disip_max": 1.6,
-    "resist_drenaje_fuente": 0.085,
-    "temp_op_max": 175,
-    "conduct_drenaje_sustrato": 0.0001,
-    "updated_at": "2023-06-28T18:20:45.000Z"
-  }
-}
-```
-
-### 3.8) DELETE Operations
-
-#### 3.8.1) Delete MOSFET Transistor
-
-###### Request (DELETE)
-
-```bash
-curl --location --request DELETE 'http://localhost:8082/api/v1/transistores-mosfet/2' \
---header 'Content-Type: application/json'
-```
-
-###### Response (200 OK)
-
-```json
-{
-  "status": "success",
-  "message": "MOSFET transistor deleted successfully"
+    "conduct_drenaje_sustrato": 0.0001
 }
 ```
 
 ## Bipolar Transistor Endpoints
 
-### 3.9) GET Operations
+### 3.7) GET Operations
 
-#### 3.9.1) Get All Bipolar Transistors
+#### 3.7.1) Get All Bipolar Transistors
 
-###### Request (GET)
-
-```bash
-curl --location --request GET 'http://localhost:8082/api/v1/transistores-bipolares?page=1&limit=5' \
---header 'Content-Type: application/json'
-```
-
-###### Response (200 OK)
-
-```json
-{
-  "status": "success",
-  "message": "Bipolar transistors retrieved successfully",
-  "data": [
-    {
-      "id": 1,
-      "componente_id": 3,
-      "tipo": "NPN",
-      "voltaje_colec_emis": 40,
-      "voltaje_colec_base": 60,
-      "voltaje_emis_base": 6,
-      "corriente_colec": 0.6,
-      "ganancia_hfe": 100,
-      "disip_max": 0.625,
-      "temp_juntura": 150,
-      "voltaje_colec_emis_sat": 0.3,
-      "created_at": "2023-06-28T16:46:31.000Z",
-      "updated_at": "2023-06-28T16:46:31.000Z"
-    }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 5,
-    "total": 15,
-    "pages": 3
-  }
-}
-```
-
-### 3.10) POST Operations
-
-#### 3.10.1) Create Bipolar Transistor
-
-###### Request (POST)
+##### Request (GET)
 
 ```bash
-curl --location --request POST 'http://localhost:8082/api/v1/transistores-bipolares' \
+curl --location 'http://localhost:8082/transistores-bipolares/list?page=0&limit=100&orderBy=id&orderAt=asc' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "componente_id": 4,
-    "tipo": "PNP",
-    "voltaje_colec_emis": 30,
-    "voltaje_colec_base": 50,
-    "voltaje_emis_base": 5,
-    "corriente_colec": 0.5,
-    "ganancia_hfe": 80,
-    "disip_max": 0.5,
-    "temp_juntura": 150,
-    "voltaje_colec_emis_sat": 0.2
-}'
+--data ''
 ```
 
-###### Response (201 Created)
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    },
+    {
+        "id": 2,
+        "componente_id": 2,
+        "tipo": "PNP",
+        "voltaje_colec_emis": 30,
+        "voltaje_colec_base": 50,
+        "voltaje_emis_base": 5,
+        "corriente_colec": 0.5,
+        "ganancia_hfe": 80,
+        "disip_max": 0.5,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.2
+    }
+]
+```
+
+#### 3.7.2) Get Bipolar Transistors by Type
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/tipo/NPN?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    }
+]
+```
+
+#### 3.7.3) Get Bipolar Transistor by ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/id/1' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
 
 ```json
 {
-  "status": "success",
-  "message": "Bipolar transistor created successfully",
-  "data": {
-    "id": 2,
-    "componente_id": 4,
-    "tipo": "PNP",
-    "voltaje_colec_emis": 30,
-    "voltaje_colec_base": 50,
-    "voltaje_emis_base": 5,
-    "corriente_colec": 0.5,
-    "ganancia_hfe": 80,
-    "disip_max": 0.5,
+    "id": 1,
+    "componente_id": 1,
+    "tipo": "NPN",
+    "voltaje_colec_emis": 40,
+    "voltaje_colec_base": 60,
+    "voltaje_emis_base": 6,
+    "corriente_colec": 0.6,
+    "ganancia_hfe": 100,
+    "disip_max": 0.625,
     "temp_juntura": 150,
-    "voltaje_colec_emis_sat": 0.2,
-    "created_at": "2023-06-28T17:50:10.000Z",
-    "updated_at": "2023-06-28T17:50:10.000Z"
-  }
+    "voltaje_colec_emis_sat": 0.3
 }
+```
+
+#### 3.7.4) Get Bipolar Transistor by Component ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/componente/1' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+{
+    "id": 1,
+    "componente_id": 1,
+    "tipo": "NPN",
+    "voltaje_colec_emis": 40,
+    "voltaje_colec_base": 60,
+    "voltaje_emis_base": 6,
+    "corriente_colec": 0.6,
+    "ganancia_hfe": 100,
+    "disip_max": 0.625,
+    "temp_juntura": 150,
+    "voltaje_colec_emis_sat": 0.3
+}
+```
+
+#### 3.7.5) Search Bipolar Transistors by Collector-Emitter Voltage
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/voltaje-colec-emis/40?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    }
+]
+```
+
+#### 3.7.6) Search Bipolar Transistors by Collector-Base Voltage
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/voltaje-colec-base/60?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    }
+]
+```
+
+#### 3.7.7) Search Bipolar Transistors by Emitter-Base Voltage
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/voltaje-emis-base/6?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    }
+]
+```
+
+#### 3.7.8) Search Bipolar Transistors by Collector Current
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/corriente-colec/0.6?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    }
+]
+```
+
+#### 3.7.9) Search Bipolar Transistors by HFE Gain
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/ganancia-hfe/100?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    }
+]
+```
+
+#### 3.7.10) Search Bipolar Transistors by Maximum Dissipation
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/disip-max/0.625?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    }
+]
+```
+
+#### 3.7.11) Search Bipolar Transistors by Junction Temperature
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/transistores-bipolares/temp-juntura/150?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "tipo": "NPN",
+        "voltaje_colec_emis": 40,
+        "voltaje_colec_base": 60,
+        "voltaje_emis_base": 6,
+        "corriente_colec": 0.6,
+        "ganancia_hfe": 100,
+        "disip_max": 0.625,
+        "temp_juntura": 150,
+        "voltaje_colec_emis_sat": 0.3
+    }
+]
 ```
 
 ## Electrolytic Capacitor Endpoints
 
-### 3.11) GET Operations
+### 3.8) GET Operations
 
-#### 3.11.1) Get All Electrolytic Capacitors
+#### 3.8.1) Get All Electrolytic Capacitors
 
-###### Request (GET)
-
-```bash
-curl --location --request GET 'http://localhost:8082/api/v1/capacitores-electroliticos?page=1&limit=5' \
---header 'Content-Type: application/json'
-```
-
-###### Response (200 OK)
-
-```json
-{
-  "status": "success",
-  "message": "Electrolytic capacitors retrieved successfully",
-  "data": [
-    {
-      "id": 1,
-      "componente_id": 5,
-      "capacitancia": 100,
-      "voltaje_nominal": 16,
-      "tolerancia": 20,
-      "rango_temperatura": "-40 to 85",
-      "tipo": "Aluminum",
-      "created_at": "2023-06-28T16:46:31.000Z",
-      "updated_at": "2023-06-28T16:46:31.000Z"
-    }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 5,
-    "total": 20,
-    "pages": 4
-  }
-}
-```
-
-### 3.12) POST Operations
-
-#### 3.12.1) Create Electrolytic Capacitor
-
-###### Request (POST)
+##### Request (GET)
 
 ```bash
-curl --location --request POST 'http://localhost:8082/api/v1/capacitores-electroliticos' \
+curl --location 'http://localhost:8082/capacitores-electroliticos/list?page=0&limit=100&orderBy=id&orderAt=asc' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "componente_id": 6,
-    "capacitancia": 220,
-    "voltaje_nominal": 25,
-    "tolerancia": 10,
-    "rango_temperatura": "-55 to 105",
-    "tipo": "Tantalum"
-}'
+--data ''
 ```
 
-###### Response (201 Created)
+##### Response (200 OK)
 
 ```json
-{
-  "status": "success",
-  "message": "Electrolytic capacitor created successfully",
-  "data": {
-    "id": 2,
-    "componente_id": 6,
-    "capacitancia": 220,
-    "voltaje_nominal": 25,
-    "tolerancia": 10,
-    "rango_temperatura": "-55 to 105",
-    "tipo": "Tantalum",
-    "created_at": "2023-06-28T17:55:30.000Z",
-    "updated_at": "2023-06-28T17:55:30.000Z"
-  }
-}
-```
-
-## Component Detail Endpoints
-
-### 3.13) GET Operations
-
-#### 3.13.1) Get All Component Details
-
-###### Request (GET)
-
-```bash
-curl --location --request GET 'http://localhost:8082/api/v1/componentes-detalles?page=1&limit=5' \
---header 'Content-Type: application/json'
-```
-
-###### Response (200 OK)
-
-```json
-{
-  "status": "success",
-  "message": "Component details retrieved successfully",
-  "data": [
+[
     {
-      "id": 1,
-      "componente_id": 1,
-      "longitud": 68.6,
-      "ancho": 53.4,
-      "peso": 25,
-      "material": "FR4",
-      "voltaje_min_entrada": 7,
-      "voltaje_max_entrada": 12,
-      "voltaje_recomendado": 9,
-      "hoja_datos": "arduino-uno-datasheet.pdf",
-      "created_at": "2023-06-28T16:46:31.000Z",
-      "updated_at": "2023-06-28T16:46:31.000Z"
+        "id": 1,
+        "componente_id": 11,
+        "capacitancia": 100,
+        "voltaje_nominal": 16,
+        "tolerancia": 20,
+        "rango_temperatura": "-40 to 85",
+        "tipo": "Aluminum"
+    },
+    {
+        "id": 2,
+        "componente_id": 12,
+        "capacitancia": 220,
+        "voltaje_nominal": 25,
+        "tolerancia": 10,
+        "rango_temperatura": "-55 to 105",
+        "tipo": "Tantalum"
     }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 5,
-    "total": 10,
-    "pages": 2
-  }
-}
+]
 ```
 
-### 3.14) POST Operations
+#### 3.8.2) Get Electrolytic Capacitors by Type
 
-#### 3.14.1) Create Component Detail
-
-###### Request (POST)
+##### Request (GET)
 
 ```bash
-curl --location --request POST 'http://localhost:8082/api/v1/componentes-detalles' \
+curl --location 'http://localhost:8082/capacitores-electroliticos/tipo/Aluminio?page=0&limit=100&orderBy=id&orderAt=ASC' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "componente_id": 2,
-    "longitud": 85.6,
-    "ancho": 56.0,
-    "peso": 46,
-    "material": "FR4",
-    "voltaje_min_entrada": 4.75,
-    "voltaje_max_entrada": 5.25,
-    "voltaje_recomendado": 5.0,
-    "hoja_datos": "raspberry-pi-4-datasheet.pdf"
-}'
+--data ''
 ```
 
-###### Response (201 Created)
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 11,
+        "capacitancia": 100,
+        "voltaje_nominal": 16,
+        "tolerancia": 20,
+        "rango_temperatura": "-40 to 85",
+        "tipo": "Aluminum"
+    }
+]
+```
+
+#### 3.8.3) Get Electrolytic Capacitor by ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/capacitores-electroliticos/id/1' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
 
 ```json
 {
-  "status": "success",
-  "message": "Component detail created successfully",
-  "data": {
-    "id": 2,
-    "componente_id": 2,
-    "longitud": 85.6,
-    "ancho": 56.0,
-    "peso": 46,
-    "material": "FR4",
-    "voltaje_min_entrada": 4.75,
-    "voltaje_max_entrada": 5.25,
-    "voltaje_recomendado": 5.0,
-    "hoja_datos": "raspberry-pi-4-datasheet.pdf",
-    "created_at": "2023-06-28T18:00:15.000Z",
-    "updated_at": "2023-06-28T18:00:15.000Z"
-  }
+    "id": 1,
+    "componente_id": 11,
+    "capacitancia": 100,
+    "voltaje_nominal": 16,
+    "tolerancia": 20,
+    "rango_temperatura": "-40 to 85",
+    "tipo": "Aluminum"
 }
+```
+
+#### 3.8.4) Get Electrolytic Capacitor by Component ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/capacitores-electroliticos/componente/11' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+{
+    "id": 1,
+    "componente_id": 11,
+    "capacitancia": 100,
+    "voltaje_nominal": 16,
+    "tolerancia": 20,
+    "rango_temperatura": "-40 to 85",
+    "tipo": "Aluminum"
+}
+```
+
+#### 3.8.5) Search Electrolytic Capacitors by Capacitance
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/capacitores-electroliticos/capacitancia/100?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 11,
+        "capacitancia": 100,
+        "voltaje_nominal": 16,
+        "tolerancia": 20,
+        "rango_temperatura": "-40 to 85",
+        "tipo": "Aluminum"
+    }
+]
+```
+
+#### 3.8.6) Search Electrolytic Capacitors by Tolerance
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/capacitores-electroliticos/tolerancia/20?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 11,
+        "capacitancia": 100,
+        "voltaje_nominal": 16,
+        "tolerancia": 20,
+        "rango_temperatura": "-40 to 85",
+        "tipo": "Aluminum"
+    }
+]
+```
+
+#### 3.8.7) Search Electrolytic Capacitors by Temperature Range
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/capacitores-electroliticos/rango-temperatura/-40?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 11,
+        "capacitancia": 100,
+        "voltaje_nominal": 16,
+        "tolerancia": 20,
+        "rango_temperatura": "-40 to 85",
+        "tipo": "Aluminum"
+    }
+]
+```
+
+#### 3.8.8) Search Electrolytic Capacitors by Nominal Voltage Range
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/capacitores-electroliticos/rango-tension-nominal/16?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 11,
+        "capacitancia": 100,
+        "voltaje_nominal": 16,
+        "tolerancia": 20,
+        "rango_temperatura": "-40 to 85",
+        "tipo": "Aluminum"
+    }
+]
+```
+
+## Component Details Endpoints
+
+### 3.9) GET Operations
+
+#### 3.9.1) Get All Component Details
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/list?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "arduino-uno-datasheet.pdf"
+    },
+    {
+        "id": 2,
+        "componente_id": 2,
+        "longitud": 85.6,
+        "ancho": 56.0,
+        "peso": 46,
+        "material": "FR4",
+        "voltaje_min_entrada": 4.75,
+        "voltaje_max_entrada": 5.25,
+        "voltaje_recomendado": 5.0,
+        "hoja_datos": "raspberry-pi-4-datasheet.pdf"
+    }
+]
+```
+
+#### 3.9.2) Get Component Details by Datasheet
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/hoja-datos/semiconductor?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "semiconductor-datasheet.pdf"
+    }
+]
+```
+
+#### 3.9.3) Get Component Detail by ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/id/1' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+{
+    "id": 1,
+    "componente_id": 1,
+    "longitud": 68.6,
+    "ancho": 53.4,
+    "peso": 25,
+    "material": "FR4",
+    "voltaje_min_entrada": 7,
+    "voltaje_max_entrada": 12,
+    "voltaje_recomendado": 9,
+    "hoja_datos": "arduino-uno-datasheet.pdf"
+}
+```
+
+#### 3.9.4) Get Component Detail by Component ID
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/componente/1' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+{
+    "id": 1,
+    "componente_id": 1,
+    "longitud": 68.6,
+    "ancho": 53.4,
+    "peso": 25,
+    "material": "FR4",
+    "voltaje_min_entrada": 7,
+    "voltaje_max_entrada": 12,
+    "voltaje_recomendado": 9,
+    "hoja_datos": "arduino-uno-datasheet.pdf"
+}
+```
+
+#### 3.9.5) Search Component Details by Length
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/longitud/68.6?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "arduino-uno-datasheet.pdf"
+    }
+]
+```
+
+#### 3.9.6) Search Component Details by Width
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/ancho/53.4?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "arduino-uno-datasheet.pdf"
+    }
+]
+```
+
+#### 3.9.7) Search Component Details by Weight
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/peso/25?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "arduino-uno-datasheet.pdf"
+    }
+]
+```
+
+#### 3.9.8) Search Component Details by Material
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/material/FR4?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "arduino-uno-datasheet.pdf"
+    }
+]
+```
+
+#### 3.9.9) Search Component Details by Recommended Voltage
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/voltaje-recomendado/9?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "arduino-uno-datasheet.pdf"
+    }
+]
+```
+
+#### 3.9.10) Search Component Details by Minimum Input Voltage
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/voltaje-min-entrada/7?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "arduino-uno-datasheet.pdf"
+    }
+]
+```
+
+#### 3.9.11) Search Component Details by Maximum Input Voltage
+
+##### Request (GET)
+
+```bash
+curl --location 'http://localhost:8082/componentes-detalles/voltaje-max-entrada/12?page=0&limit=100&orderBy=id&orderAt=asc' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+##### Response (200 OK)
+
+```json
+[
+    {
+        "id": 1,
+        "componente_id": 1,
+        "longitud": 68.6,
+        "ancho": 53.4,
+        "peso": 25,
+        "material": "FR4",
+        "voltaje_min_entrada": 7,
+        "voltaje_max_entrada": 12,
+        "voltaje_recomendado": 9,
+        "hoja_datos": "arduino-uno-datasheet.pdf"
+    }
+]
 ```
 
 ## Error Handling
@@ -2201,7 +3306,7 @@ Interactive API documentation is available at:
 http://localhost:8082/api-docs
 ```
 
-This Swagger UI provides:
+This Swagger interface provides:
 - Interactive endpoint testing
 - Request/response examples
 - Schema definitions
@@ -2215,7 +3320,130 @@ This Swagger UI provides:
 
 ## Section 4) Functionality Testing and References.
 
-### 4.0) Functionality test [🔝](#index-)
+### 4.0) Postman Collection [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+  <br>
+
+#### Postman Collection Overview
+
+A comprehensive Postman collection is included in this project to facilitate API testing and development. The collection contains pre-configured requests for all API endpoints with proper headers, body examples, and environment variables.
+
+**Collection Location:**
+- **File**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
+- **Size**: ~481KB with 11,000+ lines of configuration
+- **Coverage**: Complete API coverage for all endpoints
+
+#### Collection Features
+
+**📋 Complete API Coverage:**
+- **Components**: CRUD operations, search, and pagination
+- **MOSFET Transistors**: Technical specifications and parameters
+- **Bipolar Transistors**: BJT characteristics and ratings
+- **Electrolytic Capacitors**: Capacitor specifications
+- **Component Details**: Technical details and datasheets
+
+**🔧 Pre-configured Setup:**
+- **Environment Variables**: Base URL and common parameters
+- **Request Headers**: Proper Content-Type and authorization headers
+- **Body Examples**: Sample data for all POST/PATCH operations
+- **Response Validation**: Pre-configured tests for common scenarios
+- **Organized Structure**: Requests grouped by component type
+
+**📊 Testing Capabilities:**
+- **Request Examples**: Ready-to-use requests with sample data
+- **Response Validation**: Automatic validation of response status and structure
+- **Error Testing**: Pre-configured error scenarios
+- **Pagination Testing**: Examples with different page and limit parameters
+- **Search Testing**: Various search criteria and filters
+
+#### How to Use the Collection
+
+**Step 1: Import Collection**
+1. Open Postman application
+2. Click **File** → **Import** → **Upload Files**
+3. Select the file: `postman/collections/Api_DispElectr_Express.postman_collection.json`
+4. Click **Import**
+
+**Step 2: Set Up Environment**
+1. Create a new environment in Postman
+2. Add the following variable:
+   - **Variable**: `base_url`
+   - **Initial Value**: `http://localhost:8082`
+   - **Current Value**: `http://localhost:8082`
+3. Save the environment and select it
+
+**Step 3: Start Testing**
+1. Ensure your API server is running (`npm run start:dev`)
+2. Ensure your database is running (`docker-compose up -d`)
+3. Navigate through the collection folders
+4. Click on any request to see its configuration
+5. Modify request bodies or parameters as needed
+6. Click **Send** to execute the request
+
+#### Collection Structure
+
+```
+Api_DispElectr_Express Collection
+├── Components
+│   ├── GET All Components
+│   ├── GET Component by ID
+│   ├── POST Create Component
+│   ├── PATCH Update Component
+│   ├── DELETE Component
+│   └── Search Components
+├── MOSFET Transistors
+│   ├── GET All MOSFET Transistors
+│   ├── GET MOSFET by ID
+│   ├── POST Create MOSFET
+│   ├── PATCH Update MOSFET
+│   ├── DELETE MOSFET
+│   └── Search MOSFET Transistors
+├── Bipolar Transistors
+│   └── [Similar structure]
+├── Electrolytic Capacitors
+│   └── [Similar structure]
+└── Component Details
+    └── [Similar structure]
+```
+
+#### Customization Tips
+
+**Modifying Request Bodies:**
+- Update the JSON body in the request to match your test data
+- Use environment variables for dynamic values
+- Test different validation scenarios
+
+**Adding New Tests:**
+- Use the **Tests** tab in Postman to add custom validation
+- Test response status codes, response times, and data structure
+- Add assertions for specific business logic
+
+**Environment Variables:**
+- Create different environments for development, staging, and production
+- Use variables for base URLs, authentication tokens, and common parameters
+- Share environments with team members
+
+#### Troubleshooting
+
+**Common Issues:**
+1. **Connection Refused**: Ensure the API server is running on port 8082
+2. **Database Errors**: Verify PostgreSQL is running via Docker
+3. **Validation Errors**: Check request body format and required fields
+4. **Environment Issues**: Verify environment variables are set correctly
+
+**Best Practices:**
+- Always test with the latest collection version
+- Keep environment variables updated
+- Use descriptive test names and descriptions
+- Document any custom modifications made to requests
+
+<br>
+
+</details>
+
+### 4.1) Functionality test [🔝](#index-)
 
 <details>
    <summary>View</summary>
@@ -2610,7 +3838,7 @@ npm test -- --verbose
 
 </details>
 
-### 4.1) References [🔝](#index-)
+### 4.2) References [🔝](#index-)
 
 <details>
    <summary>View</summary>
@@ -2656,129 +3884,6 @@ npm test -- --verbose
 #### Railway
 
 *   [Example Deploy with Nodejs and Mysql](https://www.youtube.com/watch?v=C3NhmT__Mn4\&ab_channel=Fazt)
-
-<br>
-
-</details>
-
-### 4.2) Postman Collection [🔝](#index-)
-
-<details>
-   <summary>View</summary>
-  <br>
-
-#### Postman Collection Overview
-
-A comprehensive Postman collection is included in this project to facilitate API testing and development. The collection contains pre-configured requests for all API endpoints with proper headers, body examples, and environment variables.
-
-**Collection Location:**
-- **File**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
-- **Size**: ~481KB with 11,000+ lines of configuration
-- **Coverage**: Complete API coverage for all endpoints
-
-#### Collection Features
-
-**📋 Complete API Coverage:**
-- **Components**: CRUD operations, search, and pagination
-- **MOSFET Transistors**: Technical specifications and parameters
-- **Bipolar Transistors**: BJT characteristics and ratings
-- **Electrolytic Capacitors**: Capacitor specifications
-- **Component Details**: Technical details and datasheets
-
-**🔧 Pre-configured Setup:**
-- **Environment Variables**: Base URL and common parameters
-- **Request Headers**: Proper Content-Type and authorization headers
-- **Body Examples**: Sample data for all POST/PATCH operations
-- **Response Validation**: Pre-configured tests for common scenarios
-- **Organized Structure**: Requests grouped by component type
-
-**📊 Testing Capabilities:**
-- **Request Examples**: Ready-to-use requests with sample data
-- **Response Validation**: Automatic validation of response status and structure
-- **Error Testing**: Pre-configured error scenarios
-- **Pagination Testing**: Examples with different page and limit parameters
-- **Search Testing**: Various search criteria and filters
-
-#### How to Use the Collection
-
-**Step 1: Import Collection**
-1. Open Postman application
-2. Click **File** → **Import** → **Upload Files**
-3. Select the file: `postman/collections/Api_DispElectr_Express.postman_collection.json`
-4. Click **Import**
-
-**Step 2: Set Up Environment**
-1. Create a new environment in Postman
-2. Add the following variable:
-   - **Variable**: `base_url`
-   - **Initial Value**: `http://localhost:8082`
-   - **Current Value**: `http://localhost:8082`
-3. Save the environment and select it
-
-**Step 3: Start Testing**
-1. Ensure your API server is running (`npm run start:dev`)
-2. Ensure your database is running (`docker-compose up -d`)
-3. Navigate through the collection folders
-4. Click on any request to see its configuration
-5. Modify request bodies or parameters as needed
-6. Click **Send** to execute the request
-
-#### Collection Structure
-
-```
-Api_DispElectr_Express Collection
-├── Components
-│   ├── GET All Components
-│   ├── GET Component by ID
-│   ├── POST Create Component
-│   ├── PATCH Update Component
-│   ├── DELETE Component
-│   └── Search Components
-├── MOSFET Transistors
-│   ├── GET All MOSFET Transistors
-│   ├── GET MOSFET by ID
-│   ├── POST Create MOSFET
-│   ├── PATCH Update MOSFET
-│   ├── DELETE MOSFET
-│   └── Search MOSFET Transistors
-├── Bipolar Transistors
-│   └── [Similar structure]
-├── Electrolytic Capacitors
-│   └── [Similar structure]
-└── Component Details
-    └── [Similar structure]
-```
-
-#### Customization Tips
-
-**Modifying Request Bodies:**
-- Update the JSON body in the request to match your test data
-- Use environment variables for dynamic values
-- Test different validation scenarios
-
-**Adding New Tests:**
-- Use the **Tests** tab in Postman to add custom validation
-- Test response status codes, response times, and data structure
-- Add assertions for specific business logic
-
-**Environment Variables:**
-- Create different environments for development, staging, and production
-- Use variables for base URLs, authentication tokens, and common parameters
-- Share environments with team members
-
-#### Troubleshooting
-
-**Common Issues:**
-1. **Connection Refused**: Ensure the API server is running on port 8082
-2. **Database Errors**: Verify PostgreSQL is running via Docker
-3. **Validation Errors**: Check request body format and required fields
-4. **Environment Issues**: Verify environment variables are set correctly
-
-**Best Practices:**
-- Always test with the latest collection version
-- Keep environment variables updated
-- Use descriptive test names and descriptions
-- Document any custom modifications made to requests
 
 <br>
 
