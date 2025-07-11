@@ -38,7 +38,6 @@
 
 Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Railway, NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, Docker, entre otros.
 
-*   [Repositorio de la base de datos](https://github.com/andresWeitzel/db_dispositivos_electronicos_postgreSQL)
 *   [Colección de Postman](../postman/collections/Api_DispElectr_Express.postman_collection.json)
 *   [Lista de reproducción de pruebas de funcionalidad](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" > <img src="../doc/assets/social-networks/yt.png" width="25" /> </a>
 
