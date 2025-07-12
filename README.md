@@ -924,7 +924,12 @@ The database includes the following main tables:
 
 ## Section 2) Testing Documentation and Implementation
 
-<br>
+### 2.0) Testing Overview [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+
+  <br>
 
 #### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
 
@@ -933,12 +938,6 @@ The database includes the following main tables:
   </a>
 
 <br>   
-
-### 2.0) Testing Overview [🔝](#index-)
-
-<details>
-   <summary>View</summary>
-  <br>
 
 This project includes a comprehensive testing suite with both unit tests and integration tests to ensure code quality and reliability.
 
@@ -1307,6 +1306,11 @@ DEBUG=sequelize:* npm test
 
 ## Section 3) Endpoints and Examples.
 
+### 3.0) Endpoints and resources [🔝](#index-)
+
+<details>
+   <summary>View</summary>
+
 <br>
 
 #### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
@@ -1316,12 +1320,6 @@ DEBUG=sequelize:* npm test
   </a>
 
 <br>  
-
-### 3.0) Endpoints and resources [🔝](#index-)
-
-<details>
-   <summary>View</summary>
-<br>
 
 ## API Summary
 
