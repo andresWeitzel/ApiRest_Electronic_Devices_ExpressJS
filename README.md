@@ -201,7 +201,16 @@ The application follows a **layered architecture pattern** with clear separation
 
 <details>
    <summary>View</summary>
-   <br>
+
+<br>
+
+#### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
+
+  <a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo">
+    <img src="./doc/assets/componentes-example-yt.png" />
+  </a>
+
+<br>      
 
 ### 1.1.0) Initial settings
 
@@ -915,6 +924,16 @@ The database includes the following main tables:
 
 ## Section 2) Testing Documentation and Implementation
 
+<br>
+
+#### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
+
+  <a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo">
+    <img src="./doc/assets/componentes-example-yt.png" />
+  </a>
+
+<br>   
+
 ### 2.0) Testing Overview [🔝](#index-)
 
 <details>
@@ -1287,6 +1306,16 @@ DEBUG=sequelize:* npm test
 <br>
 
 ## Section 3) Endpoints and Examples.
+
+<br>
+
+#### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
+
+  <a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo">
+    <img src="./doc/assets/componentes-example-yt.png" />
+  </a>
+
+<br>  
 
 ### 3.0) Endpoints and resources [🔝](#index-)
 

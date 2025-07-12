@@ -77,9 +77,8 @@ Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Rail
 
 ### Sección 4) Pruebas de funcionalidad y referencias
 
-*   [4.0) Prueba de funcionalidad.](#40-functionality-test-)
+*   [4.0) Colección de Postman.](#40-postman-collection-)
 *   [4.1) Referencias.](#41-references-)
-*   [4.2) Colección de Postman.](#42-postman-collection-)
 
 <br>
 
@@ -195,181 +194,190 @@ La aplicación sigue un **patrón de arquitectura en capas** con separación cla
 
 </details>
 
-### 1.1) Project Execution [🔝](#index-)
+### 1.1) Ejecución del Proyecto [🔝](#index-)
 
 <details>
-   <summary>View</summary>
-   <br>
+   <summary>Ver</summary>
 
-### 1.1.0) Initial settings
+<br>
 
-#### Prerequisites
-Before starting, ensure you have the following installed:
-- **Node.js** (v18 LTS or higher) - [Download here](https://nodejs.org/en/download)
-- **Docker Desktop** - [Download here](https://www.docker.com/products/docker-desktop/)
-- **Git** - [Download here](https://git-scm.com/downloads)
-- **IDE** (VS Code recommended) - [Download here](https://code.visualstudio.com/)
+#### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
 
-#### Step 1: Clone and Setup Project
+  <a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo">
+    <img src="../doc/assets/componentes-example-yt.png" />
+  </a>
 
-1. **Clone the repository:**
+<br> 
+
+### 1.1.0) Configuración inicial
+
+#### Prerrequisitos
+Antes de comenzar, asegúrate de tener instalado lo siguiente:
+- **Node.js** (v18 LTS o superior) - [Descargar aquí](https://nodejs.org/en/download)
+- **Docker Desktop** - [Descargar aquí](https://www.docker.com/products/docker-desktop/)
+- **Git** - [Descargar aquí](https://git-scm.com/downloads)
+- **IDE** (VS Code recomendado) - [Descargar aquí](https://code.visualstudio.com/)
+
+#### Paso 1: Clonar y Configurar el Proyecto
+
+1. **Clonar el repositorio:**
 ```bash
 git clone https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS
 ```
 
-2. **Navigate to project directory:**
+2. **Navegar al directorio del proyecto:**
 ```bash
 cd ApiRest_Dispositivos_Electronicos_ExpressJS
 ```
 
-3. **Install dependencies:**
+3. **Instalar dependencias:**
 ```bash
 npm install
 ```
 
-#### Step 2: Database Setup
+#### Paso 2: Configuración de la Base de Datos
 
-1. **Start PostgreSQL database with Docker:**
+1. **Iniciar base de datos PostgreSQL con Docker:**
 ```bash
 docker-compose up -d
 ```
 
-2. **Verify database container is running (optional):**
+2. **Verificar que el contenedor de la base de datos esté ejecutándose (opcional):**
 ```bash
 docker ps
 ```
 
-3. **Check database logs (optional):**
+3. **Verificar logs de la base de datos (opcional):**
 ```bash
 docker-compose logs postgres
 ```
 
-4. **Reset database if needed (optional):**
+4. **Reiniciar base de datos si es necesario (opcional):**
 ```bash
 docker-compose down -v
 docker-compose up -d
 ```
 
-#### Step 3: Run the Application
+#### Paso 3: Ejecutar la Aplicación
 
-**Development Mode (with auto-reload):**
+**Modo Desarrollo (con recarga automática):**
 ```bash
 npm run start:dev
 ```
 
-**Production Mode:**
+**Modo Producción:**
 ```bash
 npm start
 ```
 
-**Alternative development command:**
+**Comando alternativo de desarrollo:**
 ```bash
 npm run dev
 ```
 
-#### Step 4: Verify Installation
+#### Paso 4: Verificar la Instalación
 
-1. **Check if server is running:**
-   - Look for: `Server is running on port 8082`
-   - Look for: `Swagger documentation available at http://localhost:8082/api-docs`
+1. **Verificar que el servidor esté ejecutándose:**
+   - Buscar: `Server is running on port 8082`
+   - Buscar: `Swagger documentation available at http://localhost:8082/api-docs`
 
-2. **Access the application:**
-   - **API Base URL**: `http://localhost:8082`
-   - **Swagger Documentation**: `http://localhost:8082/api-docs`
-   - **Health Check**: `http://localhost:8082/api/v1/health`
+2. **Acceder a la aplicación:**
+   - **URL Base de la API**: `http://localhost:8082`
+   - **Documentación Swagger**: `http://localhost:8082/api-docs`
+   - **Verificación de Estado**: `http://localhost:8082/api/v1/health`
 
-#### Troubleshooting
+#### Solución de Problemas
 
-**Port Already in Use:**
+**Puerto Ya en Uso:**
 ```bash
-# Kill processes using port 8082
+# Matar procesos que usen el puerto 8082
 npx kill-port 8082
 
-# Or find and kill specific process
+# O encontrar y matar proceso específico
 netstat -ano | findstr :8082
 taskkill /PID <PID> /F
 ```
 
-**Database Connection Issues:**
+**Problemas de Conexión a la Base de Datos:**
 ```bash
-# Check if Docker is running
+# Verificar si Docker está ejecutándose
 docker --version
 
-# Check container status
+# Verificar estado de contenedores
 docker-compose ps
 
-# Restart containers
+# Reiniciar contenedores
 docker-compose restart
 
-# View detailed logs
+# Ver logs detallados
 docker-compose logs postgres
 ```
 
-**Node.js Version Issues:**
+**Problemas de Versión de Node.js:**
 ```bash
-# Check Node.js version
+# Verificar versión de Node.js
 node --version
 
-# Use nvm to switch versions (if installed)
+# Usar nvm para cambiar versiones (si está instalado)
 nvm use 18
 ```
 
-**Permission Issues (Linux/Mac):**
+**Problemas de Permisos (Linux/Mac):**
 ```bash
-# Fix Docker permissions
+# Arreglar permisos de Docker
 sudo usermod -aG docker $USER
-# Log out and log back in
+# Cerrar sesión y volver a iniciar
 ```
 
-#### Available Scripts
+#### Scripts Disponibles
 
-| Command | Description |
+| Comando | Descripción |
 |---------|-------------|
-| `npm start` | Start production server |
-| `npm run start:dev` | Start development server with auto-reload |
-| `npm run dev` | Alternative development command |
-| `npm test` | Run all tests |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run test:cov` | Run tests with coverage |
-| `npm run test:unit` | Run unit tests only |
-| `npm run test:integration` | Run integration tests only |
-| `npm run format-prettier` | Format code with Prettier |
-| `npm run check` | Check markdown formatting |
+| `npm start` | Iniciar servidor de producción |
+| `npm run start:dev` | Iniciar servidor de desarrollo con recarga automática |
+| `npm run dev` | Comando alternativo de desarrollo |
+| `npm test` | Ejecutar todas las pruebas |
+| `npm run test:watch` | Ejecutar pruebas en modo observación |
+| `npm run test:cov` | Ejecutar pruebas con cobertura |
+| `npm run test:unit` | Ejecutar solo pruebas unitarias |
+| `npm run test:integration` | Ejecutar solo pruebas de integración |
+| `npm run format-prettier` | Formatear código con Prettier |
+| `npm run check` | Verificar formato de markdown |
 
 <br>
 
 </details>
 
-### 1.2) Project configuration from scratch [🔝](#index-)
+### 1.2) Configuración del proyecto desde cero [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-### 1.2.0) Initial settings
+### 1.2.0) Configuración inicial
 
-This section guides you through setting up the project from scratch, including all dependencies, project structure, and configuration.
+Esta sección te guía a través de la configuración del proyecto desde cero, incluyendo todas las dependencias, estructura del proyecto y configuración.
 
-#### Prerequisites
-- **Node.js** (v18 LTS or higher) - [Download here](https://nodejs.org/en/download)
-- **Docker Desktop** - [Download here](https://www.docker.com/products/docker-desktop/)
-- **Git** - [Download here](https://git-scm.com/downloads)
-- **IDE** (VS Code recommended) - [Download here](https://code.visualstudio.com/)
+#### Prerrequisitos
+- **Node.js** (v18 LTS o superior) - [Descargar aquí](https://nodejs.org/en/download)
+- **Docker Desktop** - [Descargar aquí](https://www.docker.com/products/docker-desktop/)
+- **Git** - [Descargar aquí](https://git-scm.com/downloads)
+- **IDE** (VS Code recomendado) - [Descargar aquí](https://code.visualstudio.com/)
 
-#### Step 1: Project Initialization
+#### Paso 1: Inicialización del Proyecto
 
-1. **Create project directory:**
+1. **Crear directorio del proyecto:**
 ```bash
 mkdir ApiRest_Electronic_Devices_ExpressJS
 cd ApiRest_Electronic_Devices_ExpressJS
 ```
 
-2. **Initialize Node.js project:**
+2. **Inicializar proyecto Node.js:**
 ```bash
 npm init -y
 ```
 
-3. **Create project structure:**
+3. **Crear estructura del proyecto:**
 ```bash
 mkdir -p src/{config/{middleware,routes},controllers,db,enums,helpers,models,services,test,utils}
 mkdir -p src/controllers/{component,component-detail,bipolar-transistor,mosfet-transistor,electrolytic-capacitor}
@@ -384,58 +392,58 @@ mkdir -p postman/collections
 mkdir -p scripts
 ```
 
-#### Step 2: Core Dependencies Installation
+#### Paso 2: Instalación de Dependencias Principales
 
-1. **Install production dependencies:**
+1. **Instalar dependencias de producción:**
 ```bash
-# Core framework and middleware
+# Framework principal y middleware
 npm install express cors morgan dotenv dotenv-expand
 
-# Database and ORM
+# Base de datos y ORM
 npm install sequelize pg pg-hstore
 
-# API documentation
+# Documentación de API
 npm install swagger-ui-express swagger-jsdoc
 
-# Logging
+# Registro de logs
 npm install winston
 
-# Body parsing
+# Análisis de cuerpo de peticiones
 npm install body-parser
 ```
 
-2. **Install development dependencies:**
+2. **Instalar dependencias de desarrollo:**
 ```bash
-# Development server
+# Servidor de desarrollo
 npm install --save-dev nodemon
 
-# Testing framework
+# Framework de pruebas
 npm install --save-dev jest supertest
 
-# Code formatting and linting
+# Formateo y linting de código
 npm install --save-dev prettier
 
-# Markdown linting
+# Linting de Markdown
 npm install --save-dev remark-cli remark-preset-lint-recommended remark-lint-emphasis-marker remark-lint-strong-marker remark-lint-table-cell-padding remark-preset-lint-consistent
 
-# Validation
+# Validación
 npm install --save-dev express-validator
 
-# Utilities
+# Utilidades
 npm install --save-dev express-list-endpoints sqlite3
 ```
 
-#### Step 3: Configuration Files
+#### Paso 3: Archivos de Configuración
 
-1. **Create .gitignore:**
+1. **Crear .gitignore:**
 ```bash
-# Dependencies
+# Dependencias
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment variables
+# Variables de entorno
 .env
 .env.local
 .env.development.local
@@ -446,45 +454,45 @@ yarn-error.log*
 logs
 *.log
 
-# Runtime data
+# Datos de tiempo de ejecución
 pids
 *.pid
 *.seed
 *.pid.lock
 
-# Coverage directory used by tools like istanbul
+# Directorio de cobertura usado por herramientas como istanbul
 coverage/
 *.lcov
 
-# nyc test coverage
+# Cobertura de pruebas nyc
 .nyc_output
 
-# Dependency directories
+# Directorios de dependencias
 node_modules/
 jspm_packages/
 
-# Optional npm cache directory
+# Directorio de caché opcional de npm
 .npm
 
-# Optional REPL history
+# Historial opcional de REPL
 .node_repl_history
 
-# Output of 'npm pack'
+# Salida de 'npm pack'
 *.tgz
 
-# Yarn Integrity file
+# Archivo de integridad de Yarn
 .yarn-integrity
 
-# dotenv environment variables file
+# Archivo de variables de entorno dotenv
 .env
 
-# IDE files
+# Archivos de IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS generated files
+# Archivos generados por el sistema operativo
 .DS_Store
 .DS_Store?
 ._*
@@ -493,11 +501,11 @@ jspm_packages/
 ehthumbs.db
 Thumbs.db
 
-# Test reports
+# Reportes de pruebas
 test-report.json
 ```
 
-2. **Create package.json scripts:**
+2. **Crear scripts de package.json:**
 ```json
 {
   "scripts": {
@@ -521,9 +529,9 @@ test-report.json
 }
 ```
 
-#### Step 4: Database Configuration
+#### Paso 4: Configuración de la Base de Datos
 
-1. **Create docker-compose.yml:**
+1. **Crear docker-compose.yml:**
 ```yaml
 version: '3.8'
 
@@ -552,9 +560,9 @@ volumes:
   postgres_data:
 ```
 
-2. **Create .env file:**
+2. **Crear archivo .env:**
 ```env
-# Database Configuration
+# Configuración de Base de Datos
 DB_NAME_PROD=dispositivos_electronicos
 DB_USER_PROD=dispositivos_user
 DB_PASS_PROD=dispositivos_pass
@@ -562,11 +570,11 @@ DB_HOST_PROD=localhost
 DB_DIALECT_PROD=postgres
 DB_PORT_PROD=5432
 
-# Application Configuration
+# Configuración de la Aplicación
 PROD_PORT=8082
 APP_PORT=8082
 
-# API Endpoints
+# Endpoints de la API
 API_LOCAL_BASE_URL=http://localhost:8082
 API_COMPONENT_NAME_URL=/api/v1/componentes
 API_COMPONENT_DETAIL_NAME_URL=/api/v1/componentes-detalles
@@ -574,9 +582,9 @@ API_BIPOLAR_TRANSISTOR_NAME_URL=/api/v1/transistores-bipolares
 API_ELECTROLYTIC_CAPACITOR_NAME_URL=/api/v1/capacitores-electroliticos
 ```
 
-#### Step 5: Core Application Files
+#### Paso 5: Archivos Principales de la Aplicación
 
-1. **Create src/server.js:**
+1. **Crear src/server.js:**
 ```javascript
 require('dotenv').config();
 
@@ -692,47 +700,47 @@ This structure provides a scalable and maintainable foundation for the electroni
 
 </details>
 
-### 1.3) Database Configuration with Docker and PostgreSQL [🔝](#index-)
+### 1.3) Configuración de Base de Datos con Docker y PostgreSQL [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-### 1.3.0) Database Overview
+### 1.3.0) Resumen de la Base de Datos
 
-This project uses **PostgreSQL** as the database engine, containerized with **Docker** for easy setup and deployment. The database contains information about electronic components including:
+Este proyecto utiliza **PostgreSQL** como motor de base de datos, containerizado con **Docker** para una configuración e implementación sencillas. La base de datos contiene información sobre componentes electrónicos incluyendo:
 
-*   **Components** (`componentes`): Main table with basic component information
-*   **Component Details** (`componentes_detalles`): Technical specifications and datasheets
-*   **Bipolar Transistors** (`transistores_bipolares`): Specific transistor data
-*   **MOSFET Transistors** (`transistores_mosfet`): MOSFET transistor specifications
-*   **Electrolytic Capacitors** (`capacitores_electroliticos`): Capacitor specifications
+*   **Componentes** (`componentes`): Tabla principal con información básica de componentes
+*   **Detalles de Componentes** (`componentes_detalles`): Especificaciones técnicas y hojas de datos
+*   **Transistores Bipolares** (`transistores_bipolares`): Datos específicos de transistores
+*   **Transistores MOSFET** (`transistores_mosfet`): Especificaciones de transistores MOSFET
+*   **Capacitores Electrolíticos** (`capacitores_electroliticos`): Especificaciones de capacitores
 
 
-### 1.3.1) Docker Setup
+### 1.3.1) Configuración de Docker
 
-The project includes a `docker-compose.yml` file that automatically sets up PostgreSQL with all necessary configurations:
+El proyecto incluye un archivo `docker-compose.yml` que configura automáticamente PostgreSQL con todas las configuraciones necesarias:
 
-**Database Configuration:**
-*   **Image**: PostgreSQL 15
-*   **Port**: 5432 (standard PostgreSQL port)
-*   **Database Name**: `dispositivos_electronicos`
-*   **Username**: `dispositivos_user`
-*   **Password**: `dispositivos_pass`
+**Configuración de la Base de Datos:**
+*   **Imagen**: PostgreSQL 15
+*   **Puerto**: 5432 (puerto estándar de PostgreSQL)
+*   **Nombre de la Base de Datos**: `dispositivos_electronicos`
+*   **Usuario**: `dispositivos_user`
+*   **Contraseña**: `dispositivos_pass`
 
-**Performance Optimizations:**
-*   Shared buffers: 256MB
-*   Effective cache size: 1GB
-*   Maintenance work memory: 64MB
-*   WAL buffers: 16MB
-*   Work memory: 4MB
+**Optimizaciones de Rendimiento:**
+*   Buffers compartidos: 256MB
+*   Tamaño de caché efectivo: 1GB
+*   Memoria de trabajo de mantenimiento: 64MB
+*   Buffers WAL: 16MB
+*   Memoria de trabajo: 4MB
 
-### 1.3.2) Environment Variables
+### 1.3.2) Variables de Entorno
 
-Create a `.env` file in the project root with the following configuration:
+Crea un archivo `.env` en la raíz del proyecto con la siguiente configuración:
 
 ```env
-# Database Configuration
+# Configuración de Base de Datos
 DB_NAME_PROD=dispositivos_electronicos
 DB_USER_PROD=dispositivos_user
 DB_PASS_PROD=dispositivos_pass
@@ -740,11 +748,11 @@ DB_HOST_PROD=localhost
 DB_DIALECT_PROD=postgres
 DB_PORT_PROD=5432
 
-# Application Configuration
+# Configuración de la Aplicación
 PROD_PORT=8082
 APP_PORT=8082
 
-# API Endpoints
+# Endpoints de la API
 API_LOCAL_BASE_URL=http://localhost:8082
 API_COMPONENT_NAME_URL=/api/v1/componentes
 API_COMPONENT_DETAIL_NAME_URL=/api/v1/componentes-detalles
@@ -752,52 +760,52 @@ API_BIPOLAR_TRANSISTOR_NAME_URL=/api/v1/transistores-bipolares
 API_ELECTROLYTIC_CAPACITOR_NAME_URL=/api/v1/capacitores-electroliticos
 ```
 
-### 1.3.3) Database Initialization
+### 1.3.3) Inicialización de la Base de Datos
 
-The database is automatically initialized with the following SQL files located in the `init/` directory:
+La base de datos se inicializa automáticamente con los siguientes archivos SQL ubicados en el directorio `init/`:
 
-1. **`01_db_dispositivos_electronicos_DDL.sql`**: Creates all tables, sequences, and constraints
-2. **`02_db_dispositivos_electronicos_DML_INSERT.sql`**: Inserts initial data
-3. **`03_db_dispositivos_electronicos_DML_UPDATE.sql`**: Sample update operations
-4. **`04_db_dispositivos_electronicos_DML_DELETE.sql`**: Sample delete operations
-5. **`05_db_dispositivos_electronicos_DML_QUERIES.sql`**: Sample queries
+1. **`01_db_dispositivos_electronicos_DDL.sql`**: Crea todas las tablas, secuencias y restricciones
+2. **`02_db_dispositivos_electronicos_DML_INSERT.sql`**: Inserta datos iniciales
+3. **`03_db_dispositivos_electronicos_DML_UPDATE.sql`**: Operaciones de actualización de ejemplo
+4. **`04_db_dispositivos_electronicos_DML_DELETE.sql`**: Operaciones de eliminación de ejemplo
+5. **`05_db_dispositivos_electronicos_DML_QUERIES.sql`**: Consultas de ejemplo
 
-### 1.3.4) Starting the Database
+### 1.3.4) Iniciar la Base de Datos
 
-**Prerequisites:**
-*   [Docker](https://docs.docker.com/get-docker/) installed on your system
-*   [Docker Compose](https://docs.docker.com/compose/install/) installed
+**Prerrequisitos:**
+*   [Docker](https://docs.docker.com/get-docker/) instalado en tu sistema
+*   [Docker Compose](https://docs.docker.com/compose/install/) instalado
 
-**Commands:**
+**Comandos:**
 
-1. **Start the database:**
+1. **Iniciar la base de datos:**
    ```bash
    docker-compose up -d
    ```
 
-2. **Check if the database is running:**
+2. **Verificar si la base de datos está ejecutándose:**
    ```bash
    docker-compose ps
    ```
 
-3. **View database logs:**
+3. **Ver logs de la base de datos:**
    ```bash
    docker-compose logs postgres
    ```
 
-4. **Stop the database:**
+4. **Detener la base de datos:**
    ```bash
    docker-compose down
    ```
 
-5. **Stop and remove all data (volumes):**
+5. **Detener y eliminar todos los datos (volúmenes):**
    ```bash
    docker-compose down -v
    ```
 
-### 1.3.5) Database Connection
+### 1.3.5) Conexión a la Base de Datos
 
-The application automatically connects to the PostgreSQL database using Sequelize ORM. The connection is configured in `src/db/config.js` and uses the environment variables defined in your `.env` file.
+La aplicación se conecta automáticamente a la base de datos PostgreSQL usando Sequelize ORM. La conexión está configurada en `src/db/config.js` y utiliza las variables de entorno definidas en tu archivo `.env`.
 
 **Connection Details:**
 *   **Host**: localhost
@@ -865,45 +873,45 @@ The database includes the following main tables:
 
 </details>
 
-### 1.4) Technologies [🔝](#index-)
+### 1.4) Tecnologías [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-| **Technologies** | **Version** | **Purpose** |
+| **Tecnologías** | **Versión** | **Propósito** |
 | ------------- | ------------- | ------------- |
-| [NodeJS](https://nodejs.org/en/) | 18.x | JavaScript Runtime |
-| [Express](https://expressjs.com/) | 4.21.2 | Web Framework |
-| [PostgreSQL](https://www.postgresql.org/) | 15 | Database Engine |
-| [Docker](https://www.docker.com/) | Latest | Containerization |
-| [Sequelize](https://sequelize.org/) | 6.32.1 | ORM for Node.js |
-| [Jest](https://jestjs.io/) | 29.7.0 | Testing Framework |
-| [Swagger](https://swagger.io/) | 6.2.8 | API Documentation |
+| [NodeJS](https://nodejs.org/en/) | 18.x | Runtime de JavaScript |
+| [Express](https://expressjs.com/) | 4.21.2 | Framework Web |
+| [PostgreSQL](https://www.postgresql.org/) | 15 | Motor de Base de Datos |
+| [Docker](https://www.docker.com/) | Latest | Containerización |
+| [Sequelize](https://sequelize.org/) | 6.32.1 | ORM para Node.js |
+| [Jest](https://jestjs.io/) | 29.7.0 | Framework de Pruebas |
+| [Swagger](https://swagger.io/) | 6.2.8 | Documentación de API |
 | [VSC](https://code.visualstudio.com/docs) | 1.72.2 | IDE |
-| [Postman](https://www.postman.com/downloads/) | 10.11 | HTTP Client |
-| [Git](https://git-scm.com/downloads) | 2.29.1 | Version Control |
+| [Postman](https://www.postman.com/downloads/) | 10.11 | Cliente HTTP |
+| [Git](https://git-scm.com/downloads) | 2.29.1 | Control de Versiones |
 
 </br>
 
-| **Plugin** | **Description** |
+| **Plugin** | **Descripción** |
 | ------------- | ------------- |
-| [pg](https://www.npmjs.com/package/pg) | PostgreSQL client for Node.js |
-| [pg-hstore](https://www.npmjs.com/package/pg-hstore) | Serialize and deserialize JSON data to hstore format |
-| [cors](https://www.npmjs.com/package/cors) | Cross-Origin Resource Sharing |
-| [dotenv](https://www.npmjs.com/package/dotenv) | Environment variables loader |
-| [morgan](https://www.npmjs.com/package/morgan) | HTTP request logger middleware |
-| [nodemon](https://www.npmjs.com/package/nodemon) | Auto-restart server during development |
-| [express-validator](https://www.npmjs.com/package/express-validator) | Request validation middleware |
-| [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) | Swagger UI for Express |
-| [winston](https://www.npmjs.com/package/winston) | Logging library |
+| [pg](https://www.npmjs.com/package/pg) | Cliente PostgreSQL para Node.js |
+| [pg-hstore](https://www.npmjs.com/package/pg-hstore) | Serializar y deserializar datos JSON al formato hstore |
+| [cors](https://www.npmjs.com/package/cors) | Intercambio de Recursos de Origen Cruzado |
+| [dotenv](https://www.npmjs.com/package/dotenv) | Cargador de variables de entorno |
+| [morgan](https://www.npmjs.com/package/morgan) | Middleware de registro de peticiones HTTP |
+| [nodemon](https://www.npmjs.com/package/nodemon) | Reinicio automático del servidor durante el desarrollo |
+| [express-validator](https://www.npmjs.com/package/express-validator) | Middleware de validación de peticiones |
+| [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) | Interfaz de usuario Swagger para Express |
+| [winston](https://www.npmjs.com/package/winston) | Biblioteca de registro de logs |
 
 </br>
 
-| **Extension** |
+| **Extensión** |
 | ------------- |
-| Prettier - Code formatter |
-| YAML - Autoformatter .yml (alt+shift+f) |
+| Prettier - Formateador de código |
+| YAML - Autoformateador .yml (alt+shift+f) |
 
 <br>
 
@@ -911,99 +919,109 @@ The database includes the following main tables:
 
 <br>
 
-## Section 2) Testing Documentation and Implementation
+## Sección 2) Documentación e Implementación de Pruebas
 
-### 2.0) Testing Overview [🔝](#index-)
+<br>
+
+#### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
+
+  <a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo">
+    <img src="../doc/assets/componentes-example-yt.png" />
+  </a>
+
+<br>   
+
+### 2.0) Resumen de Pruebas [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-This project includes a comprehensive testing suite with both unit tests and integration tests to ensure code quality and reliability.
+Este proyecto incluye una suite completa de pruebas con pruebas unitarias e integración para asegurar la calidad y confiabilidad del código.
 
-**Testing Framework:** Jest with Supertest for API testing
-**Coverage:** >90% code coverage
-**Test Types:** Unit tests, Integration tests, Validation tests
+**Framework de Pruebas:** Jest con Supertest para pruebas de API
+**Cobertura:** >90% de cobertura de código
+**Tipos de Pruebas:** Pruebas unitarias, Pruebas de integración, Pruebas de validación
 
 <br>
 
 </details>
 
-### 2.1) Testing Structure [🔝](#index-)
+### 2.1) Estructura de Pruebas [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
 ```
 src/test/
-├── integration-test/          # Integration tests
-│   ├── app.test.js           # App configuration for tests
-│   ├── test-setup.js         # Test database configuration
-│   ├── component.test.js     # Component endpoint tests
+├── integration-test/          # Pruebas de integración
+│   ├── app.test.js           # Configuración de la aplicación para pruebas
+│   ├── test-setup.js         # Configuración de base de datos de pruebas
+│   ├── component.test.js     # Pruebas de endpoints de componentes
 │   ├── mosfet-transistor.test.js
 │   ├── bipolar-transistor.test.js
 │   ├── electrolytic-capacitor.test.js
 │   └── component-detail.test.js
-├── unit-test/                # Unit tests
-│   ├── helpers/              # Helper tests
-│   │   ├── pagination/       # Pagination tests
+├── unit-test/                # Pruebas unitarias
+│   ├── helpers/              # Pruebas de ayudantes
+│   │   ├── pagination/       # Pruebas de paginación
 │   │   │   ├── component/
 │   │   │   ├── component-detail/
 │   │   │   └── mosfet-transistor.test.js
-│   │   └── validations/      # Validation tests
+│   │   └── validations/      # Pruebas de validación
 │   │       ├── component.test.js
 │   │       └── mosfet-transistor.test.js
-│   └── services/             # Service tests
+│   └── services/             # Pruebas de servicios
 │       ├── component.test.js
 │       └── mosfet-transistor.test.js
-└── mock/                     # Mocks and configuration
-    └── set-env-vars.js       # Environment variables for tests
+└── mock/                     # Mocks y configuración
+    └── set-env-vars.js       # Variables de entorno para pruebas
 ```
 
 <br>
 
 </details>
 
-### 2.2) Testing Commands [🔝](#index-)
+### 2.2) Comandos de Pruebas [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-#### Execute all tests
+#### Ejecutar todas las pruebas
 ```bash
 npm test
 ```
 
-#### Execute unit tests
+#### Ejecutar pruebas unitarias
 ```bash
 npm run test:unit
 ```
 
-#### Execute integration tests
+#### Ejecutar pruebas de integración
 ```bash
 npm run test:integration
 ```
 
-#### Execute specific tests
+#### Ejecutar pruebas específicas
 ```bash
-# Pagination tests
+# Pruebas de paginación
 npm run test:pagination-helpers
 
-# Service tests
+# Pruebas de servicios
 npm run test:services
 
-# Validation tests
+# Pruebas de validación
 npm run test:validations
 ```
 
-#### Execute tests with coverage
+#### Ejecutar pruebas con cobertura
 ```bash
 npm run test:cov
 ```
 
-#### Execute tests in watch mode
+#### Ejecutar pruebas en modo observación
 ```bash
 npm run test:watch
 ```
@@ -1012,84 +1030,84 @@ npm run test:watch
 
 </details>
 
-### 2.3) Test Types [🔝](#index-)
+### 2.3) Tipos de Pruebas [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-#### 2.3.1) Unit Tests
+#### 2.3.1) Pruebas Unitarias
 
-Unit tests focus on testing individual functions and isolated modules:
+Las pruebas unitarias se enfocan en probar funciones individuales y módulos aislados:
 
-**Pagination Helpers:**
-- **checkOrderBy**: Validates ordering fields
-- **checkOrderAt**: Validates ordering direction (ASC/DESC)
+**Ayudantes de Paginación:**
+- **checkOrderBy**: Valida campos de ordenamiento
+- **checkOrderAt**: Valida dirección de ordenamiento (ASC/DESC)
 
-**Validation Helpers:**
-- **validateCreateComponent**: Validates data for creating components
-- **validateUpdateComponent**: Validates data for updating components
-- **validateCreateMosfetTransistor**: Validates data for creating MOSFET transistors
-- **validateUpdateMosfetTransistor**: Validates data for updating MOSFET transistors
+**Ayudantes de Validación:**
+- **validateCreateComponent**: Valida datos para crear componentes
+- **validateUpdateComponent**: Valida datos para actualizar componentes
+- **validateCreateMosfetTransistor**: Valida datos para crear transistores MOSFET
+- **validateUpdateMosfetTransistor**: Valida datos para actualizar transistores MOSFET
 
-**Services:**
-- **createComponentService**: Tests component creation
-- **getAllComponentService**: Tests component retrieval with pagination
-- **getComponentByIdService**: Tests retrieval by ID
-- **updateComponentService**: Tests updates
-- **deleteComponentService**: Tests deletion
+**Servicios:**
+- **createComponentService**: Prueba la creación de componentes
+- **getAllComponentService**: Prueba la recuperación de componentes con paginación
+- **getComponentByIdService**: Prueba la recuperación por ID
+- **updateComponentService**: Prueba las actualizaciones
+- **deleteComponentService**: Prueba las eliminaciones
 
-#### 2.3.2) Integration Tests
+#### 2.3.2) Pruebas de Integración
 
-Integration tests test complete API endpoints:
+Las pruebas de integración prueban endpoints completos de la API:
 
-**Component Endpoints:**
-- **POST /api/component**: Create component
-- **GET /api/component**: Get all components
-- **GET /api/component/:id**: Get component by ID
-- **PATCH /api/component/:id**: Update component
-- **DELETE /api/component/:id**: Delete component
-- **GET /api/component/search/***: Search endpoints
+**Endpoints de Componentes:**
+- **POST /api/component**: Crear componente
+- **GET /api/component**: Obtener todos los componentes
+- **GET /api/component/:id**: Obtener componente por ID
+- **PATCH /api/component/:id**: Actualizar componente
+- **DELETE /api/component/:id**: Eliminar componente
+- **GET /api/component/search/***: Endpoints de búsqueda
 
-**MOSFET Transistor Endpoints:**
-- **POST /api/mosfet-transistor**: Create MOSFET transistor
-- **GET /api/mosfet-transistor**: Get all MOSFET transistors
-- **GET /api/mosfet-transistor/:id**: Get by ID
-- **GET /api/mosfet-transistor/component/:componentId**: Get by component
-- **PATCH /api/mosfet-transistor/:id**: Update
-- **DELETE /api/mosfet-transistor/:id**: Delete
-- **GET /api/mosfet-transistor/search/***: Search endpoints
+**Endpoints de Transistores MOSFET:**
+- **POST /api/mosfet-transistor**: Crear transistor MOSFET
+- **GET /api/mosfet-transistor**: Obtener todos los transistores MOSFET
+- **GET /api/mosfet-transistor/:id**: Obtener por ID
+- **GET /api/mosfet-transistor/component/:componentId**: Obtener por componente
+- **PATCH /api/mosfet-transistor/:id**: Actualizar
+- **DELETE /api/mosfet-transistor/:id**: Eliminar
+- **GET /api/mosfet-transistor/search/***: Endpoints de búsqueda
 
-**Bipolar Transistor Endpoints:**
-- Similar structure to MOSFET transistors
+**Endpoints de Transistores Bipolares:**
+- Estructura similar a los transistores MOSFET
 
-**Electrolytic Capacitor Endpoints:**
-- Similar structure to MOSFET transistors
+**Endpoints de Capacitores Electrolíticos:**
+- Estructura similar a los transistores MOSFET
 
-**Component Detail Endpoints:**
-- Similar structure to components
+**Endpoints de Detalles de Componentes:**
+- Estructura similar a los componentes
 
 <br>
 
 </details>
 
-### 2.4) Test Configuration [🔝](#index-)
+### 2.4) Configuración de Pruebas [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-#### 2.4.1) Environment Variables for Tests
+#### 2.4.1) Variables de Entorno para Pruebas
 
 ```bash
-# Test database
+# Base de datos de pruebas
 TEST_DB_NAME=test_electronic_devices
 TEST_DB_USER=postgres
 TEST_DB_PASSWORD=postgres
 TEST_DB_HOST=localhost
 TEST_DB_PORT=5432
 
-# Mock variables for unit tests
+# Variables mock para pruebas unitarias
 MOCK_NUMBER_01=1212313
 MOCK_BOOLEAN_01=true
 MOCK_STRING_01=MOCK_STRING_01
@@ -1100,7 +1118,7 @@ MOCK_ORDER_AT_ASC_NAME=ASC
 MOCK_ORDER_AT_DESC_NAME=DESC
 ```
 
-#### 2.4.2) Jest Configuration
+#### 2.4.2) Configuración de Jest
 
 ```javascript
 // jest.config.js
@@ -1121,111 +1139,111 @@ const config = {
 
 </details>
 
-### 2.5) Test Coverage [🔝](#index-)
+### 2.5) Cobertura de Pruebas [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-The tests cover:
+Las pruebas cubren:
 
-#### CRUD Functionality
-- ✅ Create (POST)
-- ✅ Read (GET)
-- ✅ Update (PATCH)
-- ✅ Delete (DELETE)
+#### Funcionalidad CRUD
+- ✅ Crear (POST)
+- ✅ Leer (GET)
+- ✅ Actualizar (PATCH)
+- ✅ Eliminar (DELETE)
 
-#### Validations
-- ✅ Required fields
-- ✅ Data types
-- ✅ Value ranges
-- ✅ Specific formats
+#### Validaciones
+- ✅ Campos requeridos
+- ✅ Tipos de datos
+- ✅ Rangos de valores
+- ✅ Formatos específicos
 
-#### Pagination and Ordering
-- ✅ Page parameters
-- ✅ Result limits
-- ✅ Ordering fields
-- ✅ Ordering direction
+#### Paginación y Ordenamiento
+- ✅ Parámetros de página
+- ✅ Límites de resultados
+- ✅ Campos de ordenamiento
+- ✅ Dirección de ordenamiento
 
-#### Specific Searches
-- ✅ Search by code
-- ✅ Search by description
-- ✅ Search by price ranges
-- ✅ Search by stock ranges
-- ✅ Technical searches specific to component type
+#### Búsquedas Específicas
+- ✅ Búsqueda por código
+- ✅ Búsqueda por descripción
+- ✅ Búsqueda por rangos de precio
+- ✅ Búsqueda por rangos de stock
+- ✅ Búsquedas técnicas específicas al tipo de componente
 
-#### Error Handling
-- ✅ Validation errors (400)
-- ✅ Resources not found (404)
-- ✅ Server errors (500)
-- ✅ Database connection errors
+#### Manejo de Errores
+- ✅ Errores de validación (400)
+- ✅ Recursos no encontrados (404)
+- ✅ Errores del servidor (500)
+- ✅ Errores de conexión a la base de datos
 
 <br>
 
 </details>
 
-### 2.6) Test Cases [🔝](#index-)
+### 2.6) Casos de Prueba [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-#### Successful Cases
-- Successful component creation
-- Data retrieval with pagination
-- Partial record updates
-- Successful deletion
-- Searches with filters
+#### Casos Exitosos
+- Creación exitosa de componentes
+- Recuperación de datos con paginación
+- Actualizaciones parciales de registros
+- Eliminación exitosa
+- Búsquedas con filtros
 
-#### Error Cases
-- Invalid data in creation
-- Invalid data in updates
-- Non-existent IDs
-- Missing required fields
-- Out-of-range values
+#### Casos de Error
+- Datos inválidos en la creación
+- Datos inválidos en las actualizaciones
+- IDs inexistentes
+- Campos requeridos faltantes
+- Valores fuera de rango
 
-#### Edge Cases
-- Pagination with extreme limits
-- Ordering with invalid fields
-- Searches with empty parameters
-- Relationships between entities
+#### Casos Extremos
+- Paginación con límites extremos
+- Ordenamiento con campos inválidos
+- Búsquedas con parámetros vacíos
+- Relaciones entre entidades
 
 <br>
 
 </details>
 
-### 2.7) Troubleshooting [🔝](#index-)
+### 2.7) Solución de Problemas [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-#### Common Issues
+#### Problemas Comunes
 
-1. **Database connection error**
-   - Verify PostgreSQL is running
-   - Verify test database credentials
-   - Verify test database exists
+1. **Error de conexión a la base de datos**
+   - Verificar que PostgreSQL esté ejecutándose
+   - Verificar credenciales de la base de datos de pruebas
+   - Verificar que la base de datos de pruebas exista
 
-2. **Integration tests failing**
-   - Verify test database is clean
-   - Verify models are synchronized
-   - Verify environment variables are configured
+2. **Pruebas de integración fallando**
+   - Verificar que la base de datos de pruebas esté limpia
+   - Verificar que los modelos estén sincronizados
+   - Verificar que las variables de entorno estén configuradas
 
-3. **Unit tests failing**
-   - Verify mocks are configured correctly
-   - Verify dependencies are imported correctly
-   - Verify mock variables are defined
+3. **Pruebas unitarias fallando**
+   - Verificar que los mocks estén configurados correctamente
+   - Verificar que las dependencias estén importadas correctamente
+   - Verificar que las variables mock estén definidas
 
-#### Debug Logs
+#### Logs de Depuración
 
-To enable detailed logs during tests:
+Para habilitar logs detallados durante las pruebas:
 
 ```bash
-# Enable Jest logs
+# Habilitar logs de Jest
 npm test -- --verbose
 
-# Enable database logs
+# Habilitar logs de base de datos
 DEBUG=sequelize:* npm test
 ```
 
@@ -1233,50 +1251,50 @@ DEBUG=sequelize:* npm test
 
 </details>
 
-### 2.8) Quality Metrics [🔝](#index-)
+### 2.8) Métricas de Calidad [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-- **Code coverage**: >90%
-- **Unit tests**: 100+ cases
-- **Integration tests**: 50+ cases
-- **Execution time**: <30 seconds
-- **Reliability**: 99%+ tests passing consistently
+- **Cobertura de código**: >90%
+- **Pruebas unitarias**: 100+ casos
+- **Pruebas de integración**: 50+ casos
+- **Tiempo de ejecución**: <30 segundos
+- **Confiabilidad**: 99%+ de pruebas pasando consistentemente
 
 <br>
 
 </details>
 
-### 2.9) Maintenance [🔝](#index-)
+### 2.9) Mantenimiento [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-#### Adding New Tests
+#### Agregar Nuevas Pruebas
 
-1. **For new endpoints**:
-   - Create file in `integration-test/`
-   - Follow existing test patterns
-   - Include successful and error cases
+1. **Para nuevos endpoints**:
+   - Crear archivo en `integration-test/`
+   - Seguir patrones de pruebas existentes
+   - Incluir casos exitosos y de error
 
-2. **For new services**:
-   - Create file in `unit-test/services/`
-   - Mock external dependencies
-   - Test all use cases
+2. **Para nuevos servicios**:
+   - Crear archivo en `unit-test/services/`
+   - Mockear dependencias externas
+   - Probar todos los casos de uso
 
-3. **For new helpers**:
-   - Create file in `unit-test/helpers/`
-   - Test edge cases and errors
-   - Maintain high coverage
+3. **Para nuevos ayudantes**:
+   - Crear archivo en `unit-test/helpers/`
+   - Probar casos extremos y errores
+   - Mantener alta cobertura
 
-#### Updating Existing Tests
+#### Actualizar Pruebas Existentes
 
-- Maintain compatibility with API changes
-- Update mocks when dependencies change
-- Review and update test cases according to new validations
+- Mantener compatibilidad con cambios en la API
+- Actualizar mocks cuando cambien las dependencias
+- Revisar y actualizar casos de prueba según nuevas validaciones
 
 <br>
 
@@ -1284,12 +1302,22 @@ DEBUG=sequelize:* npm test
 
 <br>
 
-## Section 3) Endpoints and Examples.
+## Sección 3) Endpoints y Ejemplos
 
-### 3.0) Endpoints and resources [🔝](#index-)
+<br>
+
+#### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
+
+  <a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo">
+    <img src="../doc/assets/componentes-example-yt.png" />
+  </a>
+
+<br>   
+
+### 3.0) Endpoints y recursos [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
 <br>
 
 ## Resumen de la API
@@ -3315,193 +3343,193 @@ Esta interfaz Swagger proporciona:
 
 <br>
 
-## Section 4) Functionality Testing and References.
+## Sección 4) Pruebas de Funcionalidad y Referencias
 
-### 4.0) Postman Collection [🔝](#index-)
+### 4.0) Colección de Postman [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-#### Postman Collection Overview
+#### Descripción General de la Colección de Postman
 
-A comprehensive Postman collection is included in this project to facilitate API testing and development. The collection contains pre-configured requests for all API endpoints with proper headers, body examples, and environment variables.
+Este proyecto incluye una colección completa de Postman para facilitar las pruebas y el desarrollo de la API. La colección contiene solicitudes preconfiguradas para todos los endpoints de la API con los encabezados adecuados, ejemplos de cuerpo y variables de entorno.
 
-**Collection Location:**
-- **File**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
-- **Size**: ~481KB with 11,000+ lines of configuration
-- **Coverage**: Complete API coverage for all endpoints
+**Ubicación de la Colección:**
+- **Archivo**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
+- **Tamaño**: ~481KB con más de 11,000 líneas de configuración
+- **Cobertura**: Cobertura completa de la API para todos los endpoints
 
-#### Collection Features
+#### Características de la Colección
 
-**📋 Complete API Coverage:**
-- **Components**: CRUD operations, search, and pagination
-- **MOSFET Transistors**: Technical specifications and parameters
-- **Bipolar Transistors**: BJT characteristics and ratings
-- **Electrolytic Capacitors**: Capacitor specifications
-- **Component Details**: Technical details and datasheets
+**📋 Cobertura Completa de la API:**
+- **Componentes**: Operaciones CRUD, búsqueda y paginación
+- **Transistores MOSFET**: Especificaciones técnicas y parámetros
+- **Transistores Bipolares**: Características y valores de BJT
+- **Capacitores Electrolíticos**: Especificaciones de capacitores
+- **Detalles de Componentes**: Detalles técnicos y hojas de datos
 
-**🔧 Pre-configured Setup:**
-- **Environment Variables**: Base URL and common parameters
-- **Request Headers**: Proper Content-Type and authorization headers
-- **Body Examples**: Sample data for all POST/PATCH operations
-- **Response Validation**: Pre-configured tests for common scenarios
-- **Organized Structure**: Requests grouped by component type
+**🔧 Configuración Preconfigurada:**
+- **Variables de Entorno**: URL base y parámetros comunes
+- **Encabezados de Solicitud**: Content-Type y encabezados de autorización adecuados
+- **Ejemplos de Cuerpo**: Datos de ejemplo para todas las operaciones POST/PATCH
+- **Validación de Respuestas**: Pruebas preconfiguradas para escenarios comunes
+- **Estructura Organizada**: Solicitudes agrupadas por tipo de componente
 
-**📊 Testing Capabilities:**
-- **Request Examples**: Ready-to-use requests with sample data
-- **Response Validation**: Automatic validation of response status and structure
-- **Error Testing**: Pre-configured error scenarios
-- **Pagination Testing**: Examples with different page and limit parameters
-- **Search Testing**: Various search criteria and filters
+**📊 Capacidades de Prueba:**
+- **Ejemplos de Solicitud**: Solicitudes listas para usar con datos de ejemplo
+- **Validación de Respuestas**: Validación automática del estado y estructura de la respuesta
+- **Pruebas de Errores**: Escenarios de error preconfigurados
+- **Pruebas de Paginación**: Ejemplos con diferentes parámetros de página y límite
+- **Pruebas de Búsqueda**: Diversos criterios y filtros de búsqueda
 
-#### How to Use the Collection
+#### Cómo Usar la Colección
 
-**Step 1: Import Collection**
-1. Open Postman application
-2. Click **File** → **Import** → **Upload Files**
-3. Select the file: `postman/collections/Api_DispElectr_Express.postman_collection.json`
-4. Click **Import**
+**Paso 1: Importar la Colección**
+1. Abre la aplicación Postman
+2. Haz clic en **Archivo** → **Importar** → **Subir Archivos**
+3. Selecciona el archivo: `postman/collections/Api_DispElectr_Express.postman_collection.json`
+4. Haz clic en **Importar**
 
-**Step 2: Set Up Environment**
-1. Create a new environment in Postman
-2. Add the following variable:
+**Paso 2: Configurar el Entorno**
+1. Crea un nuevo entorno en Postman
+2. Agrega la siguiente variable:
    - **Variable**: `base_url`
-   - **Initial Value**: `http://localhost:8082`
-   - **Current Value**: `http://localhost:8082`
-3. Save the environment and select it
+   - **Valor Inicial**: `http://localhost:8082`
+   - **Valor Actual**: `http://localhost:8082`
+3. Guarda el entorno y selecciónalo
 
-**Step 3: Start Testing**
-1. Ensure your API server is running (`npm run start:dev`)
-2. Ensure your database is running (`docker-compose up -d`)
-3. Navigate through the collection folders
-4. Click on any request to see its configuration
-5. Modify request bodies or parameters as needed
-6. Click **Send** to execute the request
+**Paso 3: Comenzar las Pruebas**
+1. Asegúrate de que tu servidor API esté en ejecución (`npm run start:dev`)
+2. Asegúrate de que tu base de datos esté en ejecución (`docker-compose up -d`)
+3. Navega por las carpetas de la colección
+4. Haz clic en cualquier solicitud para ver su configuración
+5. Modifica los cuerpos o parámetros de las solicitudes según sea necesario
+6. Haz clic en **Send** para ejecutar la solicitud
 
-#### Collection Structure
+#### Estructura de la Colección
 
 ```
 Api_DispElectr_Express Collection
-├── Components
-│   ├── GET All Components
-│   ├── GET Component by ID
-│   ├── POST Create Component
-│   ├── PATCH Update Component
-│   ├── DELETE Component
-│   └── Search Components
-├── MOSFET Transistors
-│   ├── GET All MOSFET Transistors
-│   ├── GET MOSFET by ID
-│   ├── POST Create MOSFET
-│   ├── PATCH Update MOSFET
-│   ├── DELETE MOSFET
-│   └── Search MOSFET Transistors
-├── Bipolar Transistors
-│   └── [Similar structure]
-├── Electrolytic Capacitors
-│   └── [Similar structure]
-└── Component Details
-    └── [Similar structure]
+├── Componentes
+│   ├── GET Todos los Componentes
+│   ├── GET Componente por ID
+│   ├── POST Crear Componente
+│   ├── PATCH Actualizar Componente
+│   ├── DELETE Eliminar Componente
+│   └── Buscar Componentes
+├── Transistores MOSFET
+│   ├── GET Todos los MOSFET
+│   ├── GET MOSFET por ID
+│   ├── POST Crear MOSFET
+│   ├── PATCH Actualizar MOSFET
+│   ├── DELETE Eliminar MOSFET
+│   └── Buscar MOSFET
+├── Transistores Bipolares
+│   └── [Estructura similar]
+├── Capacitores Electrolíticos
+│   └── [Estructura similar]
+└── Detalles de Componentes
+    └── [Estructura similar]
 ```
 
-#### Customization Tips
+#### Consejos de Personalización
 
-**Modifying Request Bodies:**
-- Update the JSON body in the request to match your test data
-- Use environment variables for dynamic values
-- Test different validation scenarios
+**Modificar Cuerpos de Solicitud:**
+- Actualiza el cuerpo JSON en la solicitud para que coincida con tus datos de prueba
+- Usa variables de entorno para valores dinámicos
+- Prueba diferentes escenarios de validación
 
-**Adding New Tests:**
-- Use the **Tests** tab in Postman to add custom validation
-- Test response status codes, response times, and data structure
-- Add assertions for specific business logic
+**Agregar Nuevas Pruebas:**
+- Usa la pestaña **Tests** en Postman para agregar validaciones personalizadas
+- Prueba códigos de estado de respuesta, tiempos de respuesta y estructura de datos
+- Agrega aserciones para lógica de negocio específica
 
-**Environment Variables:**
-- Create different environments for development, staging, and production
-- Use variables for base URLs, authentication tokens, and common parameters
-- Share environments with team members
+**Variables de Entorno:**
+- Crea diferentes entornos para desarrollo, staging y producción
+- Usa variables para URLs base, tokens de autenticación y parámetros comunes
+- Comparte entornos con los miembros del equipo
 
-#### Troubleshooting
+#### Solución de Problemas
 
-**Common Issues:**
-1. **Connection Refused**: Ensure the API server is running on port 8082
-2. **Database Errors**: Verify PostgreSQL is running via Docker
-3. **Validation Errors**: Check request body format and required fields
-4. **Environment Issues**: Verify environment variables are set correctly
+**Problemas Comunes:**
+1. **Conexión Rechazada**: Asegúrate de que el servidor API esté en ejecución en el puerto 8082
+2. **Errores de Base de Datos**: Verifica que PostgreSQL esté en ejecución vía Docker
+3. **Errores de Validación**: Revisa el formato del cuerpo de la solicitud y los campos requeridos
+4. **Problemas de Entorno**: Verifica que las variables de entorno estén configuradas correctamente
 
-**Best Practices:**
-- Always test with the latest collection version
-- Keep environment variables updated
-- Use descriptive test names and descriptions
-- Document any custom modifications made to requests
+**Mejores Prácticas:**
+- Prueba siempre con la versión más reciente de la colección
+- Mantén actualizadas las variables de entorno
+- Usa nombres y descripciones descriptivas para las pruebas
+- Documenta cualquier modificación personalizada realizada a las solicitudes
 
 <br>
 
 </details>
 
-### 4.1) Functionality test [🔝](#index-)
+### 4.1) Prueba de Funcionalidad [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
 <br>
 
-## Testing Overview
+## Resumen de Pruebas
 
-This section provides comprehensive guidance on testing the API functionality, including manual testing procedures, automated testing, and recommended testing tools.
+Esta sección proporciona una guía completa sobre cómo probar la funcionalidad de la API, incluyendo procedimientos de prueba manual, pruebas automatizadas y herramientas recomendadas.
 
-## Manual Testing
+## Pruebas Manuales
 
-### Prerequisites for Testing
-1. **Server Running**: Ensure the API server is running on `http://localhost:8082`
-2. **Database Active**: Verify PostgreSQL database is running via Docker
-3. **Test Data**: Ensure the database contains test data (automatically loaded via init scripts)
+### Prerrequisitos para las Pruebas
+1. **Servidor en Ejecución**: Asegúrate de que el servidor API esté corriendo en `http://localhost:8082`
+2. **Base de Datos Activa**: Verifica que la base de datos PostgreSQL esté corriendo vía Docker
+3. **Datos de Prueba**: Asegúrate de que la base de datos contenga datos de prueba (cargados automáticamente mediante los scripts de inicialización)
 
-### Testing Tools
+### Herramientas de Prueba
 
-#### 1. Postman Collection
-A comprehensive Postman collection is included in the project:
-- **Location**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
-- **Import**: Import this collection into Postman for easy API testing
-- **Environment**: Configure environment variables for different testing scenarios
+#### 1. Colección de Postman
+Se incluye una colección completa de Postman en el proyecto:
+- **Ubicación**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
+- **Importar**: Importa esta colección en Postman para facilitar las pruebas de la API
+- **Entorno**: Configura variables de entorno para diferentes escenarios de prueba
 
-**Collection Features:**
-- **Complete API Coverage**: All endpoints for components, transistors, capacitors, and component details
-- **Pre-configured Requests**: Ready-to-use requests with proper headers and body examples
-- **Environment Variables**: Uses variables for base URL and common parameters
-- **Request Examples**: Includes sample data for all POST/PATCH operations
-- **Response Validation**: Pre-configured tests for common response scenarios
-- **Organized Structure**: Requests grouped by component type for easy navigation
+**Características de la Colección:**
+- **Cobertura Completa de la API**: Todos los endpoints para componentes, transistores, capacitores y detalles de componentes
+- **Solicitudes Preconfiguradas**: Solicitudes listas para usar con encabezados y ejemplos de cuerpo adecuados
+- **Variables de Entorno**: Utiliza variables para la URL base y parámetros comunes
+- **Ejemplos de Solicitud**: Incluye datos de ejemplo para todas las operaciones POST/PATCH
+- **Validación de Respuestas**: Pruebas preconfiguradas para escenarios comunes de respuesta
+- **Estructura Organizada**: Solicitudes agrupadas por tipo de componente para fácil navegación
 
-**How to Use:**
-1. **Import Collection**: In Postman, go to File → Import → Upload Files and select the collection file
-2. **Set Environment**: Create a new environment with variable `base_url` set to `http://localhost:8082`
-3. **Start Testing**: The collection will be ready to use with all endpoints configured
-4. **Modify as Needed**: Update request bodies and parameters according to your testing needs
+**Cómo Usar:**
+1. **Importar Colección**: En Postman, ve a Archivo → Importar → Subir Archivos y selecciona el archivo de la colección
+2. **Configurar Entorno**: Crea un nuevo entorno con la variable `base_url` configurada en `http://localhost:8082`
+3. **Comenzar Pruebas**: La colección estará lista para usar con todos los endpoints configurados
+4. **Modificar según Necesidad**: Actualiza los cuerpos y parámetros de las solicitudes según tus necesidades de prueba
 
 #### 2. Swagger UI
-Interactive API documentation and testing:
+Documentación interactiva y pruebas de la API:
 - **URL**: `http://localhost:8082/api-docs`
-- **Features**: 
-  - Interactive endpoint testing
-  - Request/response examples
-  - Schema validation
-  - Real-time API exploration
+- **Características**: 
+  - Pruebas interactivas de endpoints
+  - Ejemplos de solicitud/respuesta
+  - Validación de esquemas
+  - Exploración de la API en tiempo real
 
-#### 3. cURL Commands
-Command-line testing examples:
+#### 3. Comandos cURL
+Ejemplos de pruebas desde la línea de comandos:
 
-**Test Server Health:**
+**Probar el estado del servidor:**
 ```bash
 curl -X GET http://localhost:8082/api/v1/health
 ```
 
-**Get All Components:**
+**Obtener todos los componentes:**
 ```bash
 curl -X GET "http://localhost:8082/api/v1/componentes?page=1&limit=5"
 ```
 
-**Create a Component:**
+**Crear un componente:**
 ```bash
 curl -X POST http://localhost:8082/api/v1/componentes \
   -H "Content-Type: application/json" \
@@ -3515,69 +3543,69 @@ curl -X POST http://localhost:8082/api/v1/componentes \
   }'
 ```
 
-## Automated Testing
+## Pruebas Automatizadas
 
-### Running Tests
+### Ejecutar Pruebas
 
-#### 1. All Tests
+#### 1. Todas las Pruebas
 ```bash
 npm test
 ```
 
-#### 2. Specific Test Types
+#### 2. Tipos de Pruebas Específicas
 ```bash
-# Unit tests only
+# Solo pruebas unitarias
 npm run test:unit
 
-# Integration tests only
+# Solo pruebas de integración
 npm run test:integration
 
-# Tests with coverage
+# Pruebas con cobertura
 npm run test:cov
 
-# Tests in watch mode
+# Pruebas en modo observación
 npm run test:watch
 ```
 
-#### 3. Specific Test Categories
+#### 3. Categorías de Pruebas Específicas
 ```bash
-# Pagination helper tests
+# Pruebas de ayudantes de paginación
 npm run test:pagination-helpers
 
-# Service layer tests
+# Pruebas de capa de servicios
 npm run test:services
 
-# Validation tests
+# Pruebas de validación
 npm run test:validations
 ```
 
-### Test Structure
+### Estructura de Pruebas
 
-#### Unit Tests (`src/test/unit-test/`)
-- **Helpers**: Pagination and validation logic
-- **Services**: Business logic and data processing
-- **Coverage**: >90% code coverage
+#### Pruebas Unitarias (`src/test/unit-test/`)
+- **Ayudantes**: Lógica de paginación y validación
+- **Servicios**: Lógica de negocio y procesamiento de datos
+- **Cobertura**: >90% de cobertura de código
 
-#### Integration Tests (`src/test/integration-test/`)
-- **API Endpoints**: Complete request/response testing
-- **Database Operations**: CRUD operations with real database
-- **Error Handling**: Validation and error scenarios
+#### Pruebas de Integración (`src/test/integration-test/`)
+- **Endpoints de API**: Pruebas completas de solicitud/respuesta
+- **Operaciones de Base de Datos**: Operaciones CRUD con base de datos real
+- **Manejo de Errores**: Escenarios de validación y error
 
-### Test Data Management
+### Gestión de Datos de Prueba
 
-#### Database Setup
+#### Configuración de Base de Datos
 ```bash
-# Start test database
+# Iniciar base de datos de prueba
 docker-compose up -d
 
-# Reset database (if needed)
+# Reiniciar base de datos (si es necesario)
 docker-compose down -v
 docker-compose up -d
 ```
 
-#### Test Environment Variables
+#### Variables de Entorno de Prueba
 ```env
-# Test database configuration
+# Configuración de base de datos de prueba
 TEST_DB_NAME=test_electronic_devices
 TEST_DB_USER=postgres
 TEST_DB_PASSWORD=postgres
@@ -3585,11 +3613,11 @@ TEST_DB_HOST=localhost
 TEST_DB_PORT=5432
 ```
 
-## Testing Scenarios
+## Escenarios de Prueba
 
-### 1. Component Management
+### 1. Gestión de Componentes
 
-#### Create Component
+#### Crear Componente
 ```bash
 POST /api/v1/componentes
 Content-Type: application/json
@@ -3604,7 +3632,7 @@ Content-Type: application/json
 }
 ```
 
-**Expected Response:**
+**Respuesta Esperada:**
 ```json
 {
   "status": "success",
@@ -3613,25 +3641,25 @@ Content-Type: application/json
     "id": 1,
     "codigo": "COMP001",
     "descripcion": "Arduino Uno R3",
-    // ... other fields
+    // ... otros campos
   }
 }
 ```
 
-#### Get Components with Pagination
+#### Obtener Componentes con Paginación
 ```bash
 GET /api/v1/componentes?page=1&limit=5&orderBy=codigo&orderAt=ASC
 ```
 
-#### Search Components
+#### Buscar Componentes
 ```bash
 GET /api/v1/componentes/search/codigo/COMP001
 GET /api/v1/componentes/search/precio-min-max/10/50
 ```
 
-### 2. MOSFET Transistor Testing
+### 2. Pruebas de Transistores MOSFET
 
-#### Create MOSFET
+#### Crear MOSFET
 ```bash
 POST /api/v1/transistores-mosfet
 Content-Type: application/json
@@ -3645,26 +3673,26 @@ Content-Type: application/json
 }
 ```
 
-#### Search by Technical Parameters
+#### Buscar por Parámetros Técnicos
 ```bash
 GET /api/v1/transistores-mosfet/search/tipo/N-Channel
 GET /api/v1/transistores-mosfet/search/voltaje-drenaje-fuente/60
 ```
 
-### 3. Error Handling Testing
+### 3. Pruebas de Manejo de Errores
 
-#### Invalid Data
+#### Datos Inválidos
 ```bash
 POST /api/v1/componentes
 Content-Type: application/json
 
 {
-  "codigo": "",  // Invalid: empty code
-  "precio": -10  // Invalid: negative price
+  "codigo": "",  // Inválido: código vacío
+  "precio": -10  // Inválido: precio negativo
 }
 ```
 
-**Expected Response:**
+**Respuesta Esperada:**
 ```json
 {
   "status": "error",
@@ -3682,12 +3710,12 @@ Content-Type: application/json
 }
 ```
 
-#### Resource Not Found
+#### Recurso No Encontrado
 ```bash
 GET /api/v1/componentes/999999
 ```
 
-**Expected Response:**
+**Respuesta Esperada:**
 ```json
 {
   "status": "error",
@@ -3695,18 +3723,18 @@ GET /api/v1/componentes/999999
 }
 ```
 
-## Performance Testing
+## Pruebas de Rendimiento
 
-### Load Testing with Artillery
+### Pruebas de Carga con Artillery
 ```bash
-# Install Artillery
+# Instalar Artillery
 npm install -g artillery
 
-# Run load test
+# Ejecutar prueba de carga
 artillery run load-test.yml
 ```
 
-### Example Load Test Configuration
+### Ejemplo de Configuración de Prueba de Carga
 ```yaml
 # load-test.yml
 config:
@@ -3725,42 +3753,42 @@ scenarios:
           url: "/api/v1/componentes"
 ```
 
-## Security Testing
+## Pruebas de Seguridad
 
-### Input Validation
-- Test with SQL injection attempts
-- Test with XSS payloads
-- Test with oversized payloads
-- Test with malformed JSON
+### Validación de Entrada
+- Probar con intentos de inyección SQL
+- Probar con payloads XSS
+- Probar con payloads de tamaño excesivo
+- Probar con JSON malformado
 
-### Rate Limiting (Future)
-- Test API rate limits
-- Test concurrent requests
-- Test abuse scenarios
+### Limitación de Tasa (Futuro)
+- Probar límites de tasa de la API
+- Probar solicitudes concurrentes
+- Probar escenarios de abuso
 
-## Monitoring and Logging
+## Monitoreo y Registro
 
-### Application Logs
+### Logs de la Aplicación
 ```bash
-# View application logs
+# Ver logs de la aplicación
 docker-compose logs -f app
 
-# View database logs
+# Ver logs de la base de datos
 docker-compose logs -f postgres
 ```
 
-### Test Reports
+### Reportes de Pruebas
 ```bash
-# Generate test coverage report
+# Generar reporte de cobertura de pruebas
 npm run test:cov
 
-# View coverage report
+# Ver reporte de cobertura
 open coverage/lcov-report/index.html
 ```
 
-## Continuous Integration
+## Integración Continua
 
-### GitHub Actions (Recommended)
+### GitHub Actions (Recomendado)
 ```yaml
 # .github/workflows/test.yml
 name: Tests
@@ -3778,56 +3806,56 @@ jobs:
       - run: npm run test:cov
 ```
 
-## Testing Best Practices
+## Mejores Prácticas de Pruebas
 
-### 1. Test Data Isolation
-- Use separate test database
-- Clean up test data after each test
-- Use unique identifiers for test data
+### 1. Aislamiento de Datos de Prueba
+- Usar base de datos de prueba separada
+- Limpiar datos de prueba después de cada prueba
+- Usar identificadores únicos para datos de prueba
 
-### 2. Test Coverage
-- Aim for >90% code coverage
-- Test both success and error scenarios
-- Test edge cases and boundary conditions
+### 2. Cobertura de Pruebas
+- Apuntar a >90% de cobertura de código
+- Probar tanto escenarios exitosos como de error
+- Probar casos extremos y condiciones límite
 
-### 3. Performance Testing
-- Test with realistic data volumes
-- Monitor response times
-- Test concurrent access
+### 3. Pruebas de Rendimiento
+- Probar con volúmenes de datos realistas
+- Monitorear tiempos de respuesta
+- Probar acceso concurrente
 
-### 4. Security Testing
-- Validate all inputs
-- Test authentication (when implemented)
-- Test authorization (when implemented)
+### 4. Pruebas de Seguridad
+- Validar todas las entradas
+- Probar autenticación (cuando se implemente)
+- Probar autorización (cuando se implemente)
 
-## Troubleshooting Tests
+## Solución de Problemas de Pruebas
 
-### Common Issues
+### Problemas Comunes
 
-#### Database Connection
+#### Conexión a Base de Datos
 ```bash
-# Check if database is running
+# Verificar si la base de datos está ejecutándose
 docker-compose ps
 
-# Restart database
+# Reiniciar base de datos
 docker-compose restart postgres
 ```
 
-#### Port Conflicts
+#### Conflictos de Puerto
 ```bash
-# Check port usage
+# Verificar uso del puerto
 netstat -ano | findstr :8082
 
-# Kill conflicting processes
+# Matar procesos conflictivos
 npx kill-port 8082
 ```
 
-#### Test Environment
+#### Entorno de Pruebas
 ```bash
-# Clear test cache
+# Limpiar caché de pruebas
 npm test -- --clearCache
 
-# Run tests with verbose output
+# Ejecutar pruebas con salida detallada
 npm test -- --verbose
 ```
 
@@ -3835,42 +3863,42 @@ npm test -- --verbose
 
 </details>
 
-### 4.2) References [🔝](#index-)
+### 4.2) Referencias [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>Ver</summary>
   <br>
 
-#### Docker and PostgreSQL
+#### Docker y PostgreSQL
 
-*   [Docker Official PostgreSQL Image](https://hub.docker.com/_/postgres)
-*   [Docker Compose Documentation](https://docs.docker.com/compose/)
-*   [PostgreSQL with Docker Best Practices](https://docs.docker.com/samples/postgresql_service/)
-*   [Docker Compose Environment Variables](https://docs.docker.com/compose/environment-variables/)
+*   [Imagen Oficial de PostgreSQL en Docker](https://hub.docker.com/_/postgres)
+*   [Documentación de Docker Compose](https://docs.docker.com/compose/)
+*   [Mejores Prácticas de PostgreSQL con Docker](https://docs.docker.com/samples/postgresql_service/)
+*   [Variables de Entorno en Docker Compose](https://docs.docker.com/compose/environment-variables/)
 
-#### Sequelize with PostgreSQL
+#### Sequelize con PostgreSQL
 
-*   [PostgreSQL with Sequelize](https://www.makeuseof.com/use-postgresql-with-sequelize-in-nodejs/)
-*   [Associations between tables](https://sequelize.org/docs/v6/core-concepts/assocs/)
+*   [PostgreSQL con Sequelize](https://www.makeuseof.com/use-postgresql-with-sequelize-in-nodejs/)
+*   [Asociaciones entre tablas](https://sequelize.org/docs/v6/core-concepts/assocs/)
 
-#### Swagger and Nodejs
+#### Swagger y Nodejs
 
-*   [Automatically Generate Swagger Docs With ExpressJS & NodeJS](https://www.youtube.com/watch?v=5aryMKiBEKY)
-*   [Example repository](https://github.com/TomDoesTech/REST-API-Tutorial-Updated/tree/main)
+*   [Generar Automáticamente Documentación Swagger con ExpressJS y NodeJS](https://www.youtube.com/watch?v=5aryMKiBEKY)
+*   [Repositorio de ejemplo](https://github.com/TomDoesTech/REST-API-Tutorial-Updated/tree/main)
 
-#### Video tutorials
+#### Tutoriales en Video
 
-*   [Playlist Example Creation of Rest Api](https://www.youtube.com/watch?v=tpso18ghda4)
-*   [Creation and config Api rest from scratch](https://www.youtube.com/watch?v=bK3AJfs7qNY\&t=1019s)
+*   [Lista de Reproducción - Ejemplo de Creación de API REST](https://www.youtube.com/watch?v=tpso18ghda4)
+*   [Creación y Configuración de API REST desde Cero](https://www.youtube.com/watch?v=bK3AJfs7qNY\&t=1019s)
 
-#### Code Examples
+#### Ejemplos de Código
 
-*   [Example of microservice using Sequelize, Mysql and NodeJS](https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS)
+*   [Ejemplo de microservicio usando Sequelize, MySQL y NodeJS](https://github.com/andresWeitzel/ApiRest_Dispositivos_Electronicos_ExpressJS)
 
-#### Bookstores
+#### Librerías
 
-*   [Handling validations with express-validator](https://medium.com/dataseries/introduction-to-request-body-validation-in-express-apps-with-express-validator-7b9725ca780d)
-*   [express-validator official doc](https://express-validator.github.io/docs/guides/getting-started)
+*   [Manejo de validaciones con express-validator](https://medium.com/dataseries/introduction-to-request-body-validation-in-express-apps-with-express-validator-7b9725ca780d)
+*   [Documentación oficial de express-validator](https://express-validator.github.io/docs/guides/getting-started)
 
 #### Remark-lint
 
@@ -3880,7 +3908,7 @@ npm test -- --verbose
 
 #### Railway
 
-*   [Example Deploy with Nodejs and Mysql](https://www.youtube.com/watch?v=C3NhmT__Mn4\&ab_channel=Fazt)
+*   [Ejemplo de Despliegue con Nodejs y MySQL](https://www.youtube.com/watch?v=C3NhmT__Mn4\&ab_channel=Fazt)
 
 <br>
 
