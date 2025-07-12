@@ -921,6 +921,11 @@ The database includes the following main tables:
 
 ## Sección 2) Documentación e Implementación de Pruebas
 
+### 2.0) Resumen de Pruebas [🔝](#index-)
+
+<details>
+   <summary>Ver</summary>
+
 <br>
 
 #### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
@@ -930,12 +935,6 @@ The database includes the following main tables:
   </a>
 
 <br>   
-
-### 2.0) Resumen de Pruebas [🔝](#index-)
-
-<details>
-   <summary>Ver</summary>
-  <br>
 
 Este proyecto incluye una suite completa de pruebas con pruebas unitarias e integración para asegurar la calidad y confiabilidad del código.
 
@@ -1304,6 +1303,11 @@ DEBUG=sequelize:* npm test
 
 ## Sección 3) Endpoints y Ejemplos
 
+### 3.0) Endpoints y recursos [🔝](#index-)
+
+<details>
+   <summary>Ver</summary>
+
 <br>
 
 #### [Watch playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)
@@ -1313,12 +1317,6 @@ DEBUG=sequelize:* npm test
   </a>
 
 <br>   
-
-### 3.0) Endpoints y recursos [🔝](#index-)
-
-<details>
-   <summary>Ver</summary>
-<br>
 
 ## Resumen de la API
 
