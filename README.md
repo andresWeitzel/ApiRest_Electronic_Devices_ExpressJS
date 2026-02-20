@@ -33,7 +33,7 @@
 
 <div align="center">
 
-# ApiRest\_Electronic\_Devices\_ExpressJS ![(status-completed)](./doc/assets/icons/badges/status-completed.svg)
+# ApiRest Electronic Devices ExpressJS ![(status-completed)](./doc/assets/icons/badges/status-completed.svg)
 
 
 </div>
@@ -48,9 +48,13 @@ Rest Api about electronic devices implemented with Express, Morgan, Railway ,Nod
 ## Index 📜
 
 <details>
-  <summary> View </summary>
+  <summary>View details</summary>
 
-  <br>
+<div align="right">
+
+`Latest update: 19/02/26` 
+
+</div>
 
 ### Section 1) Description, configuration and technologies
 
@@ -94,7 +98,7 @@ Rest Api about electronic devices implemented with Express, Morgan, Railway ,Nod
 ### 1.0) Description [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 ### 1.0.0) General Description
@@ -200,7 +204,7 @@ The application follows a **layered architecture pattern** with clear separation
 ### 1.1) Project Execution [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
 
 <br>
 
@@ -354,7 +358,7 @@ sudo usermod -aG docker $USER
 ### 1.2) Project configuration from scratch [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 ### 1.2.0) Initial settings
@@ -706,7 +710,7 @@ This structure provides a scalable and maintainable foundation for the electroni
 ### 1.3) Database Configuration with Docker and PostgreSQL [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 ### 1.3.0) Database Overview
@@ -879,7 +883,7 @@ The database includes the following main tables:
 ### 1.4) Technologies [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 | **Technologies** | **Version** | **Purpose** |
@@ -927,7 +931,7 @@ The database includes the following main tables:
 ### 2.0) Testing Overview [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
 
   <br>
 
@@ -952,7 +956,7 @@ This project includes a comprehensive testing suite with both unit tests and int
 ### 2.1) Testing Structure [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 ```
@@ -988,7 +992,7 @@ src/test/
 ### 2.2) Testing Commands [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 #### Execute all tests
@@ -1035,7 +1039,7 @@ npm run test:watch
 ### 2.3) Test Types [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 #### 2.3.1) Unit Tests
@@ -1096,7 +1100,7 @@ Integration tests test complete API endpoints:
 ### 2.4) Test Configuration [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 #### 2.4.1) Environment Variables for Tests
@@ -1144,7 +1148,7 @@ const config = {
 ### 2.5) Test Coverage [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 The tests cover:
@@ -1187,7 +1191,7 @@ The tests cover:
 ### 2.6) Test Cases [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 #### Successful Cases
@@ -1217,7 +1221,7 @@ The tests cover:
 ### 2.7) Troubleshooting [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 #### Common Issues
@@ -1256,7 +1260,7 @@ DEBUG=sequelize:* npm test
 ### 2.8) Quality Metrics [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 - **Code coverage**: >90%
@@ -1272,7 +1276,7 @@ DEBUG=sequelize:* npm test
 ### 2.9) Maintenance [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 #### Adding New Tests
@@ -1309,7 +1313,7 @@ DEBUG=sequelize:* npm test
 ### 3.0) Endpoints and resources [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
 
 <br>
 
@@ -3349,7 +3353,7 @@ This Swagger interface provides:
 ### 4.0) Postman Collection [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 #### Postman Collection Overview
@@ -3472,7 +3476,7 @@ Api_DispElectr_Express Collection
 ### 4.1) Functionality test [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
 <br>
 
 ## Testing Overview
@@ -3867,7 +3871,7 @@ npm test -- --verbose
 ### 4.2) References [🔝](#index-)
 
 <details>
-   <summary>View</summary>
+   <summary>View details</summary>
   <br>
 
 #### Docker and PostgreSQL

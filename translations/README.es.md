@@ -46,9 +46,13 @@ Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Rail
 ## Índice 📜
 
 <details>
-  <summary> Ver </summary>
+  <summary>Ver detalles</summary>
 
-  <br>
+<div align="right">
+
+`Última actualización: 19/02/26` 
+
+</div>
 
 ### Sección 1) Descripción, configuración y tecnologías
 
@@ -91,7 +95,7 @@ Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Rail
 ### 1.0) Descripción [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 ### 1.0.0) Descripción general
@@ -197,7 +201,7 @@ La aplicación sigue un **patrón de arquitectura en capas** con separación cla
 ### 1.1) Ejecución del Proyecto [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
 
 <br>
 
@@ -351,7 +355,7 @@ sudo usermod -aG docker $USER
 ### 1.2) Configuración del proyecto desde cero [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 ### 1.2.0) Configuración inicial
@@ -703,7 +707,7 @@ This structure provides a scalable and maintainable foundation for the electroni
 ### 1.3) Configuración de Base de Datos con Docker y PostgreSQL [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 ### 1.3.0) Resumen de la Base de Datos
@@ -876,7 +880,7 @@ The database includes the following main tables:
 ### 1.4) Tecnologías [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 | **Tecnologías** | **Versión** | **Propósito** |
@@ -924,7 +928,7 @@ The database includes the following main tables:
 ### 2.0) Resumen de Pruebas [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
 
 <br>
 
@@ -949,7 +953,7 @@ Este proyecto incluye una suite completa de pruebas con pruebas unitarias e inte
 ### 2.1) Estructura de Pruebas [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 ```
@@ -985,7 +989,7 @@ src/test/
 ### 2.2) Comandos de Pruebas [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 #### Ejecutar todas las pruebas
@@ -1032,7 +1036,7 @@ npm run test:watch
 ### 2.3) Tipos de Pruebas [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 #### 2.3.1) Pruebas Unitarias
@@ -1093,7 +1097,7 @@ Las pruebas de integración prueban endpoints completos de la API:
 ### 2.4) Configuración de Pruebas [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 #### 2.4.1) Variables de Entorno para Pruebas
@@ -1141,7 +1145,7 @@ const config = {
 ### 2.5) Cobertura de Pruebas [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 Las pruebas cubren:
@@ -1184,7 +1188,7 @@ Las pruebas cubren:
 ### 2.6) Casos de Prueba [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 #### Casos Exitosos
@@ -1214,7 +1218,7 @@ Las pruebas cubren:
 ### 2.7) Solución de Problemas [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 #### Problemas Comunes
@@ -1253,7 +1257,7 @@ DEBUG=sequelize:* npm test
 ### 2.8) Métricas de Calidad [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 - **Cobertura de código**: >90%
@@ -1269,7 +1273,7 @@ DEBUG=sequelize:* npm test
 ### 2.9) Mantenimiento [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 #### Agregar Nuevas Pruebas
@@ -1306,7 +1310,7 @@ DEBUG=sequelize:* npm test
 ### 3.0) Endpoints y recursos [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
 
 <br>
 
@@ -3346,7 +3350,7 @@ Esta interfaz Swagger proporciona:
 ### 4.0) Colección de Postman [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 #### Descripción General de la Colección de Postman
@@ -3469,7 +3473,7 @@ Api_DispElectr_Express Collection
 ### 4.1) Prueba de Funcionalidad [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
 <br>
 
 ## Resumen de Pruebas
@@ -3864,7 +3868,7 @@ npm test -- --verbose
 ### 4.2) Referencias [🔝](#index-)
 
 <details>
-   <summary>Ver</summary>
+   <summary>Ver detalles</summary>
   <br>
 
 #### Docker y PostgreSQL
