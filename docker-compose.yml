@@ -1,4 +1,5 @@
-version: '3.8'
+# Compose project name in Docker Desktop.
+name: apirest-electronic-devices
 
 services:
   postgres:
@@ -8,7 +9,6 @@ services:
       POSTGRES_DB: dispositivos_electronicos
       POSTGRES_USER: dispositivos_user
       POSTGRES_PASSWORD: dispositivos_pass
-      # Configuración de rendimiento para PostgreSQL
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
@@ -37,6 +37,64 @@ services:
       -c work_mem=4MB
       -c min_wal_size=1GB
       -c max_wal_size=4GB
+    restart: unless-stopped
+
+  api:
+    build: .
+    image: apirest-electronic-devices:local
+    container_name: dispositivos_electronicos_api
+    ports:
+      - "8082:8082"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: production
+      PORT: "8082"
+      APP_PORT: "8082"
+      PROD_PORT: "8082"
+      # Inside the Docker network the DB host is the postgres service name (not localhost)
+      DATABASE_HOST: postgres
+      DATABASE_NAME: dispositivos_electronicos
+      DATABASE_USER: dispositivos_user
+      DATABASE_PASSWORD: dispositivos_pass
+      DATABASE_DIALECT: postgres
+      DATABASE_PORT: "5432"
+      DATABASE_POOL_MAX: "5"
+      DATABASE_POOL_MIN: "0"
+      DATABASE_POOL_ACQUIRE: "30000"
+      DATABASE_POOL_IDLE: "10000"
+      DB_HOST_PROD: postgres
+      DB_NAME_PROD: dispositivos_electronicos
+      DB_USER_PROD: dispositivos_user
+      DB_PASS_PROD: dispositivos_pass
+      DB_DIALECT_PROD: postgres
+      DB_PORT_PROD: "5432"
+      DB_SSL: "false"
+      API_LOCAL_BASE_URL: http://localhost:8082
+      API_COMPONENT_NAME_URL: /api/v1/componentes
+      API_COMPONENT_DETAIL_NAME_URL: /api/v1/componentes-detalles
+      API_BIPOLAR_TRANSISTOR_NAME_URL: /api/v1/transistores-bipolares
+      API_ELECTROLYTIC_CAPACITOR_NAME_URL: /api/v1/capacitores-electroliticos
+      API_MOSFET_TRANSISTOR_NAME_URL: /api/v1/transistores-mosfet
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - dispositivos_network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:8082/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
 
 volumes:
   postgres_data:
@@ -45,4 +103,4 @@ volumes:
 networks:
   dispositivos_network:
     name: dispositivos_network
-    driver: bridge 
+    driver: bridge
