@@ -38,12 +38,10 @@
 
 Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Render, NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, Docker, entre otros.
 
-*   **API (producción):** [https://api-electronic-devices.onrender.com](https://api-electronic-devices.onrender.com)
-*   **API (local):** [http://localhost:8082](http://localhost:8082)
+*   [API (producción)](https://api-electronic-devices.onrender.com)
+*   [API (local)](http://localhost:8082)
 *   [Colección de Postman](../postman/collections/Api_DispElectr_Express.postman_collection.json)
 *   [Lista de reproducción de pruebas de funcionalidad](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" > <img src="../doc/assets/social-networks/yt.png" width="25" /> </a>
-
-> **Postman — antes de probar:** seteá la variable de collection `environment` en `local` o `production` (Collection → Variables). Un pre-request la mapea a `{{base_url}}` / `{{healthUrl}}`. En el Runner usá **Environment: none** para que un Environment de Postman no la pise.
 
 <br>
 
@@ -3381,10 +3379,7 @@ Esta interfaz Swagger proporciona:
 
 Este proyecto incluye una colección completa de Postman para facilitar las pruebas y el desarrollo de la API. La colección contiene solicitudes preconfiguradas para todos los endpoints de la API con los encabezados adecuados, ejemplos de cuerpo y variables de entorno.
 
-> **Alerta — seteá `environment` antes de correr requests.**  
-> Collection → **Variables** → `environment` = `local` o `production`.  
-> Ese valor elige `baseUrlLocal` o `baseUrlProduction`; el pre-request escribe `{{base_url}}` y `{{healthUrl}}`.  
-> Runner → **Environment: none** (un Environment de Postman con `base_url` pisaría la collection).
+> **Postman — antes de probar:** seteá la variable de collection `environment` en `local` o `production` (Collection → Variables). Un pre-request la mapea a `{{base_url}}` / `{{healthUrl}}`. En el Runner usá **Environment: none** para que un Environment de Postman no la pise.
 
 **Ubicación de la Colección:**
 - **Archivo**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
