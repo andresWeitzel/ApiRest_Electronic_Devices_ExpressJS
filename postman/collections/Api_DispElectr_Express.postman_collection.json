@@ -3,9 +3,41 @@
 		"_postman_id": "35cfef66-2a59-43b7-8792-f1fbf87c2096",
 		"name": "Api_DispElectr_Express",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18757319"
+		"_exporter_id": "18757319",
+		"description": "ApiRest Electronic Devices ExpressJS.\n\nEntorno (variables de esta collection, Environment: none):\n- `environment` = `local` o `production`\n- `baseUrlLocal` / `baseUrlProduction` (el pre-request arma `base_url` y `healthUrl`)\n\n1. Local: `docker-compose up -d` + `npm run start:dev`, `environment=local`.\n2. Production: `environment=production` (`https://api-electronic-devices.onrender.com`). Primera request ~30–60 s si el Free estaba dormido.\n3. Health: `GET {{healthUrl}}` (raiz `/health`, no bajo /api/v1).\n4. Runner → Environment: none (un Environment de Postman con base_url pisa la collection)."
 	},
 	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Health check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{healthUrl}}"
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status 200 y OK', function () {",
+									"  pm.response.to.have.status(200);",
+									"  const json = pm.response.json();",
+									"  pm.expect(json.status).to.eql('OK');",
+									"  pm.expect(json.persistence).to.eql('postgresql');",
+									"  pm.expect(json.orm).to.eql('sequelize');",
+									"  pm.expect(json).to.have.property('timestamp');",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
 		{
 			"name": "Componentes",
 			"item": [
@@ -11077,7 +11109,19 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					""
+					"const env = String(pm.collectionVariables.get('environment') || 'local').trim().toLowerCase();",
+					"const urls = {",
+					"  local: pm.collectionVariables.get('baseUrlLocal') || 'http://localhost:8082/api/v1',",
+					"  production: pm.collectionVariables.get('baseUrlProduction') || 'https://api-electronic-devices.onrender.com/api/v1'",
+					"};",
+					"const healthUrls = {",
+					"  local: 'http://localhost:8082/health',",
+					"  production: 'https://api-electronic-devices.onrender.com/health'",
+					"};",
+					"const baseUrl = urls[env] || urls.local;",
+					"const healthUrl = healthUrls[env] || healthUrls.local;",
+					"pm.collectionVariables.set('base_url', baseUrl);",
+					"pm.collectionVariables.set('healthUrl', healthUrl);"
 				]
 			}
 		},
@@ -11093,8 +11137,25 @@
 	],
 	"variable": [
 		{
+			"key": "environment",
+			"value": "local",
+			"description": "local | production — el pre-request elige baseUrlLocal o baseUrlProduction"
+		},
+		{
+			"key": "baseUrlLocal",
+			"value": "http://localhost:8082/api/v1"
+		},
+		{
+			"key": "baseUrlProduction",
+			"value": "https://api-electronic-devices.onrender.com/api/v1"
+		},
+		{
 			"key": "base_url",
 			"value": "http://localhost:8082/api/v1"
+		},
+		{
+			"key": "healthUrl",
+			"value": "http://localhost:8082/health"
 		},
 		{
 			"key": "x-api-key",

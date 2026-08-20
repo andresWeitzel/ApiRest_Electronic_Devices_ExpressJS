@@ -2,7 +2,8 @@
 require('dotenv').config();
 //Environment vars
 //Env vars
-const PORT = process.env.PROD_PORT || process.env.APP_PORT || 8082;
+// Render inyecta PORT; local usa APP_PORT / PROD_PORT
+const PORT = process.env.PORT || process.env.PROD_PORT || process.env.APP_PORT || 8082;
 //Config middleware
 const { appMiddleware } = require('./config/middleware/index');
 //Utils swagger

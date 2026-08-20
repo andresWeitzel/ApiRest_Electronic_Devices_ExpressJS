@@ -1,6 +1,6 @@
 <div align="center">
 
-![Index app](../doc/assets/componentes-example.png)
+![Index app](../doc/assets/ApiRest_Electronic_Devices_ExpressJS_image.png)
 
 </div>
 
@@ -36,10 +36,14 @@
 
 </div>
 
-Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Railway, NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, Docker, entre otros.
+Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Render, NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, Docker, entre otros.
 
+*   **API (producción):** [https://api-electronic-devices.onrender.com](https://api-electronic-devices.onrender.com)
+*   **API (local):** [http://localhost:8082](http://localhost:8082)
 *   [Colección de Postman](../postman/collections/Api_DispElectr_Express.postman_collection.json)
 *   [Lista de reproducción de pruebas de funcionalidad](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" > <img src="../doc/assets/social-networks/yt.png" width="25" /> </a>
+
+> **Postman — antes de probar:** seteá la variable de collection `environment` en `local` o `production` (Collection → Variables). Un pre-request la mapea a `{{base_url}}` / `{{healthUrl}}`. En el Runner usá **Environment: none** para que un Environment de Postman no la pise.
 
 <br>
 
@@ -50,7 +54,7 @@ Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Rail
 
 <div align="right">
 
-`Última actualización: 19/02/26` 
+`Última actualización: 20/08/26` 
 
 </div>
 
@@ -83,6 +87,7 @@ Rest Api sobre dispositivos electrónicos implementada con Express, Morgan, Rail
 
 *   [4.0) Colección de Postman.](#40-postman-collection-)
 *   [4.1) Referencias.](#41-references-)
+*   [4.3) Sandbox alojado (Render).](#43-hosted-sandbox-render-)
 
 <br>
 
@@ -239,6 +244,13 @@ cd ApiRest_Dispositivos_Electronicos_ExpressJS
 npm install
 ```
 
+4. **Crear env local (nunca subir `.env`):**
+```bash
+cp .env.example .env
+```
+
+Los valores locales viven en `.env` / `.env.example`. La config hosted de Render está en `render.yaml` (Blueprint).
+
 #### Paso 2: Configuración de la Base de Datos
 
 1. **Iniciar base de datos PostgreSQL con Docker:**
@@ -288,7 +300,7 @@ npm run dev
 2. **Acceder a la aplicación:**
    - **URL Base de la API**: `http://localhost:8082`
    - **Documentación Swagger**: `http://localhost:8082/api-docs`
-   - **Verificación de Estado**: `http://localhost:8082/api/v1/health`
+   - **Health Check**: `http://localhost:8082/health` (también lo usa Render `healthCheckPath`)
 
 #### Solución de Problemas
 
@@ -894,6 +906,7 @@ The database includes the following main tables:
 | [Swagger](https://swagger.io/) | 6.2.8 | Documentación de API |
 | [VSC](https://code.visualstudio.com/docs) | 1.72.2 | IDE |
 | [Postman](https://www.postman.com/downloads/) | 10.11 | Cliente HTTP |
+| [Render](https://render.com/) | Free / Blueprint | Sandbox alojado (`render.yaml`) |
 | [Git](https://git-scm.com/downloads) | 2.29.1 | Control de Versiones |
 
 </br>
@@ -1324,10 +1337,21 @@ DEBUG=sequelize:* npm test
 
 ## Resumen de la API
 
-La API proporciona endpoints RESTful para gestionar componentes electrónicos con la siguiente URL base:
+La API es la misma en local y en producción. Solo cambia el host.
+
 ```
 http://localhost:8082
+https://api-electronic-devices.onrender.com
 ```
+
+Mismas rutas (`/api/v1/...`, `/health`). En Postman: `environment=local` o `environment=production`.
+
+| Entorno | URL base | Para |
+| --- | --- | --- |
+| **Local** | `http://localhost:8082` | desarrollo, Jest, Runner completo de Postman |
+| **Producción** | `https://api-electronic-devices.onrender.com` | demo pública (Render Free) |
+
+En Postman la variable de collection `environment` es `local` o `production`; un pre-request setea `{{base_url}}` (y `{{healthUrl}}`) desde esos hosts.
 
 ### Autenticación
 Actualmente, la API no requiere autenticación. Todos los endpoints son públicamente accesibles.
@@ -3357,6 +3381,11 @@ Esta interfaz Swagger proporciona:
 
 Este proyecto incluye una colección completa de Postman para facilitar las pruebas y el desarrollo de la API. La colección contiene solicitudes preconfiguradas para todos los endpoints de la API con los encabezados adecuados, ejemplos de cuerpo y variables de entorno.
 
+> **Alerta — seteá `environment` antes de correr requests.**  
+> Collection → **Variables** → `environment` = `local` o `production`.  
+> Ese valor elige `baseUrlLocal` o `baseUrlProduction`; el pre-request escribe `{{base_url}}` y `{{healthUrl}}`.  
+> Runner → **Environment: none** (un Environment de Postman con `base_url` pisaría la collection).
+
 **Ubicación de la Colección:**
 - **Archivo**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
 - **Tamaño**: ~481KB con más de 11,000 líneas de configuración
@@ -3365,6 +3394,7 @@ Este proyecto incluye una colección completa de Postman para facilitar las prue
 #### Características de la Colección
 
 **📋 Cobertura Completa de la API:**
+- **Health**: `GET /health` (liveness; útil tras el sleep de Render)
 - **Componentes**: Operaciones CRUD, búsqueda y paginación
 - **Transistores MOSFET**: Especificaciones técnicas y parámetros
 - **Transistores Bipolares**: Características y valores de BJT
@@ -3372,7 +3402,7 @@ Este proyecto incluye una colección completa de Postman para facilitar las prue
 - **Detalles de Componentes**: Detalles técnicos y hojas de datos
 
 **🔧 Configuración Preconfigurada:**
-- **Variables de Entorno**: URL base y parámetros comunes
+- **Variables de collection**: `environment`, `baseUrlLocal`, `baseUrlProduction`, `base_url`, `healthUrl`
 - **Encabezados de Solicitud**: Content-Type y encabezados de autorización adecuados
 - **Ejemplos de Cuerpo**: Datos de ejemplo para todas las operaciones POST/PATCH
 - **Validación de Respuestas**: Pruebas preconfiguradas para escenarios comunes
@@ -3391,80 +3421,27 @@ Este proyecto incluye una colección completa de Postman para facilitar las prue
 1. Abre la aplicación Postman
 2. Haz clic en **Archivo** → **Importar** → **Subir Archivos**
 3. Selecciona el archivo: `postman/collections/Api_DispElectr_Express.postman_collection.json`
-4. Haz clic en **Importar**
+4. Haz clic en **Importar** (**Replace** si ya existía; el `_postman_id` es fijo para no duplicar)
 
-**Paso 2: Configurar el Entorno**
-1. Crea un nuevo entorno en Postman
-2. Agrega la siguiente variable:
-   - **Variable**: `base_url`
-   - **Valor Inicial**: `http://localhost:8082`
-   - **Valor Actual**: `http://localhost:8082`
-3. Guarda el entorno y selecciónalo
+**Paso 2: Elegir local o production (dentro de la collection)**
 
-**Paso 3: Comenzar las Pruebas**
-1. Asegúrate de que tu servidor API esté en ejecución (`npm run start:dev`)
-2. Asegúrate de que tu base de datos esté en ejecución (`docker-compose up -d`)
-3. Navega por las carpetas de la colección
-4. Haz clic en cualquier solicitud para ver su configuración
-5. Modifica los cuerpos o parámetros de las solicitudes según sea necesario
-6. Haz clic en **Send** para ejecutar la solicitud
+Local vs production vive **dentro** de la collection (sin JSON de Environment extra). Variable `environment`:
 
-#### Estructura de la Colección
+| environment | Apunta a |
+| --- | --- |
+| `local` (default) | `http://localhost:8082/api/v1` (`baseUrlLocal`) |
+| `production` | `https://api-electronic-devices.onrender.com/api/v1` (`baseUrlProduction`) |
 
-```
-Api_DispElectr_Express Collection
-├── Componentes
-│   ├── GET Todos los Componentes
-│   ├── GET Componente por ID
-│   ├── POST Crear Componente
-│   ├── PATCH Actualizar Componente
-│   ├── DELETE Eliminar Componente
-│   └── Buscar Componentes
-├── Transistores MOSFET
-│   ├── GET Todos los MOSFET
-│   ├── GET MOSFET por ID
-│   ├── POST Crear MOSFET
-│   ├── PATCH Actualizar MOSFET
-│   ├── DELETE Eliminar MOSFET
-│   └── Buscar MOSFET
-├── Transistores Bipolares
-│   └── [Estructura similar]
-├── Capacitores Electrolíticos
-│   └── [Estructura similar]
-└── Detalles de Componentes
-    └── [Estructura similar]
-```
+Un **pre-request** de la collection copia eso a `{{base_url}}` y setea `{{healthUrl}}` a `/health` en el mismo host.
 
-#### Consejos de Personalización
+1. Collection → **Variables** → `environment` = `local` o `production`
+2. Runner: **Environment: none** (un Environment de Postman con `base_url` pisa la collection)
+3. Opcional: correr **Health → Health check** primero (útil tras el sleep de Render; el primer hit puede tardar ~30–60 s)
 
-**Modificar Cuerpos de Solicitud:**
-- Actualiza el cuerpo JSON en la solicitud para que coincida con tus datos de prueba
-- Usa variables de entorno para valores dinámicos
-- Prueba diferentes escenarios de validación
-
-**Agregar Nuevas Pruebas:**
-- Usa la pestaña **Tests** en Postman para agregar validaciones personalizadas
-- Prueba códigos de estado de respuesta, tiempos de respuesta y estructura de datos
-- Agrega aserciones para lógica de negocio específica
-
-**Variables de Entorno:**
-- Crea diferentes entornos para desarrollo, staging y producción
-- Usa variables para URLs base, tokens de autenticación y parámetros comunes
-- Comparte entornos con los miembros del equipo
-
-#### Solución de Problemas
-
-**Problemas Comunes:**
-1. **Conexión Rechazada**: Asegúrate de que el servidor API esté en ejecución en el puerto 8082
-2. **Errores de Base de Datos**: Verifica que PostgreSQL esté en ejecución vía Docker
-3. **Errores de Validación**: Revisa el formato del cuerpo de la solicitud y los campos requeridos
-4. **Problemas de Entorno**: Verifica que las variables de entorno estén configuradas correctamente
-
-**Mejores Prácticas:**
-- Prueba siempre con la versión más reciente de la colección
-- Mantén actualizadas las variables de entorno
-- Usa nombres y descripciones descriptivas para las pruebas
-- Documenta cualquier modificación personalizada realizada a las solicitudes
+**Paso 3: Empezar a probar**
+1. Local: API (`npm run start:dev`) + Postgres (`docker-compose up -d`)
+2. Navega las carpetas de la collection
+3. **Send** (o **Run collection**)
 
 <br>
 
@@ -3505,9 +3482,9 @@ Se incluye una colección completa de Postman en el proyecto:
 
 **Cómo Usar:**
 1. **Importar Colección**: En Postman, ve a Archivo → Importar → Subir Archivos y selecciona el archivo de la colección
-2. **Configurar Entorno**: Crea un nuevo entorno con la variable `base_url` configurada en `http://localhost:8082`
-3. **Comenzar Pruebas**: La colección estará lista para usar con todos los endpoints configurados
-4. **Modificar según Necesidad**: Actualiza los cuerpos y parámetros de las solicitudes según tus necesidades de prueba
+2. **Setear `environment`**: Variables de la collection → `local` o `production` (Runner → Environment: none)
+3. **Empezar a probar**: Health primero si pegás a Render tras el sleep; después las carpetas CRUD
+4. **Modificar según necesidad**: Actualizá bodies y parámetros
 
 #### 2. Swagger UI
 Documentación interactiva y pruebas de la API:
@@ -3523,7 +3500,9 @@ Ejemplos de pruebas desde la línea de comandos:
 
 **Probar el estado del servidor:**
 ```bash
-curl -X GET http://localhost:8082/api/v1/health
+curl -s http://localhost:8082/health
+# Producción (el primer hit puede tardar ~1 min si estaba dormido)
+# curl -s https://api-electronic-devices.onrender.com/health
 ```
 
 **Obtener todos los componentes:**
@@ -3908,9 +3887,38 @@ npm test -- --verbose
 *   [remark-preset-lint-recommended](https://www.npmjs.com/package/remark-preset-lint-recommended)
 *   [remark-reference-links](https://www.npmjs.com/package/remark-reference-links)
 
-#### Railway
+#### Render
 
-*   [Ejemplo de Despliegue con Nodejs y MySQL](https://www.youtube.com/watch?v=C3NhmT__Mn4\&ab_channel=Fazt)
+*   [Blueprint Spec](https://render.com/docs/blueprint-spec)
+*   [Deploy Node.js](https://render.com/docs/deploy-node-express-app)
+*   [Render Postgres](https://render.com/docs/databases)
+
+<br>
+
+</details>
+
+### 4.3) Sandbox alojado (Render) [🔝](#index-)
+
+<details>
+   <summary>Ver detalles</summary>
+  <br>
+
+Demo pública: **[https://api-electronic-devices.onrender.com](https://api-electronic-devices.onrender.com)**
+
+El servicio en Render es esta API Express + Sequelize + PostgreSQL. Desplegá con **New → Blueprint** apuntando a este repo para que `render.yaml` arme el web service y Postgres.
+
+La env hosted vive en `render.yaml`. Lo local vive en `.env` (desde `.env.example`).
+
+| Esto sí | Esto no (Free) |
+| --- | --- |
+| Mismas rutas que local (`/api/v1/...`) | Arranque instantáneo: el primer hit puede tardar ~30–60 s tras el sleep |
+| `GET /health` público (Blueprint `healthCheckPath`) | 24/7 sin sleep (Free se apaga con idle) |
+| Credenciales Postgres inyectadas con `fromDatabase` | Postgres free garantizado para siempre (el plan puede pedir upgrade) |
+| SSL a Postgres con `DB_SSL=true` | Seed de init SQL de Docker en cada redeploy |
+
+Tras sleep o redeploy, corré **Health** en Postman (`environment=production`) antes de la collection completa.
+
+Pin de Node en el Blueprint: `NODE_VERSION=18.20.0`. Health check path: `/health`.
 
 <br>
 
