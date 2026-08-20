@@ -3382,7 +3382,7 @@ This Swagger interface provides:
 
 A comprehensive Postman collection is included in this project to facilitate API testing and development. The collection contains pre-configured requests for all API endpoints with proper headers, body examples, and environment variables.
 
-> **Postman — before testing:** set the collection variable `environment` to `local` or `production` (Collection → Variables). A pre-request script maps that to `{{base_url}}` / `{{healthUrl}}`. In the Runner use **Environment: none** so a Postman Environment does not override it.
+> **Postman — before testing:** collection defaults to **production** (`https://api-electronic-devices.onrender.com`). Set `environment` to `local` or `production` (Collection → Variables). Do not edit `base_url` by hand — a pre-request overwrites it (and `healthUrl`) on every request. Runner → **Environment: none**.
 
 **Collection Location:**
 - **File**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
@@ -3427,8 +3427,8 @@ Local vs production lives **inside** the collection (no extra environment JSON).
 
 | environment | Hits |
 | --- | --- |
-| `local` (default) | `http://localhost:8082/api/v1` (`baseUrlLocal`) |
-| `production` | `https://api-electronic-devices.onrender.com/api/v1` (`baseUrlProduction`) |
+| `production` (default) | `https://api-electronic-devices.onrender.com/api/v1` (`baseUrlProduction`) |
+| `local` | `http://localhost:8082/api/v1` (`baseUrlLocal`) |
 
 A collection **pre-request** copies that into `{{base_url}}` and sets `{{healthUrl}}` to `/health` on the same host.
 

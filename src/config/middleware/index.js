@@ -45,7 +45,73 @@ const appMiddleware = async () => {
     app.use(express.urlencoded({ extended: true }));
     //-- end config for data api --
 
-    // Liveness (local + Render healthCheckPath)
+    // Public index (browser welcome) + JSON for API clients
+    app.get('/', (req, res) => {
+      const routes = {
+        health: '/health',
+        docs: '/api-docs',
+        componentes: COMPONENT_ENDPOINT || '/api/v1/componentes',
+        componentesDetalles: COMPONENT_DETAIL_ENDPOINT || '/api/v1/componentes-detalles',
+        transistoresBipolares: BIPOLAR_TRANSISTOR_ENDPOINT || '/api/v1/transistores-bipolares',
+        capacitoresElectroliticos:
+          ELECTROLYTIC_CAPACITOR_ENDPOINT || '/api/v1/capacitores-electroliticos',
+        transistoresMosfet: MOSFET_TRANSISTOR_ENDPOINT || '/api/v1/transistores-mosfet',
+      };
+      const payload = {
+        message: 'Welcome to ApiRest Electronic Devices ExpressJS',
+        name: 'ApiRest Electronic Devices ExpressJS',
+        status: 'OK',
+        persistence: 'postgresql',
+        orm: 'sequelize',
+        routes,
+        repository:
+          'https://github.com/andresWeitzel/ApiRest_Electronic_Devices_ExpressJS',
+        timestamp: new Date().toISOString(),
+      };
+
+      if (req.accepts(['html', 'json']) === 'html') {
+        res
+          .status(200)
+          .type('html')
+          .send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ApiRest Electronic Devices ExpressJS</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; min-height: 100vh; font-family: Segoe UI, system-ui, sans-serif;
+      background: #0b1220; color: #e8eefc; display: grid; place-items: center; }
+    main { max-width: 40rem; padding: 2rem; }
+    h1 { margin: 0 0 .5rem; font-size: 1.6rem; color: #7dd3fc; }
+    p { margin: .4rem 0; line-height: 1.5; color: #c7d2e5; }
+    ul { padding-left: 1.2rem; }
+    a { color: #86efac; }
+    code { background: #1e293b; padding: .1rem .35rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Welcome</h1>
+    <p><strong>ApiRest Electronic Devices ExpressJS</strong> is running.</p>
+    <p>REST API for electronic components inventory and specifications.</p>
+    <p>Status: <code>OK</code> · Persistence: PostgreSQL · ORM: Sequelize</p>
+    <p>Useful links:</p>
+    <ul>
+      <li><a href="/health">/health</a> — liveness</li>
+      <li><a href="/api-docs">/api-docs</a> — Swagger UI</li>
+      <li><a href="${routes.componentes}/list">${routes.componentes}/list</a> — components</li>
+    </ul>
+  </main>
+</body>
+</html>`);
+        return;
+      }
+
+      res.status(200).json(payload);
+    });
+
     app.get('/health', (_req, res) => {
       res.status(200).json({
         status: 'OK',

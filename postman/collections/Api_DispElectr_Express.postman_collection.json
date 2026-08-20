@@ -4,7 +4,7 @@
 		"name": "Api_DispElectr_Express",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18757319",
-		"description": "ApiRest Electronic Devices ExpressJS.\n\nEntorno (variables de esta collection, Environment: none):\n- `environment` = `local` o `production`\n- `baseUrlLocal` / `baseUrlProduction` (el pre-request arma `base_url` y `healthUrl`)\n\n1. Local: `docker-compose up -d` + `npm run start:dev`, `environment=local`.\n2. Production: `environment=production` (`https://api-electronic-devices.onrender.com`). Primera request ~30–60 s si el Free estaba dormido.\n3. Health: `GET {{healthUrl}}` (raiz `/health`, no bajo /api/v1).\n4. Runner → Environment: none (un Environment de Postman con base_url pisa la collection)."
+		"description": "ApiRest Electronic Devices ExpressJS.\n\nEntorno (variables de esta collection, Runner → Environment: none):\n- `environment` = `local` o `production` (por defecto: production)\n- `baseUrlLocal` / `baseUrlProduction` / `healthUrlLocal` / `healthUrlProduction`\n- `base_url` y `healthUrl` apuntan por defecto a https://api-electronic-devices.onrender.com y se recalculan en cada request\n\n1. Production (default): `environment=production` → https://api-electronic-devices.onrender.com\n2. Local: `docker-compose up -d` + `npm run start:dev`, `environment=local`.\n3. Health: `GET {{healthUrl}}`.\n4. No actives un Environment de Postman con `base_url`: pisa el switch."
 	},
 	"item": [
 		{
@@ -11115,13 +11115,19 @@
 					"  production: pm.collectionVariables.get('baseUrlProduction') || 'https://api-electronic-devices.onrender.com/api/v1'",
 					"};",
 					"const healthUrls = {",
-					"  local: 'http://localhost:8082/health',",
-					"  production: 'https://api-electronic-devices.onrender.com/health'",
+					"  local: pm.collectionVariables.get('healthUrlLocal') || 'http://localhost:8082/health',",
+					"  production: pm.collectionVariables.get('healthUrlProduction') || 'https://api-electronic-devices.onrender.com/health'",
 					"};",
-					"const baseUrl = urls[env] || urls.local;",
-					"const healthUrl = healthUrls[env] || healthUrls.local;",
+					"const selected = (env === 'production') ? 'production' : 'local';",
+					"const baseUrl = urls[selected];",
+					"const healthUrl = healthUrls[selected];",
+					"// Scope de request (prioridad alta): evita que un Environment o el valor estático de base_url pisen el switch",
+					"pm.variables.set('base_url', baseUrl);",
+					"pm.variables.set('healthUrl', healthUrl);",
 					"pm.collectionVariables.set('base_url', baseUrl);",
-					"pm.collectionVariables.set('healthUrl', healthUrl);"
+					"pm.collectionVariables.set('healthUrl', healthUrl);",
+					"pm.collectionVariables.set('environment', selected);",
+					"console.log('[Api_DispElectr] environment=' + selected + ' base_url=' + baseUrl);"
 				]
 			}
 		},
@@ -11138,8 +11144,8 @@
 	"variable": [
 		{
 			"key": "environment",
-			"value": "local",
-			"description": "local | production — el pre-request elige baseUrlLocal o baseUrlProduction"
+			"value": "production",
+			"description": "local | production — el pre-request elige baseUrlLocal/baseUrlProduction y escribe base_url + healthUrl"
 		},
 		{
 			"key": "baseUrlLocal",
@@ -11150,12 +11156,22 @@
 			"value": "https://api-electronic-devices.onrender.com/api/v1"
 		},
 		{
+			"key": "healthUrlLocal",
+			"value": "http://localhost:8082/health"
+		},
+		{
+			"key": "healthUrlProduction",
+			"value": "https://api-electronic-devices.onrender.com/health"
+		},
+		{
 			"key": "base_url",
-			"value": "http://localhost:8082/api/v1"
+			"value": "https://api-electronic-devices.onrender.com/api/v1",
+			"description": "Por defecto production (https://api-electronic-devices.onrender.com/api/v1). Se recalcula en cada request según environment"
 		},
 		{
 			"key": "healthUrl",
-			"value": "http://localhost:8082/health"
+			"value": "https://api-electronic-devices.onrender.com/health",
+			"description": "Por defecto production. Se recalcula en cada request según environment"
 		},
 		{
 			"key": "x-api-key",
