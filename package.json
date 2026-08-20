@@ -1,19 +1,15 @@
 {
   "dependencies": {
-    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "dotenv-expand": "^10.0.0",
     "express": "^4.21.2",
     "express-list-endpoints": "^6.0.0",
     "express-validator": "^7.0.1",
     "morgan": "^1.10.0",
     "pg": "^8.11.1",
-    "pg-hstore": "^2.3.4",
     "sequelize": "^6.32.1",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.3",
-    "winston": "^3.10.0"
+    "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {
     "jest": "^29.7.0",
@@ -26,8 +22,14 @@
     "remark-lint-table-cell-padding": "^4.1.3",
     "remark-preset-lint-consistent": "^5.1.2",
     "remark-preset-lint-recommended": "^6.1.3",
-    "sqlite3": "^5.1.7",
     "supertest": "^6.3.3"
+  },
+  "overrides": {
+    "brace-expansion": "^2.0.2",
+    "tar": "^7.5.2",
+    "sequelize": {
+      "uuid": "^11.1.1"
+    }
   },
   "name": "apirest_dispositivos_electronicos_expressjs",
   "description": "![Index app](./doc/assets/CRUD_Bucket_s3.drawio.png)",
@@ -37,8 +39,12 @@
     "start": "node src/server.js",
     "start:format": "npm run format-md && node src/server.js",
     "start:dev": "nodemon src/server.js",
-    "build": "CI=false npm run build",
-    "format-prettier": "prettier --write \"{src,test}/**/*.{js,ts}\"",
+    "db:init": "node src/setup/init-db.js",
+    "docker:up": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/docker/Start-Stack-Docker.ps1",
+    "docker:clean": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/docker/Start-Stack-Docker.ps1 -Clean",
+    "docker:reset": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/docker/Start-Stack-Docker.ps1 -ResetData",
+    "docker:db": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/docker/Start-Stack-Docker.ps1 -DbOnly",
+    "format-prettier": "prettier --write \"src/**/*.{js,ts}\"",
     "check": "remark . --quiet --frail",
     "format-remark": "remark . --quiet --frail --output",
     "format-md": "remark . --output",

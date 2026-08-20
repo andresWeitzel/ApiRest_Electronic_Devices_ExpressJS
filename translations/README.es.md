@@ -249,44 +249,47 @@ cp .env.example .env
 
 Los valores locales viven en `.env` / `.env.example`. La config hosted de Render está en `render.yaml` (Blueprint).
 
-#### Paso 2: Configuración de la Base de Datos
+#### Paso 2: Stack Docker (Postgres + API)
 
-1. **Iniciar base de datos PostgreSQL con Docker:**
+**Recomendado (launcher):** abrí Docker Desktop primero (Engine running), después:
+
+| OS | Comando |
+| --- | --- |
+| Windows (doble click) | `scripts/docker/Start-Stack-Docker.bat` |
+| Windows (PowerShell) | `.\scripts\docker\Start-Stack-Docker.ps1` |
+| Linux / macOS | `chmod +x scripts/docker/Start-Stack-Docker.sh` y luego `./scripts/docker/Start-Stack-Docker.sh` |
+| npm (Windows) | `npm run docker:up` |
+
+Eso buildea la imagen de la API y levanta **dos** contenedores (detached):
+
+| Contenedor | Rol | Puerto |
+| --- | --- | --- |
+| `dispositivos_electronicos_postgres` | PostgreSQL 15 + seed `init/` | `5432` |
+| `dispositivos_electronicos_api` | API Express | `8082` |
+
+Flags: `-Clean` / `--clean`, `-ResetData` / `--reset-data`, `-DbOnly` / `--db-only` (solo Postgres; después `npm run start:dev` en el host).
+
+Después del launcher: API `http://localhost:8082`, Health `/health`, Swagger `/api-docs`. Enter solo cierra el CMD; los contenedores siguen.
+
+**Equivalente manual (sigue válido):**
+
 ```bash
-docker-compose up -d
+docker compose up -d --build
+docker compose ps
+docker compose logs -f api
+# reset volume DB:
+docker compose down -v && docker compose up -d --build
 ```
+#### Paso 3: Ejecutar la aplicación en el host (opcional)
 
-2. **Verificar que el contenedor de la base de datos esté ejecutándose (opcional):**
+Si ya levantaste el stack completo con el launcher, **no** hace falta `npm start` en el host.
+
+Usá el host solo para hot-reload (API fuera de Docker):
+
 ```bash
-docker ps
-```
-
-3. **Verificar logs de la base de datos (opcional):**
-```bash
-docker-compose logs postgres
-```
-
-4. **Reiniciar base de datos si es necesario (opcional):**
-```bash
-docker-compose down -v
-docker-compose up -d
-```
-
-#### Paso 3: Ejecutar la Aplicación
-
-**Modo Desarrollo (con recarga automática):**
-```bash
+npm run docker:db
+npm install
 npm run start:dev
-```
-
-**Modo Producción:**
-```bash
-npm start
-```
-
-**Comando alternativo de desarrollo:**
-```bash
-npm run dev
 ```
 
 #### Paso 4: Verificar la Instalación
@@ -318,13 +321,14 @@ taskkill /PID <PID> /F
 docker --version
 
 # Verificar estado de contenedores
-docker-compose ps
+docker compose ps
 
 # Reiniciar contenedores
-docker-compose restart
+docker compose restart
 
 # Ver logs detallados
-docker-compose logs postgres
+docker compose logs postgres
+docker compose logs api
 ```
 
 **Problemas de Versión de Node.js:**
@@ -347,10 +351,17 @@ sudo usermod -aG docker $USER
 
 | Comando | Descripción |
 |---------|-------------|
+| `scripts/docker/Start-Stack-Docker.bat` / `.\scripts\docker\Start-Stack-Docker.ps1` | Windows: build imagen API + Postgres + API |
+| `./scripts/docker/Start-Stack-Docker.sh` | Linux/macOS: mismo launcher |
+| `npm run docker:up` | Stack completo |
+| `npm run docker:db` | Solo contenedor Postgres |
+| `npm run docker:clean` | Compose down (conserva volume) |
+| `npm run docker:reset` | Borra volume DB y recrea el stack |
 | `npm start` | Iniciar servidor de producción |
 | `npm run start:dev` | Iniciar servidor de desarrollo con recarga automática |
-| `npm run dev` | Comando alternativo de desarrollo |
+| `npm run db:init` | Aplica init SQL si falta la tabla `componentes` (Render / DB vacía) |
 | `npm test` | Ejecutar todas las pruebas |
+| `npm run dev` | Comando alternativo de desarrollo |
 | `npm run test:watch` | Ejecutar pruebas en modo observación |
 | `npm run test:cov` | Ejecutar pruebas con cobertura |
 | `npm run test:unit` | Ejecutar solo pruebas unitarias |
@@ -411,19 +422,13 @@ mkdir -p scripts
 1. **Instalar dependencias de producción:**
 ```bash
 # Framework principal y middleware
-npm install express cors morgan dotenv dotenv-expand
+npm install express cors morgan dotenv express-validator express-list-endpoints
 
 # Base de datos y ORM
-npm install sequelize pg pg-hstore
+npm install sequelize pg
 
 # Documentación de API
 npm install swagger-ui-express swagger-jsdoc
-
-# Registro de logs
-npm install winston
-
-# Análisis de cuerpo de peticiones
-npm install body-parser
 ```
 
 2. **Instalar dependencias de desarrollo:**
@@ -439,12 +444,6 @@ npm install --save-dev prettier
 
 # Linting de Markdown
 npm install --save-dev remark-cli remark-preset-lint-recommended remark-lint-emphasis-marker remark-lint-strong-marker remark-lint-table-cell-padding remark-preset-lint-consistent
-
-# Validación
-npm install --save-dev express-validator
-
-# Utilidades
-npm install --save-dev express-list-endpoints sqlite3
 ```
 
 #### Paso 3: Archivos de Configuración
@@ -545,14 +544,15 @@ test-report.json
 
 #### Paso 4: Configuración de la Base de Datos
 
-1. **Crear docker-compose.yml:**
-```yaml
-version: '3.8'
+1. **Usá el stack Docker del repo** (ya está en el proyecto): `docker-compose.yml` (servicios `postgres` + `api`), `Dockerfile` y `scripts/docker/Start-Stack-Docker.*`. Ver **§1.3** para el setup completo de dos contenedores. Inicio rápido: abrí Docker Desktop → `npm run docker:up`.
 
+   Para un Compose **solo Postgres** (híbrido con API en el host), podés partir de:
+
+```yaml
 services:
   postgres:
     image: postgres:15
-    container_name: electronic_devices_db
+    container_name: dispositivos_electronicos_postgres
     environment:
       POSTGRES_DB: dispositivos_electronicos
       POSTGRES_USER: dispositivos_user
@@ -560,7 +560,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - dispositivos_electronicos_postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d
     command: >
       postgres
@@ -571,10 +571,10 @@ services:
       -c work_mem=4MB
 
 volumes:
-  postgres_data:
+  dispositivos_electronicos_postgres_data:
 ```
 
-2. **Crear archivo .env:**
+2. **Crear archivo .env** (o copiar `.env.example`):
 ```env
 # Configuración de Base de Datos
 DB_NAME_PROD=dispositivos_electronicos
@@ -643,34 +643,36 @@ const config = {
 module.exports = config;
 ```
 
-#### Step 6: Start Development
+#### Paso 6: Iniciar el desarrollo
 
-1. **Start database:**
+1. **Levantar el stack** (Docker completo) **o** solo Postgres (híbrido):
 ```bash
-docker-compose up -d
+npm run docker:up
+# o híbrido:
+npm run docker:db
 ```
 
-2. **Run the application:**
+2. **Correr la aplicación en el host** (solo si usaste `docker:db` / híbrido):
 ```bash
-# Development mode
+# Modo desarrollo
 npm run start:dev
 
-# Production mode
+# Modo producción
 npm start
 ```
 
-3. **Run tests:**
+3. **Ejecutar pruebas:**
 ```bash
-# All tests
+# Todas las pruebas
 npm test
 
-# Unit tests only
+# Solo unitarias
 npm run test:unit
 
-# Integration tests only
+# Solo integración
 npm run test:integration
 
-# With coverage
+# Con cobertura
 npm run test:cov
 ```
 
@@ -695,6 +697,7 @@ ApiRest_Electronic_Devices_ExpressJS/
 │   ├── helpers/
 │   ├── models/
 │   ├── services/
+│   ├── setup/
 │   ├── test/
 │   ├── utils/
 │   └── server.js
@@ -702,7 +705,11 @@ ApiRest_Electronic_Devices_ExpressJS/
 ├── init/
 ├── postman/
 ├── scripts/
+│   └── docker/
+├── Dockerfile
 ├── docker-compose.yml
+├── .dockerignore
+├── render.yaml
 ├── jest.config.js
 ├── package.json
 └── README.md
@@ -720,9 +727,15 @@ This structure provides a scalable and maintainable foundation for the electroni
    <summary>Ver detalles</summary>
   <br>
 
-### 1.3.0) Resumen de la Base de Datos
+### 1.3.0) Resumen de la base de datos
 
-Este proyecto utiliza **PostgreSQL** como motor de base de datos, containerizado con **Docker** para una configuración e implementación sencillas. La base de datos contiene información sobre componentes electrónicos incluyendo:
+Este proyecto usa **PostgreSQL 15** y una **API Node/Express**. Ambos pueden correr como contenedores Docker desde un solo Compose. En local podés:
+
+1. **Stack completo en Docker** (recomendado para demos): Postgres + API — sin `npm start` en el host.
+2. **Híbrido**: Postgres en Docker + API en el host (`npm run start:dev`) para hot-reload.
+3. **Render**: servicio web + Postgres gestionado (ver §4.3); no es este stack de Compose.
+
+Tablas de dominio:
 
 *   **Componentes** (`componentes`): Tabla principal con información básica de componentes
 *   **Detalles de Componentes** (`componentes_detalles`): Especificaciones técnicas y hojas de datos
@@ -730,158 +743,142 @@ Este proyecto utiliza **PostgreSQL** como motor de base de datos, containerizado
 *   **Transistores MOSFET** (`transistores_mosfet`): Especificaciones de transistores MOSFET
 *   **Capacitores Electrolíticos** (`capacitores_electroliticos`): Especificaciones de capacitores
 
+### 1.3.1) Stack Docker (dos contenedores)
 
-### 1.3.1) Configuración de Docker
+`docker-compose.yml` define:
 
-El proyecto incluye un archivo `docker-compose.yml` que configura automáticamente PostgreSQL con todas las configuraciones necesarias:
+| Servicio | Nombre del contenedor | Imagen | Puertos host | Notas |
+| --- | --- | --- | --- | --- |
+| `postgres` | `dispositivos_electronicos_postgres` | `postgres:15` | `5432` | Volume `dispositivos_electronicos_postgres_data`; monta `./init` en el primer create |
+| `api` | `dispositivos_electronicos_api` | build `Dockerfile` → `apirest-electronic-devices:local` | `8082` | Espera a que Postgres esté healthy; healthcheck `GET /health` |
 
-**Configuración de la Base de Datos:**
-*   **Imagen**: PostgreSQL 15
-*   **Puerto**: 5432 (puerto estándar de PostgreSQL)
-*   **Nombre de la Base de Datos**: `dispositivos_electronicos`
-*   **Usuario**: `dispositivos_user`
-*   **Contraseña**: `dispositivos_pass`
+**Red:** red Compose `dispositivos_network`. Dentro del contenedor API el host de la DB es el nombre del servicio **`postgres`** (Compose setea `DATABASE_HOST` / `DB_HOST_PROD`). En el host, los clientes usan `localhost:5432` / `localhost:8082`.
 
-**Optimizaciones de Rendimiento:**
-*   Buffers compartidos: 256MB
-*   Tamaño de caché efectivo: 1GB
-*   Memoria de trabajo de mantenimiento: 64MB
-*   Buffers WAL: 16MB
-*   Memoria de trabajo: 4MB
+**Dockerfile (API):** Node `18.20-bookworm-slim`, `npm ci --omit=dev`, copia `src/` + `init/`, expone `8082`, `CMD npm start`.
 
-### 1.3.2) Variables de Entorno
-
-Crea un archivo `.env` en la raíz del proyecto con la siguiente configuración:
-
-```env
-# Configuración de Base de Datos
-DB_NAME_PROD=dispositivos_electronicos
-DB_USER_PROD=dispositivos_user
-DB_PASS_PROD=dispositivos_pass
-DB_HOST_PROD=localhost
-DB_DIALECT_PROD=postgres
-DB_PORT_PROD=5432
-
-# Configuración de la Aplicación
-PROD_PORT=8082
-APP_PORT=8082
-
-# Endpoints de la API
-API_LOCAL_BASE_URL=http://localhost:8082
-API_COMPONENT_NAME_URL=/api/v1/componentes
-API_COMPONENT_DETAIL_NAME_URL=/api/v1/componentes-detalles
-API_BIPOLAR_TRANSISTOR_NAME_URL=/api/v1/transistores-bipolares
-API_ELECTROLYTIC_CAPACITOR_NAME_URL=/api/v1/capacitores-electroliticos
+```
+Dockerfile
+docker-compose.yml
+.dockerignore
+scripts/docker/
+  Start-Stack-Docker.bat    # Windows doble click
+  Start-Stack-Docker.ps1    # Windows PowerShell
+  Start-Stack-Docker.sh     # Linux / macOS
+init/
+  01_..._DDL.sql
+  02_..._DML_INSERT.sql
+  03_..._DML_UPDATE.sql
+  ...
 ```
 
-### 1.3.3) Inicialización de la Base de Datos
+**Tuning de Postgres en Compose:** shared_buffers 256MB, effective_cache_size 1GB, maintenance_work_mem 64MB, wal_buffers 16MB, work_mem 4MB.
 
-La base de datos se inicializa automáticamente con los siguientes archivos SQL ubicados en el directorio `init/`:
+### 1.3.2) Launcher (recomendado)
 
-1. **`01_db_dispositivos_electronicos_DDL.sql`**: Crea todas las tablas, secuencias y restricciones
-2. **`02_db_dispositivos_electronicos_DML_INSERT.sql`**: Inserta datos iniciales
-3. **`03_db_dispositivos_electronicos_DML_UPDATE.sql`**: Operaciones de actualización de ejemplo
-4. **`04_db_dispositivos_electronicos_DML_DELETE.sql`**: Operaciones de eliminación de ejemplo
-5. **`05_db_dispositivos_electronicos_DML_QUERIES.sql`**: Consultas de ejemplo
+Abrí **Docker Desktop** y esperá a **Engine running** (los scripts **no** arrancan Docker Desktop).
 
-### 1.3.4) Iniciar la Base de Datos
+| OS | Cómo |
+| --- | --- |
+| Windows | Doble click en `scripts/docker/Start-Stack-Docker.bat` |
+| Windows PowerShell | `.\scripts\docker\Start-Stack-Docker.ps1` |
+| Linux / macOS | `chmod +x scripts/docker/Start-Stack-Docker.sh` y luego `./scripts/docker/Start-Stack-Docker.sh` |
+| npm (Windows) | `npm run docker:up` |
 
-**Prerrequisitos:**
-*   [Docker](https://docs.docker.com/get-docker/) instalado en tu sistema
-*   [Docker Compose](https://docs.docker.com/compose/install/) instalado
+Qué hace:
 
-**Comandos:**
+1. Chequea Docker CLI + engine  
+2. Crea `.env` desde `.env.example` si falta  
+3. `docker compose build api` (salvo skip-build / db-only)  
+4. `docker compose up -d --force-recreate`  
+5. Espera a que Postgres (y API) estén healthy  
+6. Imprime URLs — **Enter solo cierra la ventana**; los contenedores siguen en detached  
 
-1. **Iniciar la base de datos:**
-   ```bash
-   docker-compose up -d
-   ```
+| Flag | Efecto |
+| --- | --- |
+| `-Clean` / `--clean` | `compose down --remove-orphans` (conserva el volume de DB) |
+| `-ResetData` / `--reset-data` | `down -v` y luego up (borra DB; `init/` corre de nuevo en volume fresco) |
+| `-DbOnly` / `--db-only` | Solo **Postgres** (después `npm run start:dev` en el host) |
+| `-SkipBuild` / `--skip-build` | No rebuild de la imagen API |
+| `-SkipStart` / `--skip-start` | Solo build/clean; no hace `up` |
 
-2. **Verificar si la base de datos está ejecutándose:**
-   ```bash
-   docker-compose ps
-   ```
+npm: `docker:up`, `docker:db`, `docker:clean`, `docker:reset`.
 
-3. **Ver logs de la base de datos:**
-   ```bash
-   docker-compose logs postgres
-   ```
+Después de un stack completo: API http://localhost:8082 · Health `/health` · Swagger `/api-docs` · Postgres `localhost:5432` (user/pass `dispositivos_user` / `dispositivos_pass`, DB `dispositivos_electronicos`).
 
-4. **Detener la base de datos:**
-   ```bash
-   docker-compose down
-   ```
+**Cambio de código en la API:** volvé a correr el launcher (rebuild + recreate). **Atascado:** `npm run docker:clean` y luego `npm run docker:up`. **Seed limpio:** `npm run docker:reset`.
 
-5. **Detener y eliminar todos los datos (volúmenes):**
-   ```bash
-   docker-compose down -v
-   ```
+### 1.3.3) Comandos Compose manuales (siguen válidos)
 
-### 1.3.5) Conexión a la Base de Datos
+```bash
+docker compose up -d --build
+docker compose ps
+docker compose logs -f api
+docker compose logs -f postgres
+docker compose stop
+docker compose down
+docker compose down -v && docker compose up -d --build   # borra volume DB
+docker compose up -d postgres                            # solo Postgres
+```
 
-La aplicación se conecta automáticamente a la base de datos PostgreSQL usando Sequelize ORM. La conexión está configurada en `src/db/config.js` y utiliza las variables de entorno definidas en tu archivo `.env`.
+Preferí `docker compose` (v2). El viejo `docker-compose` sigue funcionando si está instalado.
 
-**Connection Details:**
-*   **Host**: localhost
-*   **Port**: 5432
-*   **Database**: dispositivos_electronicos
-*   **Username**: dispositivos_user
-*   **Password**: dispositivos_pass
+### 1.3.4) Variables de entorno
 
-### 1.3.6) Database Schema
+Copiá `.env.example` → `.env` para corridas en el **host** (`DATABASE_HOST=localhost`). El servicio Compose `api` overridea el host de DB a `postgres` y setea credenciales en `environment:`, así que un `.env` del host no rompe el contenedor API.
 
-The database includes the following main tables:
+| Contexto | Host DB | Cómo corre la API |
+| --- | --- | --- |
+| Stack Docker completo | `postgres` | Contenedor `api` → `:8082` |
+| Híbrido | `localhost` en `.env` | `npm run start:dev` en el host |
+| Render | host Postgres gestionado | Web service + `render.yaml` |
 
-**Core Tables:**
-*   `componentes`: Main component information (code, description, price, stock, etc.)
-*   `componentes_detalles`: Technical details and datasheets
-*   `transistores_bipolares`: Bipolar transistor specifications
-*   `transistores_mosfet`: MOSFET transistor data
-*   `capacitores_electroliticos`: Electrolytic capacitor specifications
+### 1.3.5) Inicialización de la base (`init/`)
 
-**Specialized Tables:**
-*   `resistores_alta_frecuencia`: High-frequency resistors
-*   `microcontroladores_especif`: Specific microcontrollers
-*   `microcontroladores_risc_pics`: PIC microcontrollers
-*   `microcontroladores_risc_avrs`: AVR microcontrollers
-*   `placas_arduinos`: Arduino development boards
-*   `placas_esp8266`: ESP8266 boards
-*   `placas_esp32`: ESP32 development boards
+En el **primer** create del volume de Postgres, Docker corre `./init` (montado en `/docker-entrypoint-initdb.d`):
 
-### 1.3.7) Troubleshooting
+1. **`01_..._DDL.sql`** — tablas, secuencias, constraints  
+2. **`02_..._DML_INSERT.sql`** — datos seed  
+3. **`03_..._DML_UPDATE.sql`** — updates de ejemplo  
+4. **`04_..._DML_DELETE.sql`** / **`05_..._DML_QUERIES.sql`** — ejemplos (opcionales)
 
-**Common Issues:**
+Los volumes existentes **no** vuelven a ejecutar esos scripts. Usá `-ResetData` / `down -v` para un seed limpio.
 
-1. **Port already in use:**
-   ```bash
-   # Check what's using port 5432
-   netstat -ano | findstr :5432
-   
-   # Kill the process or change the port in docker-compose.yml
-   ```
+En **Render** (DB vacía), la API puede aplicar 01+02+03 vía `src/setup/init-db.js` cuando falta `componentes` (auto al boot / `npm run db:init`).
 
-2. **Database connection refused:**
-   ```bash
-   # Check if container is running
-   docker-compose ps
-   
-   # Check container logs
-   docker-compose logs postgres
-   ```
+### 1.3.6) Flujo híbrido + conexión
 
-3. **Permission denied:**
-   ```bash
-   # Make sure Docker has proper permissions
-   # On Windows: Run Docker Desktop as administrator
-   # On Linux/Mac: Add user to docker group
-   ```
+```bash
+npm run docker:db
+npm install
+cp .env.example .env    # DATABASE_HOST=localhost
+npm run start:dev
+```
 
-4. **Data persistence issues:**
-   ```bash
-   # Remove volumes and recreate
-   docker-compose down -v
-   docker-compose up -d
-   ```
+Config Sequelize: `src/db/config.js` (`DB_*_PROD` o `DATABASE_*`).
+
+### 1.3.7) Esquema (tablas principales)
+
+**Core:** `componentes`, `componentes_detalles`, `transistores_bipolares`, `transistores_mosfet`, `capacitores_electroliticos`  
+
+**También en el DDL:** `resistores_alta_frecuencia`, microcontroladores (especif / PIC / AVR), placas (Arduino / ESP8266 / ESP32).
+
+### 1.3.8) Troubleshooting (Docker)
+
+```bash
+docker info
+docker compose ps
+docker compose logs api
+docker compose logs postgres
+docker compose restart api
+npx kill-port 8082
+npx kill-port 5432
+```
+
+* **Engine no listo:** abrí Docker Desktop → Engine running → re-ejecutá el launcher.  
+* **Puerto en uso:** liberá `8082` / `5432` o cambiá los mappings en Compose.  
+* **API no llega a la DB:** en Compose el host debe ser `postgres`; en el host usá `localhost`.  
+* **DB vacía después de reset:** esperá a que Postgres esté healthy para que termine `init/`.  
+* **Cerrar el CMD:** **no** detiene contenedores detached — usá Docker Desktop o `docker compose stop`.
 
 <br>
 
@@ -912,14 +909,13 @@ The database includes the following main tables:
 | **Plugin** | **Descripción** |
 | ------------- | ------------- |
 | [pg](https://www.npmjs.com/package/pg) | Cliente PostgreSQL para Node.js |
-| [pg-hstore](https://www.npmjs.com/package/pg-hstore) | Serializar y deserializar datos JSON al formato hstore |
 | [cors](https://www.npmjs.com/package/cors) | Intercambio de Recursos de Origen Cruzado |
 | [dotenv](https://www.npmjs.com/package/dotenv) | Cargador de variables de entorno |
 | [morgan](https://www.npmjs.com/package/morgan) | Middleware de registro de peticiones HTTP |
 | [nodemon](https://www.npmjs.com/package/nodemon) | Reinicio automático del servidor durante el desarrollo |
 | [express-validator](https://www.npmjs.com/package/express-validator) | Middleware de validación de peticiones |
 | [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) | Interfaz de usuario Swagger para Express |
-| [winston](https://www.npmjs.com/package/winston) | Biblioteca de registro de logs |
+| [express-list-endpoints](https://www.npmjs.com/package/express-list-endpoints) | Lista las rutas Express registradas al arrancar |
 
 </br>
 
@@ -3434,7 +3430,7 @@ Un **pre-request** de la collection copia eso a `{{base_url}}` y setea `{{health
 3. Opcional: correr **Health → Health check** primero (útil tras el sleep de Render; el primer hit puede tardar ~30–60 s)
 
 **Paso 3: Empezar a probar**
-1. Local: API (`npm run start:dev`) + Postgres (`docker-compose up -d`)
+1. Local: stack completo (`npm run docker:up`) **o** híbrido (`npm run docker:db` + `npm run start:dev`)
 2. Navega las carpetas de la collection
 3. **Send** (o **Run collection**)
 
@@ -3571,12 +3567,12 @@ npm run test:validations
 
 #### Configuración de Base de Datos
 ```bash
-# Iniciar base de datos de prueba
-docker-compose up -d
+# Solo Postgres (o stack completo: npm run docker:up)
+npm run docker:db
 
-# Reiniciar base de datos (si es necesario)
-docker-compose down -v
-docker-compose up -d
+# Reset del volume de DB (si hace falta)
+npm run docker:reset
+# o: docker compose down -v && docker compose up -d --build
 ```
 
 #### Variables de Entorno de Prueba
@@ -3746,11 +3742,11 @@ scenarios:
 
 ### Logs de la Aplicación
 ```bash
-# Ver logs de la aplicación
-docker-compose logs -f app
+# Ver logs de la API (servicio Compose: api)
+docker compose logs -f api
 
 # Ver logs de la base de datos
-docker-compose logs -f postgres
+docker compose logs -f postgres
 ```
 
 ### Reportes de Pruebas
@@ -3810,11 +3806,12 @@ jobs:
 
 #### Conexión a Base de Datos
 ```bash
-# Verificar si la base de datos está ejecutándose
-docker-compose ps
+# Verificar si los contenedores están corriendo
+docker compose ps
 
-# Reiniciar base de datos
-docker-compose restart postgres
+# Reiniciar base / API
+docker compose restart postgres
+docker compose restart api
 ```
 
 #### Conflictos de Puerto
@@ -3907,9 +3904,10 @@ La env hosted vive en `render.yaml`. Lo local vive en `.env` (desde `.env.exampl
 | Esto sí | Esto no (Free) |
 | --- | --- |
 | Mismas rutas que local (`/api/v1/...`) | Arranque instantáneo: el primer hit puede tardar ~30–60 s tras el sleep |
-| `GET /health` público (Blueprint `healthCheckPath`) | 24/7 sin sleep (Free se apaga con idle) |
+| `GET /` y `GET /health` públicos | 24/7 sin sleep (Free se apaga con idle) |
 | Credenciales Postgres inyectadas con `fromDatabase` | Postgres free garantizado para siempre (el plan puede pedir upgrade) |
-| SSL a Postgres con `DB_SSL=true` | Seed de init SQL de Docker en cada redeploy |
+| SSL a Postgres con `DB_SSL=true` | Que el seed sobreviva a cada recycle de DB Free sin re-init |
+| En el primer boot, si no hay tabla `componentes`, aplica `init/` 01 DDL + 02 INSERT + 03 UPDATE | — |
 
 Tras sleep o redeploy, corré **Health** en Postman (`environment=production`) antes de la collection completa.
 
