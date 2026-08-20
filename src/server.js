@@ -1,7 +1,6 @@
 //External
 require('dotenv').config();
 //Environment vars
-//Env vars
 // Render inyecta PORT; local usa APP_PORT / PROD_PORT
 const PORT = process.env.PORT || process.env.PROD_PORT || process.env.APP_PORT || 8082;
 //Config middleware
@@ -10,6 +9,8 @@ const { appMiddleware } = require('./config/middleware/index');
 const { swaggerDocs } = require('./utils/swagger');
 //Models associations
 const { defineAssociations } = require('./models/sequelize/associations');
+// DB bootstrap (Render Postgres starts empty; Docker already seeds locally)
+const { ensureDatabaseInitialized } = require('./setup/init-db');
 //Const-vars
 let app;
 
@@ -19,6 +20,8 @@ let app;
  */
 const run = async () => {
   try {
+    await ensureDatabaseInitialized();
+
     //Define model associations
     defineAssociations();
 

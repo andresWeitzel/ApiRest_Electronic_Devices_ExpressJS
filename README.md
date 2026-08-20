@@ -3909,10 +3909,11 @@ Hosted env lives in `render.yaml`. Local values live in `.env` (from `.env.examp
 
 | This does | This does not (Free) |
 | --- | --- |
-| Same API routes as local (`/api/v1/...`) | Instant start: first hit can take ~30–60 s after sleep |
-| Public `GET /health` (Blueprint `healthCheckPath`) | 24/7 without sleep (Free spins down when idle) |
+| Public `GET /` and `GET /health` | Instant start: first hit can take ~30–60 s after sleep |
+| Same API routes as local (`/api/v1/...`) | 24/7 without sleep (Free spins down when idle) |
 | Postgres credentials injected via `fromDatabase` | Guaranteed free Postgres forever (plan may require upgrade) |
-| SSL to Postgres when `DB_SSL=true` | Local Docker init SQL auto-seed on every redeploy |
+| SSL to Postgres when `DB_SSL=true` | Seed surviving every Free DB recycle without re-init |
+| On first boot, if `componentes` is missing, applies `init/` 01 DDL + 02 INSERT + 03 UPDATE | — |
 
 After sleep or redeploy, run **Health** in Postman (`environment=production`) before the full collection.
 

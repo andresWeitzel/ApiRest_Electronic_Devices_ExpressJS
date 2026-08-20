@@ -3907,9 +3907,10 @@ La env hosted vive en `render.yaml`. Lo local vive en `.env` (desde `.env.exampl
 | Esto sí | Esto no (Free) |
 | --- | --- |
 | Mismas rutas que local (`/api/v1/...`) | Arranque instantáneo: el primer hit puede tardar ~30–60 s tras el sleep |
-| `GET /health` público (Blueprint `healthCheckPath`) | 24/7 sin sleep (Free se apaga con idle) |
+| `GET /` y `GET /health` públicos | 24/7 sin sleep (Free se apaga con idle) |
 | Credenciales Postgres inyectadas con `fromDatabase` | Postgres free garantizado para siempre (el plan puede pedir upgrade) |
-| SSL a Postgres con `DB_SSL=true` | Seed de init SQL de Docker en cada redeploy |
+| SSL a Postgres con `DB_SSL=true` | Que el seed sobreviva a cada recycle de DB Free sin re-init |
+| En el primer boot, si no hay tabla `componentes`, aplica `init/` 01 DDL + 02 INSERT + 03 UPDATE | — |
 
 Tras sleep o redeploy, corré **Health** en Postman (`environment=production`) antes de la collection completa.
 
