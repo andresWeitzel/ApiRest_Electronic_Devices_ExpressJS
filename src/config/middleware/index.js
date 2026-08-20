@@ -45,6 +45,16 @@ const appMiddleware = async () => {
     app.use(express.urlencoded({ extended: true }));
     //-- end config for data api --
 
+    // Liveness (local + Render healthCheckPath)
+    app.get('/health', (_req, res) => {
+      res.status(200).json({
+        status: 'OK',
+        persistence: 'postgresql',
+        orm: 'sequelize',
+        timestamp: new Date().toISOString(),
+      });
+    });
+
     //-- start with routes --
     app.use(COMPONENT_ENDPOINT, componentRouter);
     app.use(COMPONENT_DETAIL_ENDPOINT, componentDetailRouter);

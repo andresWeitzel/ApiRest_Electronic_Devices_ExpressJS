@@ -1,0 +1,68 @@
+# Demo pública en Render (Blueprint).
+# Dashboard → New → Blueprint → este repo
+# Env de producción vive acá; el .env es solo local.
+
+databases:
+  - name: electronic-devices-db
+    plan: free
+    databaseName: dispositivos_electronicos
+    user: dispositivos_user
+
+services:
+  - type: web
+    name: api-electronic-devices
+    runtime: node
+    plan: free
+    autoDeployTrigger: commit
+    buildCommand: npm install
+    startCommand: node src/server.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "18.20.0"
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST_PROD
+        fromDatabase:
+          name: electronic-devices-db
+          property: host
+      - key: DB_PORT_PROD
+        fromDatabase:
+          name: electronic-devices-db
+          property: port
+      - key: DB_USER_PROD
+        fromDatabase:
+          name: electronic-devices-db
+          property: user
+      - key: DB_PASS_PROD
+        fromDatabase:
+          name: electronic-devices-db
+          property: password
+      - key: DB_NAME_PROD
+        fromDatabase:
+          name: electronic-devices-db
+          property: database
+      - key: DB_DIALECT_PROD
+        value: postgres
+      - key: DB_SSL
+        value: "true"
+      - key: DB_POOL_MAX_PROD
+        value: "5"
+      - key: DB_POOL_MIN_PROD
+        value: "0"
+      - key: DB_POOL_ACQUIRE_PROD
+        value: "30000"
+      - key: DB_POOL_IDLE_PROD
+        value: "10000"
+      - key: API_LOCAL_BASE_URL
+        value: https://api-electronic-devices.onrender.com
+      - key: API_COMPONENT_NAME_URL
+        value: /api/v1/componentes
+      - key: API_COMPONENT_DETAIL_NAME_URL
+        value: /api/v1/componentes-detalles
+      - key: API_BIPOLAR_TRANSISTOR_NAME_URL
+        value: /api/v1/transistores-bipolares
+      - key: API_ELECTROLYTIC_CAPACITOR_NAME_URL
+        value: /api/v1/capacitores-electroliticos
+      - key: API_MOSFET_TRANSISTOR_NAME_URL
+        value: /api/v1/transistores-mosfet

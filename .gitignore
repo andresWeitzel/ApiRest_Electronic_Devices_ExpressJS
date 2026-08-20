@@ -1,4 +1,9 @@
 node_modules
 
+# env (local secrets; production lives in render.yaml)
+.env
+.env.local
+.env.*.local
+
 #testing
 coverage

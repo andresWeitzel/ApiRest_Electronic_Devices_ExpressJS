@@ -1,6 +1,6 @@
 <div align="center">
 
-![Index app](./doc/assets/componentes-example.png)
+![Index app](./doc/assets/ApiRest_Electronic_Devices_ExpressJS_image.png)
 
 </div>
 
@@ -38,10 +38,14 @@
 
 </div>
 
-Rest Api about electronic devices implemented with Express, Morgan, Railway ,NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, Docker, others.
+Rest Api about electronic devices implemented with Express, Morgan, Render, NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, Docker, others.
 
+*   **API (production):** [https://api-electronic-devices.onrender.com](https://api-electronic-devices.onrender.com)
+*   **API (local):** [http://localhost:8082](http://localhost:8082)
 *   [Postman Collection](./postman/collections/Api_DispElectr_Express.postman_collection.json)
 *   [Functionality Test Playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" > <img src="./doc/assets/social-networks/yt.png" width="25" /> </a>
+
+> **Postman — before testing:** set the collection variable `environment` to `local` or `production` (Collection → Variables). A pre-request script maps that to `{{base_url}}` / `{{healthUrl}}`. In the Runner use **Environment: none** so a Postman Environment does not override it.
 
 <br>
 
@@ -52,7 +56,7 @@ Rest Api about electronic devices implemented with Express, Morgan, Railway ,Nod
 
 <div align="right">
 
-`Latest update: 19/02/26` 
+`Latest update: 20/08/26` 
 
 </div>
 
@@ -83,9 +87,10 @@ Rest Api about electronic devices implemented with Express, Morgan, Railway ,Nod
 
 ### Section 4) Functionality Testing and References
 
-*   [4.0) Functionality test.](#40-functionality-test-)
-*   [4.1) References.](#41-references-)
-*   [4.2) Postman Collection.](#42-postman-collection-)
+*   [4.0) Postman Collection.](#40-postman-collection-)
+*   [4.1) Functionality test.](#41-functionality-test-)
+*   [4.2) References.](#42-references-)
+*   [4.3) Hosted sandbox (Render).](#43-hosted-sandbox-render-)
 
 <br>
 
@@ -242,6 +247,13 @@ cd ApiRest_Dispositivos_Electronicos_ExpressJS
 npm install
 ```
 
+4. **Create local env (never commit `.env`):**
+```bash
+cp .env.example .env
+```
+
+Local values live in `.env` / `.env.example`. Hosted config for Render is `render.yaml` (Blueprint).
+
 #### Step 2: Database Setup
 
 1. **Start PostgreSQL database with Docker:**
@@ -291,7 +303,7 @@ npm run dev
 2. **Access the application:**
    - **API Base URL**: `http://localhost:8082`
    - **Swagger Documentation**: `http://localhost:8082/api-docs`
-   - **Health Check**: `http://localhost:8082/api/v1/health`
+   - **Health Check**: `http://localhost:8082/health` (also used by Render `healthCheckPath`)
 
 #### Troubleshooting
 
@@ -897,6 +909,7 @@ The database includes the following main tables:
 | [Swagger](https://swagger.io/) | 6.2.8 | API Documentation |
 | [VSC](https://code.visualstudio.com/docs) | 1.72.2 | IDE |
 | [Postman](https://www.postman.com/downloads/) | 10.11 | HTTP Client |
+| [Render](https://render.com/) | Free / Blueprint | Hosted sandbox (`render.yaml`) |
 | [Git](https://git-scm.com/downloads) | 2.29.1 | Version Control |
 
 </br>
@@ -1327,10 +1340,21 @@ DEBUG=sequelize:* npm test
 
 ## API Summary
 
-The API provides RESTful endpoints for managing electronic components with the following base URL:
+The API is the same locally and in production. Change only the host.
+
 ```
 http://localhost:8082
+https://api-electronic-devices.onrender.com
 ```
+
+Same paths (`/api/v1/...`, `/health`). In Postman: `environment=local` or `environment=production`.
+
+| Environment | Base URL | For |
+| --- | --- | --- |
+| **Local** | `http://localhost:8082` | development, Jest, full Postman Runner |
+| **Production** | `https://api-electronic-devices.onrender.com` | public demo (Render Free) |
+
+In Postman the collection variable `environment` is `local` or `production`; a pre-request script sets `{{base_url}}` (and `{{healthUrl}}`) from those hosts.
 
 ### Authentication
 Currently, the API does not require authentication. All endpoints are publicly accessible.
@@ -3360,6 +3384,11 @@ This Swagger interface provides:
 
 A comprehensive Postman collection is included in this project to facilitate API testing and development. The collection contains pre-configured requests for all API endpoints with proper headers, body examples, and environment variables.
 
+> **Alert — set `environment` before you run requests.**  
+> Collection → **Variables** → `environment` = `local` or `production`.  
+> That value selects `baseUrlLocal` or `baseUrlProduction`; the pre-request writes `{{base_url}}` and `{{healthUrl}}`.  
+> Runner → **Environment: none** (a Postman Environment with `base_url` would override the collection).
+
 **Collection Location:**
 - **File**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
 - **Size**: ~481KB with 11,000+ lines of configuration
@@ -3368,6 +3397,7 @@ A comprehensive Postman collection is included in this project to facilitate API
 #### Collection Features
 
 **📋 Complete API Coverage:**
+- **Health**: `GET /health` (liveness; useful after Render sleep)
 - **Components**: CRUD operations, search, and pagination
 - **MOSFET Transistors**: Technical specifications and parameters
 - **Bipolar Transistors**: BJT characteristics and ratings
@@ -3375,7 +3405,7 @@ A comprehensive Postman collection is included in this project to facilitate API
 - **Component Details**: Technical details and datasheets
 
 **🔧 Pre-configured Setup:**
-- **Environment Variables**: Base URL and common parameters
+- **Collection variables**: `environment`, `baseUrlLocal`, `baseUrlProduction`, `base_url`, `healthUrl`
 - **Request Headers**: Proper Content-Type and authorization headers
 - **Body Examples**: Sample data for all POST/PATCH operations
 - **Response Validation**: Pre-configured tests for common scenarios
@@ -3394,80 +3424,27 @@ A comprehensive Postman collection is included in this project to facilitate API
 1. Open Postman application
 2. Click **File** → **Import** → **Upload Files**
 3. Select the file: `postman/collections/Api_DispElectr_Express.postman_collection.json`
-4. Click **Import**
+4. Click **Import** (**Replace** if it already existed; `_postman_id` is fixed so you do not duplicate)
 
-**Step 2: Set Up Environment**
-1. Create a new environment in Postman
-2. Add the following variable:
-   - **Variable**: `base_url`
-   - **Initial Value**: `http://localhost:8082`
-   - **Current Value**: `http://localhost:8082`
-3. Save the environment and select it
+**Step 2: Choose local or production (inside the collection)**
+
+Local vs production lives **inside** the collection (no extra environment JSON). Variable `environment`:
+
+| environment | Hits |
+| --- | --- |
+| `local` (default) | `http://localhost:8082/api/v1` (`baseUrlLocal`) |
+| `production` | `https://api-electronic-devices.onrender.com/api/v1` (`baseUrlProduction`) |
+
+A collection **pre-request** copies that into `{{base_url}}` and sets `{{healthUrl}}` to `/health` on the same host.
+
+1. Collection → **Variables** → `environment` = `local` or `production`
+2. Runner: **Environment: none** (a Postman environment with `base_url` would override the collection)
+3. Optional: run **Health → Health check** first (useful after Render sleep; first hit can take ~30–60 s)
 
 **Step 3: Start Testing**
-1. Ensure your API server is running (`npm run start:dev`)
-2. Ensure your database is running (`docker-compose up -d`)
-3. Navigate through the collection folders
-4. Click on any request to see its configuration
-5. Modify request bodies or parameters as needed
-6. Click **Send** to execute the request
-
-#### Collection Structure
-
-```
-Api_DispElectr_Express Collection
-├── Components
-│   ├── GET All Components
-│   ├── GET Component by ID
-│   ├── POST Create Component
-│   ├── PATCH Update Component
-│   ├── DELETE Component
-│   └── Search Components
-├── MOSFET Transistors
-│   ├── GET All MOSFET Transistors
-│   ├── GET MOSFET by ID
-│   ├── POST Create MOSFET
-│   ├── PATCH Update MOSFET
-│   ├── DELETE MOSFET
-│   └── Search MOSFET Transistors
-├── Bipolar Transistors
-│   └── [Similar structure]
-├── Electrolytic Capacitors
-│   └── [Similar structure]
-└── Component Details
-    └── [Similar structure]
-```
-
-#### Customization Tips
-
-**Modifying Request Bodies:**
-- Update the JSON body in the request to match your test data
-- Use environment variables for dynamic values
-- Test different validation scenarios
-
-**Adding New Tests:**
-- Use the **Tests** tab in Postman to add custom validation
-- Test response status codes, response times, and data structure
-- Add assertions for specific business logic
-
-**Environment Variables:**
-- Create different environments for development, staging, and production
-- Use variables for base URLs, authentication tokens, and common parameters
-- Share environments with team members
-
-#### Troubleshooting
-
-**Common Issues:**
-1. **Connection Refused**: Ensure the API server is running on port 8082
-2. **Database Errors**: Verify PostgreSQL is running via Docker
-3. **Validation Errors**: Check request body format and required fields
-4. **Environment Issues**: Verify environment variables are set correctly
-
-**Best Practices:**
-- Always test with the latest collection version
-- Keep environment variables updated
-- Use descriptive test names and descriptions
-- Document any custom modifications made to requests
+1. Local: API (`npm run start:dev`) + Postgres (`docker-compose up -d`)
+2. Navigate through the collection folders
+3. Click **Send** (or **Run collection**)
 
 <br>
 
@@ -3508,8 +3485,8 @@ A comprehensive Postman collection is included in the project:
 
 **How to Use:**
 1. **Import Collection**: In Postman, go to File → Import → Upload Files and select the collection file
-2. **Set Environment**: Create a new environment with variable `base_url` set to `http://localhost:8082`
-3. **Start Testing**: The collection will be ready to use with all endpoints configured
+2. **Set `environment`**: Collection Variables → `local` or `production` (Runner → Environment: none)
+3. **Start Testing**: Health first if hitting Render after sleep; then CRUD folders as needed
 4. **Modify as Needed**: Update request bodies and parameters according to your testing needs
 
 #### 2. Swagger UI
@@ -3526,12 +3503,14 @@ Command-line testing examples:
 
 **Test Server Health:**
 ```bash
-curl -X GET http://localhost:8082/api/v1/health
+curl -s http://localhost:8082/health
+# Production (first hit may take ~1 min if asleep)
+# curl -s https://api-electronic-devices.onrender.com/health
 ```
 
 **Get All Components:**
 ```bash
-curl -X GET "http://localhost:8082/api/v1/componentes?page=1&limit=5"
+curl -X GET "http://localhost:8082/api/v1/componentes/list?page=0&limit=5"
 ```
 
 **Create a Component:**
@@ -3911,9 +3890,38 @@ npm test -- --verbose
 *   [remark-preset-lint-recommended](https://www.npmjs.com/package/remark-preset-lint-recommended)
 *   [remark-reference-links](https://www.npmjs.com/package/remark-reference-links)
 
-#### Railway
+#### Render
 
-*   [Example Deploy with Nodejs and Mysql](https://www.youtube.com/watch?v=C3NhmT__Mn4\&ab_channel=Fazt)
+*   [Blueprint Spec](https://render.com/docs/blueprint-spec)
+*   [Deploy Node.js](https://render.com/docs/deploy-node-express-app)
+*   [Render Postgres](https://render.com/docs/databases)
+
+<br>
+
+</details>
+
+### 4.3) Hosted sandbox (Render) [🔝](#index-)
+
+<details>
+   <summary>View details</summary>
+  <br>
+
+Public demo: **[https://api-electronic-devices.onrender.com](https://api-electronic-devices.onrender.com)**
+
+The Render service is this Express + Sequelize + PostgreSQL API. Deploy with **New → Blueprint** pointing at this repo so `render.yaml` wires the web service and Postgres.
+
+Hosted env lives in `render.yaml`. Local values live in `.env` (from `.env.example`).
+
+| This does | This does not (Free) |
+| --- | --- |
+| Same API routes as local (`/api/v1/...`) | Instant start: first hit can take ~30–60 s after sleep |
+| Public `GET /health` (Blueprint `healthCheckPath`) | 24/7 without sleep (Free spins down when idle) |
+| Postgres credentials injected via `fromDatabase` | Guaranteed free Postgres forever (plan may require upgrade) |
+| SSL to Postgres when `DB_SSL=true` | Local Docker init SQL auto-seed on every redeploy |
+
+After sleep or redeploy, run **Health** in Postman (`environment=production`) before the full collection.
+
+`.nvm`-style pin for the Blueprint: `NODE_VERSION=18.20.0`. Health check path: `/health`.
 
 <br>
 
