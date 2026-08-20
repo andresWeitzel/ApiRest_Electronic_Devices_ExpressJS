@@ -40,12 +40,10 @@
 
 Rest Api about electronic devices implemented with Express, Morgan, Render, NodeJS, Sequelize, Jest Testing, dotenv, cors, express-validator, nodemon, swagger, swagger-ui, PostgreSQL, Docker, others.
 
-*   **API (production):** [https://api-electronic-devices.onrender.com](https://api-electronic-devices.onrender.com)
-*   **API (local):** [http://localhost:8082](http://localhost:8082)
+*   [API (production)](https://api-electronic-devices.onrender.com)
+*   [API (local)](http://localhost:8082)
 *   [Postman Collection](./postman/collections/Api_DispElectr_Express.postman_collection.json)
 *   [Functionality Test Playlist](https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo)<a href="https://www.youtube.com/playlist?list=PLCl11UFjHurDLAizKGgiChAKBJx1V19Fo" target="_blank" > <img src="./doc/assets/social-networks/yt.png" width="25" /> </a>
-
-> **Postman — before testing:** set the collection variable `environment` to `local` or `production` (Collection → Variables). A pre-request script maps that to `{{base_url}}` / `{{healthUrl}}`. In the Runner use **Environment: none** so a Postman Environment does not override it.
 
 <br>
 
@@ -3384,10 +3382,7 @@ This Swagger interface provides:
 
 A comprehensive Postman collection is included in this project to facilitate API testing and development. The collection contains pre-configured requests for all API endpoints with proper headers, body examples, and environment variables.
 
-> **Alert — set `environment` before you run requests.**  
-> Collection → **Variables** → `environment` = `local` or `production`.  
-> That value selects `baseUrlLocal` or `baseUrlProduction`; the pre-request writes `{{base_url}}` and `{{healthUrl}}`.  
-> Runner → **Environment: none** (a Postman Environment with `base_url` would override the collection).
+> **Postman — before testing:** set the collection variable `environment` to `local` or `production` (Collection → Variables). A pre-request script maps that to `{{base_url}}` / `{{healthUrl}}`. In the Runner use **Environment: none** so a Postman Environment does not override it.
 
 **Collection Location:**
 - **File**: `postman/collections/Api_DispElectr_Express.postman_collection.json`
